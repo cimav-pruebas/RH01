@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
+
+<module>
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="org.fusesource.restygwt.RestyGWT"/>
+    <inherits name='com.google.gwt.user.theme.standard.Standard'/> 
+    <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+    <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>    <!-- para estilo Boostrap 3 -->
+    <inherits name="org.gwtbootstrap3.extras.growl.Growl"/>
+    <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
+    
+    <entry-point class="cimav.client.MainEntryPoint"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path='client'/>
+    
+    <!-- Do not define servlets here, use web.xml -->
+</module>

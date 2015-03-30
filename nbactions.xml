@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-ToDebug</actionName>
+            <displayName>ToDebug</displayName>
+            <preAction>build-with-dependencies</preAction>
+            <goals>
+                <goal>gwt:debug</goal>
+                <goal>-e</goal>
+                <goal>-X</goal>
+            </goals>
+            <properties>
+                <runTarget>welcomeGWT.html</runTarget>
+                <superDevMode>false</superDevMode>
+            </properties>
+        </action>
+    </actions>
