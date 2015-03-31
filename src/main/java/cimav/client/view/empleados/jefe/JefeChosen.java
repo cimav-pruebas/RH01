@@ -11,6 +11,7 @@ import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
+import com.arcbees.chosen.client.gwt.ChosenValueListBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -40,7 +41,7 @@ public class JefeChosen extends Composite {
     @UiField Image fotoImg;
     @UiField HTML htmlDatos;
     @UiField FlowPanel comboWrap;
-    private final ValueListBox<Empleado> chosen;
+    private final ChosenValueListBox<Empleado> chosen;
     
     interface JefeChosenUiBinder extends UiBinder<Widget, JefeChosen> {
     }
@@ -48,7 +49,7 @@ public class JefeChosen extends Composite {
     public JefeChosen() {
         initWidget(uiBinder.createAndBindUi(this));
         
-        chosen = new ValueListBox<>(new Renderer<Empleado>() {
+        chosen = new ChosenValueListBox<>(new Renderer<Empleado>() {
             @Override
             public String render(Empleado object) {
                 if (object == null) {
