@@ -10,11 +10,12 @@ import cimav.client.common.ETypeResult;
 import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
+import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
 import cimav.client.view.FechaPicker;
 import cimav.client.view.empleados.credito.CreditoInputGroup;
-import cimav.client.view.empleados.departamento.DeptoChosen;
+import cimav.client.view.departamento.DeptoChosen;
 import cimav.client.view.empleados.jefe.JefeChosen;
 import cimav.client.view.empleados.sni.TipoSNIChosen;
 import cimav.client.view.empleados.tipoantiguedad.TipoAntiguedadChosen;
@@ -78,6 +79,7 @@ public class EmpleadosEditorUI extends Composite {
     // laboral
     // TODO xmlns:chzn="urn:import:com.watopi.chosen.client.gwt"
     //private final ValueListBox<Departamento> deptoChosen;
+    private final ValueListBox<ESede> sedeChosen;
     private final DeptoChosen deptoChosen;
     private FechaPicker fechaIngresoDatePicker;
     private FechaPicker fechaContratoFinDatePicker;
@@ -214,8 +216,25 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorLaboral.setCellPadding(0);
 
         String width = "262px";
-//        sedeGroup = new SedeGroup();
-//        sedeGroup.setWidth(width);
+        sedeChosen = new ValueListBox<>(new Renderer<ESede>() {
+            @Override
+            public String render(ESede object) {
+                if (object == null) {
+                    return "None";
+                }
+                return object.getNombre();
+            }
+
+            @Override
+            public void render(ESede object, Appendable appendable) throws IOException {
+                String s = render(object);
+                appendable.append(s);
+            }
+        });
+        List<ESede> sedes = Arrays.asList(ESede.values());
+        sedeChosen.setValue(ESede.CHIHUAHUA); //default
+        sedeChosen.setAcceptableValues(sedes);
+        sedeChosen.setWidth(width);
         fechaIngresoDatePicker = new FechaPicker(width);
         fechaContratoFinDatePicker = new FechaPicker(width);
         fechaContratoInicioDatePicker = new FechaPicker(width);
@@ -265,7 +284,7 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorLaboral.setWidget(row, 3, new HTML(htmlColSpc));        
         flexEditorLaboral.setHTML(row, 4, "Status");
         row++;
-//        flexEditorLaboral.setWidget(row, 0, sedeGroup);
+        flexEditorLaboral.setWidget(row, 0, sedeChosen);
         flexEditorLaboral.setWidget(row, 2, deptoChosen);
         flexEditorLaboral.setWidget(row, 4, statusEmpladoChose);
         row++;
@@ -375,7 +394,7 @@ public class EmpleadosEditorUI extends Composite {
             empleadoBean.setCuentaBanco(cuentaBancoTxtBox.getText());
             empleadoBean.setFechaIngreso(fechaIngresoDatePicker.getValue());
             empleadoBean.setStatus(statusEmpladoChose.getValue());
-//            empleadoBean.setSede(sedeGroup.getSelected());
+            empleadoBean.setSede(sedeChosen.getValue());
             empleadoBean.setJefe(jefeChosen.getValue());
             empleadoBean.setGrupo(grupoChosen.getSelected());
             empleadoBean.setNivel(tabuladorChosen.getSelected());
@@ -467,7 +486,7 @@ public class EmpleadosEditorUI extends Composite {
             deptoChosen.setSelected(empleadoBean.getDepartamento());
             fechaIngresoDatePicker.setValue(empleadoBean.getFechaIngreso());
             statusEmpladoChose.setValue(empleadoBean.getStatus());
-//            sedeGroup.setSelected(empleadoBean.getSede());
+            sedeChosen.setValue(empleadoBean.getSede());
             jefeChosen.setValue(empleadoBean.getJefe());
             grupoChosen.setSelected(empleadoBean.getGrupo());
             tabuladorChosen.setSelected(empleadoBean.getNivel());
@@ -499,7 +518,7 @@ public class EmpleadosEditorUI extends Composite {
             deptoChosen.setSelected(null);
             fechaIngresoDatePicker.setValue(new Date());
             statusEmpladoChose.setValue(EStatusEmpleado.ACTIVO);
-//            sedeGroup.setSelected(ESede.CHIHUAHUA);
+            sedeChosen.setValue(ESede.CHIHUAHUA);
             jefeChosen.setValue(null);
             grupoChosen.setSelected(null);
             tabuladorChosen.setSelected(null);
