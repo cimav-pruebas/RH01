@@ -47,11 +47,6 @@ Uncomment this for XHTML entities
             <g:HTMLPanel addStyleNames="{style.empleados-editor-buttons-bar}">
                 <table cellspacing='0' cellpadding='0'  width="100%" > <!-- style="margin-top: 10px;" */  -->
                     <tr>
-                        <td style="align:left; text-align: left !important;">
-                            <b3:Tooltip title="Agregar empleado nuevo" placement="RIGHT">
-                                <b3:Button ui:field="addBtn" type="SUCCESS" icon="PLUS" /> <!-- iconSize="TIMES2"  enabled="false" -->
-                            </b3:Tooltip>
-                        </td>
                         <td align="right">
                             <g:HorizontalPanel >
                                 <b3:Tooltip title="Guardar" placement="LEFT">

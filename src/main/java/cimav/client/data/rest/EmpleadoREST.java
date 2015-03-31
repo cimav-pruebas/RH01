@@ -53,7 +53,7 @@ public class EmpleadoREST extends BaseREST {
                 try {
                     List<Empleado> empleados = new ArrayList<>();
                     JSONArray array = response.isArray();
-                    for (int i = 0; i < 10; /*array.size();*/ i++) {
+                    for (int i = 0; i < array.size(); i++) {
                         JSONValue val = array.get(i);
                         Empleado empleado = empleadoJsonCodec.decode(val);
                         empleados.add(empleado);

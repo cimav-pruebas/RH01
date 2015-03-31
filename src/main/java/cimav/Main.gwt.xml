@@ -4,12 +4,21 @@
 
 <module>
     <inherits name="com.google.gwt.user.User"/>
-    <inherits name="org.fusesource.restygwt.RestyGWT"/>
     <inherits name='com.google.gwt.user.theme.standard.Standard'/> 
+    <inherits name="org.fusesource.restygwt.RestyGWT"/>
     <inherits name="com.github.gwtbootstrap.Bootstrap"/>
     <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>    <!-- para estilo Boostrap 3 -->
     <inherits name="org.gwtbootstrap3.extras.growl.Growl"/>
     <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
+
+    <!-- Enable auto-conversion from css to gss -->
+    <set-configuration-property name="CssResource.legacy" value="true" />
+    <set-configuration-property name="CssResource.conversionMode" value="lenient" />
+    <define-configuration-property name="customProperty" is-multi-valued="false"/>
+    <set-configuration-property name="customProperty" value="true"/>    
+
+    <inherits name="com.arcbees.chosen.Chosen"/>
+    
     
     <entry-point class="cimav.client.MainEntryPoint"/>
 

@@ -49,6 +49,7 @@ public class EmpleadosUI extends Composite {
 
     @UiField TextBox searchTxt;
     @UiField Button reloadBtn;
+    @UiField Button addBtn;
 
     @UiField
     EmpleadosEditorUI empleadosEditorUI;
@@ -92,6 +93,13 @@ public class EmpleadosUI extends Composite {
             }
         });
 
+        addBtn.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                
+            }
+        });
+        
         searchTxt.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {

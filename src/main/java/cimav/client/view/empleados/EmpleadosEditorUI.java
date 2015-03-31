@@ -8,13 +8,13 @@ package cimav.client.view.empleados;
 import cimav.client.common.EMethod;
 import cimav.client.common.ETypeResult;
 import cimav.client.common.MethodEvent;
-import cimav.client.data.domain.Departamento;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
 import cimav.client.view.FechaPicker;
 import cimav.client.view.empleados.credito.CreditoInputGroup;
+import cimav.client.view.empleados.departamento.DeptoChosen;
 import cimav.client.view.empleados.jefe.JefeChosen;
 import cimav.client.view.empleados.sni.TipoSNIChosen;
 import cimav.client.view.empleados.tipoantiguedad.TipoAntiguedadChosen;
@@ -60,7 +60,6 @@ public class EmpleadosEditorUI extends Composite {
     @UiField FlexTable flexEditorGeneral;
     @UiField FlexTable flexEditorLaboral;
 
-    @UiField Button addBtn;
     @UiField Button saveBtn;
     @UiField Button cancelBtn;
 
@@ -78,7 +77,8 @@ public class EmpleadosEditorUI extends Composite {
     private final TextBox cuentaCimavTxtBox;
     // laboral
     // TODO xmlns:chzn="urn:import:com.watopi.chosen.client.gwt"
-    private final ValueListBox<Departamento> deptoChosen;
+    //private final ValueListBox<Departamento> deptoChosen;
+    private final DeptoChosen deptoChosen;
     private FechaPicker fechaIngresoDatePicker;
     private FechaPicker fechaContratoFinDatePicker;
     private FechaPicker fechaContratoInicioDatePicker;
@@ -165,24 +165,8 @@ public class EmpleadosEditorUI extends Composite {
         cuentaCimavTxtBox = new TextBox();
         cuentaCimavTxtBox.setWidth("244px");
 
-        deptoChosen = new ValueListBox<>(new Renderer<Departamento>() {
-            @Override
-            public String render(Departamento object) {
-                if (object == null) {
-                    return "None";
-                }
-                return object.getName();
-            }
-
-            @Override
-            public void render(Departamento object, Appendable appendable) throws IOException {
-                String s = render(object);
-                appendable.append(s);
-            }
-        });
+        deptoChosen = new DeptoChosen();
         deptoChosen.setWidth("244px");
-//        DeptoDatabase.get().addMethodExecutedListener(new RestMethodExecutedListener());
-//        DeptoDatabase.get().findAll();
 
         String htmlColSpc = "<span style='margin-right: 10px;'></span>";
         String htmlRowSpc = "<span style='margin-bottom: 10px; display: block;'></span>";
@@ -367,13 +351,6 @@ public class EmpleadosEditorUI extends Composite {
         EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
     }
 
-    private class AddClickHandler implements ClickHandler {
-        @Override
-        public void onClick(ClickEvent event) {
-            
-        }
-    }
-    
     private class SaveClickHandler implements ClickHandler {
         @Override
         public void onClick(ClickEvent event) {
@@ -388,7 +365,7 @@ public class EmpleadosEditorUI extends Composite {
             empleadoBean.setCuentaCimav(cuentaCimavTxtBox.getText());
             String urlPhoto = "http://cimav.edu.mx/foto/" + empleadoBean.getCuentaCimav();
             empleadoBean.setUrlPhoto(urlPhoto);
-            empleadoBean.setDepartamento(deptoChosen.getValue());
+            empleadoBean.setDepartamento(deptoChosen.getSelected());
             empleadoBean.setClinica(imssClinicaChosen.getValue());
             empleadoBean.setBanco(bancoChosen.getValue());
             empleadoBean.setHasCredito(creditoInputGroup.hasCredito());
@@ -432,23 +409,12 @@ public class EmpleadosEditorUI extends Composite {
     /**
      * Si el panel es activo, esconde el glass.
      * Si el panel no es activo, muestra el glass.
+     * El glass es un panel que se antepone o pospone segun sea el caso.
      */
     public void setActive(boolean active) {
         int z_index_val = active ? -200 : 200;
         panelEditorGlass.getElement().getStyle().setZIndex(z_index_val);
     }
-    
-//    private class RestMethodExecutedListener implements DeptoDatabase.MethodExecutedListener {
-//
-//        @Override
-//        public void onMethodExecuted(DBEvent dbEvent) {
-//
-//            List<Departamento> deptos = (List<Departamento>) dbEvent.getResult();
-//            deptoChosen.setAcceptableValues(deptos);
-//
-//        }
-//
-//    }
     
     private class ProviderMethodExecutedListener implements EmpleadosProvider.MethodExecutedListener {
 
@@ -498,7 +464,7 @@ public class EmpleadosEditorUI extends Composite {
             cuentaBancoTxtBox.setText(empleadoBean.getCuentaBanco());
             cuentaCimavTxtBox.setText(empleadoBean.getCuentaCimav());
             // laboral
-            deptoChosen.setValue(empleadoBean.getDepartamento());
+            deptoChosen.setSelected(empleadoBean.getDepartamento());
             fechaIngresoDatePicker.setValue(empleadoBean.getFechaIngreso());
             statusEmpladoChose.setValue(empleadoBean.getStatus());
 //            sedeGroup.setSelected(empleadoBean.getSede());
@@ -530,7 +496,7 @@ public class EmpleadosEditorUI extends Composite {
             cuentaBancoTxtBox.setText("");
             cuentaCimavTxtBox.setText("");
             // laboral
-            deptoChosen.setValue(null);
+            deptoChosen.setSelected(null);
             fechaIngresoDatePicker.setValue(new Date());
             statusEmpladoChose.setValue(EStatusEmpleado.ACTIVO);
 //            sedeGroup.setSelected(ESede.CHIHUAHUA);

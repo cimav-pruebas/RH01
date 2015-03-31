@@ -34,8 +34,11 @@ html, body {
 }
 .search-txt {
     width: 100%;
-    margin-bottom: auto !important;
+    //margin-bottom: auto !important;
     //TODO Pésimo corregirlo
+}
+.search-txt-box {
+    height: 40px;
 }
 .scroll-panel{
     border: 1px solid #ccc; 
@@ -46,6 +49,12 @@ html, body {
 .reload-btn {
     width: 70px;
 }
+
+.add-btn {
+    top: 0px;
+    bottom: 6px;
+}
+
 code {
     width: 40px;
     color: teal; 
