@@ -209,7 +209,7 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorGeneral.setWidget(14, 0, new HTML(htmlRowSpc));
         flexEditorGeneral.setHTML(15, 0, "Cuenta CIMAV");
         flexEditorGeneral.setWidget(16, 0, cuentaCimavTxtBox);
-
+        
         FlexTable.FlexCellFormatter cellFormatterLaboral = flexEditorLaboral.getFlexCellFormatter();
 
         flexEditorLaboral.setCellSpacing(0);

@@ -6,8 +6,8 @@
             <preAction>build-with-dependencies</preAction>
             <goals>
                 <goal>gwt:debug</goal>
-                <goal>-e</goal>
-                <goal>-X</goal>
+                
+                
             </goals>
             <properties>
                 <runTarget>welcomeGWT.html</runTarget>
