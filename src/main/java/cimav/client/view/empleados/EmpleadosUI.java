@@ -305,7 +305,7 @@ public class EmpleadosUI extends Composite {
             if (event.getSource() instanceof SingleSelectionModel) {
                 SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
                 Empleado empleadoSelected = (Empleado) selModel.getSelectedObject();
-                empleadosEditorUI.setBean(empleadoSelected);
+                empleadosEditorUI.setSelectedBean(empleadoSelected);
                 
                 // Mostrar editor sólo cuando hay seleccionado
                 EmpleadosUI.this.showEditor(empleadoSelected != null);

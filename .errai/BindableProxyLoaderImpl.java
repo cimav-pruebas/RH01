@@ -1,6 +1,7 @@
 package org.jboss.errai.databinding.client;
 
 import cimav.client.data.domain.BaseDomain;
+import cimav.client.data.domain.Customer;
 import cimav.client.data.domain.Departamento;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
@@ -13,90 +14,10 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.Grupo;
 import cimav.client.data.domain.Tabulador;
-import cimav.client.view.empleados.EmpleadosEditorUI.Uno;
 import java.util.Date;
 import org.jboss.errai.databinding.client.api.InitialState;
-import org.jboss.errai.ui.shared.api.Locale;
 
 public class BindableProxyLoaderImpl implements BindableProxyLoader { public void loadBindableProxies() {
-    class cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy extends Uno implements BindableProxy {
-      private BindableProxyAgent<Uno> agent;
-      public cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy(InitialState initialState) {
-        this(new Uno(), initialState);
-      }
-
-      public cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy(Uno target, InitialState initialState) {
-        agent = new BindableProxyAgent<Uno>(this, target, initialState);
-        agent.propertyTypes.put("uno", new PropertyType(String.class, false, false));
-        agent.copyValues();
-      }
-
-      public BindableProxyAgent getAgent() {
-        return agent;
-      }
-
-      public void updateWidgets() {
-        agent.updateWidgetsAndFireEvents();
-      }
-
-      public Uno unwrap() {
-        return agent.target;
-      }
-
-      public Uno deepUnwrap() {
-        final Uno clone = new Uno();
-        clone.setUno(agent.target.getUno());
-        return clone;
-      }
-
-      public boolean equals(Object obj) {
-        if (obj instanceof cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy) {
-          obj = ((cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy) obj).unwrap();
-        }
-        return agent.target.equals(obj);
-      }
-
-      public int hashCode() {
-        return agent.target.hashCode();
-      }
-
-      public String toString() {
-        return agent.target.toString();
-      }
-
-      public String getUno() {
-        return agent.target.getUno();
-      }
-
-      public void setUno(String uno) {
-        String oldValue = agent.target.getUno();
-        agent.target.setUno(uno);
-        agent.updateWidgetsAndFireEvent("uno", oldValue, uno);
-      }
-
-      public Object get(String property) {
-        if (property.equals("uno")) {
-          return getUno();
-        }
-        throw new NonExistingPropertyException(property);
-      }
-
-      public void set(String property, Object value) {
-        if (property.equals("uno")) {
-          agent.target.setUno((String) value);
-          return;
-        }
-        throw new NonExistingPropertyException(property);
-      }
-    }
-    BindableProxyFactory.addBindableProxy(Uno.class, new BindableProxyProvider() {
-      public BindableProxy getBindableProxy(Object model, InitialState state) {
-        return new cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy((Uno) model, state);
-      }
-      public BindableProxy getBindableProxy(InitialState state) {
-        return new cimav_client_view_empleados_EmpleadosEditorUI$UnoProxy(state);
-      }
-    });
     class cimav_client_data_domain_BaseDomainProxy extends BaseDomain implements BindableProxy {
       private BindableProxyAgent<BaseDomain> agent;
       public cimav_client_data_domain_BaseDomainProxy(InitialState initialState) {
@@ -217,103 +138,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
       public BindableProxy getBindableProxy(InitialState state) {
         return new cimav_client_data_domain_BaseDomainProxy(state);
-      }
-    });
-    class org_jboss_errai_ui_shared_api_LocaleProxy extends Locale implements BindableProxy {
-      private BindableProxyAgent<Locale> agent;
-      public org_jboss_errai_ui_shared_api_LocaleProxy(InitialState initialState) {
-        this(new Locale(), initialState);
-      }
-
-      public org_jboss_errai_ui_shared_api_LocaleProxy(Locale target, InitialState initialState) {
-        agent = new BindableProxyAgent<Locale>(this, target, initialState);
-        agent.propertyTypes.put("locale", new PropertyType(String.class, false, false));
-        agent.propertyTypes.put("label", new PropertyType(String.class, false, false));
-        agent.copyValues();
-      }
-
-      public BindableProxyAgent getAgent() {
-        return agent;
-      }
-
-      public void updateWidgets() {
-        agent.updateWidgetsAndFireEvents();
-      }
-
-      public Locale unwrap() {
-        return agent.target;
-      }
-
-      public Locale deepUnwrap() {
-        final Locale clone = new Locale();
-        clone.setLocale(agent.target.getLocale());
-        clone.setLabel(agent.target.getLabel());
-        return clone;
-      }
-
-      public boolean equals(Object obj) {
-        if (obj instanceof org_jboss_errai_ui_shared_api_LocaleProxy) {
-          obj = ((org_jboss_errai_ui_shared_api_LocaleProxy) obj).unwrap();
-        }
-        return agent.target.equals(obj);
-      }
-
-      public int hashCode() {
-        return agent.target.hashCode();
-      }
-
-      public String toString() {
-        return agent.target.toString();
-      }
-
-      public String getLocale() {
-        return agent.target.getLocale();
-      }
-
-      public void setLocale(String locale) {
-        String oldValue = agent.target.getLocale();
-        agent.target.setLocale(locale);
-        agent.updateWidgetsAndFireEvent("locale", oldValue, locale);
-      }
-
-      public String getLabel() {
-        return agent.target.getLabel();
-      }
-
-      public void setLabel(String label) {
-        String oldValue = agent.target.getLabel();
-        agent.target.setLabel(label);
-        agent.updateWidgetsAndFireEvent("label", oldValue, label);
-      }
-
-      public Object get(String property) {
-        if (property.equals("locale")) {
-          return getLocale();
-        }
-        if (property.equals("label")) {
-          return getLabel();
-        }
-        throw new NonExistingPropertyException(property);
-      }
-
-      public void set(String property, Object value) {
-        if (property.equals("locale")) {
-          agent.target.setLocale((String) value);
-          return;
-        }
-        if (property.equals("label")) {
-          agent.target.setLabel((String) value);
-          return;
-        }
-        throw new NonExistingPropertyException(property);
-      }
-    }
-    BindableProxyFactory.addBindableProxy(Locale.class, new BindableProxyProvider() {
-      public BindableProxy getBindableProxy(Object model, InitialState state) {
-        return new org_jboss_errai_ui_shared_api_LocaleProxy((Locale) model, state);
-      }
-      public BindableProxy getBindableProxy(InitialState state) {
-        return new org_jboss_errai_ui_shared_api_LocaleProxy(state);
       }
     });
     class cimav_client_data_domain_EmpleadoProxy extends Empleado implements BindableProxy {
@@ -1165,6 +989,84 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
       public BindableProxy getBindableProxy(InitialState state) {
         return new cimav_client_data_domain_EmpleadoProxy(state);
+      }
+    });
+    class cimav_client_data_domain_CustomerProxy extends Customer implements BindableProxy {
+      private BindableProxyAgent<Customer> agent;
+      public cimav_client_data_domain_CustomerProxy(InitialState initialState) {
+        this(new Customer(), initialState);
+      }
+
+      public cimav_client_data_domain_CustomerProxy(Customer target, InitialState initialState) {
+        agent = new BindableProxyAgent<Customer>(this, target, initialState);
+        agent.propertyTypes.put("dato", new PropertyType(String.class, false, false));
+        agent.copyValues();
+      }
+
+      public BindableProxyAgent getAgent() {
+        return agent;
+      }
+
+      public void updateWidgets() {
+        agent.updateWidgetsAndFireEvents();
+      }
+
+      public Customer unwrap() {
+        return agent.target;
+      }
+
+      public Customer deepUnwrap() {
+        final Customer clone = new Customer();
+        clone.setDato(agent.target.getDato());
+        return clone;
+      }
+
+      public boolean equals(Object obj) {
+        if (obj instanceof cimav_client_data_domain_CustomerProxy) {
+          obj = ((cimav_client_data_domain_CustomerProxy) obj).unwrap();
+        }
+        return agent.target.equals(obj);
+      }
+
+      public int hashCode() {
+        return agent.target.hashCode();
+      }
+
+      public String toString() {
+        return agent.target.toString();
+      }
+
+      public String getDato() {
+        return agent.target.getDato();
+      }
+
+      public void setDato(String dato) {
+        String oldValue = agent.target.getDato();
+        agent.target.setDato(dato);
+        agent.updateWidgetsAndFireEvent("dato", oldValue, dato);
+      }
+
+      public Object get(String property) {
+        if (property.equals("dato")) {
+          return getDato();
+        }
+        throw new NonExistingPropertyException(property);
+      }
+
+      public void set(String property, Object value) {
+        if (property.equals("dato")) {
+          agent.target.setDato((String) value);
+          return;
+        }
+        throw new NonExistingPropertyException(property);
+      }
+    }
+    BindableProxyFactory.addBindableProxy(Customer.class, new BindableProxyProvider() {
+      public BindableProxy getBindableProxy(Object model, InitialState state) {
+        return new cimav_client_data_domain_CustomerProxy((Customer) model, state);
+      }
+      public BindableProxy getBindableProxy(InitialState state) {
+        return new cimav_client_data_domain_CustomerProxy(state);
       }
     });
   }

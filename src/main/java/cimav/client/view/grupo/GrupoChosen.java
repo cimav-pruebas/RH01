@@ -71,6 +71,8 @@ public class GrupoChosen extends Composite {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Grupo> grupos = (List<Grupo>) restEvent.getResult();
+                        // Agregar el Null como valor válido
+                        //grupos.add(null);
                         chosen.setAcceptableValues(grupos);
                         
                     } else {

@@ -11,6 +11,7 @@ import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.Tabulador;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.TabuladorREST;
+import com.arcbees.chosen.client.gwt.ChosenValueListBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -38,12 +39,12 @@ public class TabuladorChosen extends Composite {
     
     @UiField
     HTMLPanel htmlPanel;
-    private ValueListBox<Tabulador> chosen;
+    private ChosenValueListBox<Tabulador> chosen;
     
     public TabuladorChosen() {
         initWidget(uiBinder.createAndBindUi(this));
         
-        chosen = new ValueListBox<>(new Renderer<Tabulador>() {
+        chosen = new ChosenValueListBox<>(new Renderer<Tabulador>() {
             @Override
             public String render(Tabulador object) {
                 if (object == null) {
@@ -71,6 +72,7 @@ public class TabuladorChosen extends Composite {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Tabulador> tabuladores = (List<Tabulador>) restEvent.getResult();
+                        tabuladores.add(null);
                         chosen.setAcceptableValues(tabuladores);
                         
                     } else {

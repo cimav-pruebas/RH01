@@ -68,6 +68,8 @@ public class DeptoChosen extends Composite {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Departamento> deptos = (List<Departamento>) restEvent.getResult();
+                        // Agregar el Null como valor válido
+                        deptos.add(null);
                         chosen.setAcceptableValues(deptos);
                         
                     } else {

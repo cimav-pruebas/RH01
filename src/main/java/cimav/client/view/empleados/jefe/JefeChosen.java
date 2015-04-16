@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.Widget;
 import java.io.IOException;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Image;
-import org.gwtbootstrap3.client.ui.ValueListBox;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
@@ -100,6 +99,9 @@ public class JefeChosen extends Composite {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Empleado> jefes = (List<Empleado>) restEvent.getResult();
+                        // Agregar el Null como valor válido
+                        jefes.add(null);
+                        
                         chosen.setAcceptableValues(jefes);
                         
                     } else {
