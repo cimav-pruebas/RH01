@@ -8,11 +8,13 @@ package cimav.client.data.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import java.util.Date;
+import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
  *
  * @author juan.calderon
  */
+@Bindable
 public class Empleado extends BaseDomain { 
     
     private String rfc;
@@ -254,7 +256,7 @@ public class Empleado extends BaseDomain {
         return status;
     }
 
-    public void setStatus(EStatusEmpleado status) {
+    public final void setStatus(EStatusEmpleado status) {
         this.status = status;
         this.idStatus = status != null ? status.getId() : 0;
     }
@@ -272,7 +274,7 @@ public class Empleado extends BaseDomain {
         return tipoEmpleado;
     }
 
-    public void setTipoEmpleado(ETipoEmpleado tipoEmpleado) {
+    public final void setTipoEmpleado(ETipoEmpleado tipoEmpleado) {
         this.tipoEmpleado = tipoEmpleado;
         this.idTipoEmpleado = tipoEmpleado != null ? tipoEmpleado.getId() : 0;
     }
@@ -290,7 +292,7 @@ public class Empleado extends BaseDomain {
         return tipoContrato;
     }
 
-    public void setTipoContrato(ETipoContrato tipoContrato) {
+    public final void setTipoContrato(ETipoContrato tipoContrato) {
         this.tipoContrato = tipoContrato;
         this.idTipoContrato = tipoContrato != null ? tipoContrato.getId() : 0;
     }
@@ -308,7 +310,7 @@ public class Empleado extends BaseDomain {
         return tipoAntiguedad;
     }
 
-    public void setTipoAntiguedad(ETipoAntiguedad tipoAntiguedad) {
+    public final void setTipoAntiguedad(ETipoAntiguedad tipoAntiguedad) {
         this.tipoAntiguedad = tipoAntiguedad;
         this.idTipoAntiguedad = tipoAntiguedad != null ? tipoAntiguedad.getId() : 0;
     }
@@ -326,7 +328,7 @@ public class Empleado extends BaseDomain {
         return tipoSNI;
     }
 
-    public void setTipoSNI(ETipoSNI tipoSNI) {
+    public final void setTipoSNI(ETipoSNI tipoSNI) {
         this.tipoSNI = tipoSNI;
         this.idTipoSni = tipoSNI != null ? tipoSNI.getId() : 0;
     }
@@ -360,7 +362,7 @@ public class Empleado extends BaseDomain {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(Date fechaIngreso) {
+    public final void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -368,7 +370,7 @@ public class Empleado extends BaseDomain {
         return fechaInicioContrato;
     }
 
-    public void setFechaInicioContrato(Date fechaInicioContrato) {
+    public final void setFechaInicioContrato(Date fechaInicioContrato) {
         this.fechaInicioContrato = fechaInicioContrato;
     }
 
@@ -376,7 +378,7 @@ public class Empleado extends BaseDomain {
         return fechaFinContrato;
     }
 
-    public void setFechaFinContrato(Date fechaFinContrato) {
+    public final void setFechaFinContrato(Date fechaFinContrato) {
         this.fechaFinContrato = fechaFinContrato;
     }
 

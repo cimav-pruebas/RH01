@@ -149,6 +149,14 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
     public void findAll() {
         this.getREST().findAll();
     }
+    
+    public void add(Empleado empleado) {
+        
+    }
+
+    public void update(Empleado empleado) {
+        
+    }
 
 //    public void delete(Empleado empleado) {
 //        if (empleado == null || empleado.getId() <= 0) {

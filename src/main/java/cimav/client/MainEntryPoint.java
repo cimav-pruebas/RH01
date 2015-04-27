@@ -12,6 +12,7 @@ import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import javax.validation.constraints.NotNull;
 import org.fusesource.restygwt.client.Defaults;
+import org.jboss.errai.databinding.client.BindableProxyLoader;
 
 /**
  * Main entry point.
@@ -37,6 +38,11 @@ public class MainEntryPoint implements EntryPoint {
      * Creates a new instance of MainEntryPoint
      */
     public MainEntryPoint() {
+        
+        // Errai Binding
+        BindableProxyLoader proxyLoader = GWT.create(BindableProxyLoader.class);
+        proxyLoader.loadBindableProxies();        
+        
         mainUi = new MainUI();
     }
     

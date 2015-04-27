@@ -9,12 +9,14 @@ import com.google.gwt.view.client.ProvidesKey;
 import java.util.Objects;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
  *
  * @author juan.calderon
  * @param <T>
  */
+@Bindable
 public class BaseDomain implements Comparable<BaseDomain> {
 
     private Integer id;

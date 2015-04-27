@@ -7,10 +7,14 @@ package cimav.client.data.domain;
 
 //import org.codehaus.jackson.annotate.JsonProperty;
 
+import org.jboss.errai.databinding.client.api.Bindable;
+
+
 /**
  *
  * @author juan.calderon
  */
+@Bindable
 public class Departamento extends BaseDomain {
 
 }

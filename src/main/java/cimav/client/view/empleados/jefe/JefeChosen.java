@@ -114,6 +114,10 @@ public class JefeChosen extends Composite {
         
     }
     
+    public ChosenValueListBox getChosen() {
+        return this.chosen;
+    }
+    
     public void setValue(Empleado jefe) {
         chosen.setValue(jefe, true);
     }

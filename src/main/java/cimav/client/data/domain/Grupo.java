@@ -5,10 +5,13 @@
  */
 package cimav.client.data.domain;
 
+import org.jboss.errai.databinding.client.api.Bindable;
+
 /**
  *
  * @author juan.calderon
  */
+@Bindable
 public class Grupo extends BaseDomain {
     
     

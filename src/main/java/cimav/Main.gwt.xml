@@ -18,6 +18,9 @@
     <set-configuration-property name="customProperty" value="true"/>    
     <inherits name="com.arcbees.chosen.Chosen"/>
 
+    <inherits name="org.jboss.errai.common.ErraiCommon" />
+    <inherits name="org.jboss.errai.databinding.DataBinding" />
+    
     <entry-point class="cimav.client.MainEntryPoint"/>
 
     <!-- Specify the paths for translatable code                    -->
