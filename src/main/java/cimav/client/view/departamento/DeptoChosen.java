@@ -89,5 +89,9 @@ public class DeptoChosen extends Composite {
     public Departamento getSelected() {
         return chosen.getValue();
     }
-    
+
+    public ChosenValueListBox<Departamento> getChosen() {
+        return this.chosen;
+    }
+
 }

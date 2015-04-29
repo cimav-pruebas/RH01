@@ -38,7 +38,7 @@ public class MainEntryPoint implements EntryPoint {
      * Creates a new instance of MainEntryPoint
      */
     public MainEntryPoint() {
-        
+
         // Errai Binding
         BindableProxyLoader proxyLoader = GWT.create(BindableProxyLoader.class);
         proxyLoader.loadBindableProxies();        

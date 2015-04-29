@@ -92,4 +92,8 @@ public class GrupoChosen extends Composite {
     public Grupo getSelected() {
         return chosen.getValue();
     }
+    
+    public ValueListBox<Grupo> getChosen() {
+        return this.chosen;
+    }
 }

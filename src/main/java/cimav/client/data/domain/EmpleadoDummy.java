@@ -8,13 +8,11 @@ package cimav.client.data.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import java.util.Date;
-import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
  *
  * @author juan.calderon
  */
-@Bindable
 public class EmpleadoDummy extends BaseDomain { 
     
     private String rfc;
