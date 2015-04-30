@@ -25,10 +25,6 @@ import cimav.client.view.grupo.GrupoChosen;
 import cimav.client.view.provider.EmpleadosProvider;
 import cimav.client.view.tabulador.TabuladorChosen;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -43,7 +39,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -52,12 +47,8 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.base.DateTimePickerBase;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
-import org.jboss.errai.databinding.client.api.Converter;
 import org.jboss.errai.databinding.client.api.DataBinder;
-import org.jboss.errai.databinding.client.api.DefaultConverter;
 import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
 
@@ -407,10 +398,10 @@ public class EmpleadosEditorUI extends Composite {
             empleadoBean = dataBinder
                 .bind(nameTxtBox, "name")
                 .bind(paternoTxtBox, "apellidoPaterno")
+                .bind(jefeChosen.getChosen(), "jefe")
                 .bind(fechaIngresoDatePicker, "fechaIngreso")
                 .bind(nameLabel, "clinica")
                 .bind(imssClinicaChosen, "clinica")
-                .bind(jefeChosen.getChosen(), "jefe")
                 .bind(grupoChosen.getChosen(), "grupo")
                 .bind(deptoChosen.getChosen(), "departamento")
                 .getModel();
@@ -429,24 +420,6 @@ public class EmpleadosEditorUI extends Composite {
     
     private DataBinder<Empleado> dataBinder;
     
-@DefaultConverter
-public class JsDateConverter implements Converter<Date, String> {
- 
-  private static final String DATE_FORMAT = "dd_MM_yyyy";
- 
-  @Override
-  public Date toModelValue(String widgetValue) {
-      Date result = DateTimeFormat.getFormat(DATE_FORMAT).parse(widgetValue);
-      return result;
-  }
- 
-  @Override
-  public String toWidgetValue(Date modelValue) {
-    return DateTimeFormat.getFormat(DATE_FORMAT).format((Date) modelValue);
-  }
-}    
-
-
 //@DefaultConverter
 //public class MyCustomDateConverter implements Converter<Date, String> {
 // 
@@ -595,7 +568,7 @@ public class JsDateConverter implements Converter<Date, String> {
             empleadoBean.setImss(imssTxtBox.getText());
             empleadoBean.setNumCredito(creditoInputGroup.getNumCredito());
             empleadoBean.setCuentaBanco(cuentaBancoTxtBox.getText());
-            empleadoBean.setFechaIngreso(fechaIngresoDatePicker.getValue());
+//            empleadoBean.setFechaIngreso(fechaIngresoDatePicker.getValue());
             empleadoBean.setStatus(statusEmpladoChose.getValue());
             empleadoBean.setSede(sedeChosen.getValue());
             empleadoBean.setJefe(jefeChosen.getValue());
@@ -633,7 +606,7 @@ public class JsDateConverter implements Converter<Date, String> {
         cuentaCimavTxtBox.setText("");
         // laboral
         deptoChosen.setSelected(null);
-        fechaIngresoDatePicker.setValue(new Date());
+//        fechaIngresoDatePicker.setValue(new Date());
         statusEmpladoChose.setValue(EStatusEmpleado.ACTIVO);
         sedeChosen.setValue(ESede.CHIHUAHUA);
         jefeChosen.setValue(null);
@@ -673,7 +646,7 @@ public class JsDateConverter implements Converter<Date, String> {
                 cuentaCimavTxtBox.setText(empleadoBean.getCuentaCimav());
                 // laboral
                 deptoChosen.setSelected(empleadoBean.getDepartamento());
-                fechaIngresoDatePicker.setValue(empleadoBean.getFechaIngreso());
+//                fechaIngresoDatePicker.setValue(empleadoBean.getFechaIngreso());
                 statusEmpladoChose.setValue(empleadoBean.getStatus());
                 sedeChosen.setValue(empleadoBean.getSede());
                 jefeChosen.setValue(empleadoBean.getJefe());

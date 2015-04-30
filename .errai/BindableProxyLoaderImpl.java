@@ -13,9 +13,7 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.Grupo;
 import cimav.client.data.domain.Tabulador;
-import cimav.client.view.empleados.EmpleadosEditorUI.JsDateConverter;
 import java.util.Date;
-import org.jboss.errai.databinding.client.api.Convert;
 import org.jboss.errai.databinding.client.api.InitialState;
 
 public class BindableProxyLoaderImpl implements BindableProxyLoader { public void loadBindableProxies() {
@@ -964,12 +962,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return agent.target.getFechaIngreso();
       }
 
-      public void setFechaIngreso(Date fechaIngreso) {
-        Date oldValue = agent.target.getFechaIngreso();
-        agent.target.setFechaIngreso(fechaIngreso);
-        agent.updateWidgetsAndFireEvent("fechaIngreso", oldValue, fechaIngreso);
-      }
-
       public ETipoAntiguedad getTipoAntiguedad() {
         return agent.target.getTipoAntiguedad();
       }
@@ -1268,10 +1260,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setNumCredito((String) value);
           return;
         }
-        if (property.equals("fechaIngreso")) {
-          agent.target.setFechaIngreso((Date) value);
-          return;
-        }
         if (property.equals("code")) {
           agent.target.setCode((String) value);
           return;
@@ -1309,6 +1297,5 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return new cimav_client_data_domain_EmpleadoProxy(state);
       }
     });
-    Convert.registerDefaultConverter(Date.class, String.class, new JsDateConverter());
   }
 }

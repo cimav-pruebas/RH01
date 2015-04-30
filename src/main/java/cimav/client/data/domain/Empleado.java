@@ -83,8 +83,7 @@ public class Empleado extends BaseDomain {
         this.setTipoContrato(ETipoContrato.DETERMINADO);
         
         Date today = new Date();
-        //this.setFechaIngreso(today);
-        this.fechaIngreso = today;
+        this.setFechaIngreso(today);
         this.setFechaInicioContrato(today);
         Date oneYear = new Date(); // un año después
         CalendarUtil.addMonthsToDate(oneYear, 12);
@@ -94,13 +93,6 @@ public class Empleado extends BaseDomain {
         this.setTipoSNI(ETipoSNI.NO_APLICA);
     }
     
-    public Date getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(Date fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
 
     public EBanco getBanco() {
         return banco;
@@ -372,6 +364,14 @@ public class Empleado extends BaseDomain {
 
     public void setNumSni(String numSni) {
         this.numSni = numSni;
+    }
+
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public final void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
     }
 
     public Date getFechaInicioContrato() {

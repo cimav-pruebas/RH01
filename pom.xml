@@ -62,7 +62,6 @@
             <groupId>org.jboss.errai</groupId>
             <artifactId>errai-data-binding</artifactId>
             <version>3.1.2.Final</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
