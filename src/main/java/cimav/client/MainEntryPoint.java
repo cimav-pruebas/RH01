@@ -15,20 +15,20 @@ import org.fusesource.restygwt.client.Defaults;
 import org.jboss.errai.databinding.client.BindableProxyLoader;
 
 /**
- * Main entry point.
+ * Main entry point.̛
  *
  * @author juan.calderon
  */
 public class MainEntryPoint implements EntryPoint {
 
-    static {
-
-        /* Default initialize for RestyGWT */
-        Defaults.setServiceRoot(GWT.getHostPageBaseURL());
-        Defaults.ignoreJsonNulls();
-        String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-        Defaults.setDateFormat(DATEFORMAT); //2015-01-14T00:00:00-0700
-    }
+//    static {
+//
+//        /* Default initialize for RestyGWT */
+//        Defaults.setServiceRoot(GWT.getHostPageBaseURL());
+//        Defaults.ignoreJsonNulls();
+//        String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+//        Defaults.setDateFormat(DATEFORMAT); //2015-01-14T00:00:00-0700
+//    }
     
     // Vistas UI
     private final MainUI mainUi;

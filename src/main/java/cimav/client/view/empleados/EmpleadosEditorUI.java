@@ -25,15 +25,8 @@ import cimav.client.view.grupo.GrupoChosen;
 import cimav.client.view.provider.EmpleadosProvider;
 import cimav.client.view.tabulador.TabuladorChosen;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -43,21 +36,15 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.base.DateTimePickerBase;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
-import org.jboss.errai.databinding.client.api.Converter;
 import org.jboss.errai.databinding.client.api.DataBinder;
-import org.jboss.errai.databinding.client.api.DefaultConverter;
 import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
 
@@ -97,7 +84,7 @@ public class EmpleadosEditorUI extends Composite {
     // laboral
     private final ValueListBox<ESede> sedeChosen;
     private final DeptoChosen deptoChosen;
-    private DateBox fechaIngresoDatePicker;
+    private final DateBox fechaIngresoDatePicker = new DateBox();
     private FechaPicker fechaContratoFinDatePicker;
     private FechaPicker fechaContratoInicioDatePicker;
     private FechaPicker fechaBajaDatePicker;
@@ -258,7 +245,7 @@ public class EmpleadosEditorUI extends Composite {
         sedeChosen.setValue(ESede.CHIHUAHUA); //default
         sedeChosen.setAcceptableValues(sedes);
         sedeChosen.setWidth(width);
-        fechaIngresoDatePicker = new DateBox();
+        //fechaIngresoDatePicker = new DateBox();
         fechaContratoFinDatePicker = new FechaPicker(width);
         fechaContratoInicioDatePicker = new FechaPicker(width);
         fechaBajaDatePicker = new FechaPicker(width);
@@ -392,14 +379,8 @@ public class EmpleadosEditorUI extends Composite {
 
         EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
         
-        EmpleadoValueHandle valueChange = new EmpleadoValueHandle();
-        nombreTxtBox.addValueChangeHandler(valueChange);
-        paternoTxtBox.addValueChangeHandler(valueChange);
-        
-        DateTimeFormat df = DateTimeFormat.getFormat("dd/MM/yyyy");
-        fechaIngresoDatePicker.setFormat(new DateBox.DefaultFormat(df));
-        
-        //MyCustomDateConverter mcdc = new MyCustomDateConverter();
+//        DateTimeFormat df = DateTimeFormat.getFormat("dd/MM/yyyy");
+//        fechaIngresoDatePicker.setFormat(new DateBox.DefaultFormat(df));
         
         try {
             nameLabel.setText("Label inicial.");
@@ -408,6 +389,7 @@ public class EmpleadosEditorUI extends Composite {
                 .bind(nameTxtBox, "name")
                 .bind(paternoTxtBox, "apellidoPaterno")
                 .bind(fechaIngresoDatePicker, "fechaIngreso")
+                .bind(fechaSNIDatePicker, "fechaSni")
                 .bind(nameLabel, "clinica")
                 .bind(imssClinicaChosen, "clinica")
                 .bind(jefeChosen.getChosen(), "jefe")
@@ -418,7 +400,7 @@ public class EmpleadosEditorUI extends Composite {
             dataBinder.addPropertyChangeHandler(new PropertyChangeHandler<Object>() {
                 @Override
                 public void onPropertyChange(PropertyChangeEvent<Object> event) {
-                    GWT.log("<<<>>> " + event.getPropertyName() + " >> " + event.getOldValue() + " >> " + event.getNewValue() );
+                    GWT.log("<<<>>> " + event.getPropertyName() + " >> " + event.getOldValue() + " >> " + event.getNewValue() + " !!!! " + event.getSource());
                 }
             });
             
@@ -429,23 +411,6 @@ public class EmpleadosEditorUI extends Composite {
     
     private DataBinder<Empleado> dataBinder;
     
-@DefaultConverter
-public class JsDateConverter implements Converter<Date, String> {
- 
-  private static final String DATE_FORMAT = "dd_MM_yyyy";
- 
-  @Override
-  public Date toModelValue(String widgetValue) {
-      Date result = DateTimeFormat.getFormat(DATE_FORMAT).parse(widgetValue);
-      return result;
-  }
- 
-  @Override
-  public String toWidgetValue(Date modelValue) {
-    return DateTimeFormat.getFormat(DATE_FORMAT).format((Date) modelValue);
-  }
-}    
-
 
 //@DefaultConverter
 //public class MyCustomDateConverter implements Converter<Date, String> {
@@ -464,59 +429,9 @@ public class JsDateConverter implements Converter<Date, String> {
 //  }
 //}    
     
-    private class EmpleadoValueHandle implements ValueChangeHandler<String> {
-        @Override
-        public void onValueChange(ValueChangeEvent<String> event) {
-            GWT.log(" 1]] " + event.getSource() + " 2]] " + event.getValue() + " 3]] " + event.getAssociatedType() 
-                    + " 4]] " + event.toDebugString() + " 5]] " + event.toString());
-        }
-        
-    }
-    
-    /*
-    private void setEmpleadoBean() {
-            if (empleadoBean == null) {
-                empleadoBean = new Empleado();
-            }
-            
-            empleadoBean.setNombre(nombreTxtBox.getText());
-            empleadoBean.setApellidoPaterno(paternoTxtBox.getText());
-            empleadoBean.setApellidoMaterno(maternoTxtBox.getText());
-            empleadoBean.setRfc(rfcTxtBox.getText());
-            empleadoBean.setCuentaCimav(cuentaCimavTxtBox.getText());
-            String urlPhoto = "http://cimav.edu.mx/foto/" + empleadoBean.getCuentaCimav();
-            empleadoBean.setUrlPhoto(urlPhoto);
-            empleadoBean.setDepartamento(deptoChosen.getSelected());
-            empleadoBean.setClinica(imssClinicaChosen.getValue());
-            empleadoBean.setBanco(bancoChosen.getValue());
-            empleadoBean.setHasCredito(creditoInputGroup.hasCredito());
-            empleadoBean.setCurp(curpTxtBox.getText());
-            empleadoBean.setImss(imssTxtBox.getText());
-            empleadoBean.setNumCredito(creditoInputGroup.getNumCredito());
-            empleadoBean.setCuentaBanco(cuentaBancoTxtBox.getText());
-            empleadoBean.setFechaIngreso(fechaIngresoDatePicker.getValue());
-            empleadoBean.setStatus(statusEmpladoChose.getValue());
-            empleadoBean.setSede(sedeChosen.getValue());
-            empleadoBean.setJefe(jefeChosen.getValue());
-            empleadoBean.setGrupo(grupoChosen.getSelected());
-            empleadoBean.setNivel(tabuladorChosen.getSelected());
-            empleadoBean.setTipoEmpleado(tipoEmpleadoChosen.getSelected());
-            empleadoBean.setTipoContrato(tipoContratoChosen.getSelected());
-            empleadoBean.setTipoAntiguedad(tipoAntiguedadChosen.getSelected());
-            empleadoBean.setTipoSNI(tipoSniChosen.getSelected());
-            empleadoBean.setFechaInicioContrato(fechaContratoInicioDatePicker.getValue());
-            empleadoBean.setFechaFinContrato(fechaContratoFinDatePicker.getValue());
-            empleadoBean.setFechaAntiguedad(fechaAntiguedadDatePicker.getValue());
-            empleadoBean.setFechaSni(fechaSNIDatePicker.getValue());
-            empleadoBean.setNumSni(numSNITxtBox.getText());
-    }
-*/    
     private class SaveClickHandler implements ClickHandler {
         @Override
         public void onClick(ClickEvent event) {
-            
-            setEmpleadoBean();
-            
             boolean isNuevo =  empleadoBean.getId() == null || empleadoBean.getId() <= 0;
             if (isNuevo) {
                 EmpleadosProvider.get().add(empleadoBean);
@@ -570,127 +485,10 @@ public class JsDateConverter implements Converter<Date, String> {
 //            }
         }
     }
-
-    private void setEmpleadoBean() {
-        
-        if (empleadoBean == null) {
-            empleadoBean = new Empleado();
-        }
-        try {
-            
-            //TODO Validar los Componentes
-            
-            empleadoBean.setNombre(nombreTxtBox.getText());
-            empleadoBean.setApellidoPaterno(paternoTxtBox.getText());
-            empleadoBean.setApellidoMaterno(maternoTxtBox.getText());
-            empleadoBean.setRfc(rfcTxtBox.getText());
-            empleadoBean.setCuentaCimav(cuentaCimavTxtBox.getText());
-            String urlPhoto = "http://cimav.edu.mx/foto/" + empleadoBean.getCuentaCimav();
-            empleadoBean.setUrlPhoto(urlPhoto);
-            empleadoBean.setDepartamento(deptoChosen.getSelected());
-            empleadoBean.setClinica(imssClinicaChosen.getValue());
-            empleadoBean.setBanco(bancoChosen.getValue());
-            empleadoBean.setHasCredito(creditoInputGroup.hasCredito());
-            empleadoBean.setCurp(curpTxtBox.getText());
-            empleadoBean.setImss(imssTxtBox.getText());
-            empleadoBean.setNumCredito(creditoInputGroup.getNumCredito());
-            empleadoBean.setCuentaBanco(cuentaBancoTxtBox.getText());
-            empleadoBean.setFechaIngreso(fechaIngresoDatePicker.getValue());
-            empleadoBean.setStatus(statusEmpladoChose.getValue());
-            empleadoBean.setSede(sedeChosen.getValue());
-            empleadoBean.setJefe(jefeChosen.getValue());
-            empleadoBean.setGrupo(grupoChosen.getSelected());
-            empleadoBean.setNivel(tabuladorChosen.getSelected());
-            empleadoBean.setTipoEmpleado(tipoEmpleadoChosen.getSelected());
-            empleadoBean.setTipoContrato(tipoContratoChosen.getSelected());
-            empleadoBean.setTipoAntiguedad(tipoAntiguedadChosen.getSelected());
-            empleadoBean.setTipoSNI(tipoSniChosen.getSelected());
-            empleadoBean.setFechaInicioContrato(fechaContratoInicioDatePicker.getValue());
-            empleadoBean.setFechaFinContrato(fechaContratoFinDatePicker.getValue());
-            empleadoBean.setFechaAntiguedad(fechaAntiguedadDatePicker.getValue());
-            empleadoBean.setFechaSni(fechaSNIDatePicker.getValue());
-            empleadoBean.setNumSni(numSNITxtBox.getText());
-
-        } catch (Exception e) {
-            GWT.log(e.getMessage());
-        }
-            
-    }
-    
-    private void vaciarBean() {
-        // general
-        nombreTxtBox.setText("");
-        paternoTxtBox.setText("");
-        maternoTxtBox.setText("");
-        rfcTxtBox.setText("");
-        curpTxtBox.setText("");
-        imssTxtBox.setText("");
-        imssClinicaChosen.setValue(EClinica.CLINICA_044);
-        creditoInputGroup.setHasCredito(false);
-        creditoInputGroup.setNumCredito("");
-        bancoChosen.setValue(EBanco.BANORTE);
-        cuentaBancoTxtBox.setText("");
-        cuentaCimavTxtBox.setText("");
-        // laboral
-        deptoChosen.setSelected(null);
-        fechaIngresoDatePicker.setValue(new Date());
-        statusEmpladoChose.setValue(EStatusEmpleado.ACTIVO);
-        sedeChosen.setValue(ESede.CHIHUAHUA);
-        jefeChosen.setValue(null);
-        grupoChosen.setSelected(null);
-        tabuladorChosen.setSelected(null);
-        tipoEmpleadoChosen.setSelected(null);
-        tipoContratoChosen.setSelected(null);
-        tipoAntiguedadChosen.setSelected(null);
-        tipoSniChosen.setSelected(null);
-        fechaContratoInicioDatePicker.setValue(new Date());
-        fechaContratoFinDatePicker.setValue(new Date());
-        fechaAntiguedadDatePicker.setValue(new Date());
-        fechaSNIDatePicker.setValue(new Date());
-        numSNITxtBox.setValue("");
-    }
     
     public void setSelectedBean(Empleado empleadoSelected) {
-
         empleadoBean = empleadoSelected;
-
-        if (empleadoBean == null) {
-            vaciarBean();
-        } else {
-            try {
-                // general
-                nombreTxtBox.setText(empleadoBean.getNombre());
-                paternoTxtBox.setText(empleadoBean.getApellidoPaterno());
-                maternoTxtBox.setText(empleadoBean.getApellidoMaterno());
-                rfcTxtBox.setText(empleadoBean.getRfc());
-                curpTxtBox.setText(empleadoBean.getCurp());
-                imssTxtBox.setText(empleadoBean.getImss());
-                imssClinicaChosen.setValue(empleadoBean.getClinica());
-                creditoInputGroup.setHasCredito(empleadoBean.getHasCredito());
-                creditoInputGroup.setNumCredito(empleadoBean.getNumCredito());
-                bancoChosen.setValue(empleadoBean.getBanco());
-                cuentaBancoTxtBox.setText(empleadoBean.getCuentaBanco());
-                cuentaCimavTxtBox.setText(empleadoBean.getCuentaCimav());
-                // laboral
-                deptoChosen.setSelected(empleadoBean.getDepartamento());
-                fechaIngresoDatePicker.setValue(empleadoBean.getFechaIngreso());
-                statusEmpladoChose.setValue(empleadoBean.getStatus());
-                sedeChosen.setValue(empleadoBean.getSede());
-                jefeChosen.setValue(empleadoBean.getJefe());
-                grupoChosen.setSelected(empleadoBean.getGrupo());
-                tabuladorChosen.setSelected(empleadoBean.getNivel());
-                tipoEmpleadoChosen.setSelected(empleadoBean.getTipoEmpleado());
-                tipoContratoChosen.setSelected(empleadoBean.getTipoContrato());
-                tipoAntiguedadChosen.setSelected(empleadoBean.getTipoAntiguedad());
-                tipoSniChosen.setSelected(empleadoBean.getTipoSNI());
-                fechaContratoInicioDatePicker.setValue(empleadoBean.getFechaInicioContrato());
-                fechaContratoFinDatePicker.setValue(empleadoBean.getFechaFinContrato());
-                fechaAntiguedadDatePicker.setValue(empleadoBean.getFechaAntiguedad());
-                fechaSNIDatePicker.setValue(empleadoBean.getFechaSni());
-                numSNITxtBox.setValue(empleadoBean.getNumSni());
-            } catch (Exception e) {
-                GWT.log(e.getMessage());
-            }
-        }
+        dataBinder.setModel(empleadoBean);
     }
+    
 }
