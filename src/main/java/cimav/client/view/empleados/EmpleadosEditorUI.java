@@ -388,11 +388,11 @@ public class EmpleadosEditorUI extends Composite {
             empleadoBean = dataBinder
                 .bind(nameTxtBox, "name")
                 .bind(paternoTxtBox, "apellidoPaterno")
+                .bind(jefeChosen.getChosen(), "jefe")
                 .bind(fechaIngresoDatePicker, "fechaIngreso")
                 .bind(fechaSNIDatePicker, "fechaSni")
                 .bind(nameLabel, "clinica")
                 .bind(imssClinicaChosen, "clinica")
-                .bind(jefeChosen.getChosen(), "jefe")
                 .bind(grupoChosen.getChosen(), "grupo")
                 .bind(deptoChosen.getChosen(), "departamento")
                 .getModel();

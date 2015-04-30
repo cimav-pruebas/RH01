@@ -86,13 +86,6 @@ public class Empleado extends BaseDomain {
     }
 
     
-    public Date getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(Date fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
 
     public Date getFechaSni() {
         return fechaSni;
@@ -372,6 +365,14 @@ public class Empleado extends BaseDomain {
 
     public void setNumSni(String numSni) {
         this.numSni = numSni;
+    }
+
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public final void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
     }
 
     public Date getFechaInicioContrato() {

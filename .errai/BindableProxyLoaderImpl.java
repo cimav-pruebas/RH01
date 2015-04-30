@@ -1266,10 +1266,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setNumCredito((String) value);
           return;
         }
-        if (property.equals("fechaIngreso")) {
-          agent.target.setFechaIngreso((Date) value);
-          return;
-        }
         if (property.equals("code")) {
           agent.target.setCode((String) value);
           return;
