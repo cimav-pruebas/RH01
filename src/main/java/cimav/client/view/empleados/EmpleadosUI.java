@@ -44,12 +44,16 @@ public class EmpleadosUI extends Composite {
     interface EmpleadosUIUiBinder extends UiBinder<Widget, EmpleadosUI> {
     }
 
-    @UiField public ScrollPanel scrollPanel;
+    @UiField
+    public ScrollPanel scrollPanel;
     CellList<Empleado> cellList;
 
-    @UiField TextBox searchTxt;
-    @UiField Button reloadBtn;
-    @UiField Button addBtn;
+    @UiField
+    TextBox searchTxt;
+    @UiField
+    Button reloadBtn;
+    @UiField
+    Button addBtn;
 
     @UiField
     EmpleadosEditorUI empleadosEditorUI;
@@ -96,21 +100,21 @@ public class EmpleadosUI extends Composite {
         addBtn.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                
+
             }
         });
-        
+
         searchTxt.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                
+
                 EmpleadosUI.this.filtrar();
             }
         });
 
         // de inicio, el Editor no tiene seleccionando y por tanto no es visible
         this.showEditor(false);
-        
+
         // orden inicial
         orderBy = EmpleadosProvider.ORDER_BY_NAME;
         // filtro inicial
@@ -119,14 +123,14 @@ public class EmpleadosUI extends Composite {
         /* Al arrancar, cargar a todos los empleados */
         reloadAll();
     }
-    
+
     private void filtrar() {
         final String txtToSearch = searchTxt.getText();
         EmpleadosProvider.get().getDataProvider().setFilter(txtToSearch);
-        
+
         String rows = EmpleadosProvider.get().getRowCountPropotional();
         reloadBtn.setText(rows);
-        
+
         // si en la lista filtrada no aparece el seleccionado, deseleccionar
         Empleado empSel = selectionModel.getSelectedObject();
         if (empSel != null && !EmpleadosProvider.get().containsItem(empSel)) {
@@ -169,10 +173,10 @@ public class EmpleadosUI extends Composite {
                 EmpleadosUI.this.orderBy();
 
                 EmpleadosUI.this.selectionModel.setSelected(null, true);
-                
+
                 EmpleadosUI.this.filtrar();
-                
-            } 
+
+            }
 //            else if (ProviderMethod.CREATE.equals(dbEvent.getDbMethod())) {
 //                if (TypeResult.SUCCESS.equals(dbEvent.getDbTypeResult())) {
 //                    Empleado nuevoEmpleado = (Empleado) dbEvent.getResult();
@@ -211,7 +215,7 @@ public class EmpleadosUI extends Composite {
                     = "<table width='100%' cellspacing='0' cellpadding='0' style='cursor: pointer; text-align: left; vertical-align: middle; border-bottom:1px solid lightgray;'>\n"
                     + "  <tr>\n"
                     + "    <td width='4px' rowspan='6' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
-//                    + "    <td colspan='3' style='height:10px;'><span STYLE_INDICADOR_REEMPLAZO /></td>\n"
+                    //                    + "    <td colspan='3' style='height:10px;'><span STYLE_INDICADOR_REEMPLAZO /></td>\n"
                     + "    <td colspan='3' style='height:10px;'></td>\n"
                     + "    <td width='4px' rowspan='6' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
                     + "  </tr>\n"
@@ -224,15 +228,15 @@ public class EmpleadosUI extends Composite {
                     + "  </tr>\n"
                     + "  <tr>\n"
                     + "    <td  colspan='1'> "
-//                    + " <code class='label-cyt-grp-niv'><span style='font-size: medium;' >CODE_REEMPLAZO</span></code> "
+                    //                    + " <code class='label-cyt-grp-niv'><span style='font-size: medium;' >CODE_REEMPLAZO</span></code> "
                     + " <code class='label-cyt-grp-niv'><span >CODE_REEMPLAZO</span></code> "
                     + " <code class=\"label-cyt-grp-niv\"><span >GRUPO_REEMPLAZO</span></code> "
                     + " <code class=\"label-cyt-grp-niv\"><span >NIVEL_REEMPLAZO</span></code> "
                     + " <code class=\"label-cyt-grp-niv\"><span >SEDE_REEMPLAZO</span></code> "
                     + " <code class=\"label-cyt-grp-niv\"><span >DEPTO_CODIGO_REEMPLAZO</span></code> "
-//                    + " <code class=\"label-cyt-grp-niv\"><span >ID_REEMPLAZO</span></code> "
+                    //                    + " <code class=\"label-cyt-grp-niv\"><span >ID_REEMPLAZO</span></code> "
                     + "    </td>\n"
-//                    + "    <td style='text-align: right;'><i class='fa fa-info-circle fa-lg' style='opacity: 0.5; padding-right: 5px;'></i></td>\n"
+                    //                    + "    <td style='text-align: right;'><i class='fa fa-info-circle fa-lg' style='opacity: 0.5; padding-right: 5px;'></i></td>\n"
                     + "  </tr>\n"
                     + "  <tr>\n"
                     + "    <td style='text-align:center;' ></td>\n"
@@ -256,7 +260,7 @@ public class EmpleadosUI extends Composite {
                 html = html.replace("SELECTED_COLOR_REEMPLAZO", "background-color: #F8F8F8;");
 //                html = html.replace("STYLE_INDICADOR_REEMPLAZO", "");
             }
-                       
+
             html = html.replace("CODE_REEMPLAZO", value.getCode());
             html = html.replace("URL_FOTO_REEMPLAZO", value.getUrlPhoto());
             html = html.replace("APELLIDOS_REEMPLAZO", EmpleadosUI.ellipse(value.getApellidoPaterno(), 18) + " " + EmpleadosUI.ellipse(value.getApellidoMaterno(), 18));
@@ -282,7 +286,8 @@ public class EmpleadosUI extends Composite {
 //  }
 //
     /**
-     * Truncate a string and add an ellipsis ('...') to the end if it exceeds the specified length.
+     * Truncate a string and add an ellipsis ('...') to the end if it exceeds
+     * the specified length.
      *
      * @param value the string to truncate
      * @param len the maximum length to allow before truncating
@@ -298,6 +303,7 @@ public class EmpleadosUI extends Composite {
     private void showEditor(boolean show) {
         empleadosEditorUI.setActive(show);
     }
+
     private class SelectionHandler implements SelectionChangeEvent.Handler {
 
         @Override
@@ -306,7 +312,7 @@ public class EmpleadosUI extends Composite {
                 SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
                 Empleado empleadoSelected = (Empleado) selModel.getSelectedObject();
                 empleadosEditorUI.setSelectedBean(empleadoSelected);
-                
+
                 // Mostrar editor sólo cuando hay seleccionado
                 EmpleadosUI.this.showEditor(empleadoSelected != null);
             }

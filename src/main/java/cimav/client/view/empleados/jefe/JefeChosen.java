@@ -32,22 +32,25 @@ import org.gwtbootstrap3.extras.growl.client.ui.Growl;
  * @author juan.calderon
  */
 public class JefeChosen extends Composite {
-    
+
     private static JefeChosenUiBinder uiBinder = GWT.create(JefeChosenUiBinder.class);
-    
+
     private final EmpleadoREST rest;
-    
-    @UiField Image fotoImg;
-    @UiField HTML htmlDatos;
-    @UiField FlowPanel comboWrap;
+
+    @UiField
+    Image fotoImg;
+    @UiField
+    HTML htmlDatos;
+    @UiField
+    FlowPanel comboWrap;
     private final ChosenValueListBox<Empleado> chosen;
-    
+
     interface JefeChosenUiBinder extends UiBinder<Widget, JefeChosen> {
     }
-    
+
     public JefeChosen() {
         initWidget(uiBinder.createAndBindUi(this));
-        
+
         chosen = new ChosenValueListBox<>(new Renderer<Empleado>() {
             @Override
             public String render(Empleado object) {
@@ -69,9 +72,9 @@ public class JefeChosen extends Composite {
         chosen.addValueChangeHandler(new ValueChangeHandler<Empleado>() {
             @Override
             public void onValueChange(ValueChangeEvent<Empleado> event) {
-                
+
                 String htmlStr = "&nbsp;";
-                
+
                 if (event != null && event.getValue() != null) {
                     Empleado emp = event.getValue();
                     fotoImg.setUrl(emp.getUrlPhoto());
@@ -84,26 +87,26 @@ public class JefeChosen extends Composite {
                 } else {
                     fotoImg.setUrl("http://cimav.edu.mx/foto/default");
                 }
-                
+
                 htmlDatos.setHTML(htmlStr);
             }
         });
-        
+
         comboWrap.add(chosen);
-        
+
         rest = new EmpleadoREST();
         rest.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
             @Override
             public void onRESTExecuted(MethodEvent restEvent) {
                 if (restEvent.getMethod().equals(EMethod.FIND_ALL_BASE)) {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
-                        
+
                         List<Empleado> jefes = (List<Empleado>) restEvent.getResult();
                         // Agregar el Null como valor válido
                         jefes.add(null);
-                        
+
                         chosen.setAcceptableValues(jefes);
-                        
+
                     } else {
                         Growl.growl("Falló la carga de Jefes");
                     }
@@ -111,19 +114,19 @@ public class JefeChosen extends Composite {
             }
         });
         rest.findAllBase();
-        
+
     }
-    
+
     public ChosenValueListBox getChosen() {
         return this.chosen;
     }
-    
+
     public void setValue(Empleado jefe) {
         chosen.setValue(jefe, true);
     }
-    
+
     public Empleado getValue() {
         return chosen.getValue();
     }
-    
+
 }

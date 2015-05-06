@@ -23,18 +23,19 @@ import org.gwtbootstrap3.client.ui.ValueListBox;
  * @author juan.calderon
  */
 public class TipoSNIChosen extends Composite {
-    
+
     private static SNIChosenUiBinder uiBinder = GWT.create(SNIChosenUiBinder.class);
-    
+
     interface SNIChosenUiBinder extends UiBinder<Widget, TipoSNIChosen> {
     }
-    
-    @UiField HTMLPanel htmlPanel;
+
+    @UiField
+    HTMLPanel htmlPanel;
     private final ValueListBox<ETipoSNI> chosen;
-    
+
     public TipoSNIChosen() {
         initWidget(uiBinder.createAndBindUi(this));
-        
+
         chosen = new ValueListBox<>(new Renderer<ETipoSNI>() {
             @Override
             public String render(ETipoSNI object) {
@@ -54,19 +55,22 @@ public class TipoSNIChosen extends Composite {
         });
 
         htmlPanel.add(chosen);
-        
+
         List<ETipoSNI> values = Arrays.asList(ETipoSNI.values());
         chosen.setValue(ETipoSNI.NO_APLICA); //default
         chosen.setAcceptableValues(values);
-        
+
     }
-    
+
     public void setSelected(ETipoSNI value) {
         chosen.setValue(value, true);
     }
-    
+
     public ETipoSNI getSelected() {
         return chosen.getValue();
     }
-    
+
+    public ValueListBox<ETipoSNI> getChosen() {
+        return this.chosen;
+    }
 }

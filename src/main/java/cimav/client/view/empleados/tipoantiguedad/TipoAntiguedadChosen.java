@@ -23,18 +23,19 @@ import org.gwtbootstrap3.client.ui.ValueListBox;
  * @author juan.calderon
  */
 public class TipoAntiguedadChosen extends Composite {
-    
+
     private static TipoAntiguedadChosenUiBinder uiBinder = GWT.create(TipoAntiguedadChosenUiBinder.class);
-    
+
     interface TipoAntiguedadChosenUiBinder extends UiBinder<Widget, TipoAntiguedadChosen> {
     }
-    
-    @UiField HTMLPanel htmlPanel;
+
+    @UiField
+    HTMLPanel htmlPanel;
     private final ValueListBox<ETipoAntiguedad> chosen;
-    
+
     public TipoAntiguedadChosen() {
         initWidget(uiBinder.createAndBindUi(this));
-        
+
         chosen = new ValueListBox<>(new Renderer<ETipoAntiguedad>() {
             @Override
             public String render(ETipoAntiguedad object) {
@@ -54,19 +55,22 @@ public class TipoAntiguedadChosen extends Composite {
         });
 
         htmlPanel.add(chosen);
-        
+
         List<ETipoAntiguedad> values = Arrays.asList(ETipoAntiguedad.values());
         chosen.setValue(ETipoAntiguedad.SIN_ANTIGUEDAD); //default
         chosen.setAcceptableValues(values);
-        
+
     }
-    
+
     public void setSelected(ETipoAntiguedad value) {
         chosen.setValue(value, true);
     }
-    
+
     public ETipoAntiguedad getSelected() {
         return chosen.getValue();
     }
-    
+
+    public ValueListBox<ETipoAntiguedad> getChosen() {
+        return this.chosen;
+    }
 }

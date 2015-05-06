@@ -39,16 +39,15 @@ public class MainEntryPoint implements EntryPoint {
      */
     public MainEntryPoint() {
         
+        // Errai Binding
+        BindableProxyLoader proxyLoader = GWT.create(BindableProxyLoader.class);
+        proxyLoader.loadBindableProxies();        
+        
         mainUi = new MainUI();
     }
     
     @Override
     public void onModuleLoad() {
-        
-        // Errai Binding
-        BindableProxyLoader proxyLoader = GWT.create(BindableProxyLoader.class);
-        proxyLoader.loadBindableProxies();        
-        
         
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             @Override

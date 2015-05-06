@@ -23,18 +23,19 @@ import org.gwtbootstrap3.client.ui.ValueListBox;
  * @author juan.calderon
  */
 public class TipoContratoChosen extends Composite {
-    
+
     private static TipoContratoChosenUiBinder uiBinder = GWT.create(TipoContratoChosenUiBinder.class);
-    
+
     interface TipoContratoChosenUiBinder extends UiBinder<Widget, TipoContratoChosen> {
     }
-    
-    @UiField HTMLPanel htmlPanel;
+
+    @UiField
+    HTMLPanel htmlPanel;
     private final ValueListBox<ETipoContrato> chosen;
-    
+
     public TipoContratoChosen() {
         initWidget(uiBinder.createAndBindUi(this));
-        
+
         chosen = new ValueListBox<>(new Renderer<ETipoContrato>() {
             @Override
             public String render(ETipoContrato object) {
@@ -54,19 +55,22 @@ public class TipoContratoChosen extends Composite {
         });
 
         htmlPanel.add(chosen);
-        
+
         List<ETipoContrato> values = Arrays.asList(ETipoContrato.values());
         chosen.setValue(ETipoContrato.INDETERMINADO); //default
         chosen.setAcceptableValues(values);
-        
+
     }
-    
+
     public void setSelected(ETipoContrato value) {
         chosen.setValue(value, true);
     }
-    
+
     public ETipoContrato getSelected() {
         return chosen.getValue();
     }
-    
+
+    public ValueListBox<ETipoContrato> getChosen() {
+        return this.chosen;
+    }
 }

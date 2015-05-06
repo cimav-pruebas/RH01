@@ -733,6 +733,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return agent.target.getFechaFinContrato();
       }
 
+      public void setFechaFinContrato(Date fechaFinContrato) {
+        Date oldValue = agent.target.getFechaFinContrato();
+        agent.target.setFechaFinContrato(fechaFinContrato);
+        agent.updateWidgetsAndFireEvent("fechaFinContrato", oldValue, fechaFinContrato);
+      }
+
       public Integer getIdTipoContrato() {
         return agent.target.getIdTipoContrato();
       }
@@ -906,8 +912,20 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return agent.target.getFechaInicioContrato();
       }
 
+      public void setFechaInicioContrato(Date fechaInicioContrato) {
+        Date oldValue = agent.target.getFechaInicioContrato();
+        agent.target.setFechaInicioContrato(fechaInicioContrato);
+        agent.updateWidgetsAndFireEvent("fechaInicioContrato", oldValue, fechaInicioContrato);
+      }
+
       public EStatusEmpleado getStatus() {
         return agent.target.getStatus();
+      }
+
+      public void setStatus(EStatusEmpleado status) {
+        EStatusEmpleado oldValue = agent.target.getStatus();
+        agent.target.setStatus(status);
+        agent.updateWidgetsAndFireEvent("status", oldValue, status);
       }
 
       public String getNumSni() {
@@ -924,8 +942,20 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return agent.target.getTipoSNI();
       }
 
+      public void setTipoSNI(ETipoSNI tipoSNI) {
+        ETipoSNI oldValue = agent.target.getTipoSNI();
+        agent.target.setTipoSNI(tipoSNI);
+        agent.updateWidgetsAndFireEvent("tipoSNI", oldValue, tipoSNI);
+      }
+
       public ETipoContrato getTipoContrato() {
         return agent.target.getTipoContrato();
+      }
+
+      public void setTipoContrato(ETipoContrato tipoContrato) {
+        ETipoContrato oldValue = agent.target.getTipoContrato();
+        agent.target.setTipoContrato(tipoContrato);
+        agent.updateWidgetsAndFireEvent("tipoContrato", oldValue, tipoContrato);
       }
 
       public Integer getIdBanco() {
@@ -962,8 +992,20 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return agent.target.getFechaIngreso();
       }
 
+      public void setFechaIngreso(Date fechaIngreso) {
+        Date oldValue = agent.target.getFechaIngreso();
+        agent.target.setFechaIngreso(fechaIngreso);
+        agent.updateWidgetsAndFireEvent("fechaIngreso", oldValue, fechaIngreso);
+      }
+
       public ETipoAntiguedad getTipoAntiguedad() {
         return agent.target.getTipoAntiguedad();
+      }
+
+      public void setTipoAntiguedad(ETipoAntiguedad tipoAntiguedad) {
+        ETipoAntiguedad oldValue = agent.target.getTipoAntiguedad();
+        agent.target.setTipoAntiguedad(tipoAntiguedad);
+        agent.updateWidgetsAndFireEvent("tipoAntiguedad", oldValue, tipoAntiguedad);
       }
 
       public String getCode() {
@@ -988,6 +1030,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public ETipoEmpleado getTipoEmpleado() {
         return agent.target.getTipoEmpleado();
+      }
+
+      public void setTipoEmpleado(ETipoEmpleado tipoEmpleado) {
+        ETipoEmpleado oldValue = agent.target.getTipoEmpleado();
+        agent.target.setTipoEmpleado(tipoEmpleado);
+        agent.updateWidgetsAndFireEvent("tipoEmpleado", oldValue, tipoEmpleado);
       }
 
       public EClinica getClinica() {
@@ -1180,6 +1228,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setImss((String) value);
           return;
         }
+        if (property.equals("fechaFinContrato")) {
+          agent.target.setFechaFinContrato((Date) value);
+          return;
+        }
         if (property.equals("idTipoContrato")) {
           agent.target.setIdTipoContrato((Integer) value);
           return;
@@ -1244,8 +1296,24 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setIdStatus((Integer) value);
           return;
         }
+        if (property.equals("fechaInicioContrato")) {
+          agent.target.setFechaInicioContrato((Date) value);
+          return;
+        }
+        if (property.equals("status")) {
+          agent.target.setStatus((EStatusEmpleado) value);
+          return;
+        }
         if (property.equals("numSni")) {
           agent.target.setNumSni((String) value);
+          return;
+        }
+        if (property.equals("tipoSNI")) {
+          agent.target.setTipoSNI((ETipoSNI) value);
+          return;
+        }
+        if (property.equals("tipoContrato")) {
+          agent.target.setTipoContrato((ETipoContrato) value);
           return;
         }
         if (property.equals("idBanco")) {
@@ -1260,12 +1328,24 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setNumCredito((String) value);
           return;
         }
+        if (property.equals("fechaIngreso")) {
+          agent.target.setFechaIngreso((Date) value);
+          return;
+        }
+        if (property.equals("tipoAntiguedad")) {
+          agent.target.setTipoAntiguedad((ETipoAntiguedad) value);
+          return;
+        }
         if (property.equals("code")) {
           agent.target.setCode((String) value);
           return;
         }
         if (property.equals("cuentaCimav")) {
           agent.target.setCuentaCimav((String) value);
+          return;
+        }
+        if (property.equals("tipoEmpleado")) {
+          agent.target.setTipoEmpleado((ETipoEmpleado) value);
           return;
         }
         if (property.equals("clinica")) {
