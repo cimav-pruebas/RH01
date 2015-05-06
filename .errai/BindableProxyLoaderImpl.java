@@ -516,8 +516,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("cuentaBanco", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
-        agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idTipoEmpleado", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("jefe", new PropertyType(Empleado.class, true, false));
         agent.propertyTypes.put("apellidoPaterno", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("imss", new PropertyType(String.class, false, false));
@@ -546,8 +546,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("idBanco", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("hasCredito", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("numCredito", new PropertyType(String.class, false, false));
-        agent.propertyTypes.put("fechaIngreso", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("tipoAntiguedad", new PropertyType(ETipoAntiguedad.class, false, false));
+        agent.propertyTypes.put("fechaIngreso", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("tipoEmpleado", new PropertyType(ETipoEmpleado.class, false, false));
@@ -574,8 +574,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIdSede(agent.target.getIdSede());
         clone.setCuentaBanco(agent.target.getCuentaBanco());
         clone.setSede(agent.target.getSede());
-        clone.setUrlPhoto(agent.target.getUrlPhoto());
         clone.setIdTipoEmpleado(agent.target.getIdTipoEmpleado());
+        clone.setUrlPhoto(agent.target.getUrlPhoto());
         if (agent.target.getJefe() instanceof BindableProxy) {
           clone.setJefe((Empleado) ((BindableProxy) getJefe()).deepUnwrap());
         } else {
@@ -620,8 +620,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIdBanco(agent.target.getIdBanco());
         clone.setHasCredito(agent.target.getHasCredito());
         clone.setNumCredito(agent.target.getNumCredito());
-        clone.setFechaIngreso(agent.target.getFechaIngreso());
         clone.setTipoAntiguedad(agent.target.getTipoAntiguedad());
+        clone.setFechaIngreso(agent.target.getFechaIngreso());
         clone.setCode(agent.target.getCode());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
         clone.setTipoEmpleado(agent.target.getTipoEmpleado());
@@ -676,16 +676,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("sede", oldValue, sede);
       }
 
-      public String getUrlPhoto() {
-        return agent.target.getUrlPhoto();
-      }
-
-      public void setUrlPhoto(String urlPhoto) {
-        String oldValue = agent.target.getUrlPhoto();
-        agent.target.setUrlPhoto(urlPhoto);
-        agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
-      }
-
       public Integer getIdTipoEmpleado() {
         return agent.target.getIdTipoEmpleado();
       }
@@ -694,6 +684,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Integer oldValue = agent.target.getIdTipoEmpleado();
         agent.target.setIdTipoEmpleado(idTipoEmpleado);
         agent.updateWidgetsAndFireEvent("idTipoEmpleado", oldValue, idTipoEmpleado);
+      }
+
+      public String getUrlPhoto() {
+        return agent.target.getUrlPhoto();
+      }
+
+      public void setUrlPhoto(String urlPhoto) {
+        String oldValue = agent.target.getUrlPhoto();
+        agent.target.setUrlPhoto(urlPhoto);
+        agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
       }
 
       public Empleado getJefe() {
@@ -988,6 +988,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("numCredito", oldValue, numCredito);
       }
 
+      public ETipoAntiguedad getTipoAntiguedad() {
+        return agent.target.getTipoAntiguedad();
+      }
+
       public Date getFechaIngreso() {
         return agent.target.getFechaIngreso();
       }
@@ -1078,11 +1082,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("sede")) {
           return getSede();
         }
-        if (property.equals("urlPhoto")) {
-          return getUrlPhoto();
-        }
         if (property.equals("idTipoEmpleado")) {
           return getIdTipoEmpleado();
+        }
+        if (property.equals("urlPhoto")) {
+          return getUrlPhoto();
         }
         if (property.equals("jefe")) {
           return getJefe();
@@ -1168,11 +1172,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("numCredito")) {
           return getNumCredito();
         }
-        if (property.equals("fechaIngreso")) {
-          return getFechaIngreso();
-        }
         if (property.equals("tipoAntiguedad")) {
           return getTipoAntiguedad();
+        }
+        if (property.equals("fechaIngreso")) {
+          return getFechaIngreso();
         }
         if (property.equals("code")) {
           return getCode();
@@ -1208,12 +1212,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setSede((ESede) value);
           return;
         }
-        if (property.equals("urlPhoto")) {
-          agent.target.setUrlPhoto((String) value);
-          return;
-        }
         if (property.equals("idTipoEmpleado")) {
           agent.target.setIdTipoEmpleado((Integer) value);
+          return;
+        }
+        if (property.equals("urlPhoto")) {
+          agent.target.setUrlPhoto((String) value);
           return;
         }
         if (property.equals("jefe")) {
