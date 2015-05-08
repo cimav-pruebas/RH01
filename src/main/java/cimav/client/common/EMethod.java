@@ -12,6 +12,8 @@ package cimav.client.common;
 public enum EMethod {
 
     FIND_ALL_BASE,
-    FIND_ALL;
+    FIND_ALL,
+    FIND_BY_ID,
+    UPDATE;
 
 }

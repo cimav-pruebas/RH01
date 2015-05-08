@@ -8,6 +8,7 @@ package cimav.client.view.empleados;
 import cimav.client.common.EMethod;
 import cimav.client.common.ETypeResult;
 import cimav.client.common.MethodEvent;
+import cimav.client.data.domain.BaseDomain;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.ESede;
@@ -45,6 +46,7 @@ import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.jboss.errai.databinding.client.api.DataBinder;
+import org.jboss.errai.databinding.client.api.InitialState;
 import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
 
@@ -104,7 +106,7 @@ public class EmpleadosEditorUI extends Composite {
     private final TextBox numSNITxtBox;
 
     // Model & DataBinder
-    private Empleado empleadoBean;
+    private Empleado empleadoSelected;
     private DataBinder<Empleado> empleadoBinder;
 
     public EmpleadosEditorUI() {
@@ -376,6 +378,7 @@ public class EmpleadosEditorUI extends Composite {
 //        editor.setWidget(3, 0, txt3);
 //        cellFormatter.setColSpan(3, 0, 2);
         saveBtn.addClickHandler(new SaveClickHandler());
+        cancelBtn.addClickHandler(new CancelClickHandler());
 
         EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
 
@@ -395,7 +398,7 @@ public class EmpleadosEditorUI extends Composite {
         //MyCustomDateConverter mcdc = new MyCustomDateConverter();
         try {
             empleadoBinder = DataBinder.forType(Empleado.class);
-            empleadoBean = empleadoBinder
+            empleadoSelected = empleadoBinder
                     .bind(nombreTxtBox, "nombre")
                     .bind(paternoTxtBox, "apellidoPaterno")
                     .bind(maternoTxtBox, "apellidoMaterno")
@@ -430,6 +433,13 @@ public class EmpleadosEditorUI extends Composite {
                 @Override
                 public void onPropertyChange(PropertyChangeEvent<Object> event) {
                     GWT.log("<<<>>> " + event.getPropertyName() + " >> " + event.getOldValue() + " >> " + event.getNewValue());
+                    
+                    EmpleadosProvider.get().dataProvider.refresh();
+                    
+                    empleadoSelected.becomesDirty();
+                    
+                    // becomes Dirty
+                    updateWidgets();
                 }
             });
 
@@ -459,12 +469,17 @@ public class EmpleadosEditorUI extends Composite {
         @Override
         public void onClick(ClickEvent event) {
 
-            boolean isNuevo = empleadoBean == null || empleadoBean.getId() == null || empleadoBean.getId() <= 0;
+            if (empleadoSelected == null) {
+                // TODO Alert empleadoBean is Null
+                return;
+            }
+            
+            boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
             if (isNuevo) {
-                EmpleadosProvider.get().add(empleadoBean);
+                EmpleadosProvider.get().add(empleadoSelected);
             } else {
                 // update
-                EmpleadosProvider.get().update(empleadoBean);
+                EmpleadosProvider.get().update(empleadoSelected);
             }
 
         }
@@ -474,6 +489,16 @@ public class EmpleadosEditorUI extends Composite {
 
         @Override
         public void onClick(ClickEvent event) {
+            if (empleadoSelected == null) {
+                // TODO Alert empleadoBean is Null
+                return;
+            }
+            boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
+            if (isNuevo) {
+            } else {
+                // cancelar update
+                EmpleadosProvider.get().reloadById(empleadoSelected.getId());
+            }
         }
     }
 
@@ -491,34 +516,46 @@ public class EmpleadosEditorUI extends Composite {
 
         @Override
         public void onMethodExecuted(MethodEvent methodEvent) {
-            if (EMethod.FIND_ALL.equals(methodEvent.getMethod())) {
+            if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
-                    Growl.growl("Carga de registros");
+                    Growl.growl("Registro actualizado");
+                    
+                    // Si actualizó bien, envia el Bean al Provider
+                    int idx = EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoSelected);
+                    EmpleadosProvider.get().getDataProvider().getList().set(idx, empleadoSelected);
+                    
+                    empleadoSelected.cleanDirty();
+                    
                 } else {
-                    Growl.growl("Falló carga de registros");
+                    Growl.growl("Falló actualización");
+                }
+                updateWidgets();
+            } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    Growl.growl("Registro cancelado");
+                    Empleado empCancelado = (Empleado) methodEvent.getResult();
+                    setSelectedBean(empCancelado);
+                } else {
+                    Growl.growl("Falló cancelación");
                 }
             }
-//            else if (ProviderMethod.CREATE.equals(dbEvent.getDbMethod())) {
-//                if (TypeResult.SUCCESS.equals(dbEvent.getDbTypeResult())) {
-//                    Growl.growl("Registro agregado");
-//                } else {
-//                    Growl.growl("Falló creación de registro");
-//                }
-//            } else if (ProviderMethod.UPDATE.equals(dbEvent.getDbMethod())) {
-//                if (TypeResult.SUCCESS.equals(dbEvent.getDbTypeResult())) {
-//                    Growl.growl("Registro actualizado");
-//                } else {
-//                    Growl.growl("Falló acctualización");
-//                }
-//            }
         }
     }
 
 ////            String urlPhoto = "http://cimav.edu.mx/foto/" + empleadoBean.getCuentaCimav();
 ////            empleadoBean.setUrlPhoto(urlPhoto);
+    
     public void setSelectedBean(Empleado empleadoSelected) {
-        empleadoBean = empleadoSelected;
-        empleadoBinder.setModel(empleadoBean);
+        this.empleadoSelected = empleadoSelected;
+        this.empleadoBinder.setModel(this.empleadoSelected);//, InitialState.FROM_MODEL, true);
     }
-
+    
+    private void updateWidgets() {
+        
+        GWT.log("}}}}} " + this.empleadoSelected.isDirty());
+        
+        this.cancelBtn.setEnabled(empleadoSelected != null);
+        this.saveBtn.setEnabled(empleadoSelected != null);
+    }
+    
 }

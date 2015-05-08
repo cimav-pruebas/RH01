@@ -23,6 +23,10 @@ public class BaseREST {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
     }
     
+    public static void setDateFormatPOST() {
+        org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+    }
+    
 //    private static BaseREST instance;
 //
 //    public static BaseREST get() {

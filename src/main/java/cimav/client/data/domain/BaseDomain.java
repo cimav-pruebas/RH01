@@ -19,6 +19,8 @@ import org.jboss.errai.databinding.client.api.Bindable;
 @Bindable
 public class BaseDomain implements Comparable<BaseDomain> {
 
+    private Boolean isDirty;
+            
     private Integer id;
 
     @Pattern(regexp = "^[A-Z][a-zA-Z]{1,7}$", message = "Código debe ser de 2 a 8 letras empezando con mayúscula.")
@@ -29,6 +31,7 @@ public class BaseDomain implements Comparable<BaseDomain> {
 
     public BaseDomain() {
         this.id = -1; // evita que la Gwt-Validation falle por nulo
+        this.isDirty = false;
     }
 
     /**
@@ -79,6 +82,17 @@ public class BaseDomain implements Comparable<BaseDomain> {
         this.name = name;
     }
 
+    public Boolean isDirty() {
+        return isDirty;
+    }
+
+    public void becomesDirty() {
+        this.isDirty = true;
+    }
+    public void cleanDirty() {
+        this.isDirty = false;
+    }
+    
     @Override
     public String toString() {
         return "BaseDomain{" + "id=" + id + ", code=" + code + '}';

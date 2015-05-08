@@ -77,7 +77,7 @@ public class Empleado extends BaseDomain {
 //    }
     
     public Empleado() {
-
+        
         this.status = EStatusEmpleado.ACTIVO;
         this.tipoEmpleado = ETipoEmpleado.NORMAL;
         this.tipoContrato = ETipoContrato.DETERMINADO;
@@ -92,7 +92,6 @@ public class Empleado extends BaseDomain {
         this.tipoAntiguedad = ETipoAntiguedad.ADMINISTRATIVA;
         this.tipoSNI = ETipoSNI.NO_APLICA;
     }
-    
 
     public EBanco getBanco() {
         return banco;
@@ -414,5 +413,5 @@ public class Empleado extends BaseDomain {
     public void setFechaSni(Date fechaSni) {
         this.fechaSni = fechaSni;
     }
-    
+
 }

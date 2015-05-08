@@ -6,6 +6,7 @@
 package cimav.client.view.empleados;
 
 import cimav.client.common.EMethod;
+import cimav.client.common.ETypeResult;
 import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.Empleado;
 import cimav.client.view.provider.EmpleadosProvider;
@@ -32,6 +33,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.IconFlip;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -87,6 +89,7 @@ public class EmpleadosUI extends Composite {
         // Add the CellList to the adapter in the database.
         EmpleadosProvider.get().addDataDisplay(cellList);
 
+        // Escucha los metodos y las acciones (find_all, update, create, save, reloadById, etc.)
         EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
 
         reloadBtn.setIconFlip(IconFlip.HORIZONTAL);
@@ -176,13 +179,12 @@ public class EmpleadosUI extends Composite {
 
                 EmpleadosUI.this.filtrar();
 
+                if (ETypeResult.SUCCESS.equals(event.getTypeResult())) {
+                    Growl.growl("Carga de registros realizada");
+                } else {
+                    Growl.growl("Falló carga de registros");
+                }
             }
-//            else if (ProviderMethod.CREATE.equals(dbEvent.getDbMethod())) {
-//                if (TypeResult.SUCCESS.equals(dbEvent.getDbTypeResult())) {
-//                    Empleado nuevoEmpleado = (Empleado) dbEvent.getResult();
-//                    selectionModel.setSelected(nuevoEmpleado, true);
-//                }
-//            }
         }
     }
 
@@ -210,6 +212,7 @@ public class EmpleadosUI extends Composite {
             String deptoNameStr = value.getDepartamento() != null ? value.getDepartamento().getName() : es_null;
             String nivelStr = value.getNivel() != null ? value.getNivel().getCode() : es_null;
             String sedeStr = value.getSede() != null ? value.getSede().getAbrev() : es_null;
+            sedeStr = value.isDirty() != null ? value.isDirty().toString() : es_null;
 
             String html
                     = "<table width='100%' cellspacing='0' cellpadding='0' style='cursor: pointer; text-align: left; vertical-align: middle; border-bottom:1px solid lightgray;'>\n"
@@ -311,6 +314,10 @@ public class EmpleadosUI extends Composite {
             if (event.getSource() instanceof SingleSelectionModel) {
                 SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
                 Empleado empleadoSelected = (Empleado) selModel.getSelectedObject();
+                
+                GWT.log("Sel: " + empleadoSelected);
+                
+                // incluyendo Null
                 empleadosEditorUI.setSelectedBean(empleadoSelected);
 
                 // Mostrar editor sólo cuando hay seleccionado
@@ -318,5 +325,5 @@ public class EmpleadosUI extends Composite {
             }
         }
     }
-
+    
 }

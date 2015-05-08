@@ -112,5 +112,69 @@ public class EmpleadoREST extends BaseREST {
 
     }
 
-    // </editor-fold>
+    public void findById(int id) {
+
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Empleado empleado = empleadoJsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "");
+                    dbEvent.setResult(empleado);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, e.getMessage());
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+    
+    public void update(Empleado empleado) {
+
+        BaseREST.setDateFormatPOST();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado";
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        //Create a Jsonizer instance
+        JSONValue empleadoJSONValue = empleadoJsonCodec.encode(empleado);
+
+        Resource rb = new Resource(url, headers); 
+        rb.put().json(empleadoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                // No regresa nada
+                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.SUCCESS, "update listo");
+                onRESTExecuted(dbEvent);
+            }
+        }));
+
+    }
+
 }

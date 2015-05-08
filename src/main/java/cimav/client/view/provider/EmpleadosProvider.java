@@ -134,15 +134,38 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
 
         @Override
         public void onRESTExecuted(MethodEvent methodEvent) {
-            
             if (EMethod.FIND_ALL.equals(methodEvent.getMethod())) {
+                // reemplaza todos
                 dataProvider.getList().clear();
-
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     List<Empleado> empleados = (List<Empleado>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
                 }
+                
+                onMethodExecuted(methodEvent);
+                
+            } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
+//                // en methodEvent.getResult() va el Empleado recargado
+//                // pero no requiere pasarlo al binding dado que es el mismo cambiado
+//                // actualizar el dataProvider
+//                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) { 
+//                    Empleado empleadoUpdated = (Empleado) methodEvent.getResult();
+//                    int idx = dataProvider.getList().indexOf(empleadoUpdated);
+//                    dataProvider.getList().set(idx, empleadoUpdated);
+//                }
+                onMethodExecuted(methodEvent); 
+            } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    // re-carga el provider con el empleado reloaded
+                    Empleado reloaded = (Empleado) methodEvent.getResult();
+                    int idx = dataProvider.getList().indexOf(reloaded);
+                    dataProvider.getList().set(idx, reloaded);
+                }
+
+                // en methodEvent.getResult() va el Empleado recargado para pasarlo al binding
+                onMethodExecuted(methodEvent); // <-- usa el mismo methodEvent
             }
+            
         }
     }
 
@@ -155,9 +178,13 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
     }
 
     public void update(Empleado empleado) {
-        
+        this.getREST().update(empleado);
     }
-
+    
+    public void reloadById(int idEmpleado) {
+        this.getREST().findById(idEmpleado);
+    }
+    
 //    public void delete(Empleado empleado) {
 //        if (empleado == null || empleado.getId() <= 0) {
 //            Growl.growl("Empleado nulo");
