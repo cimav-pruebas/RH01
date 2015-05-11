@@ -8,7 +8,6 @@ package cimav.client.view.empleados;
 import cimav.client.common.EMethod;
 import cimav.client.common.ETypeResult;
 import cimav.client.common.MethodEvent;
-import cimav.client.data.domain.BaseDomain;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.ESede;
@@ -46,7 +45,6 @@ import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.jboss.errai.databinding.client.api.DataBinder;
-import org.jboss.errai.databinding.client.api.InitialState;
 import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
 
@@ -395,6 +393,9 @@ public class EmpleadosEditorUI extends Composite {
         fechaBajaDatePicker.setFormat(dtf);
         fechaAntiguedadDatePicker.setFormat(dtf);
 
+        // deshabilitado
+        //this.setActive(false);
+        
         //MyCustomDateConverter mcdc = new MyCustomDateConverter();
         try {
             empleadoBinder = DataBinder.forType(Empleado.class);
@@ -429,25 +430,26 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(numSNITxtBox, "numSni")
                     .getModel();
 
-            empleadoBinder.addPropertyChangeHandler(new PropertyChangeHandler<Object>() {
-                @Override
-                public void onPropertyChange(PropertyChangeEvent<Object> event) {
-                    GWT.log("<<<>>> " + event.getPropertyName() + " >> " + event.getOldValue() + " >> " + event.getNewValue());
-                    
-                    EmpleadosProvider.get().dataProvider.refresh();
-                    
-                    empleadoSelected.becomesDirty();
-                    
-                    // becomes Dirty
-                    updateWidgets();
-                }
-            });
+            empleadoBinder.addPropertyChangeHandler(new BinderPropertyChange());
 
         } catch (Exception e) {
             GWT.log(e.getMessage());
         }
     }
 
+    private class BinderPropertyChange implements PropertyChangeHandler<Object> {
+        @Override
+        public void onPropertyChange(PropertyChangeEvent<Object> event) {
+            GWT.log("<<<>>> " + event.getPropertyName() + " >> " + event.getOldValue() + " >> " + event.getNewValue());
+
+            EmpleadosProvider.get().dataProvider.refresh();
+
+            // becomes Dirty
+            empleadoSelected.becomesDirty();
+            updateWidgets();
+        }
+    }
+    
 //@DefaultConverter
 //public class MyCustomDateConverter implements Converter<Date, String> {
 // 
@@ -507,7 +509,7 @@ public class EmpleadosEditorUI extends Composite {
      * muestra el glass. El glass es un panel que se antepone o pospone segun
      * sea el caso.
      */
-    public void setActive(boolean active) {
+    private void setActive(boolean active) {
         int z_index_val = active ? -200 : 200;
         panelEditorGlass.getElement().getStyle().setZIndex(z_index_val);
     }
@@ -520,25 +522,36 @@ public class EmpleadosEditorUI extends Composite {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     Growl.growl("Registro actualizado");
                     
-                    // Si actualizó bien, envia el Bean al Provider
-                    int idx = EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoSelected);
-                    EmpleadosProvider.get().getDataProvider().getList().set(idx, empleadoSelected);
-                    
+                    // Si actualizó bien:
+                    // toma el Bean
+                    //int idx = EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoSelected);
+                    // limpia el Bean
                     empleadoSelected.cleanDirty();
+                    // lo pasa al Provider
+//                    EmpleadosProvider.get().getDataProvider().getList().set(idx, empleadoSelected);
                     
                 } else {
                     Growl.growl("Falló actualización");
                 }
+                
                 updateWidgets();
+                
             } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     Growl.growl("Registro cancelado");
                     Empleado empCancelado = (Empleado) methodEvent.getResult();
+                    // recarga el empleado desde la DB
+                    // viene clean
+                    // lo asigna al Bean
                     setSelectedBean(empCancelado);
+                    
                 } else {
                     Growl.growl("Falló cancelación");
                 }
+                
+                updateWidgets();
             }
+
         }
     }
 
@@ -547,15 +560,17 @@ public class EmpleadosEditorUI extends Composite {
     
     public void setSelectedBean(Empleado empleadoSelected) {
         this.empleadoSelected = empleadoSelected;
-        this.empleadoBinder.setModel(this.empleadoSelected);//, InitialState.FROM_MODEL, true);
+        
+        this.updateWidgets();
+        
+        this.empleadoBinder.setModel(this.empleadoSelected != null ? this.empleadoSelected : new Empleado());//, InitialState.FROM_MODEL, true);
     }
     
     private void updateWidgets() {
+        this.setActive(empleadoSelected != null);
         
-        GWT.log("}}}}} " + this.empleadoSelected.isDirty());
-        
-        this.cancelBtn.setEnabled(empleadoSelected != null);
-        this.saveBtn.setEnabled(empleadoSelected != null);
+        this.cancelBtn.setEnabled(empleadoSelected != null && this.empleadoSelected.isDirty());
+        this.saveBtn.setEnabled(empleadoSelected != null && this.empleadoSelected.isDirty());
     }
     
 }

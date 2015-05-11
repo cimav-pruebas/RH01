@@ -135,13 +135,17 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
         @Override
         public void onRESTExecuted(MethodEvent methodEvent) {
             if (EMethod.FIND_ALL.equals(methodEvent.getMethod())) {
-                // reemplaza todos
+                
+                // tumbar a todos. 
                 dataProvider.getList().clear();
+                
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    // si no hubo problema, pasa la lista resultante al Provider
                     List<Empleado> empleados = (List<Empleado>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
                 }
                 
+                // le avisa al EmpleadoUI
                 onMethodExecuted(methodEvent);
                 
             } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {

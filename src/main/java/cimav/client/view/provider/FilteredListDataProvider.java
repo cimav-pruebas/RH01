@@ -62,6 +62,9 @@ public class FilteredListDataProvider<T> extends ListDataProvider<T> {
                 int realEnd = curEnd > end ? end : curEnd;
                 int realLength = realEnd - realStart;
                 List<T> resulted = new ArrayList<T>(realLength);
+                
+                //TODO Si esta filtrada, despues de un Cancel solo deja un registro.
+                
                 for (int i = realStart - start; i < realStart - start + realLength; i++) {
                     if (filter.matchFilter((T) values.get(i), getFilter())) {
                         resulted.add((T) values.get(i));

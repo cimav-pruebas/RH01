@@ -115,9 +115,6 @@ public class EmpleadosUI extends Composite {
             }
         });
 
-        // de inicio, el Editor no tiene seleccionando y por tanto no es visible
-        this.showEditor(false);
-
         // orden inicial
         orderBy = EmpleadosProvider.ORDER_BY_NAME;
         // filtro inicial
@@ -165,6 +162,7 @@ public class EmpleadosUI extends Composite {
     }
 
     private void reloadAll() {
+        // ReCargar todos los empleados
         EmpleadosProvider.get().findAll();
     }
 
@@ -212,7 +210,7 @@ public class EmpleadosUI extends Composite {
             String deptoNameStr = value.getDepartamento() != null ? value.getDepartamento().getName() : es_null;
             String nivelStr = value.getNivel() != null ? value.getNivel().getCode() : es_null;
             String sedeStr = value.getSede() != null ? value.getSede().getAbrev() : es_null;
-            sedeStr = value.isDirty() != null ? value.isDirty().toString() : es_null;
+            //sedeStr = value.isDirty() != null ? value.isDirty().toString() : es_null;
 
             String html
                     = "<table width='100%' cellspacing='0' cellpadding='0' style='cursor: pointer; text-align: left; vertical-align: middle; border-bottom:1px solid lightgray;'>\n"
@@ -237,7 +235,7 @@ public class EmpleadosUI extends Composite {
                     + " <code class=\"label-cyt-grp-niv\"><span >NIVEL_REEMPLAZO</span></code> "
                     + " <code class=\"label-cyt-grp-niv\"><span >SEDE_REEMPLAZO</span></code> "
                     + " <code class=\"label-cyt-grp-niv\"><span >DEPTO_CODIGO_REEMPLAZO</span></code> "
-                    //                    + " <code class=\"label-cyt-grp-niv\"><span >ID_REEMPLAZO</span></code> "
+                                        + " <code class=\"label-cyt-grp-niv\"><span >ID_REEMPLAZO</span></code> "
                     + "    </td>\n"
                     //                    + "    <td style='text-align: right;'><i class='fa fa-info-circle fa-lg' style='opacity: 0.5; padding-right: 5px;'></i></td>\n"
                     + "  </tr>\n"
@@ -259,11 +257,13 @@ public class EmpleadosUI extends Composite {
 //                        "style = 'position: relative; float: right; top: 4px; width: 14px; height: 14px; border-top: 3px solid #628cd5;\n" +
 //                                                                 "-moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -webkit-transform: rotate(45deg);\n" +
 //                                                                 "transform: rotate(45deg); overflow: hidden; right: 8px; border-right: 3px solid #628cd5;' ");
+            } else if (value.isDirty() != null && value.isDirty()) {
+                html = html.replace("SELECTED_COLOR_REEMPLAZO", "background-color: lightgray;");
             } else {
                 html = html.replace("SELECTED_COLOR_REEMPLAZO", "background-color: #F8F8F8;");
 //                html = html.replace("STYLE_INDICADOR_REEMPLAZO", "");
             }
-
+            
             html = html.replace("CODE_REEMPLAZO", value.getCode());
             html = html.replace("URL_FOTO_REEMPLAZO", value.getUrlPhoto());
             html = html.replace("APELLIDOS_REEMPLAZO", EmpleadosUI.ellipse(value.getApellidoPaterno(), 18) + " " + EmpleadosUI.ellipse(value.getApellidoMaterno(), 18));
@@ -303,10 +303,6 @@ public class EmpleadosUI extends Composite {
         return value;
     }
 
-    private void showEditor(boolean show) {
-        empleadosEditorUI.setActive(show);
-    }
-
     private class SelectionHandler implements SelectionChangeEvent.Handler {
 
         @Override
@@ -319,9 +315,6 @@ public class EmpleadosUI extends Composite {
                 
                 // incluyendo Null
                 empleadosEditorUI.setSelectedBean(empleadoSelected);
-
-                // Mostrar editor sólo cuando hay seleccionado
-                EmpleadosUI.this.showEditor(empleadoSelected != null);
             }
         }
     }
