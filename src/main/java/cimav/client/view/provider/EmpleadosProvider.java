@@ -148,6 +148,12 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
                 // le avisa al EmpleadoUI
                 onMethodExecuted(methodEvent);
                 
+            } else if (EMethod.CREATE.equals(methodEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    Empleado created = (Empleado) methodEvent.getResult();
+                    dataProvider.getList().add(created);
+                }
+                onMethodExecuted(methodEvent); 
             } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
 //                // en methodEvent.getResult() va el Empleado recargado
 //                // pero no requiere pasarlo al binding dado que es el mismo cambiado
@@ -178,7 +184,7 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
     }
     
     public void add(Empleado empleado) {
-        
+        this.getREST().add(empleado);
     }
 
     public void update(Empleado empleado) {

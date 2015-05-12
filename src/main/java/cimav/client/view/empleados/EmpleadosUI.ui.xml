@@ -54,7 +54,7 @@ Uncomment this for XHTML entities
                     </g:center>
                     <g:south size="52">
                         <b3:Tooltip title="Agregar empleado nuevo" placement="LEFT">
-                            <b3:Button ui:field="addBtn" type="SUCCESS" icon="PLUS" addStyleNames="{style.add-btn}"/> 
+                            <b3:Button ui:field="addBtn" type="SUCCESS" icon="PLUS"/> 
                         </b3:Tooltip> 
                     </g:south> 
                 </g:DockLayoutPanel>

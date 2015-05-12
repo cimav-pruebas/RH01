@@ -103,7 +103,10 @@ public class EmpleadosUI extends Composite {
         addBtn.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-
+                
+                flgInsertarNuevo = true;
+                selectionModel.setSelected(null, true);   
+                
             }
         });
 
@@ -124,6 +127,8 @@ public class EmpleadosUI extends Composite {
         reloadAll();
     }
 
+    private boolean flgInsertarNuevo = false;
+    
     private void filtrar() {
         final String txtToSearch = searchTxt.getText();
         EmpleadosProvider.get().getDataProvider().setFilter(txtToSearch);
@@ -308,8 +313,17 @@ public class EmpleadosUI extends Composite {
         @Override
         public void onSelectionChange(SelectionChangeEvent event) {
             if (event.getSource() instanceof SingleSelectionModel) {
-                SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
-                Empleado empleadoSelected = (Empleado) selModel.getSelectedObject();
+
+                Empleado empleadoSelected;
+                
+                if (flgInsertarNuevo) {
+                    flgInsertarNuevo = false;
+                    empleadoSelected = new Empleado();
+                    empleadosEditorUI.setSelectedBean(empleadoSelected);
+                } else {
+                    SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
+                    empleadoSelected = (Empleado) selModel.getSelectedObject();
+                }
                 
                 GWT.log("Sel: " + empleadoSelected);
                 

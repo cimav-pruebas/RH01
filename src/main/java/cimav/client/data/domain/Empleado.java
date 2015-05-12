@@ -91,6 +91,8 @@ public class Empleado extends BaseDomain {
         
         this.tipoAntiguedad = ETipoAntiguedad.ADMINISTRATIVA;
         this.tipoSNI = ETipoSNI.NO_APLICA;
+        
+        this.sede = ESede.CHIHUAHUA;
     }
 
     public EBanco getBanco() {

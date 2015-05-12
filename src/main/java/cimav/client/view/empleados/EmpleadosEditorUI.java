@@ -375,6 +375,7 @@ public class EmpleadosEditorUI extends Composite {
 //        cellFormatter.setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_LEFT);
 //        editor.setWidget(3, 0, txt3);
 //        cellFormatter.setColSpan(3, 0, 2);
+        
         saveBtn.addClickHandler(new SaveClickHandler());
         cancelBtn.addClickHandler(new CancelClickHandler());
 
@@ -466,6 +467,7 @@ public class EmpleadosEditorUI extends Composite {
 //    return DateTimeFormat.getFormat(DATE_FORMAT).format((Date) modelValue);
 //  }
 //}    
+    
     private class SaveClickHandler implements ClickHandler {
 
         @Override
@@ -478,6 +480,7 @@ public class EmpleadosEditorUI extends Composite {
             
             boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
             if (isNuevo) {
+                // add
                 EmpleadosProvider.get().add(empleadoSelected);
             } else {
                 // update
@@ -497,6 +500,7 @@ public class EmpleadosEditorUI extends Composite {
             }
             boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
             if (isNuevo) {
+                setSelectedBean(null);
             } else {
                 // cancelar update
                 EmpleadosProvider.get().reloadById(empleadoSelected.getId());
@@ -518,7 +522,16 @@ public class EmpleadosEditorUI extends Composite {
 
         @Override
         public void onMethodExecuted(MethodEvent methodEvent) {
-            if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
+            if (EMethod.CREATE.equals(methodEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    Growl.growl("Registro nuevo agregado");
+                    Empleado empCreado = (Empleado) methodEvent.getResult();
+                    setSelectedBean(empCreado);
+                } else {
+                    Growl.growl("Falló creación de registro nuevo");
+                    setSelectedBean(null);
+                }
+            } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     Growl.growl("Registro actualizado");
                     
@@ -564,6 +577,8 @@ public class EmpleadosEditorUI extends Composite {
         this.updateWidgets();
         
         this.empleadoBinder.setModel(this.empleadoSelected != null ? this.empleadoSelected : new Empleado());//, InitialState.FROM_MODEL, true);
+        
+        this.nombreTxtBox.setFocus(true);
     }
     
     private void updateWidgets() {

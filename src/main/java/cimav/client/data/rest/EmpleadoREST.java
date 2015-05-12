@@ -147,6 +147,37 @@ public class EmpleadoREST extends BaseREST {
 
     }
     
+    public void add(Empleado empleado) {
+
+        BaseREST.setDateFormatPOST();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado";
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        //Create a Jsonizer instance
+        JSONValue empleadoJSONValue = empleadoJsonCodec.encode(empleado);
+        
+        Resource rb = new Resource(url, headers);
+        rb.post().json(empleadoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "listo");
+                Empleado nuevoEmpleado = empleadoJsonCodec.decode(response);
+                dbEvent.setResult(nuevoEmpleado);
+                onRESTExecuted(dbEvent);
+            }
+        }));
+
+    }
+    
     public void update(Empleado empleado) {
 
         BaseREST.setDateFormatPOST();
