@@ -21,18 +21,20 @@ import org.jboss.errai.databinding.client.BindableProxyLoader;
  */
 public class MainEntryPoint implements EntryPoint {
 
-//    static {
-//
-//        /* Default initialize for RestyGWT */
-//        Defaults.setServiceRoot(GWT.getHostPageBaseURL());
-//        Defaults.ignoreJsonNulls();
-//        String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-//        Defaults.setDateFormat(DATEFORMAT); //2015-01-14T00:00:00-0700
-//    }
+    static {
+
+        /* Default initialize for RestyGWT */
+        Defaults.setServiceRoot(GWT.getHostPageBaseURL());
+        Defaults.ignoreJsonNulls();
+        String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+        Defaults.setDateFormat(DATEFORMAT); //2015-01-14T00:00:00-0700
+    }
     
     // Vistas UI
     private final MainUI mainUi;
     private EmpleadosUI empleadosUI;
+    
+//    public static Modal myModal;
     
     /**
      * Creates a new instance of MainEntryPoint
@@ -56,6 +58,22 @@ public class MainEntryPoint implements EntryPoint {
             }
         });
         
+//        myModal = new Modal();
+//        myModal.setTitle("The Title...");
+//        myModal.ensureDebugId("myModal");
+//        myModal.setBackdrop(BackdropType.STATIC);
+//        myModal.setCloseVisible(true);
+//        myModal.setDynamicSafe(true);
+//        myModal.hide();
+////        Style sty = new Style() {
+////            @Override
+////            public String get() {
+////                return "top: 10%; left:50%; width:560px; height:400px;   background-color: red;";
+////            }
+////        };
+////        myModal.setStyle(sty);
+//        
+//        RootLayoutPanel.get().add(myModal);
         RootLayoutPanel.get().add(mainUi);
         
         mainUi.addOptionMenuChangeListener(new MainUI.OptionMenuChangeListener() {

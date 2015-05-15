@@ -2,11 +2,14 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:b2="urn:import:com.github.gwtbootstrap.client.ui"
+             xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
 >
     
     <ui:style src="mainUI.css" /> 
         
-    <g:DockLayoutPanel unit='PX'>
+    <g:HTMLPanel styleName="{style.main-html-panel}">
+
+    <g:DockLayoutPanel unit='PX' styleName="{style.main-dock-layout-panel}">
         
         <g:north size='60'>
             <g:AbsolutePanel styleName="{style.north-panel}">
@@ -65,4 +68,5 @@
         
     </g:DockLayoutPanel>
     
+    </g:HTMLPanel>
 </ui:UiBinder>

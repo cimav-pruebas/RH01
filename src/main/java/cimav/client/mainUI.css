@@ -19,7 +19,23 @@ html, body {
     // margin, padding y border en 0 hacen que NO aparezca el SCROLL INCOMODO
     // y que los componentes internos no se "COMAN UN PEDACITO" del margen y padding
 }
-
+.main-html-panel {
+    height: 100%;
+}
+.main-dock-layout-panel {
+    position: initial !important;
+}
+.my-modal {
+    
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #000;
+}
 .north-panel {
     border-top: 3px solid red;
     border-bottom: 1px solid gray;

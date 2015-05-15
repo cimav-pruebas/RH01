@@ -44,7 +44,7 @@ public class EmpleadoREST extends BaseREST {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, "FindAll " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
@@ -58,11 +58,12 @@ public class EmpleadoREST extends BaseREST {
                         Empleado empleado = empleadoJsonCodec.decode(val);
                         empleados.add(empleado);
                     }
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.SUCCESS, "");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.SUCCESS, "findAll listo");
                     dbEvent.setResult(empleados);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, e.getMessage());
+                    String error = "findAll empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }
@@ -85,7 +86,7 @@ public class EmpleadoREST extends BaseREST {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, "FindAllBase " +  exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
@@ -99,11 +100,12 @@ public class EmpleadoREST extends BaseREST {
                         Empleado empleado = empleadoJsonCodec.decode(val);
                         empleados.add(empleado);
                     }
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.SUCCESS, "");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.SUCCESS, "findAddBase listo");
                     dbEvent.setResult(empleados);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, e.getMessage());
+                    String error = "findAllBase empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }
@@ -126,7 +128,7 @@ public class EmpleadoREST extends BaseREST {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, "FindById " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
@@ -134,11 +136,12 @@ public class EmpleadoREST extends BaseREST {
             public void onSuccess(Method method, JSONValue response) {
                 try {
                     Empleado empleado = empleadoJsonCodec.decode(response);
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "findById listo");
                     dbEvent.setResult(empleado);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, e.getMessage());
+                    String error = "findById empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }
@@ -149,7 +152,8 @@ public class EmpleadoREST extends BaseREST {
     
     public void add(Empleado empleado) {
 
-        BaseREST.setDateFormatPOST();
+        //BaseREST.setDateFormatPOST();
+        BaseREST.setDateFormatGET();
 
         String url = BaseREST.URL_REST_BASE + "api/empleado";
 
@@ -163,16 +167,22 @@ public class EmpleadoREST extends BaseREST {
         rb.post().json(empleadoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, "Add " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
             @Override
             public void onSuccess(Method method, JSONValue response) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "listo");
-                Empleado nuevoEmpleado = empleadoJsonCodec.decode(response);
-                dbEvent.setResult(nuevoEmpleado);
-                onRESTExecuted(dbEvent);
+                try {
+                    Empleado nuevoEmpleado = empleadoJsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
+                    dbEvent.setResult(nuevoEmpleado);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "create empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
             }
         }));
 
@@ -194,15 +204,21 @@ public class EmpleadoREST extends BaseREST {
         rb.put().json(empleadoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, "Update " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
             @Override
             public void onSuccess(Method method, JSONValue response) {
-                // No regresa nada
-                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.SUCCESS, "update listo");
-                onRESTExecuted(dbEvent);
+                try {
+                    // No regresa nada
+                    MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.SUCCESS, "update listo");
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "update empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
             }
         }));
 

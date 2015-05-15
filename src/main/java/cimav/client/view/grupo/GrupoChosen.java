@@ -15,13 +15,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.io.IOException;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.ValueListBox;
-import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -76,7 +76,7 @@ public class GrupoChosen extends Composite {
                         chosen.setAcceptableValues(grupos);
                         
                     } else {
-                        Growl.growl("Falló la carga de Grupos");
+                        Window.alert("Falló carga de Grupos");
                     }
                 }
             }

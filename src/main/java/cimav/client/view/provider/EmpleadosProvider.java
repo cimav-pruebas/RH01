@@ -11,8 +11,10 @@ import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.Window;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -143,6 +145,13 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
                     // si no hubo problema, pasa la lista resultante al Provider
                     List<Empleado> empleados = (List<Empleado>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
+                    
+                    for(Empleado emp : empleados) {
+                        GWT.log(">>>> " + emp.toString());
+                    }
+                    
+                } else {
+                    Window.alert("Falló cargada de empleados: " + methodEvent.getReason());
                 }
                 
                 // le avisa al EmpleadoUI

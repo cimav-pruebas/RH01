@@ -13,6 +13,7 @@ import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
+import cimav.client.view.FechaDateBox;
 import cimav.client.view.empleados.credito.CreditoInputGroup;
 import cimav.client.view.departamento.DeptoChosen;
 import cimav.client.view.empleados.jefe.JefeChosen;
@@ -26,16 +27,15 @@ import cimav.client.view.tabulador.TabuladorChosen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -87,12 +87,12 @@ public class EmpleadosEditorUI extends Composite {
     // laboral
     private final ValueListBox<ESede> sedeChosen;
     private final DeptoChosen deptoChosen;
-    private final DateBox fechaIngresoDatePicker = new DateBox();
-    private final DateBox fechaContratoFinDatePicker = new DateBox();
-    private final DateBox fechaContratoInicioDatePicker = new DateBox();
-    private final DateBox fechaBajaDatePicker = new DateBox();
-    private final DateBox fechaAntiguedadDatePicker = new DateBox();
-    private final DateBox fechaSNIDatePicker = new DateBox();
+    private final FechaDateBox fechaIngresoDatePicker = new FechaDateBox();
+    private final FechaDateBox fechaContratoFinDatePicker = new FechaDateBox();
+    private final FechaDateBox fechaContratoInicioDatePicker = new FechaDateBox();
+    private final FechaDateBox fechaBajaDatePicker = new FechaDateBox();
+    private final FechaDateBox fechaAntiguedadDatePicker = new FechaDateBox();
+    private final FechaDateBox fechaSNIDatePicker = new FechaDateBox();
     private final ValueListBox<EStatusEmpleado> statusEmpladoChose;
     private final JefeChosen jefeChosen;
     private final GrupoChosen grupoChosen;
@@ -209,7 +209,7 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorGeneral.setWidget(7, 2, imssClinicaChosen);
 
         flexEditorGeneral.setWidget(8, 0, new HTML(htmlRowSpc));
-        flexEditorGeneral.setHTML(9, 0, "Crédito");
+        flexEditorGeneral.setHTML(9, 0, "CrÃ©dito");
         flexEditorGeneral.setWidget(10, 0, creditoInputGroup);
 
         flexEditorGeneral.setWidget(11, 0, new HTML(htmlRowSpc));
@@ -355,7 +355,7 @@ public class EmpleadosEditorUI extends Composite {
         row++;
         flexEditorLaboral.setHTML(row, 0, "Nivel SNI");
         flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
-        flexEditorLaboral.setHTML(row, 2, "Núm SNI");
+        flexEditorLaboral.setHTML(row, 2, "NÃºm SNI");
         flexEditorLaboral.setWidget(row, 3, new HTML(htmlColSpc));
         flexEditorLaboral.setHTML(row, 4, "Fecha SNI");
         row++;
@@ -366,11 +366,11 @@ public class EmpleadosEditorUI extends Composite {
         cellFormatterLaboral.setColSpan(row, 0, 5);
         flexEditorLaboral.setWidget(row, 0, new HTML("<span style='padding-bottom: 10px; display: block; border-bottom: 1px solid lightgray;;'></span>"));
         row++;
-        flexEditorLaboral.setHTML(row, 0, "Número estímulos");
+        flexEditorLaboral.setHTML(row, 0, "NÃºmero estÃ­mulos");
         row++;
         flexEditorLaboral.setWidget(row, 0, new Label("Not Yet..."));
 
-//        editor.setHTML(2, 0, "Descripción");
+//        editor.setHTML(2, 0, "DescripciÃ³n");
 //        cellFormatter.setColSpan(2, 0, 2);
 //        cellFormatter.setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_LEFT);
 //        editor.setWidget(3, 0, txt3);
@@ -381,23 +381,7 @@ public class EmpleadosEditorUI extends Composite {
 
         EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
 
-//        EmpleadoValueHandle valueChange = new EmpleadoValueHandle();
-//        nombreTxtBox.addValueChangeHandler(valueChange);
-//        paternoTxtBox.addValueChangeHandler(valueChange);
-
-        DateTimeFormat df = DateTimeFormat.getFormat("dd/MM/yyyy");
-        DateBox.Format dtf = new DateBox.DefaultFormat(df);
-        fechaIngresoDatePicker.setFormat(dtf);
-        fechaSNIDatePicker.setFormat(dtf);
-        fechaContratoFinDatePicker.setFormat(dtf);
-        fechaContratoInicioDatePicker.setFormat(dtf);
-        fechaBajaDatePicker.setFormat(dtf);
-        fechaAntiguedadDatePicker.setFormat(dtf);
-
-        // deshabilitado
-        //this.setActive(false);
-        
-        //MyCustomDateConverter mcdc = new MyCustomDateConverter();
+        /* Binding */
         try {
             empleadoBinder = DataBinder.forType(Empleado.class);
             empleadoSelected = empleadoBinder
@@ -450,23 +434,6 @@ public class EmpleadosEditorUI extends Composite {
             updateWidgets();
         }
     }
-    
-//@DefaultConverter
-//public class MyCustomDateConverter implements Converter<Date, String> {
-// 
-//  private static final String DATE_FORMAT = "DD_MM_YYYY";
-// 
-//  @Override
-//  public Date toModelValue(String widgetValue) {
-//      Date result = DateTimeFormat.getFormat(DATE_FORMAT).parse(widgetValue);
-//      return result;
-//  }
-// 
-//  @Override
-//  public String toWidgetValue(Date modelValue) {
-//    return DateTimeFormat.getFormat(DATE_FORMAT).format((Date) modelValue);
-//  }
-//}    
     
     private class SaveClickHandler implements ClickHandler {
 
@@ -522,20 +489,22 @@ public class EmpleadosEditorUI extends Composite {
 
         @Override
         public void onMethodExecuted(MethodEvent methodEvent) {
-            if (EMethod.CREATE.equals(methodEvent.getMethod())) {
-                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
-                    Growl.growl("Registro nuevo agregado");
-                    Empleado empCreado = (Empleado) methodEvent.getResult();
-                    setSelectedBean(empCreado);
-                } else {
-                    Growl.growl("Falló creación de registro nuevo");
-                    setSelectedBean(null);
-                }
-            } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
+//            if (EMethod.CREATE.equals(methodEvent.getMethod())) {
+//                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+//                    Growl.growl("Registro nuevo agregado");
+//                    Empleado empCreado = (Empleado) methodEvent.getResult();
+//                    setSelectedBean(empCreado);
+//                } else {
+//                    //setSelectedBean(null);
+//                    String msgError = "Falló creación de registro nuevo \n" + methodEvent.getReason();
+//                    Window.alert(msgError);
+//                }
+//            } else
+            if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     Growl.growl("Registro actualizado");
                     
-                    // Si actualizó bien:
+                    // Si actualizÃ³ bien:
                     // toma el Bean
                     //int idx = EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoSelected);
                     // limpia el Bean
@@ -544,7 +513,7 @@ public class EmpleadosEditorUI extends Composite {
 //                    EmpleadosProvider.get().getDataProvider().getList().set(idx, empleadoSelected);
                     
                 } else {
-                    Growl.growl("Falló actualización");
+                    Window.alert("Falló actualización");
                 }
                 
                 updateWidgets();
@@ -559,7 +528,7 @@ public class EmpleadosEditorUI extends Composite {
                     setSelectedBean(empCancelado);
                     
                 } else {
-                    Growl.growl("Falló cancelación");
+                    Window.alert("Falló cancelación");
                 }
                 
                 updateWidgets();
@@ -568,9 +537,6 @@ public class EmpleadosEditorUI extends Composite {
         }
     }
 
-////            String urlPhoto = "http://cimav.edu.mx/foto/" + empleadoBean.getCuentaCimav();
-////            empleadoBean.setUrlPhoto(urlPhoto);
-    
     public void setSelectedBean(Empleado empleadoSelected) {
         this.empleadoSelected = empleadoSelected;
         
@@ -578,7 +544,9 @@ public class EmpleadosEditorUI extends Composite {
         
         this.empleadoBinder.setModel(this.empleadoSelected != null ? this.empleadoSelected : new Empleado());//, InitialState.FROM_MODEL, true);
         
-        this.nombreTxtBox.setFocus(true);
+        if (this.empleadoSelected != null) {
+            this.nombreTxtBox.setFocus(true);
+        }
     }
     
     private void updateWidgets() {

@@ -78,7 +78,7 @@ public class Empleado extends BaseDomain {
     
     public Empleado() {
         
-        this.status = EStatusEmpleado.ACTIVO;
+        this.status = EStatusEmpleado.SABATICO;
         this.tipoEmpleado = ETipoEmpleado.NORMAL;
         this.tipoContrato = ETipoContrato.DETERMINADO;
         
@@ -114,7 +114,10 @@ public class Empleado extends BaseDomain {
     }
     
     public String getUrlPhoto() {
-        return urlPhoto;
+        String cteUrlPhoto = "http://cimav.edu.mx/foto/";
+        String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
+                ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
+        return varUrlPhoto;
     }
 
     public void setUrlPhoto(String urlPhoto) {

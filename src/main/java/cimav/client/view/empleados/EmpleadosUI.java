@@ -25,6 +25,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -59,12 +60,12 @@ public class EmpleadosUI extends Composite {
 
     @UiField
     EmpleadosEditorUI empleadosEditorUI;
-
+    
     private final SingleSelectionModel<Empleado> selectionModel;
 
     public EmpleadosUI() {
         initWidget(uiBinder.createAndBindUi(this));
-
+        
         //CellList.Resources cellListResources = GWT.create(CellList.Resources.class);
         CellList.Resources cellListResources = GWT.create(ICellListResources.class);
         selectionModel = new SingleSelectionModel<>();
@@ -104,8 +105,12 @@ public class EmpleadosUI extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 
-                flgInsertarNuevo = true;
-                selectionModel.setSelected(null, true);   
+                // Deseleccionar
+                deseleccionar();
+                
+                // enviar empleado nuevo al Bean del Editor
+                Empleado empNuevo = new Empleado();
+                empleadosEditorUI.setSelectedBean(empNuevo);
                 
             }
         });
@@ -127,7 +132,13 @@ public class EmpleadosUI extends Composite {
         reloadAll();
     }
 
-    private boolean flgInsertarNuevo = false;
+    private void deseleccionar() {
+        Empleado empSel = selectionModel.getSelectedObject();
+        if (empSel != null) {
+            // deseleccionar sin lanzar el listener
+            selectionModel.setSelected(empSel, false);
+        }
+    }
     
     private void filtrar() {
         final String txtToSearch = searchTxt.getText();
@@ -135,12 +146,19 @@ public class EmpleadosUI extends Composite {
 
         String rows = EmpleadosProvider.get().getRowCountPropotional();
         reloadBtn.setText(rows);
-
-        // si en la lista filtrada no aparece el seleccionado, deseleccionar
+        
         Empleado empSel = selectionModel.getSelectedObject();
-        if (empSel != null && !EmpleadosProvider.get().containsItem(empSel)) {
-            selectionModel.setSelected(null, true);
+        if (empSel != null) {
+            if (EmpleadosProvider.get().containsItem(empSel)) {
+                // si aparece en la lista filtrada, mostrarlo
+                scrollIntoView(empSel);
+            } else {
+                // si en la lista filtrada no aparece el seleccionado, deseleccionar
+                deseleccionar();
+                empleadosEditorUI.setSelectedBean(null);
+            }
         }
+        
     }
 
     private int orderBy;
@@ -164,6 +182,9 @@ public class EmpleadosUI extends Composite {
 
     private void orderBy() {
         EmpleadosProvider.get().order(this.orderBy);
+        
+        Empleado empleadoSelected = (Empleado) selectionModel.getSelectedObject();
+        scrollIntoView(empleadoSelected);
     }
 
     private void reloadAll() {
@@ -178,14 +199,27 @@ public class EmpleadosUI extends Composite {
             if (EMethod.FIND_ALL.equals(event.getMethod())) {
                 EmpleadosUI.this.orderBy();
 
-                EmpleadosUI.this.selectionModel.setSelected(null, true);
+                //EmpleadosUI.this.selectionModel.setSelected(null, true);
+                deseleccionar();
+                empleadosEditorUI.setSelectedBean(null);
+                searchTxt.setFocus(true);
 
                 EmpleadosUI.this.filtrar();
 
                 if (ETypeResult.SUCCESS.equals(event.getTypeResult())) {
                     Growl.growl("Carga de registros realizada");
                 } else {
-                    Growl.growl("Falló carga de registros");
+                    Window.alert("Falló carga de registros");
+                }
+            } else if (EMethod.CREATE.equals(event.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(event.getTypeResult())) {
+                    Growl.growl("Registro nuevo agregado");
+                    Empleado empCreado = (Empleado) event.getResult();
+                    selectionModel.setSelected(empCreado, true);
+                } else {
+                    //setSelectedBean(null);
+                    String msgError = "Falló creación de registro nuevo \n" + event.getReason();
+                    Window.alert(msgError);
                 }
             }
         }
@@ -269,20 +303,29 @@ public class EmpleadosUI extends Composite {
 //                html = html.replace("STYLE_INDICADOR_REEMPLAZO", "");
             }
             
-            html = html.replace("CODE_REEMPLAZO", value.getCode());
-            html = html.replace("URL_FOTO_REEMPLAZO", value.getUrlPhoto());
-            html = html.replace("APELLIDOS_REEMPLAZO", EmpleadosUI.ellipse(value.getApellidoPaterno(), 18) + " " + EmpleadosUI.ellipse(value.getApellidoMaterno(), 18));
-            html = html.replace("NOMBRE_REEMPLAZO", value.getNombre());
-            html = html.replaceAll("RFC_REEMPLAZO", value.getRfc());
-            html = html.replace("GRUPO_REEMPLAZO", grupoStr);
-            html = html.replace("NIVEL_REEMPLAZO", nivelStr);
-            html = html.replace("DEPTO_CODIGO_REEMPLAZO", deptoCodeStr);
-            html = html.replace("DEPTO_NAME_REEMPLAZO", EmpleadosUI.ellipse(deptoNameStr, 32));
-            html = html.replace("SEDE_REEMPLAZO", sedeStr);
+            try {
+            html = html.replace("CODE_REEMPLAZO", chkStrNull(value.getCode()));
+            html = html.replace("URL_FOTO_REEMPLAZO", chkStrNull(value.getUrlPhoto()));
+            html = html.replace("APELLIDOS_REEMPLAZO", EmpleadosUI.ellipse(chkStrNull(value.getApellidoPaterno()), 18) 
+                    + " " + EmpleadosUI.ellipse(chkStrNull(value.getApellidoMaterno()), 18));
+            html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getNombre()));
+            html = html.replaceAll("RFC_REEMPLAZO", chkStrNull(value.getRfc()));
+            html = html.replace("GRUPO_REEMPLAZO", chkStrNull(grupoStr));
+            html = html.replace("NIVEL_REEMPLAZO", chkStrNull(nivelStr));
+            html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));
+            html = html.replace("DEPTO_NAME_REEMPLAZO", EmpleadosUI.ellipse(chkStrNull(deptoNameStr), 32));
+            html = html.replace("SEDE_REEMPLAZO", chkStrNull(sedeStr));
             html = html.replace("ID_REEMPLAZO", value.getId().toString());
 
             sb.appendHtmlConstant(html);
+            } catch (Exception e) {
+                Window.alert("Catch it! " + html);
+            }
         }
+    }
+    
+    private String chkStrNull(String str) {
+        return str != null ? str.trim() : "---";
     }
 
 //    public static native String camelize(String str)/*-{
@@ -308,27 +351,47 @@ public class EmpleadosUI extends Composite {
         return value;
     }
 
+    private int scrollIntoView(Empleado empleadoToView) {
+//        if (cellList.getVisibleItemCount() > 0) {
+//            int i = cellList.getVisibleItemCount();
+//            Empleado v0 = cellList.getVisibleItem(0);
+//            Empleado vi = cellList.getVisibleItem(i-1);
+//            int j = cellList.getVisibleItems().size();
+//            GWT.log(">>> SIZES: " + i + "   ::::   " + j + " >>>> " + v0  + " >>>> " + vi );
+//        }
+        int idx = -2;
+        if (cellList.getVisibleItemCount() > 0 && empleadoToView != null) {
+            idx = cellList.getVisibleItems().indexOf(empleadoToView); //EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoToView);
+            if (idx >= 0) {
+                cellList.getRowElement(idx).scrollIntoView();
+            }
+        }
+        return idx;
+    }
+    
     private class SelectionHandler implements SelectionChangeEvent.Handler {
 
         @Override
         public void onSelectionChange(SelectionChangeEvent event) {
             if (event.getSource() instanceof SingleSelectionModel) {
 
-                Empleado empleadoSelected;
-                
-                if (flgInsertarNuevo) {
-                    flgInsertarNuevo = false;
-                    empleadoSelected = new Empleado();
-                    empleadosEditorUI.setSelectedBean(empleadoSelected);
-                } else {
+                Empleado empleadoSelected = null;
+                try {
                     SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
                     empleadoSelected = (Empleado) selModel.getSelectedObject();
+                
+                    if (empleadoSelected == null) {
+                        return;
+                    }
+                
+                    int idx = scrollIntoView(empleadoSelected);
+                
+                    GWT.log(idx + " >>> Sel: " + empleadoSelected);
+                
+                    empleadosEditorUI.setSelectedBean(empleadoSelected);
+                } catch (Exception e) {
+                    Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());
                 }
-                
-                GWT.log("Sel: " + empleadoSelected);
-                
-                // incluyendo Null
-                empleadosEditorUI.setSelectedBean(empleadoSelected);
             }
         }
     }

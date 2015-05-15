@@ -29,8 +29,10 @@ public class BaseDomain implements Comparable<BaseDomain> {
     @Size(min = 10, message = "Nombre deber tener al menos 10 caracteres")
     private String name;
 
+    private Integer consecutivo;
+    
     public BaseDomain() {
-        this.id = -1; // evita que la Gwt-Validation falle por nulo
+        // this.id = -1; // evita que la Gwt-Validation falle por nulo
         this.isDirty = false;
     }
 
@@ -61,9 +63,9 @@ public class BaseDomain implements Comparable<BaseDomain> {
     }
 
     public String getCode() {
-        if (code == null) {
-            code = "";
-        }
+//        if (code == null) {
+//            code = "";
+//        }
         return code;
     }
 
@@ -82,6 +84,22 @@ public class BaseDomain implements Comparable<BaseDomain> {
         this.name = name;
     }
 
+    public Boolean getIsDirty() {
+        return isDirty;
+    }
+
+    public void setIsDirty(Boolean isDirty) {
+        this.isDirty = isDirty;
+    }
+
+    public Integer getConsecutivo() {
+        return consecutivo;
+    }
+
+    public void setConsecutivo(Integer consecutivo) {
+        this.consecutivo = consecutivo;
+    }
+    
     public Boolean isDirty() {
         return isDirty;
     }
