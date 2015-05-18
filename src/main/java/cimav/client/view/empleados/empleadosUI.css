@@ -7,6 +7,12 @@ and open the template in the editor.
     Created on : Dec 10, 2014, 9:13:14 AM
     Author     : juan.calderon
 */
+ 
+input[type="text"], select {
+    height: 30px !important;
+    margin-bottom: 10px;
+}
+
 html, body {
     height: 100%; 
     width: 100%;
@@ -123,3 +129,11 @@ code {
     margin-right: 5px;
 }
 
+.txt-status {
+    color: #777;
+    font-size: x-large;
+}
+
+.btn-insertar {
+    margin-top: 10px;
+}

@@ -19,7 +19,6 @@ public class Empleado extends BaseDomain {
     
     private String rfc;
     private String curp;
-    private String numCredito;
     private String cuentaCimav;
     private String cuentaBanco;
     private String imss;
@@ -33,8 +32,6 @@ public class Empleado extends BaseDomain {
 
     @JsonIgnore private EBanco banco;
     private Integer idBanco;
-    
-    private Boolean hasCredito;
     
     private Grupo grupo;
     private Tabulador nivel;
@@ -117,7 +114,7 @@ public class Empleado extends BaseDomain {
         String cteUrlPhoto = "http://cimav.edu.mx/foto/";
         String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
                 ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
-        return varUrlPhoto;
+        return this.urlPhoto;
     }
 
     public void setUrlPhoto(String urlPhoto) {
@@ -198,28 +195,12 @@ public class Empleado extends BaseDomain {
         this.idClinica = idClinica;
     }
 
-    public Boolean getHasCredito() {
-        return hasCredito;
-    }
-
-    public void setHasCredito(Boolean hasCredito) {
-        this.hasCredito = hasCredito;
-    }
-
     public String getCurp() {
         return curp;
     }
 
     public void setCurp(String curp) {
         this.curp = curp;
-    }
-
-    public String getNumCredito() {
-        return numCredito;
-    }
-
-    public void setNumCredito(String numCredito) {
-        this.numCredito = numCredito;
     }
 
     public String getCuentaCimav() {

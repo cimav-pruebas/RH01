@@ -47,15 +47,14 @@ Uncomment this for XHTML entities
             <g:HTMLPanel addStyleNames="{style.empleados-editor-buttons-bar}">
                 <table cellspacing='0' cellpadding='0'  width="100%" > <!-- style="margin-top: 10px;" */  -->
                     <tr>
-                        <td align="right">
+                        <td align="left">
                             <g:HorizontalPanel >
-                                <b3:Tooltip title="Guardar" placement="LEFT">
-                                    <b3:Button ui:field="saveBtn" type="PRIMARY" icon="CHECK"  addStyleNames="{style.empleados-editor-buttons-bar-save}"/>
-                                </b3:Tooltip>
-                                <b3:Tooltip title="Cancelar" placement="LEFT">
-                                    <b3:Button ui:field="cancelBtn" icon="TIMES" type="WARNING"/>
-                                </b3:Tooltip>
+                                    <b3:Button text="Guardar" ui:field="saveBtn" type="PRIMARY" icon="CHECK"  addStyleNames="{style.empleados-editor-buttons-bar-save}"/>
+                                    <b3:Button text="Cancelar" ui:field="cancelBtn" icon="TIMES" type="WARNING"/>
                             </g:HorizontalPanel>        
+                        </td>
+                        <td align="right">
+                            <g:Label ui:field="txtStatus" text="..." addStyleNames="{style.txt-status}" />
                         </td>
                     </tr>
                 </table>

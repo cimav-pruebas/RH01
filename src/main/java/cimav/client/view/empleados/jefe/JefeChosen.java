@@ -57,6 +57,7 @@ public class JefeChosen extends Composite {
                 if (object == null) {
                     return "None";
                 }
+                
                 return object.getName();
             }
 
@@ -68,6 +69,8 @@ public class JefeChosen extends Composite {
                 }
             }
         });
+        
+        chosen.setWidth("350px");        
 
         chosen.addValueChangeHandler(new ValueChangeHandler<Empleado>() {
             @Override
@@ -120,13 +123,14 @@ public class JefeChosen extends Composite {
     public ChosenValueListBox getChosen() {
         return this.chosen;
     }
-
-    public void setValue(Empleado jefe) {
-        chosen.setValue(jefe, true);
-    }
-
-    public Empleado getValue() {
-        return chosen.getValue();
+    
+    public void setUrlPhotoPath() {
+        Empleado emp = (Empleado) this.getChosen().getValue();
+        if (emp == null) {
+            fotoImg.setUrl("http://cimav.edu.mx/foto/default");
+        } else {
+            fotoImg.setUrl(emp.getUrlPhoto());
+        }
     }
 
 }

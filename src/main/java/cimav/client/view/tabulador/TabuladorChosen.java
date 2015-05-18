@@ -11,9 +11,14 @@ import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.Tabulador;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.TabuladorREST;
+import com.arcbees.chosen.client.ChosenOptions;
+import com.arcbees.chosen.client.ResultsFilter;
 import com.arcbees.chosen.client.gwt.ChosenValueListBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.text.shared.Renderer;
+import com.google.common.base.Strings;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -49,7 +54,10 @@ public class TabuladorChosen extends Composite {
                 if (object == null) {
                     return "None";
                 }
-                return object.getName();
+                String result = Strings.padEnd(object.getCode(), 8, ' ');
+                result = result + object.getName();
+                
+                return result;
             }
 
             @Override
@@ -61,6 +69,8 @@ public class TabuladorChosen extends Composite {
             }
         });
 
+        chosen.setWidth("400px");
+        
         htmlPanel.add(chosen);
         
         rest = new TabuladorREST();
@@ -81,7 +91,6 @@ public class TabuladorChosen extends Composite {
             }
         });
         rest.findAllBase();
-        
     }
     
     public void setSelected(Tabulador value) {

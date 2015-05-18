@@ -14,7 +14,6 @@ import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
 import cimav.client.view.FechaDateBox;
-import cimav.client.view.empleados.credito.CreditoInputGroup;
 import cimav.client.view.departamento.DeptoChosen;
 import cimav.client.view.empleados.jefe.JefeChosen;
 import cimav.client.view.empleados.sni.TipoSNIChosen;
@@ -71,7 +70,9 @@ public class EmpleadosEditorUI extends Composite {
     Button saveBtn;
     @UiField
     Button cancelBtn;
-
+    
+    @UiField com.google.gwt.user.client.ui.Label txtStatus;
+    
     // general
     private final TextBox nombreTxtBox;
     private final TextBox paternoTxtBox;
@@ -80,7 +81,6 @@ public class EmpleadosEditorUI extends Composite {
     private final TextBox curpTxtBox;
     private final TextBox imssTxtBox;
     private final ValueListBox<EClinica> imssClinicaChosen;
-    private final CreditoInputGroup creditoInputGroup;
     private final ValueListBox<EBanco> bancoChosen;
     private final TextBox cuentaBancoTxtBox;
     private final TextBox cuentaCimavTxtBox;
@@ -152,8 +152,6 @@ public class EmpleadosEditorUI extends Composite {
         imssClinicaChosen.setAcceptableValues(clinicas);
         imssClinicaChosen.setWidth("244px");
 
-        creditoInputGroup = new CreditoInputGroup();
-        creditoInputGroup.setWidth("244px");
         bancoChosen = new ValueListBox<>(new Renderer<EBanco>() {
             @Override
             public String render(EBanco object) {
@@ -207,10 +205,6 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorGeneral.setWidget(7, 0, imssTxtBox);
         flexEditorGeneral.setHTML(6, 2, "Clinica");
         flexEditorGeneral.setWidget(7, 2, imssClinicaChosen);
-
-        flexEditorGeneral.setWidget(8, 0, new HTML(htmlRowSpc));
-        flexEditorGeneral.setHTML(9, 0, "CrÃ©dito");
-        flexEditorGeneral.setWidget(10, 0, creditoInputGroup);
 
         flexEditorGeneral.setWidget(11, 0, new HTML(htmlRowSpc));
         flexEditorGeneral.setHTML(12, 0, "Banco");
@@ -355,7 +349,7 @@ public class EmpleadosEditorUI extends Composite {
         row++;
         flexEditorLaboral.setHTML(row, 0, "Nivel SNI");
         flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
-        flexEditorLaboral.setHTML(row, 2, "NÃºm SNI");
+        flexEditorLaboral.setHTML(row, 2, "Núm SNI");
         flexEditorLaboral.setWidget(row, 3, new HTML(htmlColSpc));
         flexEditorLaboral.setHTML(row, 4, "Fecha SNI");
         row++;
@@ -366,7 +360,7 @@ public class EmpleadosEditorUI extends Composite {
         cellFormatterLaboral.setColSpan(row, 0, 5);
         flexEditorLaboral.setWidget(row, 0, new HTML("<span style='padding-bottom: 10px; display: block; border-bottom: 1px solid lightgray;;'></span>"));
         row++;
-        flexEditorLaboral.setHTML(row, 0, "NÃºmero estÃ­mulos");
+        flexEditorLaboral.setHTML(row, 0, "Número estímulos");
         row++;
         flexEditorLaboral.setWidget(row, 0, new Label("Not Yet..."));
 
@@ -544,16 +538,27 @@ public class EmpleadosEditorUI extends Composite {
         
         this.empleadoBinder.setModel(this.empleadoSelected != null ? this.empleadoSelected : new Empleado());//, InitialState.FROM_MODEL, true);
         
+        this.jefeChosen.setUrlPhotoPath();
+        
         if (this.empleadoSelected != null) {
             this.nombreTxtBox.setFocus(true);
         }
     }
     
     private void updateWidgets() {
-        this.setActive(empleadoSelected != null);
+        boolean empSelNotNull = empleadoSelected != null;
         
-        this.cancelBtn.setEnabled(empleadoSelected != null && this.empleadoSelected.isDirty());
-        this.saveBtn.setEnabled(empleadoSelected != null && this.empleadoSelected.isDirty());
+        this.setActive(empSelNotNull);
+        
+        this.saveBtn.setEnabled(empSelNotNull && this.empleadoSelected.isDirty());
+        this.cancelBtn.setEnabled(empSelNotNull && this.empleadoSelected.isDirty());
+        
+        this.txtStatus.setVisible(this.saveBtn.isEnabled());
+        if (empSelNotNull) {
+            String lblTxt = empleadoSelected.getId() != null && empleadoSelected.getId() > 0 ? "Actualización" : "Inserción";
+            this.txtStatus.setText(lblTxt);
+        }
+
     }
     
 }

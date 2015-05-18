@@ -18,7 +18,7 @@ public class FechaDateBox extends DateBox {
         super();
         DateTimeFormat df = DateTimeFormat.getFormat("dd/MM/yyyy");
         DateBox.Format dtf = new DateBox.DefaultFormat(df);
-//        this.setFormat(dtf);
+        this.setFormat(dtf);
     }
     
 }

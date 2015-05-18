@@ -5,6 +5,10 @@
 <module>
     <inherits name="com.google.gwt.user.User"/>
     <inherits name='com.google.gwt.user.theme.standard.Standard'/> 
+    
+    <!-- Guava -->
+    <inherits name="com.google.common.base.Base"/> 
+    
     <inherits name="org.fusesource.restygwt.RestyGWT"/>
     <inherits name="com.github.gwtbootstrap.Bootstrap"/>
     <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>    <!-- para estilo Boostrap 3 -->
@@ -17,7 +21,7 @@
     <define-configuration-property name="customProperty" is-multi-valued="false"/>
     <set-configuration-property name="customProperty" value="true"/>    
     <inherits name="com.arcbees.chosen.Chosen"/>
-
+    
     <inherits name="org.jboss.errai.common.ErraiCommon" />
     <inherits name="org.jboss.errai.databinding.DataBinding" />
     

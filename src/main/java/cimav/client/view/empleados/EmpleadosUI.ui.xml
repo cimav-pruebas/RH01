@@ -52,9 +52,9 @@ Uncomment this for XHTML entities
                         <g:ScrollPanel ui:field="scrollPanel" addStyleNames="{style.scroll-panel}" />
                     </g:center>
                     <g:south size="52">
-                        <b3:Tooltip title="Agregar empleado nuevo" placement="LEFT">
-                            <b3:Button ui:field="addBtn" type="SUCCESS" icon="PLUS"/> 
-                        </b3:Tooltip> 
+                        <g:VerticalPanel>
+                            <b3:Button ui:field="addBtn" text="Agregar" type="SUCCESS" icon="PLUS" addStyleNames="{style.btn-insertar}"/> 
+                        </g:VerticalPanel>
                     </g:south> 
                 </g:DockLayoutPanel>
             </g:FlowPanel>

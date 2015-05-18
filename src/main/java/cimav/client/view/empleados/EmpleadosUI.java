@@ -352,16 +352,9 @@ public class EmpleadosUI extends Composite {
     }
 
     private int scrollIntoView(Empleado empleadoToView) {
-//        if (cellList.getVisibleItemCount() > 0) {
-//            int i = cellList.getVisibleItemCount();
-//            Empleado v0 = cellList.getVisibleItem(0);
-//            Empleado vi = cellList.getVisibleItem(i-1);
-//            int j = cellList.getVisibleItems().size();
-//            GWT.log(">>> SIZES: " + i + "   ::::   " + j + " >>>> " + v0  + " >>>> " + vi );
-//        }
         int idx = -2;
         if (cellList.getVisibleItemCount() > 0 && empleadoToView != null) {
-            idx = cellList.getVisibleItems().indexOf(empleadoToView); //EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoToView);
+            idx = cellList.getVisibleItems().indexOf(empleadoToView);
             if (idx >= 0) {
                 cellList.getRowElement(idx).scrollIntoView();
             }

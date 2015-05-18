@@ -768,10 +768,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("numSni", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("tipoSNI", new PropertyType(ETipoSNI.class, false, false));
-        agent.propertyTypes.put("tipoContrato", new PropertyType(ETipoContrato.class, false, false));
         agent.propertyTypes.put("idBanco", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("hasCredito", new PropertyType(Boolean.class, false, false));
-        agent.propertyTypes.put("numCredito", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("tipoContrato", new PropertyType(ETipoContrato.class, false, false));
         agent.propertyTypes.put("fechaIngreso", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("tipoAntiguedad", new PropertyType(ETipoAntiguedad.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
@@ -844,10 +842,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setStatus(agent.target.getStatus());
         clone.setNumSni(agent.target.getNumSni());
         clone.setTipoSNI(agent.target.getTipoSNI());
-        clone.setTipoContrato(agent.target.getTipoContrato());
         clone.setIdBanco(agent.target.getIdBanco());
-        clone.setHasCredito(agent.target.getHasCredito());
-        clone.setNumCredito(agent.target.getNumCredito());
+        clone.setTipoContrato(agent.target.getTipoContrato());
         clone.setFechaIngreso(agent.target.getFechaIngreso());
         clone.setTipoAntiguedad(agent.target.getTipoAntiguedad());
         clone.setCode(agent.target.getCode());
@@ -1191,16 +1187,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("tipoSNI", oldValue, tipoSNI);
       }
 
-      public ETipoContrato getTipoContrato() {
-        return agent.target.getTipoContrato();
-      }
-
-      public void setTipoContrato(ETipoContrato tipoContrato) {
-        ETipoContrato oldValue = agent.target.getTipoContrato();
-        agent.target.setTipoContrato(tipoContrato);
-        agent.updateWidgetsAndFireEvent("tipoContrato", oldValue, tipoContrato);
-      }
-
       public Integer getIdBanco() {
         return agent.target.getIdBanco();
       }
@@ -1211,24 +1197,14 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("idBanco", oldValue, idBanco);
       }
 
-      public Boolean getHasCredito() {
-        return agent.target.getHasCredito();
+      public ETipoContrato getTipoContrato() {
+        return agent.target.getTipoContrato();
       }
 
-      public void setHasCredito(Boolean hasCredito) {
-        Boolean oldValue = agent.target.getHasCredito();
-        agent.target.setHasCredito(hasCredito);
-        agent.updateWidgetsAndFireEvent("hasCredito", oldValue, hasCredito);
-      }
-
-      public String getNumCredito() {
-        return agent.target.getNumCredito();
-      }
-
-      public void setNumCredito(String numCredito) {
-        String oldValue = agent.target.getNumCredito();
-        agent.target.setNumCredito(numCredito);
-        agent.updateWidgetsAndFireEvent("numCredito", oldValue, numCredito);
+      public void setTipoContrato(ETipoContrato tipoContrato) {
+        ETipoContrato oldValue = agent.target.getTipoContrato();
+        agent.target.setTipoContrato(tipoContrato);
+        agent.updateWidgetsAndFireEvent("tipoContrato", oldValue, tipoContrato);
       }
 
       public Date getFechaIngreso() {
@@ -1415,17 +1391,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("tipoSNI")) {
           return getTipoSNI();
         }
-        if (property.equals("tipoContrato")) {
-          return getTipoContrato();
-        }
         if (property.equals("idBanco")) {
           return getIdBanco();
         }
-        if (property.equals("hasCredito")) {
-          return getHasCredito();
-        }
-        if (property.equals("numCredito")) {
-          return getNumCredito();
+        if (property.equals("tipoContrato")) {
+          return getTipoContrato();
         }
         if (property.equals("fechaIngreso")) {
           return getFechaIngreso();
@@ -1578,20 +1548,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setTipoSNI((ETipoSNI) value);
           return;
         }
-        if (property.equals("tipoContrato")) {
-          agent.target.setTipoContrato((ETipoContrato) value);
-          return;
-        }
         if (property.equals("idBanco")) {
           agent.target.setIdBanco((Integer) value);
           return;
         }
-        if (property.equals("hasCredito")) {
-          agent.target.setHasCredito((Boolean) value);
-          return;
-        }
-        if (property.equals("numCredito")) {
-          agent.target.setNumCredito((String) value);
+        if (property.equals("tipoContrato")) {
+          agent.target.setTipoContrato((ETipoContrato) value);
           return;
         }
         if (property.equals("fechaIngreso")) {
