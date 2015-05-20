@@ -51,10 +51,8 @@ Uncomment this for XHTML entities
                             <g:HorizontalPanel >
                                     <b3:Button text="Guardar" ui:field="saveBtn" type="PRIMARY" icon="CHECK"  addStyleNames="{style.empleados-editor-buttons-bar-save}"/>
                                     <b3:Button text="Cancelar" ui:field="cancelBtn" icon="TIMES" type="WARNING"/>
+                                    <g:Label ui:field="txtStatus" text="..." addStyleNames="{style.txt-status}" />
                             </g:HorizontalPanel>        
-                        </td>
-                        <td align="right">
-                            <g:Label ui:field="txtStatus" text="..." addStyleNames="{style.txt-status}" />
                         </td>
                     </tr>
                 </table>

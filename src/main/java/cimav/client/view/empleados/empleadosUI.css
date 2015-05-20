@@ -132,6 +132,7 @@ code {
 .txt-status {
     color: #777;
     font-size: x-large;
+    margin-left: 20px;
 }
 
 .btn-insertar {

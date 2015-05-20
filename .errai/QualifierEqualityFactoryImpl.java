@@ -5,7 +5,6 @@ import java.util.HashMap;
 import javax.inject.Named;
 import org.jboss.errai.ioc.client.api.ReplyTo;
 import org.jboss.errai.ioc.client.api.ToSubject;
-import org.jboss.errai.ui.client.widget.Table;
 
 public class QualifierEqualityFactoryImpl implements QualifierEqualityFactory {
   private HashMap<String, AnnotationComparator> comparatorMap = new HashMap<String, AnnotationComparator>();
@@ -46,19 +45,6 @@ public class QualifierEqualityFactoryImpl implements QualifierEqualityFactory {
       public int hashCodeOf(ReplyTo a1) {
         int hash = a1.annotationType().hashCode();
         hash = (31 * hash) + QualifierUtil.hashValueFor(a1.value());
-        return hash;
-      }
-    });
-    comparatorMap.put("org.jboss.errai.ui.client.widget.Table", new AnnotationComparator<Table>() {
-      @Override public boolean isEqual(Table a1, Table a2) {
-        if (!a1.root().equals(a2.root())) {
-          return false;
-        }
-        return true;
-      }
-      public int hashCodeOf(Table a1) {
-        int hash = a1.annotationType().hashCode();
-        hash = (31 * hash) + QualifierUtil.hashValueFor(a1.root());
         return hash;
       }
     });

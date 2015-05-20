@@ -145,11 +145,6 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
                     // si no hubo problema, pasa la lista resultante al Provider
                     List<Empleado> empleados = (List<Empleado>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
-                    
-                    for(Empleado emp : empleados) {
-                        GWT.log(">>>> " + emp.toString());
-                    }
-                    
                 } else {
                     Window.alert("Falló cargada de empleados: " + methodEvent.getReason());
                 }

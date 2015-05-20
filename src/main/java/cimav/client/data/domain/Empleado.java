@@ -7,7 +7,11 @@ package cimav.client.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
+import java.io.Serializable;
 import java.util.Date;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
@@ -15,7 +19,7 @@ import org.jboss.errai.databinding.client.api.Bindable;
  * @author juan.calderon
  */
 @Bindable
-public class Empleado extends BaseDomain { 
+public class Empleado extends BaseDomain implements Serializable { 
     
     private String rfc;
     private String curp;
@@ -23,8 +27,13 @@ public class Empleado extends BaseDomain {
     private String cuentaBanco;
     private String imss;
     private String urlPhoto;
+    
+    @NotBlank(message = "Nombre no puede estar vacío")
+    @Size(min = 3, max = 40, message = "Nombre debe tener entre 3 y 40 caracteres")
     private String nombre;
+
     private String apellidoPaterno;
+    
     private String apellidoMaterno;
     
     @JsonIgnore private EClinica clinica;
@@ -65,14 +74,6 @@ public class Empleado extends BaseDomain {
     private Date fechaSni;
     private String numSni;
 
-//    private String fecha;
-//    public String getFecha() {
-//        return fecha;
-//    }
-//    public void setFecha(String fecha) {
-//        this.fecha = fecha;
-//    }
-    
     public Empleado() {
         
         this.status = EStatusEmpleado.SABATICO;

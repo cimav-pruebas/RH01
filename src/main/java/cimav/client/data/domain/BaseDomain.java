@@ -6,9 +6,11 @@
 package cimav.client.data.domain;
 
 import com.google.gwt.view.client.ProvidesKey;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
@@ -17,16 +19,18 @@ import org.jboss.errai.databinding.client.api.Bindable;
  * @param <T>
  */
 @Bindable
-public class BaseDomain implements Comparable<BaseDomain> {
+public class BaseDomain implements Comparable<BaseDomain>, Serializable {
 
     private Boolean isDirty;
             
     private Integer id;
 
-    @Pattern(regexp = "^[A-Z][a-zA-Z]{1,7}$", message = "Código debe ser de 2 a 8 letras empezando con mayúscula.")
+    //@Pattern(regexp = "^[A-Z][a-zA-Z]{1,7}$", message = "Código debe ser de 2 a 8 letras empezando con mayúscula.")
+    //@Size(min = 13, max = 60, message = "CODE debe tener entre 3 y 60 caracteres")
     private String code;
 
-    @Size(min = 10, message = "Nombre deber tener al menos 10 caracteres")
+    //@Size(min = 10, message = "Nombre deber tener al menos 10 caracteres")
+    //@NotBlank(message = "Nombre no puede estar vacío")
     private String name;
 
     private Integer consecutivo;

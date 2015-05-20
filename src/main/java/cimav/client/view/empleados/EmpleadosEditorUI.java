@@ -38,6 +38,10 @@ import com.google.gwt.user.client.ui.Widget;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -439,6 +443,29 @@ public class EmpleadosEditorUI extends Composite {
                 return;
             }
             
+            Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+            Set<ConstraintViolation<Empleado>> violations;
+            violations = validator.validate(empleadoSelected);            
+            GWT.log("Sin Errores>> " + violations.size());
+            if(!violations.isEmpty()){
+                StringBuilder builder = new StringBuilder();
+                for (ConstraintViolation<Empleado> violation : violations) {
+//                    builder.append(violation.getMessage());
+//                    builder.append(" : <i>(");
+//                    builder.append(violation.getPropertyPath().toString());
+//                    builder.append(" = ");
+//                    builder.append("" + violation.getInvalidValue());
+//                    builder.append(")</i>");
+//                    builder.append("<br/>");
+                    builder.append("• ").append(violation.getMessage()).append("\n");
+                    builder.append("  ").append(violation.getPropertyPath().toString()).append(" = ").append(violation.getInvalidValue()).append("\n\n");
+                    
+                }
+                Window.alert(builder.toString());
+            } else {
+                GWT.log("Sin Errores");
+            }
+            
             boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
             if (isNuevo) {
                 // add
@@ -554,9 +581,10 @@ public class EmpleadosEditorUI extends Composite {
         this.cancelBtn.setEnabled(empSelNotNull && this.empleadoSelected.isDirty());
         
         this.txtStatus.setVisible(this.saveBtn.isEnabled());
+        
         if (empSelNotNull) {
-            String lblTxt = empleadoSelected.getId() != null && empleadoSelected.getId() > 0 ? "Actualización" : "Inserción";
-            this.txtStatus.setText(lblTxt);
+            String strStatus = empleadoSelected.getId() != null && empleadoSelected.getId() > 0 ? "Actualización" : "Inserción";
+            this.txtStatus.setText(strStatus);
         }
 
     }

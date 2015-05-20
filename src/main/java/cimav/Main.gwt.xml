@@ -24,7 +24,12 @@
     
     <inherits name="org.jboss.errai.common.ErraiCommon" />
     <inherits name="org.jboss.errai.databinding.DataBinding" />
-    
+
+    <inherits name="org.hibernate.validator.HibernateValidator" />
+    <replace-with class="cimav.client.SimpleValidatorFactory">
+        <when-type-is class="javax.validation.ValidatorFactory" />
+    </replace-with>
+              
     <entry-point class="cimav.client.MainEntryPoint"/>
 
     <!-- Specify the paths for translatable code                    -->
