@@ -423,8 +423,6 @@ public class EmpleadosEditorUI extends Composite {
     private class BinderPropertyChange implements PropertyChangeHandler<Object> {
         @Override
         public void onPropertyChange(PropertyChangeEvent<Object> event) {
-            GWT.log("<<<>>> " + event.getPropertyName() + " >> " + event.getOldValue() + " >> " + event.getNewValue());
-
             EmpleadosProvider.get().dataProvider.refresh();
 
             // becomes Dirty
@@ -439,17 +437,33 @@ public class EmpleadosEditorUI extends Composite {
         public void onClick(ClickEvent event) {
 
             if (empleadoSelected == null) {
-                // TODO Alert empleadoBean is Null
+                Window.alert("EmpleadosEditorUI.SaveClickHandler empleadoSelected es NULL.");
                 return;
             }
             
-            Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-            Set<ConstraintViolation<Empleado>> violations;
-            violations = validator.validate(empleadoSelected);            
-            GWT.log("Sin Errores>> " + violations.size());
-            if(!violations.isEmpty()){
-                StringBuilder builder = new StringBuilder();
-                for (ConstraintViolation<Empleado> violation : violations) {
+            if (isValid()) {
+                boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
+                if (isNuevo) {
+                    // add
+                    EmpleadosProvider.get().add(empleadoSelected);
+                } else {
+                    // update
+                    EmpleadosProvider.get().update(empleadoSelected);
+                }
+            }
+
+        }
+    }
+
+    private boolean isValid() {
+        boolean result = true;
+        
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<Empleado>> violations = validator.validate(empleadoSelected);            
+        if(!violations.isEmpty()){
+            result = false;
+            StringBuilder builder = new StringBuilder();
+            for (ConstraintViolation<Empleado> violation : violations) {
 //                    builder.append(violation.getMessage());
 //                    builder.append(" : <i>(");
 //                    builder.append(violation.getPropertyPath().toString());
@@ -457,27 +471,16 @@ public class EmpleadosEditorUI extends Composite {
 //                    builder.append("" + violation.getInvalidValue());
 //                    builder.append(")</i>");
 //                    builder.append("<br/>");
-                    builder.append("• ").append(violation.getMessage()).append("\n");
-                    builder.append("  ").append(violation.getPropertyPath().toString()).append(" = ").append(violation.getInvalidValue()).append("\n\n");
-                    
-                }
-                Window.alert(builder.toString());
-            } else {
-                GWT.log("Sin Errores");
-            }
-            
-            boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
-            if (isNuevo) {
-                // add
-                EmpleadosProvider.get().add(empleadoSelected);
-            } else {
-                // update
-                EmpleadosProvider.get().update(empleadoSelected);
-            }
+                builder.append("• ").append(violation.getMessage()).append("\n");
+                builder.append("  ").append(violation.getPropertyPath().toString()).append(" = ").append(violation.getInvalidValue()).append("\n\n");
 
+            }
+            Window.alert(builder.toString());
         }
+            
+        return result;
     }
-
+    
     private class CancelClickHandler implements ClickHandler {
 
         @Override
@@ -576,6 +579,11 @@ public class EmpleadosEditorUI extends Composite {
         boolean empSelNotNull = empleadoSelected != null;
         
         this.setActive(empSelNotNull);
+
+        if (empleadoSelected != null && (empleadoSelected.getId() == null || empleadoSelected.getId() <= 0)) {
+            // cuando es nuevo, hacerlo dirty
+            empleadoSelected.becomesDirty();
+        }
         
         this.saveBtn.setEnabled(empSelNotNull && this.empleadoSelected.isDirty());
         this.cancelBtn.setEnabled(empSelNotNull && this.empleadoSelected.isDirty());
