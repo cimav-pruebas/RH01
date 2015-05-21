@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cimav.client.view.departamento;
+package cimav.client.view.departamentos;
 
 import cimav.client.common.EMethod;
 import cimav.client.common.ETypeResult;

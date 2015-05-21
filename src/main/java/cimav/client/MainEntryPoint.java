@@ -5,6 +5,7 @@
  */
 package cimav.client;
 
+import cimav.client.view.departamentos.DeptosUi;
 import cimav.client.view.empleados.EmpleadosUI;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -33,6 +34,7 @@ public class MainEntryPoint implements EntryPoint {
     // Vistas UI
     private final MainUI mainUi;
     private EmpleadosUI empleadosUI;
+    private DeptosUi deptosUI;
     
 //    public static Modal myModal;
     
@@ -89,7 +91,10 @@ public class MainEntryPoint implements EntryPoint {
                         mainUi.setCenterPanel("Personal", "Consultas, altas, bajas y cambios", empleadosUI);
                         break;
                     case MainUI.OPT_DEPARTAMENTOS:
-                        mainUi.setCenterPanel("Departamentos", "Consultas, altas, bajas y cambios", null);
+                        if (deptosUI == null) {
+                            deptosUI = new DeptosUi();
+                        }
+                        mainUi.setCenterPanel("Departamentos", "Consultas, altas, bajas y cambios", deptosUI);
                         break;
                     default:
                         mainUi.setCenterPanel(option, "Not Yet Implemented...", null);

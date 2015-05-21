@@ -92,7 +92,7 @@ public class EmpleadosUI extends Composite {
 
         // Escucha los metodos y las acciones (find_all, update, create, save, reloadById, etc.)
         EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
-
+        
         reloadBtn.setIconFlip(IconFlip.HORIZONTAL);
         reloadBtn.addClickHandler(new ClickHandler() {
             @Override
@@ -379,7 +379,7 @@ public class EmpleadosUI extends Composite {
                 
                     int idx = scrollIntoView(empleadoSelected);
                 
-                    GWT.log(idx + " >>> Sel: " + empleadoSelected);
+                    //GWT.log(idx + " >>> Sel: " + empleadoSelected);
                 
                     empleadosEditorUI.setSelectedBean(empleadoSelected);
                 } catch (Exception e) {

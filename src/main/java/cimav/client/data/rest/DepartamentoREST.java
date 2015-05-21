@@ -73,5 +73,117 @@ public class DepartamentoREST extends BaseREST {
 
     }
     
+    
+    public void findById(int id) {
+
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/departamento/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, "FindById " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Departamento departamento = (Departamento) jsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "findById listo");
+                    dbEvent.setResult(departamento);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "findById departamentoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+    
+    public void add(Departamento departamento) {
+
+        //BaseREST.setDateFormatPOST();
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/departamento";
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        //Create a Jsonizer instance
+        JSONValue departamentoJSONValue = jsonCodec.encode(departamento);
+        
+        Resource rb = new Resource(url, headers);
+        rb.post().json(departamentoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, "Add " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Departamento nuevoDepartamento = (Departamento) jsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
+                    dbEvent.setResult(nuevoDepartamento);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "create departamentoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+        }));
+
+    }
+    
+    public void update(Departamento departamento) {
+
+        BaseREST.setDateFormatPOST();
+
+        int id = departamento != null && departamento.getId() != null ? departamento.getId() : 0;
+        String url = BaseREST.URL_REST_BASE + "api/departamento/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        //Create a Jsonizer instance
+        JSONValue departamentoJSONValue = jsonCodec.encode(departamento);
+
+        Resource rb = new Resource(url, headers); 
+        rb.put().json(departamentoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, "Update " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    // No regresa nada
+                    MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.SUCCESS, "update listo");
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "update departamentoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+        }));
+
+    }
+    
 }
 

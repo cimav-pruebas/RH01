@@ -224,4 +224,46 @@ public class EmpleadoREST extends BaseREST {
 
     }
 
+    public void findAllByDepto(int idDepto) {
+
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado/by_depto/" + idDepto;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BY_DEPTO, ETypeResult.FAILURE, "findAllByDepto " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    List<Empleado> empleados = new ArrayList<>();
+                    JSONArray array = response.isArray();
+                    for (int i = 0; i < array.size(); i++) {
+                        JSONValue val = array.get(i);
+                        Empleado empleado = empleadoJsonCodec.decode(val);
+                        empleados.add(empleado);
+                    }
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BY_DEPTO, ETypeResult.SUCCESS, "findAllByDepto listo");
+                    dbEvent.setResult(empleados);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "findAllByDepto empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BY_DEPTO, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+    
 }

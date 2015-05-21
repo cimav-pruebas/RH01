@@ -5,6 +5,7 @@
  */
 package cimav.client;
 
+import cimav.client.data.domain.Departamento;
 import cimav.client.data.domain.Empleado;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.validation.client.AbstractGwtValidatorFactory;
@@ -18,7 +19,7 @@ import javax.validation.Validator;
  */
 public final class SimpleValidatorFactory extends AbstractGwtValidatorFactory {
     
-    @GwtValidation(Empleado.class)
+    @GwtValidation({Empleado.class, Departamento.class})
     public interface GwtValidator extends Validator {
     }
 

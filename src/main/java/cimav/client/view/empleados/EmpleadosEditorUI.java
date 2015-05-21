@@ -14,7 +14,7 @@ import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
 import cimav.client.view.FechaDateBox;
-import cimav.client.view.departamento.DeptoChosen;
+import cimav.client.view.departamentos.DeptoChosen;
 import cimav.client.view.empleados.jefe.JefeChosen;
 import cimav.client.view.empleados.sni.TipoSNIChosen;
 import cimav.client.view.empleados.tipoantiguedad.TipoAntiguedadChosen;
@@ -416,7 +416,7 @@ public class EmpleadosEditorUI extends Composite {
             empleadoBinder.addPropertyChangeHandler(new BinderPropertyChange());
 
         } catch (Exception e) {
-            GWT.log(e.getMessage());
+            Window.alert("EmpleadosEditorUI DataBinder.bind:> " + e.getMessage());
         }
     }
 
@@ -486,7 +486,7 @@ public class EmpleadosEditorUI extends Composite {
         @Override
         public void onClick(ClickEvent event) {
             if (empleadoSelected == null) {
-                // TODO Alert empleadoBean is Null
+                Window.alert("EmpleadosEditorUI.SaveClickHandler empleadoSelected es NULL.");
                 return;
             }
             boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;

@@ -14,6 +14,7 @@ public enum EMethod {
     FIND_ALL_BASE,
     FIND_ALL,
     FIND_BY_ID,
+    FIND_ALL_BY_DEPTO,
     CREATE,
     UPDATE;
 
