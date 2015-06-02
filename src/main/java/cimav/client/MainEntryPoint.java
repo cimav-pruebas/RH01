@@ -7,6 +7,7 @@ package cimav.client;
 
 import cimav.client.view.departamentos.DeptosUi;
 import cimav.client.view.empleados.EmpleadosUI;
+import cimav.client.view.tabulador.TabuladoresUi;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.UmbrellaException;
@@ -35,6 +36,7 @@ public class MainEntryPoint implements EntryPoint {
     private final MainUI mainUi;
     private EmpleadosUI empleadosUI;
     private DeptosUi deptosUI;
+    private TabuladoresUi tabuladoresUi;
     
 //    public static Modal myModal;
     
@@ -95,6 +97,12 @@ public class MainEntryPoint implements EntryPoint {
                             deptosUI = new DeptosUi();
                         }
                         mainUi.setCenterPanel("Departamentos", "Consultas, altas, bajas y cambios", deptosUI);
+                        break;
+                    case MainUI.OPT_TABULADOR:
+                        if (tabuladoresUi == null) {
+                            tabuladoresUi = new TabuladoresUi();
+                        }
+                        mainUi.setCenterPanel("Tabuladores", "Consultas, altas y bajas", tabuladoresUi);
                         break;
                     default:
                         mainUi.setCenterPanel(option, "Not Yet Implemented...", null);

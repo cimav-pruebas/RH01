@@ -13,6 +13,7 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.Grupo;
 import cimav.client.data.domain.Tabulador;
+import java.math.BigDecimal;
 import java.util.Date;
 import org.jboss.errai.databinding.client.api.InitialState;
 
@@ -560,11 +561,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public cimav_client_data_domain_TabuladorProxy(Tabulador target, InitialState initialState) {
         agent = new BindableProxyAgent<Tabulador>(this, target, initialState);
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("compGarantizada", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("cargaAdmin", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("sueldo", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("honorarios", new PropertyType(BigDecimal.class, false, false));
+        agent.propertyTypes.put("matDidacticos", new PropertyType(BigDecimal.class, false, false));
         agent.copyValues();
       }
 
@@ -583,10 +589,15 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public Tabulador deepUnwrap() {
         final Tabulador clone = new Tabulador();
         clone.setId(agent.target.getId());
+        clone.setCompGarantizada(agent.target.getCompGarantizada());
         clone.setIsDirty(agent.target.getIsDirty());
+        clone.setCargaAdmin(agent.target.getCargaAdmin());
         clone.setName(agent.target.getName());
         clone.setConsecutivo(agent.target.getConsecutivo());
+        clone.setSueldo(agent.target.getSueldo());
         clone.setCode(agent.target.getCode());
+        clone.setHonorarios(agent.target.getHonorarios());
+        clone.setMatDidacticos(agent.target.getMatDidacticos());
         return clone;
       }
 
@@ -615,6 +626,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("id", oldValue, id);
       }
 
+      public BigDecimal getCompGarantizada() {
+        return agent.target.getCompGarantizada();
+      }
+
+      public void setCompGarantizada(BigDecimal compGarantizada) {
+        BigDecimal oldValue = agent.target.getCompGarantizada();
+        agent.target.setCompGarantizada(compGarantizada);
+        agent.updateWidgetsAndFireEvent("compGarantizada", oldValue, compGarantizada);
+      }
+
       public Boolean getIsDirty() {
         return agent.target.getIsDirty();
       }
@@ -623,6 +644,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Boolean oldValue = agent.target.getIsDirty();
         agent.target.setIsDirty(isDirty);
         agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
+      }
+
+      public BigDecimal getCargaAdmin() {
+        return agent.target.getCargaAdmin();
+      }
+
+      public void setCargaAdmin(BigDecimal cargaAdmin) {
+        BigDecimal oldValue = agent.target.getCargaAdmin();
+        agent.target.setCargaAdmin(cargaAdmin);
+        agent.updateWidgetsAndFireEvent("cargaAdmin", oldValue, cargaAdmin);
       }
 
       public String getName() {
@@ -649,6 +680,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("consecutivo", oldValue, consecutivo);
       }
 
+      public BigDecimal getSueldo() {
+        return agent.target.getSueldo();
+      }
+
+      public void setSueldo(BigDecimal sueldo) {
+        BigDecimal oldValue = agent.target.getSueldo();
+        agent.target.setSueldo(sueldo);
+        agent.updateWidgetsAndFireEvent("sueldo", oldValue, sueldo);
+      }
+
       public String getCode() {
         return agent.target.getCode();
       }
@@ -659,12 +700,38 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("code", oldValue, code);
       }
 
+      public BigDecimal getHonorarios() {
+        return agent.target.getHonorarios();
+      }
+
+      public void setHonorarios(BigDecimal honorarios) {
+        BigDecimal oldValue = agent.target.getHonorarios();
+        agent.target.setHonorarios(honorarios);
+        agent.updateWidgetsAndFireEvent("honorarios", oldValue, honorarios);
+      }
+
+      public BigDecimal getMatDidacticos() {
+        return agent.target.getMatDidacticos();
+      }
+
+      public void setMatDidacticos(BigDecimal matDidacticos) {
+        BigDecimal oldValue = agent.target.getMatDidacticos();
+        agent.target.setMatDidacticos(matDidacticos);
+        agent.updateWidgetsAndFireEvent("matDidacticos", oldValue, matDidacticos);
+      }
+
       public Object get(String property) {
         if (property.equals("id")) {
           return getId();
         }
+        if (property.equals("compGarantizada")) {
+          return getCompGarantizada();
+        }
         if (property.equals("isDirty")) {
           return getIsDirty();
+        }
+        if (property.equals("cargaAdmin")) {
+          return getCargaAdmin();
         }
         if (property.equals("name")) {
           return getName();
@@ -675,8 +742,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("consecutivo")) {
           return getConsecutivo();
         }
+        if (property.equals("sueldo")) {
+          return getSueldo();
+        }
         if (property.equals("code")) {
           return getCode();
+        }
+        if (property.equals("honorarios")) {
+          return getHonorarios();
+        }
+        if (property.equals("matDidacticos")) {
+          return getMatDidacticos();
         }
         throw new NonExistingPropertyException(property);
       }
@@ -686,8 +762,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setId((Integer) value);
           return;
         }
+        if (property.equals("compGarantizada")) {
+          agent.target.setCompGarantizada((BigDecimal) value);
+          return;
+        }
         if (property.equals("isDirty")) {
           agent.target.setIsDirty((Boolean) value);
+          return;
+        }
+        if (property.equals("cargaAdmin")) {
+          agent.target.setCargaAdmin((BigDecimal) value);
           return;
         }
         if (property.equals("name")) {
@@ -698,8 +782,20 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setConsecutivo((Integer) value);
           return;
         }
+        if (property.equals("sueldo")) {
+          agent.target.setSueldo((BigDecimal) value);
+          return;
+        }
         if (property.equals("code")) {
           agent.target.setCode((String) value);
+          return;
+        }
+        if (property.equals("honorarios")) {
+          agent.target.setHonorarios((BigDecimal) value);
+          return;
+        }
+        if (property.equals("matDidacticos")) {
+          agent.target.setMatDidacticos((BigDecimal) value);
           return;
         }
         throw new NonExistingPropertyException(property);
