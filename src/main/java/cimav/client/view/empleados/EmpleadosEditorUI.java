@@ -10,7 +10,9 @@ import cimav.client.common.ETypeResult;
 import cimav.client.common.MethodEvent;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
+import cimav.client.data.domain.EEdoCivil;
 import cimav.client.data.domain.ESede;
+import cimav.client.data.domain.ESexo;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
 import cimav.client.view.FechaDateBox;
@@ -69,6 +71,8 @@ public class EmpleadosEditorUI extends Composite {
     FlexTable flexEditorGeneral;
     @UiField
     FlexTable flexEditorLaboral;
+    @UiField
+    FlexTable flexEditorPersonal;
 
     @UiField
     Button saveBtn;
@@ -106,7 +110,16 @@ public class EmpleadosEditorUI extends Composite {
     private final TipoAntiguedadChosen tipoAntiguedadChosen;
     private final TipoSNIChosen tipoSniChosen;
     private final TextBox numSNITxtBox;
-
+    // personal
+    private final ValueListBox<ESexo> sexoChose;
+    private final ValueListBox<EEdoCivil> edoCivilChose;
+    private final FechaDateBox fechaNacimientoDatePicker = new FechaDateBox();
+    private final TextBox direccionCalle;
+    private final TextBox direccionColonia;
+    private final TextBox direccionCP;
+    private final TextBox telefono;
+    private final TextBox emailPersonal;
+    
     // Model & DataBinder
     private Empleado empleadoSelected;
     private DataBinder<Empleado> empleadoBinder;
@@ -368,6 +381,88 @@ public class EmpleadosEditorUI extends Composite {
         row++;
         flexEditorLaboral.setWidget(row, 0, new Label("Not Yet..."));
 
+        
+        FlexTable.FlexCellFormatter cellFormatterPersonal = flexEditorPersonal.getFlexCellFormatter();
+
+        flexEditorPersonal.setCellSpacing(0);
+        flexEditorPersonal.setCellPadding(0);
+        
+        sexoChose = new ValueListBox<>(new Renderer<ESexo>() {
+            @Override
+            public String render(ESexo object) {
+                if (object == null) {
+                    return "Nada";
+                }
+                return object.getNombre();
+            }
+
+            @Override
+            public void render(ESexo object, Appendable appendable) throws IOException {
+                String s = render(object);
+                appendable.append(s);
+            }
+        });
+        List<ESexo> sexos = Arrays.asList(ESexo.values());
+        sexoChose.setAcceptableValues(sexos);
+        sexoChose.setWidth("244px");
+        
+        edoCivilChose = new ValueListBox<>(new Renderer<EEdoCivil>() {
+            @Override
+            public String render(EEdoCivil object) {
+                if (object == null) {
+                    return "Nada";
+                }
+                return object.getNombre();
+            }
+
+            @Override
+            public void render(EEdoCivil object, Appendable appendable) throws IOException {
+                String s = render(object);
+                appendable.append(s);
+            }
+        });
+        List<EEdoCivil> edoCiviles = Arrays.asList(EEdoCivil.values());
+        edoCivilChose.setAcceptableValues(edoCiviles);
+        edoCivilChose.setWidth("244px");
+        
+        direccionCalle = new TextBox();
+        direccionCalle.setWidth(width);
+        direccionColonia = new TextBox();
+        direccionColonia.setWidth(width);
+        direccionCP = new TextBox();
+        direccionCP.setWidth(width);
+        telefono = new TextBox();
+        telefono.setWidth(width);
+        emailPersonal = new TextBox();
+        emailPersonal.setWidth(width);
+
+        row = 1;
+        flexEditorPersonal.setHTML(row, 0, "Sexo");
+        flexEditorPersonal.setWidget(row, 1, new HTML(htmlColSpc));
+        flexEditorPersonal.setHTML(row, 2, "Edo civil");
+        flexEditorPersonal.setWidget(row, 3, new HTML(htmlColSpc));
+        flexEditorPersonal.setHTML(row, 4, "Fecha nacimiento");
+        row++;
+        flexEditorPersonal.setWidget(row, 0, sexoChose);
+        flexEditorPersonal.setWidget(row, 2, edoCivilChose);
+        flexEditorPersonal.setWidget(row, 4, fechaNacimientoDatePicker);
+        row++;
+        flexEditorPersonal.setWidget(row, 0, new HTML(htmlRowSpc));
+        row++;
+        flexEditorPersonal.setHTML(row, 0, "Calle");
+        flexEditorPersonal.setWidget(row, 1, new HTML(htmlColSpc));
+        flexEditorPersonal.setHTML(row, 2, "Colonia");
+        flexEditorPersonal.setWidget(row, 3, new HTML(htmlColSpc));
+        flexEditorPersonal.setHTML(row, 4, "CP");
+        row++;
+        flexEditorPersonal.setWidget(row, 0, direccionCalle);
+        flexEditorPersonal.setWidget(row, 2, direccionColonia);
+        flexEditorPersonal.setWidget(row, 4, direccionCP);
+        row++;
+        flexEditorPersonal.setHTML(row, 0, "Teléfono");
+        row++;
+        flexEditorPersonal.setWidget(row, 0, telefono);
+        
 //        editor.setHTML(2, 0, "DescripciÃ³n");
 //        cellFormatter.setColSpan(2, 0, 2);
 //        cellFormatter.setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_LEFT);
@@ -388,6 +483,7 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(maternoTxtBox, "apellidoMaterno")
                     .bind(rfcTxtBox, "rfc")
                     .bind(curpTxtBox, "curp")
+                    .bind(fechaSNIDatePicker, "fechaSni")
                     .bind(imssTxtBox, "imss")
                     .bind(imssClinicaChosen, "clinica")
                     .bind(bancoChosen, "banco")
@@ -411,6 +507,15 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(tipoAntiguedadChosen.getChosen(), "tipoAntiguedad")
                     .bind(tipoSniChosen.getChosen(), "tipoSNI")
                     .bind(numSNITxtBox, "numSni")
+                    // personal
+                    .bind(sexoChose, "sexo")
+                    .bind(edoCivilChose, "edoCivil")
+                    .bind(fechaNacimientoDatePicker, "fechaNacimiento")
+                    .bind(direccionCalle, "direccionCalle")
+                    .bind(direccionColonia, "direccionColonia")
+                    .bind(direccionCP, "direccionCP")
+                    .bind(telefono, "telefono")
+                    .bind(emailPersonal, "emailPersonal")
                     .getModel();
 
             empleadoBinder.addPropertyChangeHandler(new BinderPropertyChange());

@@ -73,6 +73,20 @@ public class Empleado extends BaseDomain implements Serializable {
     private Date fechaSni;
     private String numSni;
 
+    private Date fechaNacimiento;
+    
+    @JsonIgnore private ESexo sexo;
+    private Integer idSexo;
+    
+    @JsonIgnore private EEdoCivil edoCivil;
+    private Integer idEdoCivil;
+    
+    private String direccionCalle;
+    private String direccionColonia;
+    private String direccionCP;
+    private String telefono;
+    private String emailPersonal;
+    
     public Empleado() {
         
         this.status = EStatusEmpleado.SABATICO;
@@ -400,4 +414,88 @@ public class Empleado extends BaseDomain implements Serializable {
         this.fechaSni = fechaSni;
     }
 
+    public String getDireccionCalle() {
+        return direccionCalle;
+    }
+
+    public void setDireccionCalle(String direccionCalle) {
+        this.direccionCalle = direccionCalle;
+    }
+
+    public String getDireccionColonia() {
+        return direccionColonia;
+    }
+
+    public void setDireccionColonia(String direccionColonia) {
+        this.direccionColonia = direccionColonia;
+    }
+
+    public String getDireccionCP() {
+        return direccionCP;
+    }
+
+    public void setDireccionCP(String direccionCP) {
+        this.direccionCP = direccionCP;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEmailPersonal() {
+        return emailPersonal;
+    }
+
+    public void setEmailPersonal(String emailPersonal) {
+        this.emailPersonal = emailPersonal;
+    }
+
+    public EEdoCivil getEdoCivil() {
+        return edoCivil;
+    }
+
+    public void setEdoCivil(EEdoCivil edoCivil) {
+        this.edoCivil = edoCivil;
+        this.idEdoCivil = edoCivil != null ? edoCivil.getId() : 0;
+    }
+
+    public Integer getIdEdoCivil() {
+        return idEdoCivil;
+    }
+
+    public void setIdEdoCivil(Integer idEdoCivil) {
+        this.edoCivil = EEdoCivil.get(idEdoCivil);
+        this.idEdoCivil = idEdoCivil;
+    }
+    
+    public ESexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(ESexo sexo) {
+        this.sexo = sexo;
+        this.idSexo = sexo != null ? sexo.getId() : 0;
+    }
+
+    public Integer getIdSexo() {
+        return idSexo;
+    }
+
+    public void setIdSexo(Integer idSexo) {
+        this.sexo = ESexo.get(idSexo);
+        this.idSexo = idSexo;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+    
 }

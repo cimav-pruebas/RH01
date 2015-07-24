@@ -11,7 +11,7 @@
             </goals>
             <properties>
                 <runTarget>welcomeGWT.html</runTarget>
-                <superDevMode>true</superDevMode>
+                <superDevMode>false</superDevMode>
             </properties>
         </action>
     </actions>

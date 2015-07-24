@@ -15,6 +15,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.i18n.client.CurrencyData;
+import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.i18n.client.constants.LocaleConstants;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -23,11 +26,13 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
 
@@ -178,9 +183,14 @@ public class NivelesUi extends Composite {
         Column<Tabulador, String> sueldoCol = new Column<Tabulador, String>(new TextCell()) {
                     @Override
                     public String getValue(Tabulador object) {
-                        return object.getSueldo().toString();
+                        NumberFormat fmt = NumberFormat.getCurrencyFormat();
+                        String output = object.getSueldo().toString();
+                        Double value = Double.parseDouble(output);
+                        String formatted = fmt.format(value);
+                        return formatted;
                     }
                 };
+        sueldoCol.setHorizontalAlignment( HasHorizontalAlignment.ALIGN_RIGHT);
         sueldoCol.setSortable(true);
         sortHandler.setComparator(sueldoCol, new Comparator<Tabulador>() {
             @Override
