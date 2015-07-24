@@ -462,6 +462,10 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorPersonal.setHTML(row, 0, "Teléfono");
         row++;
         flexEditorPersonal.setWidget(row, 0, telefono);
+        row++;
+        flexEditorPersonal.setHTML(row, 0, "Email personal");
+        row++;
+        flexEditorPersonal.setWidget(row, 0, emailPersonal);
         
 //        editor.setHTML(2, 0, "DescripciÃ³n");
 //        cellFormatter.setColSpan(2, 0, 2);
