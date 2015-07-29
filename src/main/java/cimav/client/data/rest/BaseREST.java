@@ -5,7 +5,7 @@
  */
 package cimav.client.data.rest;
 
-import cimav.client.common.MethodEvent;
+import cimav.client.view.common.MethodEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 

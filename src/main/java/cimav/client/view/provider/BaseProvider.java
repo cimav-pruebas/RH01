@@ -6,7 +6,7 @@
 package cimav.client.view.provider;
 
 import cimav.client.data.domain.BaseDomain;
-import cimav.client.common.MethodEvent;
+import cimav.client.view.common.MethodEvent;
 import com.google.gwt.view.client.HasData;
 import java.util.ArrayList;
 import java.util.Collections;

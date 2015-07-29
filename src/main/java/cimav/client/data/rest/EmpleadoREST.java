@@ -5,11 +5,11 @@
  */
 package cimav.client.data.rest;
 
-import cimav.client.common.MethodEvent;
-import cimav.client.common.ETypeResult;
-import cimav.client.common.EMethod;
+import cimav.client.view.common.MethodEvent;
+import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.EMethod;
 import cimav.client.data.domain.Empleado;
-import cimav.client.common.Ajax;
+import cimav.client.view.common.Ajax;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONValue;

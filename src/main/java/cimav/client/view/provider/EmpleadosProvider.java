@@ -5,9 +5,9 @@
  */
 package cimav.client.view.provider;
 
-import cimav.client.common.EMethod;
-import cimav.client.common.ETypeResult;
-import cimav.client.common.MethodEvent;
+import cimav.client.view.common.EMethod;
+import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;

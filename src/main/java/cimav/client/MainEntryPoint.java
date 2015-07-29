@@ -5,9 +5,10 @@
  */
 package cimav.client;
 
-import cimav.client.view.departamentos.DeptosUi;
-import cimav.client.view.empleados.EmpleadosUI;
-import cimav.client.view.tabulador.TabuladoresUi;
+import cimav.client.view.MainUI;
+import cimav.client.view.catalogos.departamentos.DeptosUi;
+import cimav.client.view.catalogos.empleados.EmpleadosUI;
+import cimav.client.view.catalogos.tabulador.TabuladoresUi;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.UmbrellaException;

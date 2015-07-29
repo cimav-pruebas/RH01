@@ -26,7 +26,7 @@
     <inherits name="org.jboss.errai.databinding.DataBinding" />
 
     <inherits name="org.hibernate.validator.HibernateValidator" />
-    <replace-with class="cimav.client.SimpleValidatorFactory">
+    <replace-with class="cimav.client.view.common.SimpleValidatorFactory">
         <when-type-is class="javax.validation.ValidatorFactory" />
     </replace-with>
               
