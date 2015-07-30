@@ -34,6 +34,14 @@
                 </g:stack>
                 <g:stack>
                     <g:customHeader size='30'>
+                        <g:Label>Nómina</g:Label>
+                    </g:customHeader>
+                    <b2:NavList ui:field="optionMenuNomina">
+                        <b2:NavLink name="optionNomina" ui:field="optionNomina" >Movimientos y Cálculo</b2:NavLink> 
+                    </b2:NavList>
+                </g:stack>
+                <g:stack>
+                    <g:customHeader size='30'>
                         <g:Label>Reportes</g:Label>
                     </g:customHeader>
                     <b2:NavList >
@@ -41,12 +49,6 @@
                         <b2:NavLink name="optionNone" ui:field="optionDos">Dos</b2:NavLink>
                         <b2:NavLink name="optionNone" ui:field="optionTres">Tres</b2:NavLink>
                     </b2:NavList>
-                </g:stack>
-                <g:stack>
-                    <g:customHeader size='30'>
-                        <g:Label>Nómina</g:Label>
-                    </g:customHeader>
-                    <g:Label>Falta...</g:Label>
                 </g:stack>
             </g:StackLayoutPanel>
         </g:west>

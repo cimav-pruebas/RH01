@@ -59,7 +59,7 @@ Uncomment this for XHTML entities
                 </g:DockLayoutPanel>
             </g:FlowPanel>
         </g:west>   
-        
+
         <g:center >
             <emp:EmpleadosEditorUI ui:field="empleadosEditorUI"></emp:EmpleadosEditorUI>
         </g:center>

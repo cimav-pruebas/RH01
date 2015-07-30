@@ -20,12 +20,22 @@ import org.jboss.errai.databinding.client.api.Bindable;
 @Bindable
 public class Empleado extends BaseDomain implements Serializable { 
     
+    private String cuentaCimav;
+    private String urlPhoto;
+    private Grupo grupo;
+    private Tabulador nivel;
+    private Departamento departamento;
+    @JsonIgnore private ESede sede;
+    private Integer idSede;
+    @JsonIgnore private EStatusEmpleado status;
+    private Integer idStatus;
+    
     private String rfc;
     private String curp;
-    private String cuentaCimav;
+ //   private String cuentaCimav;
     private String cuentaBanco;
     private String imss;
-    private String urlPhoto;
+//    private String urlPhoto;
     
     @NotBlank(message = "Nombre no puede estar vacío")
     @Size(min = 3, max = 40, message = "Nombre debe tener entre 3 y 40 caracteres")
@@ -35,35 +45,40 @@ public class Empleado extends BaseDomain implements Serializable {
     
     private String apellidoMaterno;
     
-    @JsonIgnore private EClinica clinica;
+    @JsonIgnore 
+    private EClinica clinica;
     private Integer idClinica;
 
     @JsonIgnore private EBanco banco;
     private Integer idBanco;
     
-    private Grupo grupo;
-    private Tabulador nivel;
-    private Departamento departamento;
+//    private Grupo grupo;
+//    private Tabulador nivel;
+//    private Departamento departamento;
     
-    @JsonIgnore private ESede sede;
-    private Integer idSede;
+//    @JsonIgnore private ESede sede;
+//    private Integer idSede;
     
-    @JsonIgnore private EStatusEmpleado status;
-    private Integer idStatus;
+//    @JsonIgnore private EStatusEmpleado status;
+//    private Integer idStatus;
     
-    @JsonIgnore private ETipoEmpleado tipoEmpleado;
+    @JsonIgnore 
+    private ETipoEmpleado tipoEmpleado;
     private Integer idTipoEmpleado;
     
-    @JsonIgnore private ETipoContrato tipoContrato;
+    @JsonIgnore private 
+    ETipoContrato tipoContrato;
     private Integer idTipoContrato;
     
-    @JsonIgnore private ETipoAntiguedad tipoAntiguedad;
+    @JsonIgnore 
+    private ETipoAntiguedad tipoAntiguedad;
     private Integer idTipoAntiguedad;
     
-    @JsonIgnore private ETipoSNI tipoSNI;
+    @JsonIgnore 
+    private ETipoSNI tipoSNI;
     private Integer idTipoSni;
-    
-    private Empleado jefe;
+
+    private EmpleadoBase jefe;
     
     private Date fechaIngreso;
     private Date fechaInicioContrato;
@@ -75,10 +90,12 @@ public class Empleado extends BaseDomain implements Serializable {
 
     private Date fechaNacimiento;
     
-    @JsonIgnore private ESexo sexo;
+    @JsonIgnore 
+    private ESexo sexo;
     private Integer idSexo;
     
-    @JsonIgnore private EEdoCivil edoCivil;
+    @JsonIgnore 
+    private EEdoCivil edoCivil;
     private Integer idEdoCivil;
     
     private String direccionCalle;
@@ -88,8 +105,9 @@ public class Empleado extends BaseDomain implements Serializable {
     private String emailPersonal;
     
     public Empleado() {
+        super();
         
-        this.status = EStatusEmpleado.SABATICO;
+//        this.status = EStatusEmpleado.SABATICO;
         this.tipoEmpleado = ETipoEmpleado.NORMAL;
         this.tipoContrato = ETipoContrato.DETERMINADO;
         
@@ -103,7 +121,7 @@ public class Empleado extends BaseDomain implements Serializable {
         this.tipoAntiguedad = ETipoAntiguedad.ADMINISTRATIVA;
         this.tipoSNI = ETipoSNI.NO_APLICA;
         
-        this.sede = ESede.CHIHUAHUA;
+//        this.sede = ESede.CHIHUAHUA;
     }
 
     public EBanco getBanco() {
@@ -124,24 +142,24 @@ public class Empleado extends BaseDomain implements Serializable {
         this.idBanco = idBanco;
     }
     
-    public String getUrlPhoto() {
-        String cteUrlPhoto = "http://cimav.edu.mx/foto/";
-        String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
-                ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
-        return this.urlPhoto;
-    }
-
-    public void setUrlPhoto(String urlPhoto) {
-        this.urlPhoto = urlPhoto;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
-    }
+//    public String getUrlPhoto() {
+//        String cteUrlPhoto = "http://cimav.edu.mx/foto/";
+//        String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
+//                ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
+//        return this.urlPhoto;
+//    }
+//
+//    public void setUrlPhoto(String urlPhoto) {
+//        this.urlPhoto = urlPhoto;
+//    }
+//
+//    public Grupo getGrupo() {
+//        return grupo;
+//    }
+//
+//    public void setGrupo(Grupo grupo) {
+//        this.grupo = grupo;
+//    }
 
     public String getRfc() {
         return rfc;
@@ -151,21 +169,21 @@ public class Empleado extends BaseDomain implements Serializable {
         this.rfc = rfc;
     }
 
-    public Tabulador getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(Tabulador nivel) {
-        this.nivel = nivel;
-    }
-
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
+//    public Tabulador getNivel() {
+//        return nivel;
+//    }
+//
+//    public void setNivel(Tabulador nivel) {
+//        this.nivel = nivel;
+//    }
+//
+//    public Departamento getDepartamento() {
+//        return departamento;
+//    }
+//
+//    public void setDepartamento(Departamento departamento) {
+//        this.departamento = departamento;
+//    }
 
     public String getNombre() {
         return nombre;
@@ -217,14 +235,14 @@ public class Empleado extends BaseDomain implements Serializable {
         this.curp = curp;
     }
 
-    public String getCuentaCimav() {
-        return cuentaCimav;
-    }
-
-    public void setCuentaCimav(String cuentaCimav) {
-        this.urlPhoto = "http://cimav.edu.mx/foto/" + cuentaCimav;
-        this.cuentaCimav = cuentaCimav;
-    }
+//    public String getCuentaCimav() {
+//        return cuentaCimav;
+//    }
+//
+//    public void setCuentaCimav(String cuentaCimav) {
+//        this.urlPhoto = "http://cimav.edu.mx/foto/" + cuentaCimav;
+//        this.cuentaCimav = cuentaCimav;
+//    }
 
     public String getCuentaBanco() {
         return cuentaBanco;
@@ -242,41 +260,41 @@ public class Empleado extends BaseDomain implements Serializable {
         this.imss = imss;
     }
 
-    public ESede getSede() {
-        return sede;
-    }
-
-    public void setSede(ESede sede) {
-        this.sede = sede;
-        this.idSede = sede != null ? sede.getId() : 0;
-    }
-
-    public Integer getIdSede() {
-        return idSede;
-    }
-
-    public void setIdSede(Integer idSede) {
-        this.sede = ESede.get(idSede);
-        this.idSede = idSede;
-    }
-
-    public EStatusEmpleado getStatus() {
-        return status;
-    }
-
-    public void setStatus(EStatusEmpleado status) {
-        this.status = status;
-        this.idStatus = status != null ? status.getId() : 0;
-    }
-
-    public Integer getIdStatus() {
-        return idStatus;
-    }
-
-    public void setIdStatus(Integer idStatus) {
-        this.status = EStatusEmpleado.get(idStatus);
-        this.idStatus = idStatus;
-    }
+//    public ESede getSede() {
+//        return sede;
+//    }
+//
+//    public void setSede(ESede sede) {
+//        this.sede = sede;
+//        this.idSede = sede != null ? sede.getId() : 0;
+//    }
+//
+//    public Integer getIdSede() {
+//        return idSede;
+//    }
+//
+//    public void setIdSede(Integer idSede) {
+//        this.sede = ESede.get(idSede);
+//        this.idSede = idSede;
+//    }
+//
+//    public EStatusEmpleado getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(EStatusEmpleado status) {
+//        this.status = status;
+//        this.idStatus = status != null ? status.getId() : 0;
+//    }
+//
+//    public Integer getIdStatus() {
+//        return idStatus;
+//    }
+//
+//    public void setIdStatus(Integer idStatus) {
+//        this.status = EStatusEmpleado.get(idStatus);
+//        this.idStatus = idStatus;
+//    }
 
     public ETipoEmpleado getTipoEmpleado() {
         return tipoEmpleado;
@@ -350,11 +368,11 @@ public class Empleado extends BaseDomain implements Serializable {
         this.idTipoSni = idTipoSni;
     }
 
-    public Empleado getJefe() {
+    public EmpleadoBase getJefe() {
         return jefe;
     }
 
-    public void setJefe(Empleado jefe) {
+    public void setJefe(EmpleadoBase jefe) {
         this.jefe = jefe;
     }
 
@@ -497,5 +515,85 @@ public class Empleado extends BaseDomain implements Serializable {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+        public String getUrlPhoto() {
+        String cteUrlPhoto = "http://cimav.edu.mx/foto/";
+        String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
+                ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
+        return this.urlPhoto;
+    }
+
+    public void setUrlPhoto(String urlPhoto) {
+        this.urlPhoto = urlPhoto;
+    }
     
+    public String getCuentaCimav() {
+        return cuentaCimav;
+    }
+
+    public void setCuentaCimav(String cuentaCimav) {
+        this.urlPhoto = "http://cimav.edu.mx/foto/" + cuentaCimav;
+        this.cuentaCimav = cuentaCimav;
+    }
+    
+    public ESede getSede() {
+        return sede;
+    }
+
+    public void setSede(ESede sede) {
+        this.sede = sede;
+        this.idSede = sede != null ? sede.getId() : 0;
+    }
+
+    public Integer getIdSede() {
+        return idSede;
+    }
+
+    public void setIdSede(Integer idSede) {
+        this.sede = ESede.get(idSede);
+        this.idSede = idSede;
+    }
+
+    public EStatusEmpleado getStatus() {
+        return status;
+    }
+
+    public void setStatus(EStatusEmpleado status) {
+        this.status = status;
+        this.idStatus = status != null ? status.getId() : 0;
+    }
+
+    public Integer getIdStatus() {
+        return idStatus;
+    }
+
+    public void setIdStatus(Integer idStatus) {
+        this.status = EStatusEmpleado.get(idStatus);
+        this.idStatus = idStatus;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public Tabulador getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Tabulador nivel) {
+        this.nivel = nivel;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
 }

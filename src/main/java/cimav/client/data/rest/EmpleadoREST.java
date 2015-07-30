@@ -9,6 +9,8 @@ import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.EMethod;
 import cimav.client.data.domain.Empleado;
+import cimav.client.data.domain.EmpleadoBase;
+import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.view.common.Ajax;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
@@ -30,53 +32,17 @@ public class EmpleadoREST extends BaseREST {
     public interface EmpleadoJsonCodec extends JsonEncoderDecoder<Empleado> {}
     public EmpleadoJsonCodec empleadoJsonCodec = GWT.create(EmpleadoJsonCodec.class);
     
-    public void findAll() {
-
-        BaseREST.setDateFormatGET();
-
-        String url = BaseREST.URL_REST_BASE + "api/empleado";
-        
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
-        Resource rb = new Resource(url, headers);
-        rb.get().send(Ajax.jsonCall(new JsonCallback() {
-
-            @Override
-            public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, "FindAll " + exception.getMessage());
-                onRESTExecuted(dbEvent);
-            }
-
-            @Override
-            public void onSuccess(Method method, JSONValue response) {
-                try {
-                    List<Empleado> empleados = new ArrayList<>();
-                    JSONArray array = response.isArray();
-                    for (int i = 0; i < array.size(); i++) {
-                        JSONValue val = array.get(i);
-                        Empleado empleado = empleadoJsonCodec.decode(val);
-                        empleados.add(empleado);
-                    }
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.SUCCESS, "findAll listo");
-                    dbEvent.setResult(empleados);
-                    onRESTExecuted(dbEvent);
-                } catch (Exception e) {
-                    String error = "findAll empleadoJsonCodec >> " + e.getMessage();
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, error);
-                    onRESTExecuted(dbEvent);
-                }
-            }
-
-        }));
-
-    }
+    public interface EmpleadoBaseJsonCodec extends JsonEncoderDecoder<EmpleadoBase> {}
+    public EmpleadoBaseJsonCodec empleadoBaseJsonCodec = GWT.create(EmpleadoBaseJsonCodec.class);
+    
+    public interface EmpleadoNominaJsonCodec extends JsonEncoderDecoder<EmpleadoNomina> {}
+    public EmpleadoNominaJsonCodec empleadoNominaJsonCodec = GWT.create(EmpleadoNominaJsonCodec.class);
     
     public void findAllBase() {
 
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/empleado/base";
+        String url = BaseREST.URL_REST_BASE + "api/empleado_base";
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
@@ -86,25 +52,25 @@ public class EmpleadoREST extends BaseREST {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, "FindAllBase " +  exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, "FindAll " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    List<Empleado> empleados = new ArrayList<>();
+                    List<EmpleadoBase> empleados = new ArrayList<>();
                     JSONArray array = response.isArray();
                     for (int i = 0; i < array.size(); i++) {
                         JSONValue val = array.get(i);
-                        Empleado empleado = empleadoJsonCodec.decode(val);
-                        empleados.add(empleado);
+                        EmpleadoBase empleadoBase = empleadoBaseJsonCodec.decode(val);
+                        empleados.add(empleadoBase);
                     }
-                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.SUCCESS, "findAddBase listo");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.SUCCESS, "findAll listo");
                     dbEvent.setResult(empleados);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    String error = "findAllBase empleadoJsonCodec >> " + e.getMessage();
+                    String error = "TTTT findAll FIND_ALL_BASE empleadoJsonCodec >> " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
@@ -113,6 +79,48 @@ public class EmpleadoREST extends BaseREST {
         }));
 
     }
+    
+//    public void findAllBase() {
+//
+//        BaseREST.setDateFormatGET();
+//
+//        String url = BaseREST.URL_REST_BASE + "api/empleado/base";
+//        
+//        HashMap<String, String> headers = new HashMap<>();
+//        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+//
+//        Resource rb = new Resource(url, headers);
+//        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+//
+//            @Override
+//            public void onFailure(Method method, Throwable exception) {
+//                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, "FindAllBase " +  exception.getMessage());
+//                onRESTExecuted(dbEvent);
+//            }
+//
+//            @Override
+//            public void onSuccess(Method method, JSONValue response) {
+//                try {
+//                    List<Empleado> empleados = new ArrayList<>();
+//                    JSONArray array = response.isArray();
+//                    for (int i = 0; i < array.size(); i++) {
+//                        JSONValue val = array.get(i);
+//                        Empleado empleado = empleadoJsonCodec.decode(val);
+//                        empleados.add(empleado);
+//                    }
+//                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.SUCCESS, "findAddBase listo");
+//                    dbEvent.setResult(empleados);
+//                    onRESTExecuted(dbEvent);
+//                } catch (Exception e) {
+//                    String error = "findAllBase empleadoJsonCodec >> " + e.getMessage();
+//                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, error);
+//                    onRESTExecuted(dbEvent);
+//                }
+//            }
+//
+//        }));
+//
+//    }
 
     public void findById(int id) {
 
@@ -135,13 +143,55 @@ public class EmpleadoREST extends BaseREST {
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
+                    GWT.log("Empleado1>>> " + response);
                     Empleado empleado = empleadoJsonCodec.decode(response);
+                    GWT.log("Empleado2>>> " + empleado);
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "findById listo");
                     dbEvent.setResult(empleado);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    String error = "findById empleadoJsonCodec >> " + e.getMessage();
+                    GWT.log("Empleado3>>> " + e);
+                    String error = "FFFFFindById empleadoJsonCodec >> " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+
+    public void findEmpleadoNominaById(int id) {
+
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado_nomina/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_NOMINA_BY_ID, ETypeResult.FAILURE, "FindById " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    GWT.log("Empleado1>>> " + response);
+                    EmpleadoNomina empleadoNomina = empleadoNominaJsonCodec.decode(response);
+                    GWT.log("Empleado2>>> " + empleadoNomina);
+//                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_NOMINA_BY_ID, ETypeResult.SUCCESS, "findById listo");
+//                    dbEvent.setResult(empleado);
+//                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    GWT.log("Empleado3>>> " + e);
+                    String error = "FFFFFindById empleadoJsonCodec >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_NOMINA_BY_ID, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }

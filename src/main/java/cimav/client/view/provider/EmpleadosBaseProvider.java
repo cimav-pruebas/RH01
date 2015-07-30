@@ -5,12 +5,12 @@
  */
 package cimav.client.view.provider;
 
+import cimav.client.data.domain.EmpleadoBase;
+import cimav.client.data.rest.BaseREST;
+import cimav.client.data.rest.EmpleadoREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
-import cimav.client.data.domain.Empleado;
-import cimav.client.data.rest.BaseREST;
-import cimav.client.data.rest.EmpleadoREST;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
@@ -22,21 +22,21 @@ import java.util.List;
  *
  * @author juan.calderon
  */
-public class EmpleadosProvider extends BaseProvider<Empleado> {
+public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
 
-    private static EmpleadosProvider instance;
-
-    private EmpleadoREST empleadoREST;
-
-    public static EmpleadosProvider get() {
+    /* Borrar por compatiblidad */
+    private static EmpleadosBaseProvider instance;
+    public static EmpleadosBaseProvider get() {
         if (instance == null) {
-            instance = new EmpleadosProvider();
+            instance = new EmpleadosBaseProvider();
         }
         return instance;
     }
-
+    
+    private EmpleadoREST empleadoREST;
+    
     @Override
-    public boolean matchFilter(Empleado value, String filter) {
+    public boolean matchFilter(EmpleadoBase value, String filter) {
         if (value == null) {
             return false;
         }
@@ -62,7 +62,7 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
         String deptoStr = value.getDepartamento() != null ? value.getDepartamento().getCode() + " " + value.getDepartamento().getName() : " ";
 
         String string
-                = value.getName() + " " + value.getRfc() + " " + value.getCode() + " " + value.getCuentaCimav() + " " + grupoStr + " " + nivelStr + " " + sedeStr + " " + deptoStr;
+                = value.getName() /*+ " " + value.getRfc()*/ + " " + value.getCode() + " " + value.getCuentaCimav() + " " + grupoStr + " " + nivelStr + " " + sedeStr + " " + deptoStr;
         string = string.toLowerCase();
 
         RegExp regExp = RegExp.compile(pattern);
@@ -80,27 +80,27 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
     public void order(int orderBy) {
         switch (orderBy) {
             case ORDER_BY_NAME: {
-                Collections.sort(dataProvider.getList(), new Comparator<Empleado>() {
+                Collections.sort(dataProvider.getList(), new Comparator<EmpleadoBase>() {
                     @Override
-                    public int compare(Empleado emp1, Empleado emp2) {
+                    public int compare(EmpleadoBase emp1, EmpleadoBase emp2) {
                         return emp1.getName().compareTo(emp2.getName());
                     }
                 });
                 break;
             }
             case ORDER_BY_CODE: {
-                Collections.sort(dataProvider.getList(), new Comparator<Empleado>() {
+                Collections.sort(dataProvider.getList(), new Comparator<EmpleadoBase>() {
                     @Override
-                    public int compare(Empleado emp1, Empleado emp2) {
+                    public int compare(EmpleadoBase emp1, EmpleadoBase emp2) {
                         return emp1.getCode().compareTo(emp2.getCode());
                     }
                 });
                 break;
             }
             case ORDER_BY_GRUPO: {
-                Collections.sort(dataProvider.getList(), new Comparator<Empleado>() {
+                Collections.sort(dataProvider.getList(), new Comparator<EmpleadoBase>() {
                     @Override
-                    public int compare(Empleado emp1, Empleado emp2) {
+                    public int compare(EmpleadoBase emp1, EmpleadoBase emp2) {
                         String grp1 = emp1.getGrupo() != null ? emp1.getGrupo().getCode() : "";
                         String grp2 = emp2.getGrupo() != null ? emp2.getGrupo().getCode() : "";
                         return grp1.compareTo(grp2);
@@ -109,9 +109,9 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
                 break;
             }
             case ORDER_BY_NIVEL: {
-                Collections.sort(dataProvider.getList(), new Comparator<Empleado>() {
+                Collections.sort(dataProvider.getList(), new Comparator<EmpleadoBase>() {
                     @Override
-                    public int compare(Empleado emp1, Empleado emp2) {
+                    public int compare(EmpleadoBase emp1, EmpleadoBase emp2) {
                         String niv1 = emp1.getNivel() != null ? emp1.getNivel().getCode() : "";
                         String niv2 = emp2.getNivel() != null ? emp2.getNivel().getCode() : "";
                         return niv1.compareTo(niv2);
@@ -135,42 +135,26 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
 
         @Override
         public void onRESTExecuted(MethodEvent methodEvent) {
-            if (EMethod.FIND_ALL.equals(methodEvent.getMethod())) {
+            if (EMethod.FIND_ALL_BASE.equals(methodEvent.getMethod())) {
                 
                 // tumbar a todos. 
                 dataProvider.getList().clear();
                 
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     // si no hubo problema, pasa la lista resultante al Provider
-                    List<Empleado> empleados = (List<Empleado>) methodEvent.getResult();
+                    List<EmpleadoBase> empleados = (List<EmpleadoBase>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
                 } else {
-                    Window.alert("Falló cargada de empleados: " + methodEvent.getReason());
+                    Window.alert("EmpleadosBaseProvider.java Falló cargada de empleados: " + methodEvent.getReason());
                 }
                 
                 // le avisa al EmpleadoUI
                 onMethodExecuted(methodEvent);
                 
-            } else if (EMethod.CREATE.equals(methodEvent.getMethod())) {
-                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
-                    Empleado created = (Empleado) methodEvent.getResult();
-                    dataProvider.getList().add(created);
-                }
-                onMethodExecuted(methodEvent); 
-            } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
-//                // en methodEvent.getResult() va el Empleado recargado
-//                // pero no requiere pasarlo al binding dado que es el mismo cambiado
-//                // actualizar el dataProvider
-//                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) { 
-//                    Empleado empleadoUpdated = (Empleado) methodEvent.getResult();
-//                    int idx = dataProvider.getList().indexOf(empleadoUpdated);
-//                    dataProvider.getList().set(idx, empleadoUpdated);
-//                }
-                onMethodExecuted(methodEvent); 
             } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     // re-carga el provider con el empleado reloaded
-                    Empleado reloaded = (Empleado) methodEvent.getResult();
+                    EmpleadoBase reloaded = (EmpleadoBase) methodEvent.getResult();
                     int idx = dataProvider.getList().indexOf(reloaded);
                     dataProvider.getList().set(idx, reloaded);
                 }
@@ -183,7 +167,7 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
                 
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     // si no hubo problema, pasa la lista resultante al Provider
-                    List<Empleado> empleados = (List<Empleado>) methodEvent.getResult();
+                    List<EmpleadoBase> empleados = (List<EmpleadoBase>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
                 } else {
                     Window.alert("Falló cargada de empleados by_depto: " + methodEvent.getReason());
@@ -195,30 +179,14 @@ public class EmpleadosProvider extends BaseProvider<Empleado> {
         }
     }
 
-    public void findAll() {
-        this.getREST().findAll();
-    }
-    
-    public void add(Empleado empleado) {
-        this.getREST().add(empleado);
-    }
-
-    public void update(Empleado empleado) {
-        this.getREST().update(empleado);
+    public void findAllBase() {
+        this.getREST().findAllBase();
     }
     
     public void reloadById(int idEmpleado) {
         this.getREST().findById(idEmpleado);
     }
     
-//    public void delete(Empleado empleado) {
-//        if (empleado == null || empleado.getId() <= 0) {
-//            Growl.growl("Empleado nulo");
-//        } else {
-//            this.getREST().delete(empleado.getId());
-//        }
-//    }
-
     public void findAllByDepto(int idDepto) {
         this.getREST().findAllByDepto(idDepto);
     }

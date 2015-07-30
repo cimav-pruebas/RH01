@@ -15,6 +15,8 @@ import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.ESexo;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
+import cimav.client.data.rest.BaseREST;
+import cimav.client.data.rest.EmpleadoREST;
 import cimav.client.view.common.FechaDateBox;
 import cimav.client.view.catalogos.departamentos.DeptoChosen;
 import cimav.client.view.catalogos.empleados.jefe.JefeChosen;
@@ -23,7 +25,6 @@ import cimav.client.view.catalogos.empleados.tipoantiguedad.TipoAntiguedadChosen
 import cimav.client.view.catalogos.empleados.tipocontrato.TipoContratoChosen;
 import cimav.client.view.catalogos.empleados.tipoempleado.TipoEmpleadoChosen;
 import cimav.client.view.catalogos.grupo.GrupoChosen;
-import cimav.client.view.provider.EmpleadosProvider;
 import cimav.client.view.catalogos.tabulador.TabuladorChosen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +49,6 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
-import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.jboss.errai.databinding.client.api.DataBinder;
 import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
@@ -123,6 +123,8 @@ public class EmpleadosEditorUI extends Composite {
     // Model & DataBinder
     private Empleado empleadoSelected;
     private DataBinder<Empleado> empleadoBinder;
+    
+    private EmpleadoREST empleadoREST;
 
     public EmpleadosEditorUI() {
 
@@ -476,7 +478,7 @@ public class EmpleadosEditorUI extends Composite {
         saveBtn.addClickHandler(new SaveClickHandler());
         cancelBtn.addClickHandler(new CancelClickHandler());
 
-        EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
+//        EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
 
         /* Binding */
         try {
@@ -532,11 +534,68 @@ public class EmpleadosEditorUI extends Composite {
     private class BinderPropertyChange implements PropertyChangeHandler<Object> {
         @Override
         public void onPropertyChange(PropertyChangeEvent<Object> event) {
-            EmpleadosProvider.get().dataProvider.refresh();
+// >>>            EmpleadosProvider.get().dataProvider.refresh();
 
             // becomes Dirty
             empleadoSelected.becomesDirty();
             updateWidgets();
+        }
+    }
+    
+    public EmpleadoREST getREST() {
+        if (empleadoREST == null) {
+            empleadoREST = new EmpleadoREST();
+
+            empleadoREST.addRESTExecutedListener(new RestMethodExecutedListener());
+        }
+        return empleadoREST;
+    }
+    
+    private class RestMethodExecutedListener implements BaseREST.RESTExecutedListener {
+
+        @Override
+        public void onRESTExecuted(MethodEvent methodEvent) {
+            if (EMethod.CREATE.equals(methodEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    Empleado created = (Empleado) methodEvent.getResult();
+// >>>                    dataProvider.getList().add(created);
+                }
+// >>>                onMethodExecuted(methodEvent); 
+            } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
+//                // en methodEvent.getResult() va el Empleado recargado
+//                // pero no requiere pasarlo al binding dado que es el mismo cambiado
+//                // actualizar el dataProvider
+//                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) { 
+//                    Empleado empleadoUpdated = (Empleado) methodEvent.getResult();
+//                    int idx = dataProvider.getList().indexOf(empleadoUpdated);
+//                    dataProvider.getList().set(idx, empleadoUpdated);
+//                }
+// >>>                onMethodExecuted(methodEvent); 
+            } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    // re-carga el provider con el empleado reloaded
+                    Empleado reloaded = (Empleado) methodEvent.getResult();
+// >>>                    int idx = dataProvider.getList().indexOf(reloaded);
+// >>>                    dataProvider.getList().set(idx, reloaded);
+                    
+                    empleadoSelected = reloaded;
+        
+                    updateWidgets();
+        
+                    empleadoBinder.setModel(empleadoSelected != null ? empleadoSelected : new Empleado());//, InitialState.FROM_MODEL, true);
+        
+                    jefeChosen.setUrlPhotoPath();
+        
+                    if (empleadoSelected != null) {
+                        nombreTxtBox.setFocus(true);
+                    }
+                    
+                }
+
+                // en methodEvent.getResult() va el Empleado recargado para pasarlo al binding
+// >>>                onMethodExecuted(methodEvent); // <-- usa el mismo methodEvent
+            } 
+            
         }
     }
     
@@ -554,10 +613,10 @@ public class EmpleadosEditorUI extends Composite {
                 boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
                 if (isNuevo) {
                     // add
-                    EmpleadosProvider.get().add(empleadoSelected);
+// >>                    EmpleadosProvider.get().add(empleadoSelected);
                 } else {
                     // update
-                    EmpleadosProvider.get().update(empleadoSelected);
+// >>                    EmpleadosProvider.get().update(empleadoSelected);
                 }
             }
 
@@ -603,7 +662,7 @@ public class EmpleadosEditorUI extends Composite {
                 setSelectedBean(null);
             } else {
                 // cancelar update
-                EmpleadosProvider.get().reloadById(empleadoSelected.getId());
+// >>                EmpleadosProvider.get().reloadById(empleadoSelected.getId());
             }
         }
     }
@@ -618,70 +677,12 @@ public class EmpleadosEditorUI extends Composite {
         panelEditorGlass.getElement().getStyle().setZIndex(z_index_val);
     }
 
-    private class ProviderMethodExecutedListener implements EmpleadosProvider.MethodExecutedListener {
-
-        @Override
-        public void onMethodExecuted(MethodEvent methodEvent) {
-//            if (EMethod.CREATE.equals(methodEvent.getMethod())) {
-//                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
-//                    Growl.growl("Registro nuevo agregado");
-//                    Empleado empCreado = (Empleado) methodEvent.getResult();
-//                    setSelectedBean(empCreado);
-//                } else {
-//                    //setSelectedBean(null);
-//                    String msgError = "Falló creación de registro nuevo \n" + methodEvent.getReason();
-//                    Window.alert(msgError);
-//                }
-//            } else
-            if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
-                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
-                    Growl.growl("Registro actualizado");
-                    
-                    // Si actualizÃ³ bien:
-                    // toma el Bean
-                    //int idx = EmpleadosProvider.get().getDataProvider().getList().indexOf(empleadoSelected);
-                    // limpia el Bean
-                    empleadoSelected.cleanDirty();
-                    // lo pasa al Provider
-//                    EmpleadosProvider.get().getDataProvider().getList().set(idx, empleadoSelected);
-                    
-                } else {
-                    Window.alert("Falló actualización");
-                }
-                
-                updateWidgets();
-                
-            } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
-                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
-                    Growl.growl("Registro cancelado");
-                    Empleado empCancelado = (Empleado) methodEvent.getResult();
-                    // recarga el empleado desde la DB
-                    // viene clean
-                    // lo asigna al Bean
-                    setSelectedBean(empCancelado);
-                    
-                } else {
-                    Window.alert("Falló cancelación");
-                }
-                
-                updateWidgets();
-            }
-
-        }
-    }
-
-    public void setSelectedBean(Empleado empleadoSelected) {
-        this.empleadoSelected = empleadoSelected;
+    public void setSelectedBean(Integer idEmpleadoBaseSelected) {
         
-        this.updateWidgets();
+        idEmpleadoBaseSelected = idEmpleadoBaseSelected == null ? 0 : idEmpleadoBaseSelected;
         
-        this.empleadoBinder.setModel(this.empleadoSelected != null ? this.empleadoSelected : new Empleado());//, InitialState.FROM_MODEL, true);
+        getREST().findById(idEmpleadoBaseSelected);
         
-        this.jefeChosen.setUrlPhotoPath();
-        
-        if (this.empleadoSelected != null) {
-            this.nombreTxtBox.setFocus(true);
-        }
     }
     
     private void updateWidgets() {

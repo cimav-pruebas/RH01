@@ -8,7 +8,7 @@ package cimav.client.view.catalogos.empleados.jefe;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
-import cimav.client.data.domain.Empleado;
+import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
 import com.arcbees.chosen.client.gwt.ChosenValueListBox;
@@ -43,7 +43,7 @@ public class JefeChosen extends Composite {
     HTML htmlDatos;
     @UiField
     FlowPanel comboWrap;
-    private final ChosenValueListBox<Empleado> chosen;
+    private final ChosenValueListBox<EmpleadoBase> chosen;
 
     interface JefeChosenUiBinder extends UiBinder<Widget, JefeChosen> {
     }
@@ -51,9 +51,9 @@ public class JefeChosen extends Composite {
     public JefeChosen() {
         initWidget(uiBinder.createAndBindUi(this));
 
-        chosen = new ChosenValueListBox<>(new Renderer<Empleado>() {
+        chosen = new ChosenValueListBox<>(new Renderer<EmpleadoBase>() {
             @Override
-            public String render(Empleado object) {
+            public String render(EmpleadoBase object) {
                 if (object == null) {
                     return "None";
                 }
@@ -62,7 +62,7 @@ public class JefeChosen extends Composite {
             }
 
             @Override
-            public void render(Empleado object, Appendable appendable) throws IOException {
+            public void render(EmpleadoBase object, Appendable appendable) throws IOException {
                 if (object != null) {
                     String s = render(object);
                     appendable.append(s);
@@ -72,14 +72,14 @@ public class JefeChosen extends Composite {
         
         chosen.setWidth("350px");        
 
-        chosen.addValueChangeHandler(new ValueChangeHandler<Empleado>() {
+        chosen.addValueChangeHandler(new ValueChangeHandler<EmpleadoBase>() {
             @Override
-            public void onValueChange(ValueChangeEvent<Empleado> event) {
+            public void onValueChange(ValueChangeEvent<EmpleadoBase> event) {
 
                 String htmlStr = "&nbsp;";
 
                 if (event != null && event.getValue() != null) {
-                    Empleado emp = event.getValue();
+                    EmpleadoBase emp = event.getValue();
                     fotoImg.setUrl(emp.getUrlPhoto());
 //                    htmlStr = 
 //                        " <code class='label-cyt-grp-niv'><span >" + emp.getCode() + "</span></code> " + 
@@ -104,7 +104,7 @@ public class JefeChosen extends Composite {
                 if (restEvent.getMethod().equals(EMethod.FIND_ALL_BASE)) {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
 
-                        List<Empleado> jefes = (List<Empleado>) restEvent.getResult();
+                        List<EmpleadoBase> jefes = (List<EmpleadoBase>) restEvent.getResult();
                         // Agregar el Null como valor válido
                         jefes.add(null);
 
@@ -125,7 +125,7 @@ public class JefeChosen extends Composite {
     }
     
     public void setUrlPhotoPath() {
-        Empleado emp = (Empleado) this.getChosen().getValue();
+        EmpleadoBase emp = (EmpleadoBase) this.getChosen().getValue();
         if (emp == null) {
             fotoImg.setUrl("http://cimav.edu.mx/foto/default");
         } else {

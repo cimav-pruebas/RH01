@@ -105,6 +105,9 @@ public class MainEntryPoint implements EntryPoint {
                         }
                         mainUi.setCenterPanel("Tabuladores", "Consultas, altas y bajas", tabuladoresUi);
                         break;
+                    case MainUI.OPT_NOMINA:
+                        mainUi.setCenterPanel("Movimientos y Cálculo", "Captura de percepciones y deducciones. Cálculo de Nómina", null);
+                        break;
                     default:
                         mainUi.setCenterPanel(option, "Not Yet Implemented...", null);
                         break;

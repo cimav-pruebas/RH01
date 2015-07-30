@@ -13,6 +13,8 @@ import cimav.client.data.domain.ETipoContrato;
 import cimav.client.data.domain.ETipoEmpleado;
 import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
+import cimav.client.data.domain.EmpleadoBase;
+import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.Grupo;
 import cimav.client.data.domain.Tabulador;
 import java.math.BigDecimal;
@@ -827,6 +829,765 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         return new cimav_client_data_domain_TabuladorProxy(state);
       }
     });
+    class cimav_client_data_domain_EmpleadoNominaProxy extends EmpleadoNomina implements BindableProxy {
+      private BindableProxyAgent<EmpleadoNomina> agent;
+      public cimav_client_data_domain_EmpleadoNominaProxy(InitialState initialState) {
+        this(new EmpleadoNomina(), initialState);
+      }
+
+      public cimav_client_data_domain_EmpleadoNominaProxy(EmpleadoNomina target, InitialState initialState) {
+        agent = new BindableProxyAgent<EmpleadoNomina>(this, target, initialState);
+        agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
+        agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
+        agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
+        agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
+        agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
+        agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("nivel", new PropertyType(Tabulador.class, true, false));
+        agent.copyValues();
+      }
+
+      public BindableProxyAgent getAgent() {
+        return agent;
+      }
+
+      public void updateWidgets() {
+        agent.updateWidgetsAndFireEvents();
+      }
+
+      public EmpleadoNomina unwrap() {
+        return agent.target;
+      }
+
+      public EmpleadoNomina deepUnwrap() {
+        final EmpleadoNomina clone = new EmpleadoNomina();
+        clone.setIdStatus(agent.target.getIdStatus());
+        if (agent.target.getGrupo() instanceof BindableProxy) {
+          clone.setGrupo((Grupo) ((BindableProxy) getGrupo()).deepUnwrap());
+        } else {
+          clone.setGrupo(agent.target.getGrupo());
+        }
+        clone.setIdSede(agent.target.getIdSede());
+        clone.setIsDirty(agent.target.getIsDirty());
+        clone.setStatus(agent.target.getStatus());
+        clone.setSede(agent.target.getSede());
+        clone.setUrlPhoto(agent.target.getUrlPhoto());
+        clone.setCode(agent.target.getCode());
+        clone.setCuentaCimav(agent.target.getCuentaCimav());
+        clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
+        clone.setId(agent.target.getId());
+        if (agent.target.getDepartamento() instanceof BindableProxy) {
+          clone.setDepartamento((Departamento) ((BindableProxy) getDepartamento()).deepUnwrap());
+        } else {
+          clone.setDepartamento(agent.target.getDepartamento());
+        }
+        clone.setName(agent.target.getName());
+        clone.setConsecutivo(agent.target.getConsecutivo());
+        if (agent.target.getNivel() instanceof BindableProxy) {
+          clone.setNivel((Tabulador) ((BindableProxy) getNivel()).deepUnwrap());
+        } else {
+          clone.setNivel(agent.target.getNivel());
+        }
+        return clone;
+      }
+
+      public boolean equals(Object obj) {
+        if (obj instanceof cimav_client_data_domain_EmpleadoNominaProxy) {
+          obj = ((cimav_client_data_domain_EmpleadoNominaProxy) obj).unwrap();
+        }
+        return agent.target.equals(obj);
+      }
+
+      public int hashCode() {
+        return agent.target.hashCode();
+      }
+
+      public String toString() {
+        return agent.target.toString();
+      }
+
+      public Integer getIdStatus() {
+        return agent.target.getIdStatus();
+      }
+
+      public void setIdStatus(Integer idStatus) {
+        Integer oldValue = agent.target.getIdStatus();
+        agent.target.setIdStatus(idStatus);
+        agent.updateWidgetsAndFireEvent("idStatus", oldValue, idStatus);
+      }
+
+      public Grupo getGrupo() {
+        return agent.target.getGrupo();
+      }
+
+      public void setGrupo(Grupo grupo) {
+        if (agent.binders.containsKey("grupo")) {
+          grupo = (Grupo) agent.binders.get("grupo").setModel(grupo, InitialState.FROM_MODEL, true);
+        }
+        Grupo oldValue = agent.target.getGrupo();
+        agent.target.setGrupo(grupo);
+        agent.updateWidgetsAndFireEvent("grupo", oldValue, grupo);
+      }
+
+      public Integer getIdSede() {
+        return agent.target.getIdSede();
+      }
+
+      public void setIdSede(Integer idSede) {
+        Integer oldValue = agent.target.getIdSede();
+        agent.target.setIdSede(idSede);
+        agent.updateWidgetsAndFireEvent("idSede", oldValue, idSede);
+      }
+
+      public Boolean getIsDirty() {
+        return agent.target.getIsDirty();
+      }
+
+      public void setIsDirty(Boolean isDirty) {
+        Boolean oldValue = agent.target.getIsDirty();
+        agent.target.setIsDirty(isDirty);
+        agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
+      }
+
+      public EStatusEmpleado getStatus() {
+        return agent.target.getStatus();
+      }
+
+      public void setStatus(EStatusEmpleado status) {
+        EStatusEmpleado oldValue = agent.target.getStatus();
+        agent.target.setStatus(status);
+        agent.updateWidgetsAndFireEvent("status", oldValue, status);
+      }
+
+      public ESede getSede() {
+        return agent.target.getSede();
+      }
+
+      public void setSede(ESede sede) {
+        ESede oldValue = agent.target.getSede();
+        agent.target.setSede(sede);
+        agent.updateWidgetsAndFireEvent("sede", oldValue, sede);
+      }
+
+      public String getUrlPhoto() {
+        return agent.target.getUrlPhoto();
+      }
+
+      public void setUrlPhoto(String urlPhoto) {
+        String oldValue = agent.target.getUrlPhoto();
+        agent.target.setUrlPhoto(urlPhoto);
+        agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
+      }
+
+      public String getCode() {
+        return agent.target.getCode();
+      }
+
+      public void setCode(String code) {
+        String oldValue = agent.target.getCode();
+        agent.target.setCode(code);
+        agent.updateWidgetsAndFireEvent("code", oldValue, code);
+      }
+
+      public String getCuentaCimav() {
+        return agent.target.getCuentaCimav();
+      }
+
+      public void setCuentaCimav(String cuentaCimav) {
+        String oldValue = agent.target.getCuentaCimav();
+        agent.target.setCuentaCimav(cuentaCimav);
+        agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
+      }
+
+      public Date getFechaAntiguedad() {
+        return agent.target.getFechaAntiguedad();
+      }
+
+      public void setFechaAntiguedad(Date fechaAntiguedad) {
+        Date oldValue = agent.target.getFechaAntiguedad();
+        agent.target.setFechaAntiguedad(fechaAntiguedad);
+        agent.updateWidgetsAndFireEvent("fechaAntiguedad", oldValue, fechaAntiguedad);
+      }
+
+      public Integer getId() {
+        return agent.target.getId();
+      }
+
+      public void setId(Integer id) {
+        Integer oldValue = agent.target.getId();
+        agent.target.setId(id);
+        agent.updateWidgetsAndFireEvent("id", oldValue, id);
+      }
+
+      public Departamento getDepartamento() {
+        return agent.target.getDepartamento();
+      }
+
+      public void setDepartamento(Departamento departamento) {
+        if (agent.binders.containsKey("departamento")) {
+          departamento = (Departamento) agent.binders.get("departamento").setModel(departamento, InitialState.FROM_MODEL, true);
+        }
+        Departamento oldValue = agent.target.getDepartamento();
+        agent.target.setDepartamento(departamento);
+        agent.updateWidgetsAndFireEvent("departamento", oldValue, departamento);
+      }
+
+      public String getName() {
+        return agent.target.getName();
+      }
+
+      public void setName(String name) {
+        String oldValue = agent.target.getName();
+        agent.target.setName(name);
+        agent.updateWidgetsAndFireEvent("name", oldValue, name);
+      }
+
+      public Boolean isDirty() {
+        return agent.target.isDirty();
+      }
+
+      public Integer getConsecutivo() {
+        return agent.target.getConsecutivo();
+      }
+
+      public void setConsecutivo(Integer consecutivo) {
+        Integer oldValue = agent.target.getConsecutivo();
+        agent.target.setConsecutivo(consecutivo);
+        agent.updateWidgetsAndFireEvent("consecutivo", oldValue, consecutivo);
+      }
+
+      public Tabulador getNivel() {
+        return agent.target.getNivel();
+      }
+
+      public void setNivel(Tabulador nivel) {
+        if (agent.binders.containsKey("nivel")) {
+          nivel = (Tabulador) agent.binders.get("nivel").setModel(nivel, InitialState.FROM_MODEL, true);
+        }
+        Tabulador oldValue = agent.target.getNivel();
+        agent.target.setNivel(nivel);
+        agent.updateWidgetsAndFireEvent("nivel", oldValue, nivel);
+      }
+
+      public Object get(String property) {
+        if (property.equals("idStatus")) {
+          return getIdStatus();
+        }
+        if (property.equals("grupo")) {
+          return getGrupo();
+        }
+        if (property.equals("idSede")) {
+          return getIdSede();
+        }
+        if (property.equals("isDirty")) {
+          return getIsDirty();
+        }
+        if (property.equals("status")) {
+          return getStatus();
+        }
+        if (property.equals("sede")) {
+          return getSede();
+        }
+        if (property.equals("urlPhoto")) {
+          return getUrlPhoto();
+        }
+        if (property.equals("code")) {
+          return getCode();
+        }
+        if (property.equals("cuentaCimav")) {
+          return getCuentaCimav();
+        }
+        if (property.equals("fechaAntiguedad")) {
+          return getFechaAntiguedad();
+        }
+        if (property.equals("id")) {
+          return getId();
+        }
+        if (property.equals("departamento")) {
+          return getDepartamento();
+        }
+        if (property.equals("name")) {
+          return getName();
+        }
+        if (property.equals("dirty")) {
+          return isDirty();
+        }
+        if (property.equals("consecutivo")) {
+          return getConsecutivo();
+        }
+        if (property.equals("nivel")) {
+          return getNivel();
+        }
+        throw new NonExistingPropertyException(property);
+      }
+
+      public void set(String property, Object value) {
+        if (property.equals("idStatus")) {
+          agent.target.setIdStatus((Integer) value);
+          return;
+        }
+        if (property.equals("grupo")) {
+          agent.target.setGrupo((Grupo) value);
+          return;
+        }
+        if (property.equals("idSede")) {
+          agent.target.setIdSede((Integer) value);
+          return;
+        }
+        if (property.equals("isDirty")) {
+          agent.target.setIsDirty((Boolean) value);
+          return;
+        }
+        if (property.equals("status")) {
+          agent.target.setStatus((EStatusEmpleado) value);
+          return;
+        }
+        if (property.equals("sede")) {
+          agent.target.setSede((ESede) value);
+          return;
+        }
+        if (property.equals("urlPhoto")) {
+          agent.target.setUrlPhoto((String) value);
+          return;
+        }
+        if (property.equals("code")) {
+          agent.target.setCode((String) value);
+          return;
+        }
+        if (property.equals("cuentaCimav")) {
+          agent.target.setCuentaCimav((String) value);
+          return;
+        }
+        if (property.equals("fechaAntiguedad")) {
+          agent.target.setFechaAntiguedad((Date) value);
+          return;
+        }
+        if (property.equals("id")) {
+          agent.target.setId((Integer) value);
+          return;
+        }
+        if (property.equals("departamento")) {
+          agent.target.setDepartamento((Departamento) value);
+          return;
+        }
+        if (property.equals("name")) {
+          agent.target.setName((String) value);
+          return;
+        }
+        if (property.equals("consecutivo")) {
+          agent.target.setConsecutivo((Integer) value);
+          return;
+        }
+        if (property.equals("nivel")) {
+          agent.target.setNivel((Tabulador) value);
+          return;
+        }
+        throw new NonExistingPropertyException(property);
+      }
+
+      public int compareTo(BaseDomain a0) {
+        final int returnValue = agent.target.compareTo(a0);
+        agent.updateWidgetsAndFireEvents();
+        return returnValue;
+      }
+
+      public void becomesDirty() {
+        agent.target.becomesDirty();
+        agent.updateWidgetsAndFireEvents();
+      }
+
+      public void cleanDirty() {
+        agent.target.cleanDirty();
+        agent.updateWidgetsAndFireEvents();
+      }
+    }
+    BindableProxyFactory.addBindableProxy(EmpleadoNomina.class, new BindableProxyProvider() {
+      public BindableProxy getBindableProxy(Object model, InitialState state) {
+        return new cimav_client_data_domain_EmpleadoNominaProxy((EmpleadoNomina) model, state);
+      }
+      public BindableProxy getBindableProxy(InitialState state) {
+        return new cimav_client_data_domain_EmpleadoNominaProxy(state);
+      }
+    });
+    class cimav_client_data_domain_EmpleadoBaseProxy extends EmpleadoBase implements BindableProxy {
+      private BindableProxyAgent<EmpleadoBase> agent;
+      public cimav_client_data_domain_EmpleadoBaseProxy(InitialState initialState) {
+        this(new EmpleadoBase(), initialState);
+      }
+
+      public cimav_client_data_domain_EmpleadoBaseProxy(EmpleadoBase target, InitialState initialState) {
+        agent = new BindableProxyAgent<EmpleadoBase>(this, target, initialState);
+        agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
+        agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
+        agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
+        agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
+        agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("nivel", new PropertyType(Tabulador.class, true, false));
+        agent.copyValues();
+      }
+
+      public BindableProxyAgent getAgent() {
+        return agent;
+      }
+
+      public void updateWidgets() {
+        agent.updateWidgetsAndFireEvents();
+      }
+
+      public EmpleadoBase unwrap() {
+        return agent.target;
+      }
+
+      public EmpleadoBase deepUnwrap() {
+        final EmpleadoBase clone = new EmpleadoBase();
+        clone.setIdStatus(agent.target.getIdStatus());
+        if (agent.target.getGrupo() instanceof BindableProxy) {
+          clone.setGrupo((Grupo) ((BindableProxy) getGrupo()).deepUnwrap());
+        } else {
+          clone.setGrupo(agent.target.getGrupo());
+        }
+        clone.setIdSede(agent.target.getIdSede());
+        clone.setIsDirty(agent.target.getIsDirty());
+        clone.setStatus(agent.target.getStatus());
+        clone.setSede(agent.target.getSede());
+        clone.setUrlPhoto(agent.target.getUrlPhoto());
+        clone.setCode(agent.target.getCode());
+        clone.setCuentaCimav(agent.target.getCuentaCimav());
+        clone.setId(agent.target.getId());
+        if (agent.target.getDepartamento() instanceof BindableProxy) {
+          clone.setDepartamento((Departamento) ((BindableProxy) getDepartamento()).deepUnwrap());
+        } else {
+          clone.setDepartamento(agent.target.getDepartamento());
+        }
+        clone.setName(agent.target.getName());
+        clone.setConsecutivo(agent.target.getConsecutivo());
+        if (agent.target.getNivel() instanceof BindableProxy) {
+          clone.setNivel((Tabulador) ((BindableProxy) getNivel()).deepUnwrap());
+        } else {
+          clone.setNivel(agent.target.getNivel());
+        }
+        return clone;
+      }
+
+      public boolean equals(Object obj) {
+        if (obj instanceof cimav_client_data_domain_EmpleadoBaseProxy) {
+          obj = ((cimav_client_data_domain_EmpleadoBaseProxy) obj).unwrap();
+        }
+        return agent.target.equals(obj);
+      }
+
+      public int hashCode() {
+        return agent.target.hashCode();
+      }
+
+      public String toString() {
+        return agent.target.toString();
+      }
+
+      public Integer getIdStatus() {
+        return agent.target.getIdStatus();
+      }
+
+      public void setIdStatus(Integer idStatus) {
+        Integer oldValue = agent.target.getIdStatus();
+        agent.target.setIdStatus(idStatus);
+        agent.updateWidgetsAndFireEvent("idStatus", oldValue, idStatus);
+      }
+
+      public Grupo getGrupo() {
+        return agent.target.getGrupo();
+      }
+
+      public void setGrupo(Grupo grupo) {
+        if (agent.binders.containsKey("grupo")) {
+          grupo = (Grupo) agent.binders.get("grupo").setModel(grupo, InitialState.FROM_MODEL, true);
+        }
+        Grupo oldValue = agent.target.getGrupo();
+        agent.target.setGrupo(grupo);
+        agent.updateWidgetsAndFireEvent("grupo", oldValue, grupo);
+      }
+
+      public Integer getIdSede() {
+        return agent.target.getIdSede();
+      }
+
+      public void setIdSede(Integer idSede) {
+        Integer oldValue = agent.target.getIdSede();
+        agent.target.setIdSede(idSede);
+        agent.updateWidgetsAndFireEvent("idSede", oldValue, idSede);
+      }
+
+      public Boolean getIsDirty() {
+        return agent.target.getIsDirty();
+      }
+
+      public void setIsDirty(Boolean isDirty) {
+        Boolean oldValue = agent.target.getIsDirty();
+        agent.target.setIsDirty(isDirty);
+        agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
+      }
+
+      public EStatusEmpleado getStatus() {
+        return agent.target.getStatus();
+      }
+
+      public void setStatus(EStatusEmpleado status) {
+        EStatusEmpleado oldValue = agent.target.getStatus();
+        agent.target.setStatus(status);
+        agent.updateWidgetsAndFireEvent("status", oldValue, status);
+      }
+
+      public ESede getSede() {
+        return agent.target.getSede();
+      }
+
+      public void setSede(ESede sede) {
+        ESede oldValue = agent.target.getSede();
+        agent.target.setSede(sede);
+        agent.updateWidgetsAndFireEvent("sede", oldValue, sede);
+      }
+
+      public String getUrlPhoto() {
+        return agent.target.getUrlPhoto();
+      }
+
+      public void setUrlPhoto(String urlPhoto) {
+        String oldValue = agent.target.getUrlPhoto();
+        agent.target.setUrlPhoto(urlPhoto);
+        agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
+      }
+
+      public String getCode() {
+        return agent.target.getCode();
+      }
+
+      public void setCode(String code) {
+        String oldValue = agent.target.getCode();
+        agent.target.setCode(code);
+        agent.updateWidgetsAndFireEvent("code", oldValue, code);
+      }
+
+      public String getCuentaCimav() {
+        return agent.target.getCuentaCimav();
+      }
+
+      public void setCuentaCimav(String cuentaCimav) {
+        String oldValue = agent.target.getCuentaCimav();
+        agent.target.setCuentaCimav(cuentaCimav);
+        agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
+      }
+
+      public Integer getId() {
+        return agent.target.getId();
+      }
+
+      public void setId(Integer id) {
+        Integer oldValue = agent.target.getId();
+        agent.target.setId(id);
+        agent.updateWidgetsAndFireEvent("id", oldValue, id);
+      }
+
+      public Departamento getDepartamento() {
+        return agent.target.getDepartamento();
+      }
+
+      public void setDepartamento(Departamento departamento) {
+        if (agent.binders.containsKey("departamento")) {
+          departamento = (Departamento) agent.binders.get("departamento").setModel(departamento, InitialState.FROM_MODEL, true);
+        }
+        Departamento oldValue = agent.target.getDepartamento();
+        agent.target.setDepartamento(departamento);
+        agent.updateWidgetsAndFireEvent("departamento", oldValue, departamento);
+      }
+
+      public String getName() {
+        return agent.target.getName();
+      }
+
+      public void setName(String name) {
+        String oldValue = agent.target.getName();
+        agent.target.setName(name);
+        agent.updateWidgetsAndFireEvent("name", oldValue, name);
+      }
+
+      public Boolean isDirty() {
+        return agent.target.isDirty();
+      }
+
+      public Integer getConsecutivo() {
+        return agent.target.getConsecutivo();
+      }
+
+      public void setConsecutivo(Integer consecutivo) {
+        Integer oldValue = agent.target.getConsecutivo();
+        agent.target.setConsecutivo(consecutivo);
+        agent.updateWidgetsAndFireEvent("consecutivo", oldValue, consecutivo);
+      }
+
+      public Tabulador getNivel() {
+        return agent.target.getNivel();
+      }
+
+      public void setNivel(Tabulador nivel) {
+        if (agent.binders.containsKey("nivel")) {
+          nivel = (Tabulador) agent.binders.get("nivel").setModel(nivel, InitialState.FROM_MODEL, true);
+        }
+        Tabulador oldValue = agent.target.getNivel();
+        agent.target.setNivel(nivel);
+        agent.updateWidgetsAndFireEvent("nivel", oldValue, nivel);
+      }
+
+      public Object get(String property) {
+        if (property.equals("idStatus")) {
+          return getIdStatus();
+        }
+        if (property.equals("grupo")) {
+          return getGrupo();
+        }
+        if (property.equals("idSede")) {
+          return getIdSede();
+        }
+        if (property.equals("isDirty")) {
+          return getIsDirty();
+        }
+        if (property.equals("status")) {
+          return getStatus();
+        }
+        if (property.equals("sede")) {
+          return getSede();
+        }
+        if (property.equals("urlPhoto")) {
+          return getUrlPhoto();
+        }
+        if (property.equals("code")) {
+          return getCode();
+        }
+        if (property.equals("cuentaCimav")) {
+          return getCuentaCimav();
+        }
+        if (property.equals("id")) {
+          return getId();
+        }
+        if (property.equals("departamento")) {
+          return getDepartamento();
+        }
+        if (property.equals("name")) {
+          return getName();
+        }
+        if (property.equals("dirty")) {
+          return isDirty();
+        }
+        if (property.equals("consecutivo")) {
+          return getConsecutivo();
+        }
+        if (property.equals("nivel")) {
+          return getNivel();
+        }
+        throw new NonExistingPropertyException(property);
+      }
+
+      public void set(String property, Object value) {
+        if (property.equals("idStatus")) {
+          agent.target.setIdStatus((Integer) value);
+          return;
+        }
+        if (property.equals("grupo")) {
+          agent.target.setGrupo((Grupo) value);
+          return;
+        }
+        if (property.equals("idSede")) {
+          agent.target.setIdSede((Integer) value);
+          return;
+        }
+        if (property.equals("isDirty")) {
+          agent.target.setIsDirty((Boolean) value);
+          return;
+        }
+        if (property.equals("status")) {
+          agent.target.setStatus((EStatusEmpleado) value);
+          return;
+        }
+        if (property.equals("sede")) {
+          agent.target.setSede((ESede) value);
+          return;
+        }
+        if (property.equals("urlPhoto")) {
+          agent.target.setUrlPhoto((String) value);
+          return;
+        }
+        if (property.equals("code")) {
+          agent.target.setCode((String) value);
+          return;
+        }
+        if (property.equals("cuentaCimav")) {
+          agent.target.setCuentaCimav((String) value);
+          return;
+        }
+        if (property.equals("id")) {
+          agent.target.setId((Integer) value);
+          return;
+        }
+        if (property.equals("departamento")) {
+          agent.target.setDepartamento((Departamento) value);
+          return;
+        }
+        if (property.equals("name")) {
+          agent.target.setName((String) value);
+          return;
+        }
+        if (property.equals("consecutivo")) {
+          agent.target.setConsecutivo((Integer) value);
+          return;
+        }
+        if (property.equals("nivel")) {
+          agent.target.setNivel((Tabulador) value);
+          return;
+        }
+        throw new NonExistingPropertyException(property);
+      }
+
+      public int compareTo(BaseDomain a0) {
+        final int returnValue = agent.target.compareTo(a0);
+        agent.updateWidgetsAndFireEvents();
+        return returnValue;
+      }
+
+      public void becomesDirty() {
+        agent.target.becomesDirty();
+        agent.updateWidgetsAndFireEvents();
+      }
+
+      public void cleanDirty() {
+        agent.target.cleanDirty();
+        agent.updateWidgetsAndFireEvents();
+      }
+    }
+    BindableProxyFactory.addBindableProxy(EmpleadoBase.class, new BindableProxyProvider() {
+      public BindableProxy getBindableProxy(Object model, InitialState state) {
+        return new cimav_client_data_domain_EmpleadoBaseProxy((EmpleadoBase) model, state);
+      }
+      public BindableProxy getBindableProxy(InitialState state) {
+        return new cimav_client_data_domain_EmpleadoBaseProxy(state);
+      }
+    });
     class cimav_client_data_domain_EmpleadoProxy extends Empleado implements BindableProxy {
       private BindableProxyAgent<Empleado> agent;
       public cimav_client_data_domain_EmpleadoProxy(InitialState initialState) {
@@ -839,7 +1600,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("cuentaBanco", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idTipoEmpleado", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
-        agent.propertyTypes.put("jefe", new PropertyType(Empleado.class, true, false));
+        agent.propertyTypes.put("jefe", new PropertyType(EmpleadoBase.class, true, false));
         agent.propertyTypes.put("sexo", new PropertyType(ESexo.class, false, false));
         agent.propertyTypes.put("idTipoContrato", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("fechaNacimiento", new PropertyType(Date.class, false, false));
@@ -851,8 +1612,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
         agent.propertyTypes.put("fechaInicioContrato", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
-        agent.propertyTypes.put("tipoAntiguedad", new PropertyType(ETipoAntiguedad.class, false, false));
         agent.propertyTypes.put("fechaIngreso", new PropertyType(Date.class, false, false));
+        agent.propertyTypes.put("tipoAntiguedad", new PropertyType(ETipoAntiguedad.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idEdoCivil", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("tipoEmpleado", new PropertyType(ETipoEmpleado.class, false, false));
@@ -882,8 +1643,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("telefono", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("tipoContrato", new PropertyType(ETipoContrato.class, false, false));
         agent.propertyTypes.put("idBanco", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idSexo", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("idTipoSni", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("idTipoAntiguedad", new PropertyType(Integer.class, false, false));
@@ -909,7 +1670,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIdTipoEmpleado(agent.target.getIdTipoEmpleado());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
         if (agent.target.getJefe() instanceof BindableProxy) {
-          clone.setJefe((Empleado) ((BindableProxy) getJefe()).deepUnwrap());
+          clone.setJefe((EmpleadoBase) ((BindableProxy) getJefe()).deepUnwrap());
         } else {
           clone.setJefe(agent.target.getJefe());
         }
@@ -932,8 +1693,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         clone.setFechaInicioContrato(agent.target.getFechaInicioContrato());
         clone.setStatus(agent.target.getStatus());
-        clone.setTipoAntiguedad(agent.target.getTipoAntiguedad());
         clone.setFechaIngreso(agent.target.getFechaIngreso());
+        clone.setTipoAntiguedad(agent.target.getTipoAntiguedad());
         clone.setCode(agent.target.getCode());
         clone.setIdEdoCivil(agent.target.getIdEdoCivil());
         clone.setTipoEmpleado(agent.target.getTipoEmpleado());
@@ -966,8 +1727,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setTelefono(agent.target.getTelefono());
         clone.setTipoContrato(agent.target.getTipoContrato());
         clone.setIdBanco(agent.target.getIdBanco());
-        clone.setCuentaCimav(agent.target.getCuentaCimav());
         clone.setIdSexo(agent.target.getIdSexo());
+        clone.setCuentaCimav(agent.target.getCuentaCimav());
         clone.setConsecutivo(agent.target.getConsecutivo());
         clone.setIdTipoSni(agent.target.getIdTipoSni());
         clone.setIdTipoAntiguedad(agent.target.getIdTipoAntiguedad());
@@ -1029,15 +1790,15 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
       }
 
-      public Empleado getJefe() {
+      public EmpleadoBase getJefe() {
         return agent.target.getJefe();
       }
 
-      public void setJefe(Empleado jefe) {
+      public void setJefe(EmpleadoBase jefe) {
         if (agent.binders.containsKey("jefe")) {
-          jefe = (Empleado) agent.binders.get("jefe").setModel(jefe, InitialState.FROM_MODEL, true);
+          jefe = (EmpleadoBase) agent.binders.get("jefe").setModel(jefe, InitialState.FROM_MODEL, true);
         }
-        Empleado oldValue = agent.target.getJefe();
+        EmpleadoBase oldValue = agent.target.getJefe();
         agent.target.setJefe(jefe);
         agent.updateWidgetsAndFireEvent("jefe", oldValue, jefe);
       }
@@ -1158,16 +1919,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("status", oldValue, status);
       }
 
-      public ETipoAntiguedad getTipoAntiguedad() {
-        return agent.target.getTipoAntiguedad();
-      }
-
-      public void setTipoAntiguedad(ETipoAntiguedad tipoAntiguedad) {
-        ETipoAntiguedad oldValue = agent.target.getTipoAntiguedad();
-        agent.target.setTipoAntiguedad(tipoAntiguedad);
-        agent.updateWidgetsAndFireEvent("tipoAntiguedad", oldValue, tipoAntiguedad);
-      }
-
       public Date getFechaIngreso() {
         return agent.target.getFechaIngreso();
       }
@@ -1176,6 +1927,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Date oldValue = agent.target.getFechaIngreso();
         agent.target.setFechaIngreso(fechaIngreso);
         agent.updateWidgetsAndFireEvent("fechaIngreso", oldValue, fechaIngreso);
+      }
+
+      public ETipoAntiguedad getTipoAntiguedad() {
+        return agent.target.getTipoAntiguedad();
+      }
+
+      public void setTipoAntiguedad(ETipoAntiguedad tipoAntiguedad) {
+        ETipoAntiguedad oldValue = agent.target.getTipoAntiguedad();
+        agent.target.setTipoAntiguedad(tipoAntiguedad);
+        agent.updateWidgetsAndFireEvent("tipoAntiguedad", oldValue, tipoAntiguedad);
       }
 
       public String getCode() {
@@ -1465,16 +2226,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("idBanco", oldValue, idBanco);
       }
 
-      public String getCuentaCimav() {
-        return agent.target.getCuentaCimav();
-      }
-
-      public void setCuentaCimav(String cuentaCimav) {
-        String oldValue = agent.target.getCuentaCimav();
-        agent.target.setCuentaCimav(cuentaCimav);
-        agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
-      }
-
       public Integer getIdSexo() {
         return agent.target.getIdSexo();
       }
@@ -1483,6 +2234,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Integer oldValue = agent.target.getIdSexo();
         agent.target.setIdSexo(idSexo);
         agent.updateWidgetsAndFireEvent("idSexo", oldValue, idSexo);
+      }
+
+      public String getCuentaCimav() {
+        return agent.target.getCuentaCimav();
+      }
+
+      public void setCuentaCimav(String cuentaCimav) {
+        String oldValue = agent.target.getCuentaCimav();
+        agent.target.setCuentaCimav(cuentaCimav);
+        agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
       }
 
       public Integer getConsecutivo() {
@@ -1564,11 +2325,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("status")) {
           return getStatus();
         }
-        if (property.equals("tipoAntiguedad")) {
-          return getTipoAntiguedad();
-        }
         if (property.equals("fechaIngreso")) {
           return getFechaIngreso();
+        }
+        if (property.equals("tipoAntiguedad")) {
+          return getTipoAntiguedad();
         }
         if (property.equals("code")) {
           return getCode();
@@ -1657,11 +2418,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("idBanco")) {
           return getIdBanco();
         }
-        if (property.equals("cuentaCimav")) {
-          return getCuentaCimav();
-        }
         if (property.equals("idSexo")) {
           return getIdSexo();
+        }
+        if (property.equals("cuentaCimav")) {
+          return getCuentaCimav();
         }
         if (property.equals("consecutivo")) {
           return getConsecutivo();
@@ -1693,7 +2454,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           return;
         }
         if (property.equals("jefe")) {
-          agent.target.setJefe((Empleado) value);
+          agent.target.setJefe((EmpleadoBase) value);
           return;
         }
         if (property.equals("sexo")) {
@@ -1740,12 +2501,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setStatus((EStatusEmpleado) value);
           return;
         }
-        if (property.equals("tipoAntiguedad")) {
-          agent.target.setTipoAntiguedad((ETipoAntiguedad) value);
-          return;
-        }
         if (property.equals("fechaIngreso")) {
           agent.target.setFechaIngreso((Date) value);
+          return;
+        }
+        if (property.equals("tipoAntiguedad")) {
+          agent.target.setTipoAntiguedad((ETipoAntiguedad) value);
           return;
         }
         if (property.equals("code")) {
@@ -1860,12 +2621,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setIdBanco((Integer) value);
           return;
         }
-        if (property.equals("cuentaCimav")) {
-          agent.target.setCuentaCimav((String) value);
-          return;
-        }
         if (property.equals("idSexo")) {
           agent.target.setIdSexo((Integer) value);
+          return;
+        }
+        if (property.equals("cuentaCimav")) {
+          agent.target.setCuentaCimav((String) value);
           return;
         }
         if (property.equals("consecutivo")) {
