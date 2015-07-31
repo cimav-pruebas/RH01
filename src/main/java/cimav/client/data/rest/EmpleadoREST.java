@@ -115,7 +115,43 @@ public class EmpleadoREST extends BaseREST {
         }));
 
     }
+    
+    public void findBaseById(int id) {
 
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado_base/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BASE_BY_ID, ETypeResult.FAILURE, "FindById " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Empleado empleado = empleadoJsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BASE_BY_ID, ETypeResult.SUCCESS, "findById listo");
+                    dbEvent.setResult(empleado);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "EmpleadoREST.FIND_BASE_BY_ID " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BASE_BY_ID, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+    
     public void findEmpleadoNominaById(int id) {
 
         BaseREST.setDateFormatGET();
@@ -230,7 +266,7 @@ public class EmpleadoREST extends BaseREST {
 
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/empleado/by_depto/" + idDepto;
+        String url = BaseREST.URL_REST_BASE + "api/empleado_base/by_depto/" + idDepto;
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
@@ -247,15 +283,15 @@ public class EmpleadoREST extends BaseREST {
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    List<Empleado> empleados = new ArrayList<>();
+                    List<EmpleadoBase> empleadosBase = new ArrayList<>();
                     JSONArray array = response.isArray();
                     for (int i = 0; i < array.size(); i++) {
                         JSONValue val = array.get(i);
-                        Empleado empleado = empleadoJsonCodec.decode(val);
-                        empleados.add(empleado);
+                        EmpleadoBase empleadoBase = empleadoBaseJsonCodec.decode(val);
+                        empleadosBase.add(empleadoBase);
                     }
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_BASE_BY_ID_DEPTO, ETypeResult.SUCCESS, "findAllByDepto listo");
-                    dbEvent.setResult(empleados);
+                    dbEvent.setResult(empleadosBase);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
                     String error = "EmpleadoREST.FIND_BASE_BY_ID_DEPTO " + e.getMessage();

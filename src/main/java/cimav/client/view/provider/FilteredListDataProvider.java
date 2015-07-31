@@ -42,6 +42,10 @@ public class FilteredListDataProvider<T> extends ListDataProvider<T> {
         filterString = null;
         refresh();
     }
+    
+    public void refreshList() {
+        refresh();
+    }
 
     public boolean hasFilter() {
         return (filterString != null) && !filterString.trim().isEmpty(); // !ClientStringUtils.isEmpty(filterString);

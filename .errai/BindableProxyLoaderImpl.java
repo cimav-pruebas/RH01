@@ -2644,6 +2644,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         throw new NonExistingPropertyException(property);
       }
 
+      public EmpleadoBase toBase() {
+        final EmpleadoBase returnValue = agent.target.toBase();
+        agent.updateWidgetsAndFireEvents();
+        return returnValue;
+      }
+
       public int compareTo(BaseDomain a0) {
         final int returnValue = agent.target.compareTo(a0);
         agent.updateWidgetsAndFireEvents();

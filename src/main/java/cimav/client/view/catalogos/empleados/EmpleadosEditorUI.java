@@ -39,7 +39,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -49,6 +51,7 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.jboss.errai.databinding.client.api.DataBinder;
 import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
@@ -542,7 +545,7 @@ public class EmpleadosEditorUI extends Composite {
         }
     }
     
-    public EmpleadoREST getREST() {
+    private EmpleadoREST getEmpleadosREST() {
         if (empleadoREST == null) {
             empleadoREST = new EmpleadoREST();
 
@@ -557,26 +560,34 @@ public class EmpleadosEditorUI extends Composite {
         public void onRESTExecuted(MethodEvent methodEvent) {
             if (EMethod.CREATE.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    
+                    Growl.growl("Empleado nuevo insertado");
+                    updateWidgets();
+                    
                     Empleado created = (Empleado) methodEvent.getResult();
-// >>>                    dataProvider.getList().add(created);
+                    // avisar a EmpleadosUi y enviarle el nuevo a la lista
+                    methodEvent.setResult(created.toBase());
+                    onActionEditor(methodEvent);
                 }
-// >>>                onMethodExecuted(methodEvent); 
             } else if (EMethod.UPDATE.equals(methodEvent.getMethod())) {
-//                // en methodEvent.getResult() va el Empleado recargado
-//                // pero no requiere pasarlo al binding dado que es el mismo cambiado
-//                // actualizar el dataProvider
-//                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) { 
-//                    Empleado empleadoUpdated = (Empleado) methodEvent.getResult();
-//                    int idx = dataProvider.getList().indexOf(empleadoUpdated);
-//                    dataProvider.getList().set(idx, empleadoUpdated);
-//                }
-// >>>                onMethodExecuted(methodEvent); 
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) { 
+                    // methodEvent.getResult() no regresa nada
+                    Growl.growl("Empleado actualizado");
+                    empleadoSelected.cleanDirty();
+                    updateWidgets();
+                    
+                    // avisar a EmpleadosUi y enviarle los cambios para que los actualize
+                    methodEvent.setResult(empleadoSelected.toBase());
+                    onActionEditor(methodEvent);
+                    
+                } else {
+                    Window.alert("Falló actualización de Empleado. " + methodEvent.getReason());
+                }
+                
             } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     // re-carga el provider con el empleado reloaded
                     Empleado reloaded = (Empleado) methodEvent.getResult();
-// >>>                    int idx = dataProvider.getList().indexOf(reloaded);
-// >>>                    dataProvider.getList().set(idx, reloaded);
                     
                     empleadoSelected = reloaded;
         
@@ -591,9 +602,6 @@ public class EmpleadosEditorUI extends Composite {
                     }
                     
                 }
-
-                // en methodEvent.getResult() va el Empleado recargado para pasarlo al binding
-// >>>                onMethodExecuted(methodEvent); // <-- usa el mismo methodEvent
             } 
             
         }
@@ -613,10 +621,10 @@ public class EmpleadosEditorUI extends Composite {
                 boolean isNuevo = empleadoSelected == null || empleadoSelected.getId() == null || empleadoSelected.getId() <= 0;
                 if (isNuevo) {
                     // add
-// >>                    EmpleadosProvider.get().add(empleadoSelected);
+                    getEmpleadosREST().add(empleadoSelected);
                 } else {
                     // update
-// >>                    EmpleadosProvider.get().update(empleadoSelected);
+                    getEmpleadosREST().update(empleadoSelected);
                 }
             }
 
@@ -662,7 +670,9 @@ public class EmpleadosEditorUI extends Composite {
                 setSelectedBean(null);
             } else {
                 // cancelar update
-// >>                EmpleadosProvider.get().reloadById(empleadoSelected.getId());
+                MethodEvent methodEvent = new MethodEvent(EMethod.CANCEL, ETypeResult.SUCCESS, "Usuario cancela cambios");
+                onActionEditor(methodEvent);
+                
             }
         }
     }
@@ -681,8 +691,24 @@ public class EmpleadosEditorUI extends Composite {
         
         idEmpleadoBaseSelected = idEmpleadoBaseSelected == null ? 0 : idEmpleadoBaseSelected;
         
-        getREST().findEmpleadoById(idEmpleadoBaseSelected);
+        getEmpleadosREST().findEmpleadoById(idEmpleadoBaseSelected);
         
+    }
+    
+    public void addNewEmpleado() {
+        Empleado nuevo = new Empleado();
+        empleadoBinder.setModel(nuevo);
+
+        empleadoSelected = nuevo;
+        
+        updateWidgets();
+        
+        jefeChosen.setUrlPhotoPath();
+        
+        if (empleadoSelected != null) {
+            nombreTxtBox.setFocus(true);
+        }
+
     }
     
     private void updateWidgets() {
@@ -706,5 +732,24 @@ public class EmpleadosEditorUI extends Composite {
         }
 
     }
+
+    // <editor-fold defaultstate="collapsed" desc="interface ActionEditorListener"> 
+    public interface ActionEditorListener extends java.util.EventListener {
+        void onActionEditor(MethodEvent restEvent);
+    }
+    private final ArrayList listeners = new ArrayList();
+    public void addActionEditorListener(ActionEditorListener listener) {
+        listeners.add(listener);
+    }
+    public void removeActionEditorListener(ActionEditorListener listener) {
+        listeners.remove(listener);
+    }
+    public void onActionEditor(MethodEvent restEvent) {
+        for(Iterator it = listeners.iterator(); it.hasNext();) {
+            ActionEditorListener listener = (ActionEditorListener) it.next();
+            listener.onActionEditor(restEvent);
+        }
+    }
+    // </editor-fold>
     
 }

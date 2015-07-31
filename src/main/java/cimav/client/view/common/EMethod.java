@@ -17,6 +17,7 @@ public enum EMethod {
     CREATE,
     UPDATE,
     DELETE,
+    CANCEL,
     
     // Base Objects
     FIND_BASE_ALL,

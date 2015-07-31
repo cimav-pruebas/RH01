@@ -124,6 +124,22 @@ public class Empleado extends BaseDomain implements Serializable {
 //        this.sede = ESede.CHIHUAHUA;
     }
 
+    public EmpleadoBase toBase() {
+        EmpleadoBase result = new EmpleadoBase();
+        result.setId(this.getId());
+        result.setCode(this.getCode());
+        result.setName(this.getApellidoPaterno() + " " + this.getApellidoMaterno() + " " + this.getNombre());
+        result.setConsecutivo(this.getConsecutivo());
+        result.setCuentaCimav(this.getCuentaCimav());
+        result.setUrlPhoto(this.getUrlPhoto());
+        result.setGrupo(this.getGrupo());
+        result.setDepartamento(this.getDepartamento());
+        result.setSede(this.getSede());
+        result.setStatus(this.getStatus());
+        result.setNivel(this.getNivel());
+        return result;
+    }
+    
     public EBanco getBanco() {
         return banco;
     }

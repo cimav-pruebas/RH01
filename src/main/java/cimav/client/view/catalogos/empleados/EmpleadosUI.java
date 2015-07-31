@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import java.util.List;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.IconFlip;
@@ -112,8 +113,7 @@ public class EmpleadosUI extends Composite {
                 deseleccionar();
                 
                 // enviar empleado nuevo al Bean del Editor
-                //Empleado empNuevo = new Empleado();
-                empleadosEditorUI.setSelectedBean(null);
+                empleadosEditorUI.addNewEmpleado();
                 
             }
         });
@@ -125,7 +125,47 @@ public class EmpleadosUI extends Composite {
                 EmpleadosUI.this.filtrar();
             }
         });
+        
+        empleadosEditorUI.addActionEditorListener(new EmpleadosEditorUI.ActionEditorListener() {
+            @Override
+            public void onActionEditor(MethodEvent restEvent) {
+                if (EMethod.CREATE.equals(restEvent.getMethod())) {
+                    if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                        EmpleadoBase created = (EmpleadoBase) restEvent.getResult();
+                        
+                        // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
+                        // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
+                        List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
+                        bases.add(created);
+                        empleadosBaseProvider.getDataProvider().setList(bases);
+                        
+                        selectionModel.setSelected(created, true);
+                    }
+                } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
+                    if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                        EmpleadoBase reloaded = (EmpleadoBase) restEvent.getResult();
+                        EmpleadoBase selected = selectionModel.getSelectedObject(); 
+                        selected.setName(reloaded.getName());
+                        selected.setCode(reloaded.getCode());
+                        selected.setDepartamento(reloaded.getDepartamento());
+                        selected.setGrupo(reloaded.getGrupo());
+                        selected.setSede(reloaded.getSede());
+                        selected.setNivel(reloaded.getNivel());
 
+                        // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
+                        List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
+                        int idx = bases.indexOf(selected);
+                        bases.set(idx, selected);
+                        empleadosBaseProvider.getDataProvider().setList(bases);
+                    }
+                } else if (EMethod.CANCEL.equals(restEvent.getMethod())) {
+                    // re-envia el base seleccionado al editor
+                    EmpleadoBase empBaseSelected = selectionModel.getSelectedObject();
+                    empleadosEditorUI.setSelectedBean(empBaseSelected.getId());
+                }
+            }
+        });
+        
         // orden inicial
         orderBy = EmpleadosBaseProvider.ORDER_BY_NAME;
         // filtro inicial
@@ -214,7 +254,7 @@ public class EmpleadosUI extends Composite {
                 } else {
                     Window.alert("Falló carga de registros");
                 }
-            } else if (EMethod.CREATE.equals(event.getMethod())) {
+            } /*else if (EMethod.CREATE.equals(event.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(event.getTypeResult())) {
                     Growl.growl("Registro nuevo agregado");
                     EmpleadoBase empCreado = (EmpleadoBase) event.getResult();
@@ -224,7 +264,7 @@ public class EmpleadosUI extends Composite {
                     String msgError = "Falló creación de registro nuevo \n" + event.getReason();
                     Window.alert(msgError);
                 }
-            }
+            } */
         }
     }
 
