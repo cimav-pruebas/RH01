@@ -11,12 +11,21 @@ package cimav.client.view.common;
  */
 public enum EMethod {
 
-    FIND_ALL_BASE,
+    // Full Objects
     FIND_ALL,
     FIND_BY_ID,
-    FIND_EMPLEADO_NOMINA_BY_ID,
-    FIND_ALL_BY_DEPTO,
     CREATE,
-    UPDATE;
+    UPDATE,
+    DELETE,
+    
+    // Base Objects
+    FIND_BASE_ALL,
+    FIND_BASE_BY_ID,
+       
+    // Empleado
+    FIND_EMPLEADO_BASE_BY_ID_DEPTO,
+    // EmpleadoNomina
+    FIND_EMPLEADO_NOMINA_BY_ID,
+    
 
 }

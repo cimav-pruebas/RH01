@@ -64,7 +64,7 @@ public class DeptoChosen extends Composite {
         deptoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
             @Override
             public void onRESTExecuted(MethodEvent restEvent) {
-                if (restEvent.getMethod().equals(EMethod.FIND_ALL_BASE)) {
+                if (restEvent.getMethod().equals(EMethod.FIND_ALL)) {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Departamento> deptos = (List<Departamento>) restEvent.getResult();
@@ -78,7 +78,7 @@ public class DeptoChosen extends Composite {
                 }
             }
         });
-        deptoREST.findAllBase();
+        deptoREST.findAll();
 
     }
     

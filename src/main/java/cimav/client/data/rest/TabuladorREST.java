@@ -32,7 +32,7 @@ public class TabuladorREST extends BaseREST {
     
     public JsonEncoderDecoder jsonCodec = GWT.create(JsonCodec.class);
     
-    public void findAllBase() {
+    public void findAll() {
 
         BaseREST.setDateFormatGET();
         String url = BaseREST.URL_REST_BASE + "api/tabulador";
@@ -45,7 +45,7 @@ public class TabuladorREST extends BaseREST {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, exception.getMessage());
+                MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, exception.getMessage());
                 onRESTExecuted(methodEvent);
             }
 
@@ -60,11 +60,11 @@ public class TabuladorREST extends BaseREST {
                         Tabulador tabulador  = (Tabulador) jsonCodec.decode(val);
                         tabuladores.add(tabulador);
                     }
-                    MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.SUCCESS, "");
+                    MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.SUCCESS, "");
                     methodEvent.setResult(tabuladores);
                     onRESTExecuted(methodEvent);
                 } catch (Exception e) {
-                    MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL_BASE, ETypeResult.FAILURE, e.getMessage());
+                    MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.FAILURE, e.getMessage());
                     onRESTExecuted(methodEvent);
                 }
             }

@@ -76,8 +76,7 @@ public class DeptosProvider extends BaseProvider<Departamento> {
 
         @Override
         public void onRESTExecuted(MethodEvent methodEvent) {
-            if (EMethod.FIND_ALL.equals(methodEvent.getMethod())
-                    || EMethod.FIND_ALL_BASE.equals(methodEvent.getMethod())) {
+            if (EMethod.FIND_ALL.equals(methodEvent.getMethod())) {
                 
                 // tumbar a todos. 
                 dataProvider.getList().clear();
@@ -117,7 +116,7 @@ public class DeptosProvider extends BaseProvider<Departamento> {
     }
 
     public void findAll() {
-        this.getREST().findAllBase();
+        this.getREST().findAll();
     }
     
     public void add(Departamento depto) {

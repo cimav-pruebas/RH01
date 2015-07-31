@@ -22,7 +22,7 @@ public class NivelesProvider extends BaseProvider<Tabulador> {
     
     private static NivelesProvider instance;
 
-    private TabuladorREST rest;
+    private TabuladorREST tabuladorREST;
 
     public static NivelesProvider get() {
         if (instance == null) {
@@ -31,21 +31,20 @@ public class NivelesProvider extends BaseProvider<Tabulador> {
         return instance;
     }
 
-    public TabuladorREST getREST() {
-        if (rest == null) {
-            rest = new TabuladorREST();
+    public TabuladorREST getTabuladorREST() {
+        if (tabuladorREST == null) {
+            tabuladorREST = new TabuladorREST();
 
-            rest.addRESTExecutedListener(new RestMethodExecutedListener());
+            tabuladorREST.addRESTExecutedListener(new RestMethodExecutedListener());
         }
-        return rest;
+        return tabuladorREST;
     }
 
     private class RestMethodExecutedListener implements BaseREST.RESTExecutedListener {
 
         @Override
         public void onRESTExecuted(MethodEvent methodEvent) {
-            if (EMethod.FIND_ALL.equals(methodEvent.getMethod())
-                    || EMethod.FIND_ALL_BASE.equals(methodEvent.getMethod())) {
+            if (EMethod.FIND_ALL.equals(methodEvent.getMethod())) {
                 
                 // tumbar a todos. 
                 dataProvider.getList().clear();
@@ -67,7 +66,7 @@ public class NivelesProvider extends BaseProvider<Tabulador> {
     }
 
     public void findAll() {
-        this.getREST().findAllBase();
+        this.getTabuladorREST().findAll();
     }
     
 }

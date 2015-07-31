@@ -199,7 +199,7 @@ public class EmpleadosUI extends Composite {
 
         @Override
         public void onMethodExecuted(MethodEvent event) {
-            if (EMethod.FIND_ALL_BASE.equals(event.getMethod())) {
+            if (EMethod.FIND_BASE_ALL.equals(event.getMethod())) {
                 EmpleadosUI.this.orderBy();
 
                 //EmpleadosUI.this.selectionModel.setSelected(null, true);
@@ -261,10 +261,6 @@ public class EmpleadosUI extends Composite {
                     ////Empleado sel = (Empleado) empleadoSelected;
                     
                     empleadosEditorUI.setSelectedBean(empleadoSelected.getId());
-//                    if (empleadoREST == null) {
-//                        empleadoREST = new EmpleadoREST();
-//                    }
-//                    empleadoREST.findEmpleadoNominaById(empleadoSelected.getId());
                     
                 } catch (Exception e) {
                     Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());

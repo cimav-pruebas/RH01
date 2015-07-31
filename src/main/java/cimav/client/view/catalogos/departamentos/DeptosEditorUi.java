@@ -14,14 +14,11 @@ import cimav.client.view.catalogos.empleados.ICellListResources;
 import cimav.client.view.common.EmpleadoListCell;
 import cimav.client.view.provider.DeptosProvider;
 import cimav.client.view.provider.EmpleadosBaseProvider;
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellList;
@@ -75,8 +72,12 @@ public class DeptosEditorUi extends Composite {
     private Departamento selected;
     private DataBinder<Departamento> binder;
     
+    private EmpleadosBaseProvider empleadosBaseProvider;
+    
     public DeptosEditorUi() {
         initWidget(uiBinder.createAndBindUi(this));
+        
+        empleadosBaseProvider = new EmpleadosBaseProvider();
         
         FlexTable.FlexCellFormatter cellFormatterGeneral = flexEditorGeneral.getFlexCellFormatter();
 
@@ -102,7 +103,7 @@ public class DeptosEditorUi extends Composite {
         flexEditorGeneral.setWidget(4, 0, nombreTxtBox);
 
         CellList.Resources cellListResources = GWT.create(ICellListResources.class);
-        cellListEmpleados = new CellList<>(new EmpleadoListCell(null), cellListResources, EmpleadosBaseProvider.get().getDataProvider());
+        cellListEmpleados = new CellList<>(new EmpleadoListCell(null), cellListResources, empleadosBaseProvider.getDataProvider());
 //        cellList.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
 //        cellList.setSelectionModel(selectionModel);
 //        selectionModel.addSelectionChangeHandler(new EmpleadosUI.SelectionHandler());
@@ -122,13 +123,13 @@ public class DeptosEditorUi extends Composite {
         divAbue.getStyle().setRight(0, Style.Unit.PX);
 
         // Add the CellList to the adapter in the database.
-        EmpleadosBaseProvider.get().addDataDisplay(cellListEmpleados);
+        empleadosBaseProvider.addDataDisplay(cellListEmpleados);
        
         saveBtn.addClickHandler(new SaveClickHandler());
         cancelBtn.addClickHandler(new CancelClickHandler());
 
         DeptosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
-        EmpleadosBaseProvider.get().addMethodExecutedListener(new EmpleadosProviderMethodExecutedListener());
+        empleadosBaseProvider.addMethodExecutedListener(new EmpleadosProviderMethodExecutedListener());
 
         /* Binding */
         try {
@@ -278,9 +279,9 @@ public class DeptosEditorUi extends Composite {
 
         @Override
         public void onMethodExecuted(MethodEvent methodEvent) {
-            if (EMethod.FIND_ALL_BY_DEPTO.equals(methodEvent.getMethod())) {
+            if (EMethod.FIND_EMPLEADO_BASE_BY_ID_DEPTO.equals(methodEvent.getMethod())) {
                 
-// >>>>                tabEditorMiembros.setText("Miembros (" + EmpleadosBaseProvider.get().getDataProvider().getList().size() + ")");
+                tabEditorMiembros.setText("Miembros (" + empleadosBaseProvider.getDataProvider().getList().size() + ")");
             }
         }
         
@@ -298,7 +299,7 @@ public class DeptosEditorUi extends Composite {
         }
 
         int deptoId = selected != null && selected.getId() != null ? selected.getId() : 0;
-// >>>        EmpleadosProvider.get().findAllByDepto(deptoId);
+            empleadosBaseProvider.findAllBaseByDepto(deptoId);
     }
     
     private void updateWidgets() {
@@ -322,92 +323,5 @@ public class DeptosEditorUi extends Composite {
         }
 
     }
-    
-//    private class EmpleadoCell extends AbstractCell<Empleado> {
-//
-//        EmpleadoCell() {
-//        }
-//
-//        @Override
-//        public void render(Cell.Context context, Empleado value, SafeHtmlBuilder sb) {
-//            if (value == null) {
-//                return;
-//            }
-//
-//            // TODO reemplazar código a pie por EmpleadosItem
-//            String es_null = "---";
-//            String grupoStr = value.getGrupo() != null ? value.getGrupo().getCode() : es_null;
-//            String deptoCodeStr = value.getDepartamento() != null ? value.getDepartamento().getCode() : es_null;
-//            String deptoNameStr = value.getDepartamento() != null ? value.getDepartamento().getName() : es_null;
-//            String nivelStr = value.getNivel() != null ? value.getNivel().getCode() : es_null;
-//            String sedeStr = value.getSede() != null ? value.getSede().getAbrev() : es_null;
-//            //sedeStr = value.isDirty() != null ? value.isDirty().toString() : es_null;
-//
-//            String html
-//                    = "<table width='100%' cellspacing='0' cellpadding='0' style='cursor: pointer; text-align: left; vertical-align: middle; border-bottom:1px solid lightgray;'>\n"
-//                    + "  <tr>\n"
-//                    + "    <td width='4px' rowspan='6' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
-//                    //                    + "    <td colspan='3' style='height:10px;'><span STYLE_INDICADOR_REEMPLAZO /></td>\n"
-//                    + "    <td colspan='3' style='height:10px;'></td>\n"
-//                    + "    <td width='4px' rowspan='6' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
-//                    + "  </tr>\n"
-//                    + "  <tr>\n"
-//                    + "    <td width='78px' rowspan='3' style='text-align: center;'><img src='URL_FOTO_REEMPLAZO' style='border:1px solid lightgray; margin-top: 3px; border-radius:50%; padding:2px;'></td>\n"
-//                    + "    <td colspan='2' style='vertical-align: bottom;'><h4 style='margin-top: 0px; margin-bottom: 0px; font-size: 17px;'>APELLIDOS_REEMPLAZO,</h4></td>\n"
-//                    + "  </tr>\n"
-//                    + "  <tr>\n"
-//                    + "    <td colspan='2' style='vertical-align: top;'><h5 style='margin-top: 0px; margin-bottom: 0px;'>NOMBRE_REEMPLAZO</h5></td>\n"
-//                    + "  </tr>\n"
-//                    + "  <tr>\n"
-//                    + "    <td  colspan='1'> "
-//                    //                    + " <code class='label-cyt-grp-niv'><span style='font-size: medium;' >CODE_REEMPLAZO</span></code> "
-//                    + " <code class='label-cyt-grp-niv'><span >CODE_REEMPLAZO</span></code> "
-//                    + " <code class=\"label-cyt-grp-niv\"><span >GRUPO_REEMPLAZO</span></code> "
-//                    + " <code class=\"label-cyt-grp-niv\"><span >NIVEL_REEMPLAZO</span></code> "
-//                    + " <code class=\"label-cyt-grp-niv\"><span >SEDE_REEMPLAZO</span></code> "
-//                    + " <code class=\"label-cyt-grp-niv\"><span >DEPTO_CODIGO_REEMPLAZO</span></code> "
-//                                        + " <code class=\"label-cyt-grp-niv\"><span >ID_REEMPLAZO</span></code> "
-//                    + "    </td>\n"
-//                    //                    + "    <td style='text-align: right;'><i class='fa fa-info-circle fa-lg' style='opacity: 0.5; padding-right: 5px;'></i></td>\n"
-//                    + "  </tr>\n"
-//                    + "  <tr>\n"
-//                    + "    <td style='text-align:center;' ></td>\n"
-//                    + "    <td>"
-//                    + " <code class=\"label-cyt-grp-niv\"><span >DEPTO_NAME_REEMPLAZO</span></code> "
-//                    + "    </td>\n"
-//                    + "    <td></td>\n"
-//                    + "  </tr>\n"
-//                    + "  <tr>\n"
-//                    + "    <td colspan='3' style='height:10px;'></td>\n"
-//                    + "  </tr>\n"
-//                    + "</table>";
-//
-//            html = html.replace("CODE_REEMPLAZO", chkStrNull(value.getCode()));
-//            html = html.replace("URL_FOTO_REEMPLAZO", chkStrNull(value.getUrlPhoto()));
-//            html = html.replace("APELLIDOS_REEMPLAZO", ellipse(chkStrNull(value.getApellidoPaterno()), 60) 
-//                    + " " + ellipse(chkStrNull(value.getApellidoMaterno()), 18));
-//            html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getNombre()));
-//            html = html.replaceAll("RFC_REEMPLAZO", chkStrNull(value.getRfc()));
-//            html = html.replace("GRUPO_REEMPLAZO", chkStrNull(grupoStr));
-//            html = html.replace("NIVEL_REEMPLAZO", chkStrNull(nivelStr));
-//            html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));
-//            html = html.replace("DEPTO_NAME_REEMPLAZO", ellipse(chkStrNull(deptoNameStr), 80));
-//            html = html.replace("SEDE_REEMPLAZO", chkStrNull(sedeStr));
-//            html = html.replace("ID_REEMPLAZO", value.getId().toString());
-//
-//            sb.appendHtmlConstant(html);
-//        }
-//    }
-//    
-//        public String ellipse(String value, int len) {
-//            if (value != null && value.length() > len) {
-//                return value.substring(0, len - 3) + "...";
-//            }
-//            return value;
-//        }
-//        
-//    private String chkStrNull(String str) {
-//        return str != null ? str.trim() : "---";
-//    }
-    
+        
 }

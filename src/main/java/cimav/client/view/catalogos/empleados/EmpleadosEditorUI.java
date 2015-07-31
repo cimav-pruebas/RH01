@@ -681,7 +681,7 @@ public class EmpleadosEditorUI extends Composite {
         
         idEmpleadoBaseSelected = idEmpleadoBaseSelected == null ? 0 : idEmpleadoBaseSelected;
         
-        getREST().findById(idEmpleadoBaseSelected);
+        getREST().findEmpleadoById(idEmpleadoBaseSelected);
         
     }
     

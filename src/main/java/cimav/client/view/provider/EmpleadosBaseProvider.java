@@ -24,17 +24,26 @@ import java.util.List;
  */
 public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
 
-    /* Borrar por compatiblidad */
-    private static EmpleadosBaseProvider instance;
-    public static EmpleadosBaseProvider get() {
-        if (instance == null) {
-            instance = new EmpleadosBaseProvider();
-        }
-        return instance;
-    }
+//    /* Borrar por compatiblidad */
+//    private static EmpleadosBaseProvider instance;
+//    public static EmpleadosBaseProvider get() {
+//        if (instance == null) {
+//            instance = new EmpleadosBaseProvider();
+//        }
+//        return instance;
+//    }
     
     private EmpleadoREST empleadoREST;
     
+    public EmpleadoREST getREST() {
+        if (empleadoREST == null) {
+            empleadoREST = new EmpleadoREST();
+
+            empleadoREST.addRESTExecutedListener(new RestMethodExecutedListener());
+        }
+        return empleadoREST;
+    }
+
     @Override
     public boolean matchFilter(EmpleadoBase value, String filter) {
         if (value == null) {
@@ -122,20 +131,11 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
         }
     }
 
-    public EmpleadoREST getREST() {
-        if (empleadoREST == null) {
-            empleadoREST = new EmpleadoREST();
-
-            empleadoREST.addRESTExecutedListener(new RestMethodExecutedListener());
-        }
-        return empleadoREST;
-    }
-
     private class RestMethodExecutedListener implements BaseREST.RESTExecutedListener {
 
         @Override
         public void onRESTExecuted(MethodEvent methodEvent) {
-            if (EMethod.FIND_ALL_BASE.equals(methodEvent.getMethod())) {
+            if (EMethod.FIND_BASE_ALL.equals(methodEvent.getMethod())) {
                 
                 // tumbar a todos. 
                 dataProvider.getList().clear();
@@ -151,7 +151,7 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
                 // le avisa al EmpleadoUI
                 onMethodExecuted(methodEvent);
                 
-            } else if (EMethod.FIND_BY_ID.equals(methodEvent.getMethod())) {
+            } else if (EMethod.FIND_BASE_BY_ID.equals(methodEvent.getMethod())) {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     // re-carga el provider con el empleado reloaded
                     EmpleadoBase reloaded = (EmpleadoBase) methodEvent.getResult();
@@ -161,7 +161,7 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
 
                 // en methodEvent.getResult() va el Empleado recargado para pasarlo al binding
                 onMethodExecuted(methodEvent); // <-- usa el mismo methodEvent
-            }  else if (EMethod.FIND_ALL_BY_DEPTO.equals(methodEvent.getMethod())) {
+            }  else if (EMethod.FIND_EMPLEADO_BASE_BY_ID_DEPTO.equals(methodEvent.getMethod())) {
                 // tumbar a todos. 
                 dataProvider.getList().clear();
                 
@@ -170,7 +170,7 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
                     List<EmpleadoBase> empleados = (List<EmpleadoBase>) methodEvent.getResult();
                     dataProvider.getList().addAll(empleados);
                 } else {
-                    Window.alert("Falló cargada de empleados by_depto: " + methodEvent.getReason());
+                    Window.alert("EmpleadosBaseProvider.java. Falló cargada de empleados by_depto: " + methodEvent.getReason());
                 }
                 
                 onMethodExecuted(methodEvent);
@@ -183,12 +183,12 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
         this.getREST().findAllBase();
     }
     
-    public void reloadById(int idEmpleado) {
-        this.getREST().findById(idEmpleado);
+    public void reloadBaseById(int idEmpleado) {
+        this.getREST().findEmpleadoById(idEmpleado);
     }
     
-    public void findAllByDepto(int idDepto) {
-        this.getREST().findAllByDepto(idDepto);
+    public void findAllBaseByDepto(int idDepto) {
+        this.getREST().findBaseByIdDepto(idDepto);
     }
     
 }

@@ -67,7 +67,7 @@ public class GrupoChosen extends Composite {
         grupoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
             @Override
             public void onRESTExecuted(MethodEvent restEvent) {
-                if (restEvent.getMethod().equals(EMethod.FIND_ALL_BASE)) {
+                if (restEvent.getMethod().equals(EMethod.FIND_ALL)) {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Grupo> grupos = (List<Grupo>) restEvent.getResult();
@@ -81,7 +81,7 @@ public class GrupoChosen extends Composite {
                 }
             }
         });
-        grupoREST.findAllBase();
+        grupoREST.findAll();
         
     }
     

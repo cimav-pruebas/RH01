@@ -101,7 +101,7 @@ public class JefeChosen extends Composite {
         rest.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
             @Override
             public void onRESTExecuted(MethodEvent restEvent) {
-                if (restEvent.getMethod().equals(EMethod.FIND_ALL_BASE)) {
+                if (restEvent.getMethod().equals(EMethod.FIND_BASE_BY_ID)) {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
 
                         List<EmpleadoBase> jefes = (List<EmpleadoBase>) restEvent.getResult();

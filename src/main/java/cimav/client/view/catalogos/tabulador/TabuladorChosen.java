@@ -11,14 +11,10 @@ import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.Tabulador;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.TabuladorREST;
-import com.arcbees.chosen.client.ChosenOptions;
-import com.arcbees.chosen.client.ResultsFilter;
 import com.arcbees.chosen.client.gwt.ChosenValueListBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.text.shared.Renderer;
 import com.google.common.base.Strings;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -77,7 +73,7 @@ public class TabuladorChosen extends Composite {
         rest.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
             @Override
             public void onRESTExecuted(MethodEvent restEvent) {
-                if (restEvent.getMethod().equals(EMethod.FIND_ALL_BASE)) {
+                if (restEvent.getMethod().equals(EMethod.FIND_ALL)) {
                     if (restEvent.getTypeResult().equals(ETypeResult.SUCCESS)) {
                         
                         List<Tabulador> tabuladores = (List<Tabulador>) restEvent.getResult();
@@ -90,7 +86,7 @@ public class TabuladorChosen extends Composite {
                 }
             }
         });
-        rest.findAllBase();
+        rest.findAll();
     }
     
     public void setSelected(Tabulador value) {
