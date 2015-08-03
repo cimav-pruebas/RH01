@@ -9,6 +9,7 @@ import cimav.client.view.MainUI;
 import cimav.client.view.catalogos.departamentos.DeptosUi;
 import cimav.client.view.catalogos.empleados.EmpleadosUI;
 import cimav.client.view.catalogos.tabulador.TabuladoresUi;
+import cimav.client.view.nomina.NominaListUI;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.UmbrellaException;
@@ -35,7 +36,9 @@ public class MainEntryPoint implements EntryPoint {
     
     // Vistas UI
     private final MainUI mainUi;
+    // TODO NominaListUI y EmpleadosUI deben ser una sola.
     private EmpleadosUI empleadosUI;
+    private NominaListUI nominaListUI;
     private DeptosUi deptosUI;
     private TabuladoresUi tabuladoresUi;
     
@@ -106,7 +109,10 @@ public class MainEntryPoint implements EntryPoint {
                         mainUi.setCenterPanel("Tabuladores", "Consultas, altas y bajas", tabuladoresUi);
                         break;
                     case MainUI.OPT_NOMINA:
-                        mainUi.setCenterPanel("Movimientos y Cálculo", "Captura de percepciones y deducciones. Cálculo de Nómina", null);
+                        if (nominaListUI == null) {
+                            nominaListUI = new NominaListUI();
+                        }
+                        mainUi.setCenterPanel("Movimientos y Cálculo", "Captura de percepciones y deducciones. Cálculo de Nómina", nominaListUI);
                         break;
                     default:
                         mainUi.setCenterPanel(option, "Not Yet Implemented...", null);

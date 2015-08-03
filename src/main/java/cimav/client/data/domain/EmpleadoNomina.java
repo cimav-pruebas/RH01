@@ -8,6 +8,7 @@ package cimav.client.data.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
@@ -27,8 +28,8 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     @JsonIgnore private EStatusEmpleado status;
     private Integer idStatus;
 
-    
     private Date fechaAntiguedad;
+    private List<NominaQuincenal> nominaQuincenalCollection;
 
     public EmpleadoNomina() {
         super();
@@ -46,7 +47,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         String cteUrlPhoto = "http://cimav.edu.mx/foto/";
         String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
                 ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
-        return this.urlPhoto;
+        return varUrlPhoto;
     }
 
     public void setUrlPhoto(String urlPhoto) {
@@ -120,6 +121,14 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
 
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+
+    public List<NominaQuincenal> getNominaQuincenalCollection() {
+        return nominaQuincenalCollection;
+    }
+
+    public void setNominaQuincenalCollection(List<NominaQuincenal> nominaQuincenalCollection) {
+        this.nominaQuincenalCollection = nominaQuincenalCollection;
     }
     
 }

@@ -16,9 +16,12 @@ import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.Grupo;
+import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.domain.Tabulador;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.jboss.errai.databinding.client.api.InitialState;
 
 public class BindableProxyLoaderImpl implements BindableProxyLoader { public void loadBindableProxies() {
@@ -849,6 +852,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
+        agent.propertyTypes.put("nominaQuincenalCollection", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
@@ -889,6 +893,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           clone.setDepartamento((Departamento) ((BindableProxy) getDepartamento()).deepUnwrap());
         } else {
           clone.setDepartamento(agent.target.getDepartamento());
+        }
+        if (agent.target.getNominaQuincenalCollection() != null) {
+          final List nominaQuincenalCollectionClone = new ArrayList();
+          for (Object nominaQuincenalCollectionElem : agent.target.getNominaQuincenalCollection()) {
+            if (nominaQuincenalCollectionElem instanceof BindableProxy) {
+              nominaQuincenalCollectionClone.add(((BindableProxy) nominaQuincenalCollectionElem).deepUnwrap());
+            } else {
+              nominaQuincenalCollectionClone.add(nominaQuincenalCollectionElem);
+            }
+          }
+          clone.setNominaQuincenalCollection(nominaQuincenalCollectionClone);
         }
         clone.setName(agent.target.getName());
         clone.setConsecutivo(agent.target.getConsecutivo());
@@ -1041,6 +1056,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("departamento", oldValue, departamento);
       }
 
+      public List getNominaQuincenalCollection() {
+        return agent.target.getNominaQuincenalCollection();
+      }
+
+      public void setNominaQuincenalCollection(List<NominaQuincenal> nominaQuincenalCollection) {
+        List<NominaQuincenal> oldValue = agent.target.getNominaQuincenalCollection();
+        nominaQuincenalCollection = agent.ensureBoundListIsProxied("nominaQuincenalCollection", nominaQuincenalCollection);
+        agent.target.setNominaQuincenalCollection(nominaQuincenalCollection);
+        agent.updateWidgetsAndFireEvent("nominaQuincenalCollection", oldValue, nominaQuincenalCollection);
+      }
+
       public String getName() {
         return agent.target.getName();
       }
@@ -1115,6 +1141,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("departamento")) {
           return getDepartamento();
         }
+        if (property.equals("nominaQuincenalCollection")) {
+          return getNominaQuincenalCollection();
+        }
         if (property.equals("name")) {
           return getName();
         }
@@ -1177,6 +1206,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("departamento")) {
           agent.target.setDepartamento((Departamento) value);
+          return;
+        }
+        if (property.equals("nominaQuincenalCollection")) {
+          agent.target.setNominaQuincenalCollection((List<NominaQuincenal>) value);
           return;
         }
         if (property.equals("name")) {
