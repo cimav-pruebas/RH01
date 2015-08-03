@@ -37,7 +37,8 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
         String cteUrlPhoto = "http://cimav.edu.mx/foto/";
         String varUrlPhoto = this.cuentaCimav == null || this.cuentaCimav.trim().isEmpty() 
                 ? cteUrlPhoto + "default" : cteUrlPhoto + this.cuentaCimav;
-        return this.urlPhoto;
+        //return this.urlPhoto;
+        return varUrlPhoto;
     }
 
     public void setUrlPhoto(String urlPhoto) {

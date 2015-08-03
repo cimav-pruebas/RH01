@@ -8,6 +8,7 @@ package cimav.client.view.common;
 import cimav.client.data.domain.EmpleadoBase;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -95,30 +96,36 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
             }
             
             try {
-            html = html.replace("CODE_REEMPLAZO", chkStrNull(value.getCode()));
-            html = html.replace("URL_FOTO_REEMPLAZO", chkStrNull(value.getUrlPhoto()));
-            
-//            html = html.replace("APELLIDOS_REEMPLAZO", ellipse(chkStrNull(value.getApellidoPaterno()), 18) 
-//                    + " " + ellipse(chkStrNull(value.getApellidoMaterno()), 18));
-//            html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getNombre()));
-//            html = html.replaceAll("RFC_REEMPLAZO", chkStrNull(value.getRfc()));
-            html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getName()));
-            
-            html = html.replace("GRUPO_REEMPLAZO", chkStrNull(grupoStr));
-            html = html.replace("NIVEL_REEMPLAZO", chkStrNull(nivelStr));
-            html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));
-            html = html.replace("DEPTO_NAME_REEMPLAZO", ellipse(chkStrNull(deptoNameStr), 32));
-            html = html.replace("SEDE_REEMPLAZO", chkStrNull(sedeStr));
-            html = html.replace("ID_REEMPLAZO", value.getId().toString());
+                
+                html = html.replace("CODE_REEMPLAZO", chkStrNull(value.getCode()));
+                html = html.replace("URL_FOTO_REEMPLAZO", chkStrNull(value.getUrlPhoto()));
 
-            sb.appendHtmlConstant(html);
+    //            html = html.replace("APELLIDOS_REEMPLAZO", ellipse(chkStrNull(value.getApellidoPaterno()), 18) 
+    //                    + " " + ellipse(chkStrNull(value.getApellidoMaterno()), 18));
+    //            html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getNombre()));
+    //            html = html.replaceAll("RFC_REEMPLAZO", chkStrNull(value.getRfc()));
+                html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getName()));
+
+                html = html.replace("GRUPO_REEMPLAZO", chkStrNull(grupoStr));
+                html = html.replace("NIVEL_REEMPLAZO", chkStrNull(nivelStr));
+                html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));
+                html = html.replace("DEPTO_NAME_REEMPLAZO", ellipse(chkStrNull(deptoNameStr), 32));
+                html = html.replace("SEDE_REEMPLAZO", chkStrNull(sedeStr));
+                if (value.getId() != null) {
+                    html = html.replace("ID_REEMPLAZO", value.getId().toString());
+                } else {
+                    html = html.replace("ID_REEMPLAZO", "---");
+                }
+
+                sb.appendHtmlConstant(html);
             } catch (Exception e) {
                 Window.alert("Catch it! " + html);
             }
         }
         
         private String chkStrNull(String str) {
-                return str != null ? str.trim() : "---";
+            String r = str != null ? str.trim() : "---";
+            return r;
         }
 
 //    public static native String camelize(String str)/*-{

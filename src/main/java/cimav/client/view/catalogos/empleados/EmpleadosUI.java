@@ -98,73 +98,13 @@ public class EmpleadosUI extends Composite {
         empleadosBaseProvider.addMethodExecutedListener(new ProviderMethodExecutedListener());
         
         reloadBtn.setIconFlip(IconFlip.HORIZONTAL);
-        reloadBtn.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                reloadAll();
-            }
-        });
+        reloadBtn.addClickHandler(new ReloadClickHandler());
 
-        addBtn.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                
-                // Deseleccionar
-                deseleccionar();
-                
-                // enviar empleado nuevo al Bean del Editor
-                empleadosEditorUI.addNewEmpleado();
-                
-            }
-        });
+        addBtn.addClickHandler(new AddClickHandler());
 
-        searchTxt.addKeyUpHandler(new KeyUpHandler() {
-            @Override
-            public void onKeyUp(KeyUpEvent event) {
-
-                EmpleadosUI.this.filtrar();
-            }
-        });
+        searchTxt.addKeyUpHandler(new SearchKeyUpHandler());
         
-        empleadosEditorUI.addActionEditorListener(new EmpleadosEditorUI.ActionEditorListener() {
-            @Override
-            public void onActionEditor(MethodEvent restEvent) {
-                if (EMethod.CREATE.equals(restEvent.getMethod())) {
-                    if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-                        EmpleadoBase created = (EmpleadoBase) restEvent.getResult();
-                        
-                        // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
-                        // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
-                        List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
-                        bases.add(created);
-                        empleadosBaseProvider.getDataProvider().setList(bases);
-                        
-                        selectionModel.setSelected(created, true);
-                    }
-                } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
-                    if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-                        EmpleadoBase reloaded = (EmpleadoBase) restEvent.getResult();
-                        EmpleadoBase selected = selectionModel.getSelectedObject(); 
-                        selected.setName(reloaded.getName());
-                        selected.setCode(reloaded.getCode());
-                        selected.setDepartamento(reloaded.getDepartamento());
-                        selected.setGrupo(reloaded.getGrupo());
-                        selected.setSede(reloaded.getSede());
-                        selected.setNivel(reloaded.getNivel());
-
-                        // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
-                        List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
-                        int idx = bases.indexOf(selected);
-                        bases.set(idx, selected);
-                        empleadosBaseProvider.getDataProvider().setList(bases);
-                    }
-                } else if (EMethod.CANCEL.equals(restEvent.getMethod())) {
-                    // re-envia el base seleccionado al editor
-                    EmpleadoBase empBaseSelected = selectionModel.getSelectedObject();
-                    empleadosEditorUI.setSelectedBean(empBaseSelected.getId());
-                }
-            }
-        });
+        empleadosEditorUI.addActionEditorListener(new EditorActionListener());
         
         // orden inicial
         orderBy = EmpleadosBaseProvider.ORDER_BY_NAME;
@@ -173,6 +113,71 @@ public class EmpleadosUI extends Composite {
 
         /* Al arrancar, cargar a todos los empleados */
         reloadAll();
+    }
+    
+    private class EditorActionListener implements EmpleadosEditorUI.ActionEditorListener {
+        @Override
+        public void onActionEditor(MethodEvent restEvent) {
+            if (EMethod.CREATE.equals(restEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                    EmpleadoBase created = (EmpleadoBase) restEvent.getResult();
+
+                    // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
+                    // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
+                    List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
+                    bases.add(created);
+                    empleadosBaseProvider.getDataProvider().setList(bases);
+
+                    //selectionModel.setSelected(created, true);
+                }
+            } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                    EmpleadoBase reloaded = (EmpleadoBase) restEvent.getResult();
+                    EmpleadoBase selected = selectionModel.getSelectedObject(); 
+                    selected.setName(reloaded.getName());
+                    selected.setCode(reloaded.getCode());
+                    selected.setDepartamento(reloaded.getDepartamento());
+                    selected.setGrupo(reloaded.getGrupo());
+                    selected.setSede(reloaded.getSede());
+                    selected.setNivel(reloaded.getNivel());
+
+                    // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
+                    List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
+                    int idx = bases.indexOf(selected);
+                    bases.set(idx, selected);
+                    empleadosBaseProvider.getDataProvider().setList(bases);
+                }
+            } else if (EMethod.CANCEL.equals(restEvent.getMethod())) {
+                // re-envia el base seleccionado al editor
+                EmpleadoBase empBaseSelected = selectionModel.getSelectedObject();
+                empleadosEditorUI.setSelectedBean(empBaseSelected.getId());
+            }
+        }
+    }
+    
+    private class ReloadClickHandler implements ClickHandler {
+        @Override
+        public void onClick(ClickEvent event) {
+            reloadAll();
+        }
+    }
+
+    private class AddClickHandler implements ClickHandler {
+        @Override
+        public void onClick(ClickEvent event) {
+                // Deseleccionar
+                deseleccionar();
+                
+                // enviar empleado nuevo al Bean del Editor
+                empleadosEditorUI.addNewEmpleado();
+        }
+    }
+    
+    private class SearchKeyUpHandler implements KeyUpHandler {
+        @Override
+        public void onKeyUp(KeyUpEvent event) {
+            EmpleadosUI.this.filtrar();
+        }
     }
 
     private void deseleccionar() {

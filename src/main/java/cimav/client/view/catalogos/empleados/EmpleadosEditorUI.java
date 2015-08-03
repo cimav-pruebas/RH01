@@ -49,6 +49,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
+import org.gwtbootstrap3.client.ui.NavTabs;
+import org.gwtbootstrap3.client.ui.TabContent;
+import org.gwtbootstrap3.client.ui.TabListItem;
+import org.gwtbootstrap3.client.ui.TabPane;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
@@ -70,6 +74,8 @@ public class EmpleadosEditorUI extends Composite {
     @UiField
     HTMLPanel panelEditorGlass;
 
+    @UiField TabListItem tabEditorGeneral;
+    
     @UiField
     FlexTable flexEditorGeneral;
     @UiField
@@ -696,6 +702,10 @@ public class EmpleadosEditorUI extends Composite {
     }
     
     public void addNewEmpleado() {
+        
+        tabEditorGeneral.showTab();
+        nombreTxtBox.setFocus(true);
+        
         Empleado nuevo = new Empleado();
         empleadoBinder.setModel(nuevo);
 
@@ -704,10 +714,6 @@ public class EmpleadosEditorUI extends Composite {
         updateWidgets();
         
         jefeChosen.setUrlPhotoPath();
-        
-        if (empleadoSelected != null) {
-            nombreTxtBox.setFocus(true);
-        }
 
     }
     
