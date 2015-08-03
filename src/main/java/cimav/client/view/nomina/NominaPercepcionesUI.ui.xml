@@ -11,13 +11,13 @@ Uncomment this for XHTML entities
     <g:HTMLPanel addStyleNames="{style.work-panel}">
         
         <g:DockLayoutPanel unit="EM" addStyleNames='{style.dock-panel}'>
-            <g:center>
+            <g:west size="120">
                 <c:CellTable ui:field='dataGridPercepciones' addStyleNames='{style.cell-table}'/>
-            </g:center>
+            </g:west>
 
             <g:south size="3">
                 <g:HTML>
-                    <h2>SubTotal</h2>
+                    <h2>SubTotal Percepciones</h2>
                 </g:HTML>
             </g:south>
         </g:DockLayoutPanel>

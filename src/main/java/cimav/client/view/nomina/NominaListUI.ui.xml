@@ -63,9 +63,10 @@ Uncomment this for XHTML entities
         </g:west>   
 
         <g:center >
-            <g:VerticalPanel addStyleNames='{style.VERTICAL-panel}'>
-                <nom:PercepcionesUI ui:field="percepcionesUI"></nom:PercepcionesUI>
-            </g:VerticalPanel>
+            <g:HorizontalPanel addStyleNames='{style.TEMPORAL-panel}'>
+                <nom:NominaPercepcionesUI ui:field="nominaPercepcionesUI"></nom:NominaPercepcionesUI>
+                <nom:NominaDeduccionesUI ui:field="nominaDeduccionesUI"></nom:NominaDeduccionesUI>
+            </g:HorizontalPanel>
         </g:center>
         
     </g:DockLayoutPanel>

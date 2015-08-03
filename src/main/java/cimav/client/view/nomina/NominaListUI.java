@@ -9,6 +9,8 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.EmpleadoBase;
+import cimav.client.data.rest.BaseREST;
+import cimav.client.data.rest.EmpleadoREST;
 import cimav.client.view.catalogos.empleados.EmpleadosEditorUI;
 import cimav.client.view.catalogos.empleados.ICellListResources;
 import cimav.client.view.common.EmpleadoListCell;
@@ -41,12 +43,12 @@ import org.gwtbootstrap3.extras.growl.client.ui.Growl;
  * @author juan.calderon
  */
 public class NominaListUI extends Composite {
-    
+
     private static NominaListUIUiBinder uiBinder = GWT.create(NominaListUIUiBinder.class);
-    
+
     interface NominaListUIUiBinder extends UiBinder<Widget, NominaListUI> {
     }
-    
+
     @UiField
     public ScrollPanel scrollPanel;
     CellList<EmpleadoBase> cellList;
@@ -57,17 +59,19 @@ public class NominaListUI extends Composite {
     Button reloadBtn;
 
     @UiField
-    PercepcionesUI percepcionesUI;
-    
+    NominaPercepcionesUI nominaPercepcionesUI;
+    @UiField
+    NominaDeduccionesUI nominaDeduccionesUI;
+
     private static EmpleadosBaseProvider empleadosBaseProvider;
-    
+
     private final SingleSelectionModel<EmpleadoBase> selectionModel;
 
     public NominaListUI() {
         initWidget(uiBinder.createAndBindUi(this));
-        
+
         empleadosBaseProvider = new EmpleadosBaseProvider();
-        
+
         //CellList.Resources cellListResources = GWT.create(CellList.Resources.class);
         CellList.Resources cellListResources = GWT.create(ICellListResources.class);
         selectionModel = new SingleSelectionModel<>();
@@ -95,14 +99,13 @@ public class NominaListUI extends Composite {
 
         // Escucha los metodos y las acciones (find_all, update, create, save, reloadById, etc.)
         empleadosBaseProvider.addMethodExecutedListener(new ProviderMethodExecutedListener());
-        
+
         reloadBtn.setIconFlip(IconFlip.HORIZONTAL);
         reloadBtn.addClickHandler(new ReloadClickHandler());
 
         searchTxt.addKeyUpHandler(new SearchKeyUpHandler());
-        
+
 // >>        empleadosEditorUI.addActionEditorListener(new EditorActionListener());
-        
         // orden inicial
         orderBy = EmpleadosBaseProvider.ORDER_BY_NAME;
         // filtro inicial
@@ -111,18 +114,18 @@ public class NominaListUI extends Composite {
         /* Al arrancar, cargar a todos los empleados */
         reloadAll();
     }
-    
-    private class EditorActionListener implements EmpleadosEditorUI.ActionEditorListener {
-        @Override
-        public void onActionEditor(MethodEvent restEvent) {
-//            if (EMethod.CREATE.equals(restEvent.getMethod())) {
-//                if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-//                }
-//            }
-        }
-    }
-    
+
+//    private class EditorActionListener implements EmpleadosEditorUI.ActionEditorListener {
+//        @Override
+//        public void onActionEditor(MethodEvent restEvent) {
+////            if (EMethod.CREATE.equals(restEvent.getMethod())) {
+////                if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+////                }
+////            }
+//        }
+//    }
     private class ReloadClickHandler implements ClickHandler {
+
         @Override
         public void onClick(ClickEvent event) {
             reloadAll();
@@ -130,6 +133,7 @@ public class NominaListUI extends Composite {
     }
 
     private class SearchKeyUpHandler implements KeyUpHandler {
+
         @Override
         public void onKeyUp(KeyUpEvent event) {
             NominaListUI.this.filtrar();
@@ -143,14 +147,14 @@ public class NominaListUI extends Composite {
             selectionModel.setSelected(empSel, false);
         }
     }
-    
+
     private void filtrar() {
         final String txtToSearch = searchTxt.getText();
         empleadosBaseProvider.getDataProvider().setFilter(txtToSearch);
 
         String rows = empleadosBaseProvider.getRowCountPropotional();
         reloadBtn.setText(rows);
-        
+
         EmpleadoBase empSel = selectionModel.getSelectedObject();
         if (empSel != null) {
             if (empleadosBaseProvider.containsItem(empSel)) {
@@ -159,10 +163,11 @@ public class NominaListUI extends Composite {
             } else {
                 // si en la lista filtrada no aparece el seleccionado, deseleccionar
                 deseleccionar();
-                percepcionesUI.setSelectedBean(null);
+                nominaPercepcionesUI.setSelectedBean(null);
+                nominaDeduccionesUI.setSelectedBean(null);
             }
         }
-        
+
     }
 
     private int orderBy;
@@ -186,7 +191,7 @@ public class NominaListUI extends Composite {
 
     private void orderBy() {
         empleadosBaseProvider.order(this.orderBy);
-        
+
         EmpleadoBase empleadoSelected = (EmpleadoBase) selectionModel.getSelectedObject();
         scrollIntoView(empleadoSelected);
     }
@@ -205,7 +210,8 @@ public class NominaListUI extends Composite {
 
                 //EmpleadosUI.this.selectionModel.setSelected(null, true);
                 deseleccionar();
-                percepcionesUI.setSelectedBean(null);
+                nominaPercepcionesUI.setSelectedBean(null);
+                nominaDeduccionesUI.setSelectedBean(null);
                 searchTxt.setFocus(true);
 
                 NominaListUI.this.filtrar();
@@ -229,7 +235,7 @@ public class NominaListUI extends Composite {
         }
         return idx;
     }
-    
+
     private class SelectionHandler implements SelectionChangeEvent.Handler {
 
         @Override
@@ -240,24 +246,24 @@ public class NominaListUI extends Composite {
                 try {
                     SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
                     empleadoSelected = (EmpleadoBase) selModel.getSelectedObject();
-                
+
                     if (empleadoSelected == null) {
                         return;
                     }
-                
+
                     int idx = scrollIntoView(empleadoSelected);
-                
+
                     // GWT.log(idx + " >>> Sel: " + empleadoSelected);
-                
                     ////Empleado sel = (Empleado) empleadoSelected;
-                    
-                    percepcionesUI.setSelectedBean(empleadoSelected.getId());
-                    
+
+                    nominaPercepcionesUI.setSelectedBean(empleadoSelected.getId());
+                    nominaDeduccionesUI.setSelectedBean(empleadoSelected.getId());
+
                 } catch (Exception e) {
                     Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());
                 }
             }
         }
     }
-    
+
 }

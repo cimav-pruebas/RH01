@@ -5,14 +5,13 @@
  */
 package cimav.client.view.nomina;
 
+
 import cimav.client.data.domain.Concepto;
-import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.domain.Tabulador;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
-import cimav.client.view.catalogos.empleados.EmpleadosEditorUI;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
@@ -27,7 +26,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -37,24 +35,23 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import java.util.ArrayList;
-import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
  * @author juan.calderon
  */
-public class PercepcionesUI extends Composite {
+public class NominaPercepcionesUI extends Composite {
     
-    private static PercepcionesUIUiBinder uiBinder = GWT.create(PercepcionesUIUiBinder.class);
+    private static NominaPercepcionesUIUiBinder uiBinder = GWT.create(NominaPercepcionesUIUiBinder.class);
     
-    interface PercepcionesUIUiBinder extends UiBinder<Widget, PercepcionesUI> {
+    interface NominaPercepcionesUIUiBinder extends UiBinder<Widget, NominaPercepcionesUI> {
     }
     
     @UiField(provided = true) CellTable<NominaQuincenal> dataGridPercepciones;
 
     private ListDataProvider<NominaQuincenal> nominaQuincenalProvider;
     
-    public PercepcionesUI() {
+    public NominaPercepcionesUI() {
         
         this.buildGrid(); // antes del initWidget
 
