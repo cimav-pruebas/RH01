@@ -301,7 +301,7 @@ public class EmpleadosUI extends Composite {
                 
                     int idx = scrollIntoView(empleadoSelected);
                 
-                    GWT.log(idx + " >>> Sel: " + empleadoSelected);
+                    // GWT.log(idx + " >>> Sel: " + empleadoSelected);
                 
                     ////Empleado sel = (Empleado) empleadoSelected;
                     
