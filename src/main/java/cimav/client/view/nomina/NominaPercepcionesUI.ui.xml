@@ -5,22 +5,18 @@ Uncomment this for XHTML entities
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+             xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
 >
     <ui:style src="nominaUI.css"/>
     
-    <g:HTMLPanel addStyleNames="{style.work-panel}">
-        
-        <g:DockLayoutPanel unit="EM" addStyleNames='{style.dock-panel}'>
-            <g:west size="120">
-                <c:CellTable ui:field='dataGridPercepciones' addStyleNames='{style.cell-table}'/>
-            </g:west>
-
-            <g:south size="3">
-                <g:HTML>
-                    <h2>SubTotal Percepciones</h2>
-                </g:HTML>
-            </g:south>
-        </g:DockLayoutPanel>
-                
-    </g:HTMLPanel>
+    <b3:Panel addStyleNames='{style.conceptos-panel-card}'>
+        <b3:PanelHeader>
+            <b3:Heading size="H3" text="Percepciones"/>
+        </b3:PanelHeader>
+        <b3:PanelBody addStyleNames='{style.conceptos-panel-card-panel-body}'>
+    <!--        <b.html:Strong text="..."/> -->
+            <c:DataGrid ui:field='dataGridPercepciones' addStyleNames='{style.the-data-grid}'/>
+        </b3:PanelBody>
+    </b3:Panel>
+    
 </ui:UiBinder>

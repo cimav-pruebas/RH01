@@ -11,6 +11,7 @@ import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.ETipoAntiguedad;
 import cimav.client.data.domain.ETipoContrato;
 import cimav.client.data.domain.ETipoEmpleado;
+import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
@@ -840,6 +841,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public cimav_client_data_domain_EmpleadoNominaProxy(EmpleadoNomina target, InitialState initialState) {
         agent = new BindableProxyAgent<EmpleadoNomina>(this, target, initialState);
+        agent.propertyTypes.put("totalDeducciones", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
@@ -854,6 +856,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
         agent.propertyTypes.put("nominaQuincenalCollection", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("totalPercepciones", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("nivel", new PropertyType(Tabulador.class, true, false));
@@ -928,6 +931,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public String toString() {
         return agent.target.toString();
+      }
+
+      public BigDecimal getTotalDeducciones() {
+        return agent.target.getTotalDeducciones();
       }
 
       public Integer getIdStatus() {
@@ -1077,6 +1084,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("name", oldValue, name);
       }
 
+      public BigDecimal getTotalPercepciones() {
+        return agent.target.getTotalPercepciones();
+      }
+
       public Boolean isDirty() {
         return agent.target.isDirty();
       }
@@ -1105,6 +1116,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
 
       public Object get(String property) {
+        if (property.equals("totalDeducciones")) {
+          return getTotalDeducciones();
+        }
         if (property.equals("idStatus")) {
           return getIdStatus();
         }
@@ -1146,6 +1160,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("name")) {
           return getName();
+        }
+        if (property.equals("totalPercepciones")) {
+          return getTotalPercepciones();
         }
         if (property.equals("dirty")) {
           return isDirty();
@@ -1225,6 +1242,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           return;
         }
         throw new NonExistingPropertyException(property);
+      }
+
+      public List getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento a0) {
+        final List returnValue = agent.target.getNominaQuincenalCollectionByTipoMovimiento(a0);
+        agent.updateWidgetsAndFireEvents();
+        return returnValue;
       }
 
       public int compareTo(BaseDomain a0) {

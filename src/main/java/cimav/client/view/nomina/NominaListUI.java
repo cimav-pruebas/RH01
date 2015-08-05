@@ -9,9 +9,6 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.EmpleadoBase;
-import cimav.client.data.rest.BaseREST;
-import cimav.client.data.rest.EmpleadoREST;
-import cimav.client.view.catalogos.empleados.EmpleadosEditorUI;
 import cimav.client.view.catalogos.empleados.ICellListResources;
 import cimav.client.view.common.EmpleadoListCell;
 import cimav.client.view.provider.EmpleadosBaseProvider;
@@ -57,11 +54,9 @@ public class NominaListUI extends Composite {
     TextBox searchTxt;
     @UiField
     Button reloadBtn;
-
+    
     @UiField
-    NominaPercepcionesUI nominaPercepcionesUI;
-    @UiField
-    NominaDeduccionesUI nominaDeduccionesUI;
+    NominaUI nominaUI;
 
     private static EmpleadosBaseProvider empleadosBaseProvider;
 
@@ -105,7 +100,7 @@ public class NominaListUI extends Composite {
 
         searchTxt.addKeyUpHandler(new SearchKeyUpHandler());
 
-// >>        empleadosEditorUI.addActionEditorListener(new EditorActionListener());
+// >>        empleadosEditorUI.addActionListener(new EditorActionListener());
         // orden inicial
         orderBy = EmpleadosBaseProvider.ORDER_BY_NAME;
         // filtro inicial
@@ -115,15 +110,6 @@ public class NominaListUI extends Composite {
         reloadAll();
     }
 
-//    private class EditorActionListener implements EmpleadosEditorUI.ActionEditorListener {
-//        @Override
-//        public void onActionEditor(MethodEvent restEvent) {
-////            if (EMethod.CREATE.equals(restEvent.getMethod())) {
-////                if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-////                }
-////            }
-//        }
-//    }
     private class ReloadClickHandler implements ClickHandler {
 
         @Override
@@ -163,8 +149,8 @@ public class NominaListUI extends Composite {
             } else {
                 // si en la lista filtrada no aparece el seleccionado, deseleccionar
                 deseleccionar();
-                nominaPercepcionesUI.setSelectedBean(null);
-                nominaDeduccionesUI.setSelectedBean(null);
+                
+                nominaUI.setSelectedBean(null);
             }
         }
 
@@ -210,8 +196,7 @@ public class NominaListUI extends Composite {
 
                 //EmpleadosUI.this.selectionModel.setSelected(null, true);
                 deseleccionar();
-                nominaPercepcionesUI.setSelectedBean(null);
-                nominaDeduccionesUI.setSelectedBean(null);
+                nominaUI.setSelectedBean(null);
                 searchTxt.setFocus(true);
 
                 NominaListUI.this.filtrar();
@@ -256,8 +241,7 @@ public class NominaListUI extends Composite {
                     // GWT.log(idx + " >>> Sel: " + empleadoSelected);
                     ////Empleado sel = (Empleado) empleadoSelected;
 
-                    nominaPercepcionesUI.setSelectedBean(empleadoSelected.getId());
-                    nominaDeduccionesUI.setSelectedBean(empleadoSelected.getId());
+                    nominaUI.setSelectedBean(empleadoSelected.getId());
 
                 } catch (Exception e) {
                     Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());

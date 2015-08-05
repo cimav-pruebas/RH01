@@ -7,6 +7,8 @@ package cimav.client.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.jboss.errai.databinding.client.api.Bindable;
@@ -130,5 +132,40 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     public void setNominaQuincenalCollection(List<NominaQuincenal> nominaQuincenalCollection) {
         this.nominaQuincenalCollection = nominaQuincenalCollection;
     }
+    
+    /* Sumas */
+    
+    public List<NominaQuincenal> getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento tipoMovimiento) {
+        List<NominaQuincenal> result = new ArrayList<>();
+        for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
+            if (nominaQuincenal.getConcepto().getTipoMovimiento().equals(tipoMovimiento)) {
+                result.add(nominaQuincenal);
+            }
+        }
+        return result;
+    }
+    
+    public BigDecimal getTotalPercepciones() {
+        List<NominaQuincenal> percepciones = this.getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento.PERCEPTION);
+        BigDecimal result = BigDecimal.ZERO;
+        for(NominaQuincenal percepcion : percepciones) {
+            result = result.add(percepcion.getCantidad());
+        }
+        return result;
+    }
+    
+    public BigDecimal getTotalDeducciones() {
+        List<NominaQuincenal> deducciones = this.getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento.DEDUCCION);
+        BigDecimal result = BigDecimal.ZERO;
+        for(NominaQuincenal deduccion : deducciones) {
+            result = result.add(deduccion.getCantidad());
+        }
+        return result;
+    }
+    
+//    public BigDecimal getTotal() {
+//        BigDecimal result = this.getTotalPercepciones().subtract(this.getTotalDeducciones());
+//        return result;
+//    }
     
 }

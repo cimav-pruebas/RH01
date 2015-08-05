@@ -53,9 +53,9 @@ Uncomment this for XHTML entities
                     </g:center>
                     <g:south size="52">
                         <g:VerticalPanel>
-            <g:HTML>
-                <h1>Tool bar</h1>
-            </g:HTML>
+                            <g:HTML>
+                                <h1>Tool bar</h1>
+                            </g:HTML>
                         </g:VerticalPanel>
                     </g:south> 
                 </g:DockLayoutPanel>
@@ -63,10 +63,7 @@ Uncomment this for XHTML entities
         </g:west>   
 
         <g:center >
-            <g:HorizontalPanel addStyleNames='{style.TEMPORAL-panel}'>
-                <nom:NominaPercepcionesUI ui:field="nominaPercepcionesUI"></nom:NominaPercepcionesUI>
-                <nom:NominaDeduccionesUI ui:field="nominaDeduccionesUI"></nom:NominaDeduccionesUI>
-            </g:HorizontalPanel>
+            <nom:NominaUI ui:field="nominaUI"></nom:NominaUI>
         </g:center>
         
     </g:DockLayoutPanel>

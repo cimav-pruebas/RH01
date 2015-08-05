@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : Dec 10, 2014, 9:13:14 AM
     Author     : juan.calderon
 */
- 
+
 input[type="text"], select {
     height: 30px !important;
     margin-bottom: 10px;
@@ -26,6 +26,7 @@ html, body {
 }
 .work-panel {
     position: initial !important; // de no ponerlo, no aparece
+    border: 1px solid #3399FF
 }
 .west-search-panel {
     /* border-right: 1px solid gray; */
@@ -64,6 +65,8 @@ code {
     font-family: Monaco,Menlo,Consolas,'Courier New',monospace; 
     font-size: 12px; border-radius: 3px;
 }
+
+/*
 .label-cyt-grp-niv {
     width: 40px;
     color: teal; 
@@ -76,9 +79,9 @@ code {
     margin: 5px;
 }
 .empleados-editor-buttons-bar {
-    /* border-top: 1px solid lightgray; */
     right: 5px !important;
 }
+*/
 
 .wrapper-panel-editor {
     display: -webkit-box;
@@ -89,16 +92,16 @@ code {
     bottom: 10px;
     padding: 24px;
     border: 1px solid  #ccc; /*  #EEEEEE;  */
-/*    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px; */
+    /*    -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px; */
     background:  #F5F5F5; /* #F0F0F0;   */
 
     /* del ScrollPanel  */
     overflow: auto;
     /* position: relative; */
     zoom: 1;
-    
+
     border-top-width: 0px;
 }
 
@@ -111,9 +114,9 @@ code {
     bottom: 10px;
     padding: 24px;
     border: 1px solid  #ccc; /*  #EEEEEE;  */
-/*    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;  */
+    /*    -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;  */
     background:  #E0E0E0;
     /* del ScrollPanel  */
     /* overflow: auto; */
@@ -121,10 +124,10 @@ code {
     zoom: 1;
     opacity: 0.5;
     z-index: 200;
-    
+
     border-top-width: 0px;
 }
-
+/*
 .empleados-editor-buttons-bar-save {
     margin-right: 5px;
 }
@@ -138,26 +141,67 @@ code {
 .btn-insertar {
     margin-top: 10px;
 }
+*/
 
-.cell-table {
-    border-bottom: 1px solid #ccc;
-    text-align: left;
-    margin: 4px;
-    
-/*    position: initial !important; // de no ponerlo, no aparece
-    height: 100%; 
-    width: 100%;
-    border: 2px dashed darkorchid;*/
-
-}
-
-.TEMPORAL-panel {
+.center-work-panel {
     position: initial !important;
+    border: 2px dashed green;
+    padding: 10px;
+    width: 100%;
+    height: 100%;    
 }
 
 .dock-panel {
-    position: inherit !important; // de no ponerlo, no aparece
-/*    height: 100%; 
+    //    position: inherit !important; // de no ponerlo, no aparece
+    height: 100%; 
     width: 100%;
-    border: 2px dashed cornflowerblue;*/
+    //    border: 2px dashed cornflowerblue;
+    /*    position: relative !important;
+        height: 300px !important;
+        margin: 5px;
+        border: 1px dotted pink;*/
+}
+
+/*
+.cell-table {
+    border-bottom: 0px solid green;
+    text-align: left;
+    width: 100%;
+//    margin: 4px;
+    
+//    position: initial !important; // de no ponerlo, no aparece
+//    border: 2px dashed darkorchid;
+}
+*/
+
+.the-data-grid {
+    /* border: 2px dotted palevioletred; */
+    text-align: left;
+    width: 100%;
+    /* position: initial !important; // de no ponerlo, no aparece*/
+
+}
+
+
+.conceptos-panel-card {
+    /* border-bottom: 2px solid #ccc; */
+    margin-top: 10px;
+}
+.conceptos-panel-card-panel-body {
+    padding: 0 5px 0 5px !important;
+    /* height: 300px; */
+    min-height: 200px;
+    display: flex;
+}
+.totales-panel {
+    display: flex;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.total-label {
+    font-size: 28px;
+    padding-bottom: 10px;
 }
