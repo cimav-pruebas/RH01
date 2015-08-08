@@ -12,7 +12,6 @@ body{
    text-align: center;
    font-family: verdana, sans-serif;
 }
-
 .gwt-TabLayoutPanelContent {
     border-width: 0px 0px 0px !important;
     //border-color: blue !important;
@@ -50,4 +49,12 @@ div.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent >li>a:hover, div.gwt-Stack
 }
 div.tab-content {
     height: 100%;
+}
+
+.conceptos-icon-edit {
+    cursor: pointer;  
+    position: absolute;  
+    bottom: 5px;  
+    left: 45px; 
+    z-index: 300;
 }

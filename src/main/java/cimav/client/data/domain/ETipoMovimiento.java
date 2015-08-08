@@ -11,7 +11,9 @@ package cimav.client.data.domain;
  */
 public enum ETipoMovimiento {
     PERCEPTION("P", "Percepción"),
-    DEDUCCION("D", "Deddución");
+    DEDUCCION("D", "Deddución"),
+    INTERNO("I", "Interno"),
+    REPERCUCION("R", "Repercución");
     
     private String id;
     private String name;

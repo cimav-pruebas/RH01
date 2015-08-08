@@ -6,16 +6,28 @@ Uncomment this for XHTML entities
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:c="urn:import:com.google.gwt.user.cellview.client"
              xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:card="urn:import:org.gwtbootstrap3.extras.card.client.ui"
 >
     <ui:style src="nominaUI.css"/>
     
-    <b3:Panel addStyleNames='{style.conceptos-panel-card}'>
+    <b3:Panel addStyleNames='{style.conceptos-panel}'>
         <b3:PanelHeader>
             <b3:Heading size="H3" text="Percepciones"/>
         </b3:PanelHeader>
-        <b3:PanelBody addStyleNames='{style.conceptos-panel-card-panel-body}'>
-    <!--        <b.html:Strong text="..."/> -->
-            <c:DataGrid ui:field='dataGridPercepciones' addStyleNames='{style.the-data-grid}'/>
+        <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+            <card:Card ui:field='nominaCard' addStyleNames='{style.nomina-card}'>
+                <card:Front ui:field='cardFront' trigger='PENCIL'> 
+                    <c:DataGrid ui:field='dataGridPercepciones' addStyleNames='{style.conceptos-data-grid}'/>
+                    <b3:Icon ui:field='iconPlus' type="PLUS"  addStyleNames='{style.conceptos-icon-plus}'/>
+                    <b3:Icon ui:field='iconMinus' type="MINUS" addStyleNames='{style.conceptos-icon-minus}'/>
+<!--                    <b3:Icon ui:field='iconEdit'  type="PENCIL"  addStyleNames='{style.conceptos-icon-edit}'/> -->
+                </card:Front>
+                <card:Back trigger='BARS'>
+                    <g:HTML>
+                        <h1> Editor ...</h1>
+                    </g:HTML>
+                </card:Back>
+            </card:Card>
         </b3:PanelBody>
     </b3:Panel>
     

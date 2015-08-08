@@ -10,6 +10,7 @@ package cimav.client.data.domain;
  * @author juan.calderon
  */
 public enum ETipoCalculo {
+    SPECIAL("S", "Special"),
     FIJO("F", "Fijo");
     
     private String id;

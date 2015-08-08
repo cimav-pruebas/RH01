@@ -6,18 +6,14 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.Concepto;
-import cimav.client.data.domain.ETipoMovimiento;
-import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.NominaQuincenal;
-import cimav.client.data.rest.BaseREST;
-import cimav.client.data.rest.EmpleadoREST;
-import cimav.client.view.common.EMethod;
-import cimav.client.view.common.ETypeResult;
-import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -33,6 +29,8 @@ import com.google.gwt.view.client.ListDataProvider;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtbootstrap3.client.ui.constants.IconType;
+import org.gwtbootstrap3.extras.card.client.ui.Front;
 
 /**
  *
@@ -48,6 +46,8 @@ public class NominaDeduccionesUI extends Composite {
     @UiField(provided = true) 
     DataGrid<NominaQuincenal> dataGridDeducciones;
 
+    @UiField Front cardBack;
+    
     private ListDataProvider<NominaQuincenal> nominaQuincenalProvider;
     
     public NominaDeduccionesUI() {
@@ -55,6 +55,32 @@ public class NominaDeduccionesUI extends Composite {
         this.buildGrid(); // antes del initWidget
 
         initWidget(uiBinder.createAndBindUi(this));
+        
+//        cardBack.setTrigger(IconType.BEER);
+    }
+    
+    @Override
+    protected void onLoad() {
+        GQuery cqBack = GQuery.$(".face.back");
+        
+        GQuery cqIcon = cqBack.$("fa.trigger.fa-bars");
+        cqIcon.attr("class", "fa fa-bars conceptos-icon-edit");
+        cqIcon.attr("style",
+            //" border: 1px solid blueviolet; " +
+            " cursor: pointer; " +
+            " position: absolute; " +
+            " bottom: 5px; " +
+            " left: 45px; " +
+            " z-index: 300; " 
+        );
+        
+        Widget iCon = cqIcon.widget();
+        iCon.addDomHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                GWT.log(">>>>BACK " + event.getX() + ":" + event.getClientY());
+            }
+        }, ClickEvent.getType());
         
     }
     

@@ -14,8 +14,13 @@ import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.query.client.Function;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -59,6 +64,33 @@ public class NominaUI extends Composite {
 //        }
 //    }
     
+    @Override
+    protected void onLoad() {
+        super.onLoad(); //To change body of generated methods, choose Tools | Templates.
+
+        GQuery cqFront = GQuery.$(".face.front");
+        
+        cqFront.attr("style","padding: 0; ");
+        
+//        cqFront.$(".trigger").remove();
+        
+        
+//        /* Replazar el style del icono del Flip Card*/
+//        cqFront.$(".trigger").attr("class","fa fa-pencil").attr("style",
+//            //" border: 1px solid blueviolet; " +
+//            " cursor: pointer; " +
+//            " position: absolute; " +
+//            " bottom: 5px; " +
+//            " left: 5px; " +
+//            " z-index: 300; " 
+//        );
+        
+//        cqFront.append("<i id='noManches' class='fa fa-plus' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 5px;  z-index: 300; '></i>");
+//        cqFront.append("<i class='fa fa-minus' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 25px;  z-index: 300; '></i>");
+//        cqFront.append("<i class='fa fa-pencil' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 45px;  z-index: 300; '></i>");
+        
+    }   
+    
     private EmpleadoREST getEmpleadosREST() {
         if (empleadoREST == null) {
             empleadoREST = new EmpleadoREST();
@@ -100,7 +132,7 @@ public class NominaUI extends Composite {
         idEmpleadoBaseSelected = idEmpleadoBaseSelected == null ? 0 : idEmpleadoBaseSelected;
         
         getEmpleadosREST().findEmpleadoNominaById(idEmpleadoBaseSelected);
-        
+     
     }
     
 }

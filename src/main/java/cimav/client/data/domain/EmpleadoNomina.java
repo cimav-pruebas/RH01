@@ -142,6 +142,21 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
                 result.add(nominaQuincenal);
             }
         }
+        
+        NominaQuincenal nqSpecial = new NominaQuincenal();
+        nqSpecial.setSpecial(Boolean.TRUE);
+        nqSpecial.setCantidad(BigDecimal.ZERO);
+        nqSpecial.setId(0);
+        nqSpecial.setNumQuincenas(1);
+        Concepto concepto = new Concepto();
+        concepto.setId(0);
+        concepto.setCode("");
+        concepto.setTipoCalculo(ETipoCalculo.SPECIAL);
+        concepto.setTipoMovimiento(tipoMovimiento);
+        nqSpecial.setConcepto(concepto);
+        
+        result.add(nqSpecial);
+        
         return result;
     }
     

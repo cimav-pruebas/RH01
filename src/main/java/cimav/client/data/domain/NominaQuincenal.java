@@ -19,8 +19,18 @@ public class NominaQuincenal implements  Serializable{
     private Integer numQuincenas;
     private Concepto concepto;
     private BigDecimal cantidad;
+    
+    private Boolean special;
 
+    public Boolean isSpecial() {
+        return special;
+    }
+    public void setSpecial(Boolean special) {
+        this.special = special;
+    }
+    
     public NominaQuincenal() {
+        this.special = false;
     }
 
     public Integer getId() {
