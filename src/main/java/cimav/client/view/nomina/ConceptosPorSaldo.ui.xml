@@ -1,0 +1,17 @@
+<!--
+Uncomment this for XHTML entities
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+>
+    <ui:style src="nominaUI.css"/>
+    
+    <g:HTMLPanel>
+        
+        <c:DataGrid ui:field='dataGridPorSaldo' addStyleNames='{style.data-grid-por-saldo}'/> 
+        
+    </g:HTMLPanel>
+    
+</ui:UiBinder>

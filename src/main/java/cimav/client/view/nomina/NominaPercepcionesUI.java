@@ -14,9 +14,6 @@ import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.query.client.GQuery;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -29,15 +26,9 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.gwtbootstrap3.client.ui.Icon;
-import org.gwtbootstrap3.client.ui.constants.IconType;
-import org.gwtbootstrap3.extras.card.client.ui.Front;
 
 /**
  *
@@ -50,15 +41,9 @@ public class NominaPercepcionesUI extends Composite {
     interface NominaPercepcionesUIUiBinder extends UiBinder<Widget, NominaPercepcionesUI> {
     }
     
-//    @UiField Card nominaCard;
-    
     @UiField(provided = true) 
     DataGrid<NominaQuincenal> dataGridPercepciones;
 
-    @UiField Front cardFront;
-    @UiField Icon iconPlus;
-    @UiField Icon iconMinus;
-    
     private ListDataProvider<NominaQuincenal> nominaQuincenalProvider;
     
     public NominaPercepcionesUI() {
@@ -67,29 +52,28 @@ public class NominaPercepcionesUI extends Composite {
 
         initWidget(uiBinder.createAndBindUi(this));
      
-//        cardFront.setTrigger(IconType.ANDROID);
     }
     
     @Override
     protected void onLoad() {
-        GQuery cqFront = GQuery.$(".face.front");
-
-        GQuery cqIcon = cqFront.$("fa.trigger.fa-pencil").attr("class","fa fa-pencil conceptos-icon-edit").attr("style",
-            " border: 1px solid blueviolet; " +
-            " cursor: pointer; " +
-            " position: absolute; " +
-            " bottom: 5px; " +
-            " left: 45px; " +
-            " z-index: 300; " 
-        );
-        
-        Widget iCon = cqIcon.widget();
-        iCon.addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                GWT.log(">>>>FRONT " + event.getX() + ":" + event.getClientY());
-            }
-        }, ClickEvent.getType());
+//        GQuery cqFront = GQuery.$(".face.front");
+//
+//        GQuery cqIcon = cqFront.$("fa.trigger.fa-pencil").attr("class","fa fa-pencil conceptos-icon-edit").attr("style",
+//            " border: 1px solid blueviolet; " +
+//            " cursor: pointer; " +
+//            " position: absolute; " +
+//            " bottom: 5px; " +
+//            " left: 45px; " +
+//            " z-index: 300; " 
+//        );
+//        
+//        Widget iCon = cqIcon.widget();
+//        iCon.addDomHandler(new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                GWT.log(">>>>FRONT " + event.getX() + ":" + event.getClientY());
+//            }
+//        }, ClickEvent.getType());
         
     }
     
@@ -114,20 +98,21 @@ public class NominaPercepcionesUI extends Composite {
 //        dataGridPercepciones.addColumnSortHandler(sortHandler);
         
         dataGridPercepciones.setPageSize(20);
-
-        // Add a selection model so we can select cells.
-        final SelectionModel<NominaQuincenal> selectionModel = new SingleSelectionModel<>(nominaQuincenalProvider);
-        selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-            @Override
-            public void onSelectionChange(SelectionChangeEvent event) {
-                if (event.getSource() instanceof SingleSelectionModel) {
-//                    SingleSelectionModel selecter = (SingleSelectionModel) event.getSource();
-//                    NominaQuincenal sel = (NominaQuincenal) selecter.getSelectedObject();
-//                    GWT.log("" + sel);
-                }
-            }
-        });
-        dataGridPercepciones.setSelectionModel(selectionModel);
+        dataGridPercepciones.setMinimumTableWidth(400, Style.Unit.PX);
+        
+//        // Add a selection model so we can select cells.
+//        final SelectionModel<NominaQuincenal> selectionModel = new SingleSelectionModel<>(nominaQuincenalProvider);
+//        selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+//            @Override
+//            public void onSelectionChange(SelectionChangeEvent event) {
+//                if (event.getSource() instanceof SingleSelectionModel) {
+////                    SingleSelectionModel selecter = (SingleSelectionModel) event.getSource();
+////                    NominaQuincenal sel = (NominaQuincenal) selecter.getSelectedObject();
+////                    GWT.log("" + sel);
+//                }
+//            }
+//        });
+//        dataGridPercepciones.setSelectionModel(selectionModel);
 
 //        dataGridPercepciones.addDomHandler(new DoubleClickHandler() {
 //            @SuppressWarnings("unchecked")
@@ -199,8 +184,9 @@ public class NominaPercepcionesUI extends Composite {
                 return concepto.getCode() + " " + concepto.getIdTipoCalculo()+ " " + concepto.getName();
             }
         };
-        
         dataGridPercepciones.addColumn(conceptoCol, "Concepto");
+        dataGridPercepciones.setColumnWidth(conceptoCol, 200, Style.Unit.PX);
+        
         // Cantidad
         Column<NominaQuincenal, String> cantidadCol = new Column<NominaQuincenal, String>(new TextCell()) {
                     @Override
