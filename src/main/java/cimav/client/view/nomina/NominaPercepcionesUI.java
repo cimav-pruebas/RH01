@@ -7,7 +7,7 @@ package cimav.client.view.nomina;
 
 
 import cimav.client.data.domain.Concepto;
-import cimav.client.data.domain.ETipoCalculo;
+import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.view.common.Utils;
@@ -45,7 +45,7 @@ public class NominaPercepcionesUI extends Composite {
     DataGrid<NominaQuincenal> dataGridPercepciones;
 
     private ListDataProvider<NominaQuincenal> nominaQuincenalProvider;
-    
+
     public NominaPercepcionesUI() {
         
         this.buildGrid(); // antes del initWidget
@@ -143,45 +143,42 @@ public class NominaPercepcionesUI extends Composite {
         uno.setId(1);
         uno.setCode("UNO");
         uno.setConsecutivo(1);
-        uno.setTipoCalculo(ETipoCalculo.FIJO);
-        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
-        uno.setName("Dos");
-        Concepto dos = new Concepto();
-        uno.setId(2);
-        uno.setCode("DOS");
-        uno.setConsecutivo(2);
-        uno.setTipoCalculo(ETipoCalculo.FIJO);
-        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
-        uno.setName("Tres");
-        Concepto tres = new Concepto();
-        uno.setId(3);
-        uno.setCode("TRES");
-        uno.setConsecutivo(3);
-        uno.setTipoCalculo(ETipoCalculo.FIJO);
-        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
-        uno.setName("Cuatro");
-        Concepto cuatro = new Concepto();
-        uno.setId(4);
-        uno.setCode("CUATRO");
-        uno.setConsecutivo(4);
-        uno.setTipoCalculo(ETipoCalculo.FIJO);
-        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
+        uno.setTipoConcepto(ETipoConcepto.PERCEPCION);
+        uno.setTipoMovimiento(ETipoMovimiento.CALCULO);
         uno.setName("Uno");
+//        Concepto dos = new Concepto();
+//        uno.setId(2);
+//        uno.setCode("DOS");
+//        uno.setConsecutivo(2);
+//        uno.setTipoCalculo(ETipoCalculo.FIJO);
+//        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
+//        uno.setName("Tres");
+//        Concepto tres = new Concepto();
+//        uno.setId(3);
+//        uno.setCode("TRES");
+//        uno.setConsecutivo(3);
+//        uno.setTipoCalculo(ETipoCalculo.FIJO);
+//        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
+//        uno.setName("Cuatro");
+//        Concepto cuatro = new Concepto();
+//        uno.setId(4);
+//        uno.setCode("CUATRO");
+//        uno.setConsecutivo(4);
+//        uno.setTipoCalculo(ETipoCalculo.FIJO);
+//        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
+//        uno.setName("Uno");
         conceptos = new ArrayList<>();
         conceptos.add(uno);
-        conceptos.add(dos);
-        conceptos.add(tres);
-        conceptos.add(cuatro);
+//        conceptos.add(dos);
+//        conceptos.add(tres);
+//        conceptos.add(cuatro);
         
         // Concepto
         Column<NominaQuincenal, String> conceptoCol = new Column<NominaQuincenal, String>((new TextCell())) {
             @Override
             public String getValue(NominaQuincenal object) {
                 Concepto concepto = object.getConcepto();
-                if (ETipoCalculo.SPECIAL.equals(concepto.getTipoCalculo())) {
-                    return "Capturar movimiento...";
-                }
-                return concepto.getCode() + " " + concepto.getIdTipoCalculo()+ " " + concepto.getName();
+                return concepto.getCode() + " " + concepto.getIdTipoConcepto()+ " " +  concepto.getIdTipoMovimiento()+ " " + concepto.getName();
             }
         };
         dataGridPercepciones.addColumn(conceptoCol, "Concepto");
@@ -245,8 +242,6 @@ public class NominaPercepcionesUI extends Composite {
 //    }
     
     public void setList(List<NominaQuincenal> percepciones) {
-        
-        
         
         nominaQuincenalProvider.setList(percepciones);
     }

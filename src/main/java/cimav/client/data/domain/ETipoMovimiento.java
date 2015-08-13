@@ -10,10 +10,9 @@ package cimav.client.data.domain;
  * @author juan.calderon
  */
 public enum ETipoMovimiento {
-    PERCEPTION("P", "Percepción"),
-    DEDUCCION("D", "Deddución"),
-    INTERNO("I", "Interno"),
-    REPERCUCION("R", "Repercución");
+    CALCULO("C", "Cálculo"),
+    SALDO("S", "Saldo"),
+    PAGO("P", "Pago");
     
     private String id;
     private String name;
@@ -24,7 +23,7 @@ public enum ETipoMovimiento {
     }
 
     public static ETipoMovimiento get(String id) {
-        ETipoMovimiento result = ETipoMovimiento.PERCEPTION; // default
+        ETipoMovimiento result = ETipoMovimiento.CALCULO; // default
         for (ETipoMovimiento value : ETipoMovimiento.values()) {
             if (value.getId().equals(id)) {
                 result = value;

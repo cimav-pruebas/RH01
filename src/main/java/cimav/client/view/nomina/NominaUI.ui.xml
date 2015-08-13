@@ -6,15 +6,40 @@ Uncomment this for XHTML entities
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
              xmlns:nom="urn:import:cimav.client.view.nomina"
+             xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
 >
     <ui:style src="nominaUI.css"/>
     <b:Container>
         <b:Row>
             <b:Column size="6">
-                <nom:NominaPercepcionesUI ui:field="nominaPercepcionesUI"></nom:NominaPercepcionesUI>
+                <!-- Percepciones -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelHeader>
+                        <b3:Heading size="H3" text="Percepciones"/>
+                    </b3:PanelHeader>
+                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                        <b3:NavTabs ui:field="navTabs" >
+                            <b3:TabListItem active="true" ui:field="tabItemConceptos" dataTarget="#tabConceptosId" text="Conceptos"/>
+                            <b3:TabListItem ui:field="tabItemPorSaldo" dataTarget="#tabPorSaldoId" text="Por Saldo"/>
+                            <b3:TabListItem ui:field="tabItemPorPago" dataTarget="#tabPorPeriodoId" text="Por Periodo"/>
+                        </b3:NavTabs>
+                        <b3:TabContent ui:field="tabPanelConceptos" addStyleNames='{style.tab-panel}'>
+                            <b3:TabPane active="true"  b3:id="tabConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
+                                <nom:NominaPercepcionesUI ui:field="nominaPercepcionesUI"></nom:NominaPercepcionesUI>
+                            </b3:TabPane>
+                            <b3:TabPane b3:id="tabPorSaldoId" addStyleNames='{style.tab-panel-conceptos}'>
+                                <nom:NominaSaldoUI ui:field="nominaSaldoUI"></nom:NominaSaldoUI>
+                            </b3:TabPane>
+                            <b3:TabPane b3:id="tabPorPeriodoId">
+                            </b3:TabPane>
+                        </b3:TabContent>
+                    </b3:PanelBody>
+                </b3:Panel>
+                
+                
             </b:Column>
             <b:Column size="6">
-                <nom:NominaDeduccionesUI ui:field="nominaDeduccionesUI"></nom:NominaDeduccionesUI> 
+                <!-- Deducciones -->
             </b:Column> 
         </b:Row>
         <b:Row>

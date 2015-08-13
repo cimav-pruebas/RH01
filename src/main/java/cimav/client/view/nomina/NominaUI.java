@@ -5,26 +5,34 @@
  */
 package cimav.client.view.nomina;
 
+import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
+import static cimav.client.view.MainUI.OPT_DEPARTAMENTOS;
+import static cimav.client.view.MainUI.OPT_NOMINA;
+import static cimav.client.view.MainUI.OPT_PERSONAL;
+import static cimav.client.view.MainUI.OPT_TABULADOR;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.query.client.Function;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
+import org.gwtbootstrap3.client.ui.NavTabs;
+import org.gwtbootstrap3.client.ui.TabContent;
+import org.gwtbootstrap3.client.ui.TabPane;
 
 /**
  *
@@ -43,14 +51,26 @@ public class NominaUI extends Composite {
     @UiField
     NominaPercepcionesUI nominaPercepcionesUI;
     @UiField
-    NominaDeduccionesUI nominaDeduccionesUI;
+    NominaSaldoUI nominaSaldoUI;
 
     private EmpleadoREST empleadoREST;
     
     public NominaUI() {
         initWidget(uiBinder.createAndBindUi(this));
         
-//        nominaPercepcionesUI.addActionListener(new ActionListener());
+    }
+    
+    @UiHandler({"tabItemConceptos", "tabItemPorSaldo", "tabItemPorPago"})
+    protected void onClick(ClickEvent e) {
+        GWT.log("XXXX> " + e.getSource());
+        String str = e.getSource().toString();
+        if (str.contains("tabConceptosId")) {
+            nominaPercepcionesUI.dataGridPercepciones.redraw();
+        } else if (str.contains("tabPorSaldoId")) {
+            nominaSaldoUI.dataGrid.redraw();
+        } else if (str.contains("tabPorPeriodoId")) {
+            
+        } 
     }
     
 //    private class ActionListener implements NominaPercepcionesUI.ActionListener {
@@ -109,8 +129,8 @@ public class NominaUI extends Composite {
                     // re-carga el provider con el empleado reloaded
                     EmpleadoNomina empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
                     
-                    nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento.PERCEPTION));
-                    nominaDeduccionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento.DEDUCCION));
+                    nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
+                    nominaSaldoUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION, ETipoMovimiento.SALDO));
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded.getTotalPercepciones();
                     BigDecimal totDeducciones = empleadoNominaLoaded.getTotalDeducciones();

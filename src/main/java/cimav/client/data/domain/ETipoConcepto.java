@@ -9,21 +9,23 @@ package cimav.client.data.domain;
  *
  * @author juan.calderon
  */
-public enum ETipoCalculo {
-    SPECIAL("S", "Special"),
-    FIJO("F", "Fijo");
+public enum ETipoConcepto {
+    PERCEPCION("P", "Percepción"),
+    DEDUCCION("D", "Deducción"),
+    REPERCUCION("R", "Repercución"),
+    INTERNO("I", "Interno");
     
     private String id;
     private String name;
 
-    private ETipoCalculo(String id, String name) {
+    private ETipoConcepto(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public static ETipoCalculo get(String id) {
-        ETipoCalculo result = ETipoCalculo.FIJO; // default
-        for (ETipoCalculo value : ETipoCalculo.values()) {
+    public static ETipoConcepto get(String id) {
+        ETipoConcepto result = ETipoConcepto.PERCEPCION; // default
+        for (ETipoConcepto value : ETipoConcepto.values()) {
             if (value.getId().equals(id)) {
                 result = value;
                 break;
@@ -31,7 +33,7 @@ public enum ETipoCalculo {
         }
         return result;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -47,4 +49,6 @@ public enum ETipoCalculo {
     public void setName(String name) {
         this.name = name;
     }
+    
+    
 }

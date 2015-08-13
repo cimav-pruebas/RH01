@@ -19,18 +19,13 @@ public class NominaQuincenal implements  Serializable{
     private Integer numQuincenas;
     private Concepto concepto;
     private BigDecimal cantidad;
-    
-    private Boolean special;
 
-    public Boolean isSpecial() {
-        return special;
-    }
-    public void setSpecial(Boolean special) {
-        this.special = special;
-    }
+    private BigDecimal pagoUnico;
+    private BigDecimal pagoPermanente;
+    private BigDecimal saldoDescuento;
+    private BigDecimal saldoRestante;
     
     public NominaQuincenal() {
-        this.special = false;
     }
 
     public Integer getId() {
@@ -63,6 +58,38 @@ public class NominaQuincenal implements  Serializable{
 
     public void setCantidad(BigDecimal cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public BigDecimal getPagoUnico() {
+        return pagoUnico;
+    }
+
+    public void setPagoUnico(BigDecimal pagoUnico) {
+        this.pagoUnico = pagoUnico;
+    }
+
+    public BigDecimal getPagoPermanente() {
+        return pagoPermanente;
+    }
+
+    public void setPagoPermanente(BigDecimal pagoPermanente) {
+        this.pagoPermanente = pagoPermanente;
+    }
+
+    public BigDecimal getSaldoDescuento() {
+        return saldoDescuento;
+    }
+
+    public void setSaldoDescuento(BigDecimal saldoDescuento) {
+        this.saldoDescuento = saldoDescuento;
+    }
+
+    public BigDecimal getSaldoRestante() {
+        return saldoRestante;
+    }
+
+    public void setSaldoRestante(BigDecimal saldoRestante) {
+        this.saldoRestante = saldoRestante;
     }
 
     @Override

@@ -9,6 +9,7 @@ import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.ESexo;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.ETipoAntiguedad;
+import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.ETipoContrato;
 import cimav.client.data.domain.ETipoEmpleado;
 import cimav.client.data.domain.ETipoMovimiento;
@@ -1244,8 +1245,14 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         throw new NonExistingPropertyException(property);
       }
 
-      public List getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento a0) {
-        final List returnValue = agent.target.getNominaQuincenalCollectionByTipoMovimiento(a0);
+      public List getNominaQuincenalCollection(ETipoConcepto a0, ETipoMovimiento a1) {
+        final List returnValue = agent.target.getNominaQuincenalCollection(a0, a1);
+        agent.updateWidgetsAndFireEvents();
+        return returnValue;
+      }
+
+      public List getNominaQuincenalCollection(ETipoConcepto a0) {
+        final List returnValue = agent.target.getNominaQuincenalCollection(a0);
         agent.updateWidgetsAndFireEvents();
         return returnValue;
       }

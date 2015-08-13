@@ -29,6 +29,9 @@ public class Utils {
      * @return 123,452.60
      */
     public static String formatCantidad(BigDecimal bigDecimal) {
+        if (bigDecimal == null) {
+            bigDecimal = BigDecimal.ZERO;
+        }
         NumberFormat fmt = NumberFormat.getFormat("###,###,###.00");
         String formatted = fmt.format(bigDecimal);
         return formatted;

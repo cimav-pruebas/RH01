@@ -133,35 +133,39 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.nominaQuincenalCollection = nominaQuincenalCollection;
     }
     
-    /* Sumas */
-    
-    public List<NominaQuincenal> getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento tipoMovimiento) {
+    /** 
+     * Regresa la lista por TipoConcepto y TipoMovimiento
+     * @param tipoConcepto
+     * @param tipoMovimiento
+     * @return 
+     */
+    public List<NominaQuincenal> getNominaQuincenalCollection(ETipoConcepto tipoConcepto, ETipoMovimiento tipoMovimiento) {
         List<NominaQuincenal> result = new ArrayList<>();
         for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
-            if (nominaQuincenal.getConcepto().getTipoMovimiento().equals(tipoMovimiento)) {
+            if (nominaQuincenal.getConcepto().getTipoConcepto().equals(tipoConcepto) && nominaQuincenal.getConcepto().getTipoMovimiento().equals(tipoMovimiento)) {
                 result.add(nominaQuincenal);
             }
         }
-        
-        NominaQuincenal nqSpecial = new NominaQuincenal();
-        nqSpecial.setSpecial(Boolean.TRUE);
-        nqSpecial.setCantidad(BigDecimal.ZERO);
-        nqSpecial.setId(0);
-        nqSpecial.setNumQuincenas(1);
-        Concepto concepto = new Concepto();
-        concepto.setId(0);
-        concepto.setCode("");
-        concepto.setTipoCalculo(ETipoCalculo.SPECIAL);
-        concepto.setTipoMovimiento(tipoMovimiento);
-        nqSpecial.setConcepto(concepto);
-        
-        result.add(nqSpecial);
-        
+        return result;
+    }
+    
+    /** 
+     * Regresa la lista por TipoConcepto 
+     * @param tipoConcepto
+     * @return 
+     */
+    public List<NominaQuincenal> getNominaQuincenalCollection(ETipoConcepto tipoConcepto) {
+        List<NominaQuincenal> result = new ArrayList<>();
+        for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
+            if (nominaQuincenal.getConcepto().getTipoConcepto().equals(tipoConcepto)) {
+                result.add(nominaQuincenal);
+            }
+        }
         return result;
     }
     
     public BigDecimal getTotalPercepciones() {
-        List<NominaQuincenal> percepciones = this.getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento.PERCEPTION);
+        List<NominaQuincenal> percepciones = this.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION);
         BigDecimal result = BigDecimal.ZERO;
         for(NominaQuincenal percepcion : percepciones) {
             result = result.add(percepcion.getCantidad());
@@ -170,7 +174,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     }
     
     public BigDecimal getTotalDeducciones() {
-        List<NominaQuincenal> deducciones = this.getNominaQuincenalCollectionByTipoMovimiento(ETipoMovimiento.DEDUCCION);
+        List<NominaQuincenal> deducciones = this.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION);
         BigDecimal result = BigDecimal.ZERO;
         for(NominaQuincenal deduccion : deducciones) {
             result = result.add(deduccion.getCantidad());
@@ -178,9 +182,9 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         return result;
     }
     
-//    public BigDecimal getTotal() {
-//        BigDecimal result = this.getTotalPercepciones().subtract(this.getTotalDeducciones());
-//        return result;
-//    }
+////    public BigDecimal getTotal() {
+////        BigDecimal result = this.getTotalPercepciones().subtract(this.getTotalDeducciones());
+////        return result;
+////    }
     
 }
