@@ -10,18 +10,12 @@ import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
-import static cimav.client.view.MainUI.OPT_DEPARTAMENTOS;
-import static cimav.client.view.MainUI.OPT_NOMINA;
-import static cimav.client.view.MainUI.OPT_PERSONAL;
-import static cimav.client.view.MainUI.OPT_TABULADOR;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,9 +24,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
-import org.gwtbootstrap3.client.ui.NavTabs;
-import org.gwtbootstrap3.client.ui.TabContent;
-import org.gwtbootstrap3.client.ui.TabPane;
 
 /**
  *
@@ -62,12 +53,11 @@ public class NominaUI extends Composite {
     
     @UiHandler({"tabItemConceptos", "tabItemPorSaldo", "tabItemPorPago"})
     protected void onClick(ClickEvent e) {
-        GWT.log("XXXX> " + e.getSource());
         String str = e.getSource().toString();
         if (str.contains("tabConceptosId")) {
             nominaPercepcionesUI.dataGridPercepciones.redraw();
         } else if (str.contains("tabPorSaldoId")) {
-            nominaSaldoUI.dataGrid.redraw();
+            nominaSaldoUI.cellTable.redraw();
         } else if (str.contains("tabPorPeriodoId")) {
             
         } 
@@ -110,7 +100,7 @@ public class NominaUI extends Composite {
 //        cqFront.append("<i class='fa fa-pencil' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 45px;  z-index: 300; '></i>");
         
     }   
-    
+
     private EmpleadoREST getEmpleadosREST() {
         if (empleadoREST == null) {
             empleadoREST = new EmpleadoREST();

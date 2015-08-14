@@ -8,6 +8,6 @@ Uncomment this for XHTML entities
     
     <ui:style src="nominaUI.css"/>
     
-    <c:DataGrid ui:field='dataGrid' addStyleNames='{style.data-grid-conceptos}'/> 
+    <c:CellTable ui:field='cellTable' addStyleNames='{style.data-grid-conceptos}'/> 
     
 </ui:UiBinder>

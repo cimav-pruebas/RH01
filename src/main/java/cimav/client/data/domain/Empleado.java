@@ -25,9 +25,13 @@ public class Empleado extends BaseDomain implements Serializable {
     private Grupo grupo;
     private Tabulador nivel;
     private Departamento departamento;
-    @JsonIgnore private ESede sede;
+    
+    @JsonIgnore 
+    private ESede sede;
     private Integer idSede;
-    @JsonIgnore private EStatusEmpleado status;
+    
+    @JsonIgnore 
+    private EStatusEmpleado status;
     private Integer idStatus;
     
     private String rfc;
@@ -49,7 +53,8 @@ public class Empleado extends BaseDomain implements Serializable {
     private EClinica clinica;
     private Integer idClinica;
 
-    @JsonIgnore private EBanco banco;
+    @JsonIgnore 
+    private EBanco banco;
     private Integer idBanco;
     
 //    private Grupo grupo;

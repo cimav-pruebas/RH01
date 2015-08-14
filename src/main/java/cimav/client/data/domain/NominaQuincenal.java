@@ -25,6 +25,8 @@ public class NominaQuincenal implements  Serializable{
     private BigDecimal saldoDescuento;
     private BigDecimal saldoRestante;
     
+    private Integer idEmpleado;
+
     public NominaQuincenal() {
     }
 
@@ -90,6 +92,14 @@ public class NominaQuincenal implements  Serializable{
 
     public void setSaldoRestante(BigDecimal saldoRestante) {
         this.saldoRestante = saldoRestante;
+    }
+
+    public Integer getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(Integer idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     @Override

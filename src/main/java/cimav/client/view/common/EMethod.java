@@ -28,5 +28,6 @@ public enum EMethod {
     // EmpleadoNomina
     FIND_EMPLEADO_NOMINA_BY_ID,
 
-
+    //Movimientos
+    UPDATE_MOVIMIENTO
 }

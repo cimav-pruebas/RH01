@@ -32,7 +32,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
 
     private Date fechaAntiguedad;
     private List<NominaQuincenal> nominaQuincenalCollection;
-
+    
     public EmpleadoNomina() {
         super();
     }
