@@ -7,6 +7,7 @@ package cimav.client.data.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -44,6 +45,15 @@ public class NominaQuincenal implements  Serializable{
 
     public void setNumQuincenas(Integer numQuincenas) {
         this.numQuincenas = numQuincenas;
+        
+        int quin = this.numQuincenas > 0 ? this.numQuincenas : 1;
+        
+        if (concepto != null && ETipoMovimiento.SALDO.equals(concepto.getTipoMovimiento())) {
+            this.saldoDescuento = this.saldoRestante.divide(new BigDecimal(quin), RoundingMode.HALF_UP);
+            this.cantidad = this.saldoDescuento;
+        } else if (concepto != null && ETipoMovimiento.PAGO.equals(concepto.getTipoMovimiento())) {
+        } 
+        
     }
 
     public Concepto getConcepto() {
@@ -67,7 +77,15 @@ public class NominaQuincenal implements  Serializable{
     }
 
     public void setPagoUnico(BigDecimal pagoUnico) {
+        if (pagoUnico == null || pagoUnico.signum() == -1) {
+            pagoUnico = BigDecimal.ZERO;
+        }
+        
         this.pagoUnico = pagoUnico;
+        
+        if (concepto != null && ETipoMovimiento.PAGO.equals(concepto.getTipoMovimiento())) {
+            this.cantidad = this.pagoUnico;
+        }
     }
 
     public BigDecimal getPagoPermanente() {
@@ -75,6 +93,21 @@ public class NominaQuincenal implements  Serializable{
     }
 
     public void setPagoPermanente(BigDecimal pagoPermanente) {
+        if (pagoPermanente == null || pagoPermanente.signum() == -1) {
+            pagoPermanente = BigDecimal.ZERO;
+        }
+        
+        this.pagoPermanente = pagoPermanente;
+        
+        if (concepto != null && ETipoMovimiento.PAGO.equals(concepto.getTipoMovimiento())) {
+            // si hay Pago Unico, se cobra el Pago unico
+            if (this.pagoUnico != null && this.pagoUnico.signum() == 1) {
+                this.cantidad = this.pagoUnico;
+            } else {
+                this.cantidad = this.pagoPermanente;
+            }
+        }
+        
         this.pagoPermanente = pagoPermanente;
     }
 
@@ -82,9 +115,9 @@ public class NominaQuincenal implements  Serializable{
         return saldoDescuento;
     }
 
-    public void setSaldoDescuento(BigDecimal saldoDescuento) {
-        this.saldoDescuento = saldoDescuento;
-    }
+//    public void setSaldoDescuento(BigDecimal saldoDescuento) {
+//        this.saldoDescuento = saldoDescuento;
+//    }
 
     public BigDecimal getSaldoRestante() {
         return saldoRestante;
@@ -92,6 +125,13 @@ public class NominaQuincenal implements  Serializable{
 
     public void setSaldoRestante(BigDecimal saldoRestante) {
         this.saldoRestante = saldoRestante;
+        
+        int quin = this.numQuincenas > 0 ? this.numQuincenas : 1;
+        this.saldoDescuento = this.saldoRestante.divide(new BigDecimal(quin), RoundingMode.HALF_UP);
+        
+        if (concepto != null && ETipoMovimiento.SALDO.equals(concepto.getTipoMovimiento())) {
+            this.cantidad = this.saldoDescuento;
+        }
     }
 
     public Integer getIdEmpleado() {

@@ -235,26 +235,28 @@ code {
     padding-bottom: 10px;
 }
 
-.conceptos-icon-plus {
+.icon-plus {
+    position: absolute;
+    left: 5px;
+    bottom: 8px;
     cursor: pointer;  
-    position: absolute;  
-    bottom: 5px;  
-    left: 5px; 
-    z-index: 300;
+    z-index: 400;
 }
-.conceptos-icon-minus {
-    cursor: pointer;  
-    position: absolute;  
-    bottom: 5px;  
-    left: 25px; 
-    z-index: 300;
+.conceptos-chosen{
+    position: absolute;
+    left: 22px;
+    height: 30px;
+    bottom: 5px;
+    width: 360px;
+    z-index: 400;
 }
-/*
-.conceptos-icon-edit {
-    cursor: pointer;  
-    position: absolute;  
-    bottom: 5px;  
-    left: 45px; 
-    z-index: 300;
+.data-grid-movimientos {
+    position: absolute !important;
+    /* overflow: visible; */
+    /* border: 1px solid blueviolet !important; */
+    bottom: 22px;
+    top: 0px; 
+    right: 0;
+    left: 0;
+    text-align: -webkit-auto;
 }
-*/

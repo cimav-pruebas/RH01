@@ -57,7 +57,7 @@ public class NominaUI extends Composite {
         if (str.contains("tabConceptosId")) {
             nominaPercepcionesUI.dataGridPercepciones.redraw();
         } else if (str.contains("tabPorSaldoId")) {
-            nominaSaldoUI.cellTable.redraw();
+            nominaSaldoUI.dataGrid.redraw();
         } else if (str.contains("tabPorPeriodoId")) {
             
         } 
