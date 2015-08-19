@@ -5,21 +5,18 @@
  */
 package cimav.client.view.nomina;
 
-
 import cimav.client.data.domain.Concepto;
-import cimav.client.data.domain.ETipoConcepto;
-import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -34,71 +31,95 @@ import java.util.List;
  *
  * @author juan.calderon
  */
-public class NominaPercepcionesUI extends Composite {
+public class NominaMovimientosUI extends Composite {
     
-    private static NominaPercepcionesUIUiBinder uiBinder = GWT.create(NominaPercepcionesUIUiBinder.class);
+    private static NominaMovimientosUIUiBinder uiBinder = GWT.create(NominaMovimientosUIUiBinder.class);
     
-    interface NominaPercepcionesUIUiBinder extends UiBinder<Widget, NominaPercepcionesUI> {
+    interface NominaMovimientosUIUiBinder extends UiBinder<Widget, NominaMovimientosUI> {
     }
     
     @UiField(provided = true) 
-    DataGrid<NominaQuincenal> dataGridPercepciones;
-
-    private ListDataProvider<NominaQuincenal> nominaQuincenalProvider;
-
-    public NominaPercepcionesUI() {
-        
-        this.buildGrid(); // antes del initWidget
-
-        initWidget(uiBinder.createAndBindUi(this));
-     
+    DataGrid<NominaQuincenal> dataGrid;
+    
+    private ListDataProvider<NominaQuincenal> provider;
+    
+    interface CustomDataGridResources extends DataGrid.Resources {
+        @Override
+        @CssResource.NotStrict
+        @Source(value = {DataGrid.Style.DEFAULT_CSS, "cimav/client/view/nomina/mominaDataGridStyle.css"})
+        CustomStyle dataGridStyle();
+    }
+    public interface CustomStyle extends DataGrid.Style {
     }
     
+    public NominaMovimientosUI() {
+
+        this.buildGrid(); // antes del initWidget
+        
+        initWidget(uiBinder.createAndBindUi(this));
+        
+//        dataGrid.setRowStyles(new RowStyles<NominaQuincenal>() {
+//            @Override
+//            public String getStyleNames(NominaQuincenal row, int rowIndex) {
+//                if (rowIndex % 2 == 0) {
+//                    return "mycellTableEvenRow";
+//                } else {
+//                    return "mycellTableOddRow";
+//                }
+//            }
+//        });
+
+    }
+
+    /*
     @Override
     protected void onLoad() {
-//        GQuery cqFront = GQuery.$(".face.front");
-//
-//        GQuery cqIcon = cqFront.$("fa.trigger.fa-pencil").attr("class","fa fa-pencil conceptos-icon-edit").attr("style",
-//            " border: 1px solid blueviolet; " +
-//            " cursor: pointer; " +
-//            " position: absolute; " +
-//            " bottom: 5px; " +
-//            " left: 45px; " +
-//            " z-index: 300; " 
-//        );
-//        
-//        Widget iCon = cqIcon.widget();
-//        iCon.addDomHandler(new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                GWT.log(">>>>FRONT " + event.getX() + ":" + event.getClientY());
-//            }
-//        }, ClickEvent.getType());
+        GQuery cqFront = GQuery.$(".face.front");
+
+        GQuery cqIcon = cqFront.$("fa.trigger.fa-pencil").attr("class","fa fa-pencil conceptos-icon-edit").attr("style",
+            " border: 1px solid blueviolet; " +
+            " cursor: pointer; " +
+            " position: absolute; " +
+            " bottom: 5px; " +
+            " left: 45px; " +
+            " z-index: 300; " 
+        );
         
+        Widget iCon = cqIcon.widget();
+        iCon.addDomHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                GWT.log(">>>>FRONT " + event.getX() + ":" + event.getClientY());
+            }
+        }, ClickEvent.getType());
     }
+    */
     
-    private void buildGrid() {
+    private void buildGrid() { 
         
         List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
-        nominaQuincenalProvider = new ListDataProvider<>(nominaQuincenalList);
-        dataGridPercepciones = new DataGrid<>(nominaQuincenalProvider.getKeyProvider());
+        provider = new ListDataProvider<>(nominaQuincenalList);
+        
+        CustomDataGridResources customDataGridResources = GWT.create(CustomDataGridResources.class);
+        dataGrid = new DataGrid<>(60, customDataGridResources);
+        //dataGrid = new DataGrid<>(provider.getKeyProvider());
 
         /*
          * Do not refresh the headers every time the data is updated. The footer
          * depends on the current data, so we do not disable auto refresh on the
          * footer.
          */
-        dataGridPercepciones.setAutoHeaderRefreshDisabled(true);
+        dataGrid.setAutoHeaderRefreshDisabled(true);
 
         // Set the message to display when the table is empty.
-        dataGridPercepciones.setEmptyTableWidget(new Label("No hay percepciones"));
+        dataGrid.setEmptyTableWidget(new Label("Sin movimientos"));
 
 //        // Attach a column sort handler to the ListDataProvider to sort the list.
 //        ColumnSortEvent.ListHandler<NominaQuincenal> sortHandler = new ColumnSortEvent.ListHandler<>(nominaQuincenalProvider.getList());
-//        dataGridPercepciones.addColumnSortHandler(sortHandler);
+//        dataGrid.addColumnSortHandler(sortHandler);
         
-        dataGridPercepciones.setPageSize(20);
-        dataGridPercepciones.setMinimumTableWidth(400, Style.Unit.PX);
+        dataGrid.setPageSize(20);
+        dataGrid.setMinimumTableWidth(400, Style.Unit.PX);
         
 //        // Add a selection model so we can select cells.
 //        final SelectionModel<NominaQuincenal> selectionModel = new SingleSelectionModel<>(nominaQuincenalProvider);
@@ -112,9 +133,9 @@ public class NominaPercepcionesUI extends Composite {
 //                }
 //            }
 //        });
-//        dataGridPercepciones.setSelectionModel(selectionModel);
+//        dataGrid.setSelectionModel(selectionModel);
 
-//        dataGridPercepciones.addDomHandler(new DoubleClickHandler() {
+//        dataGrid.addDomHandler(new DoubleClickHandler() {
 //            @SuppressWarnings("unchecked")
 //            @Override
 //            public void onDoubleClick(DoubleClickEvent event) {
@@ -127,62 +148,27 @@ public class NominaPercepcionesUI extends Composite {
         initTableColumns(); //sortHandler);
 //
 //        // Add the CellList to the adapter in the database.
-        nominaQuincenalProvider.addDataDisplay(dataGridPercepciones);
+        provider.addDataDisplay(dataGrid);
 
         
     }
-    
-    private List<Concepto> conceptos;
     
     /**
      * Add the columns to the table.
      */
     private void initTableColumns() {
 
-        Concepto uno = new Concepto();
-        uno.setId(1);
-        uno.setCode("UNO");
-        uno.setConsecutivo(1);
-        uno.setTipoConcepto(ETipoConcepto.PERCEPCION);
-        uno.setTipoMovimiento(ETipoMovimiento.CALCULO);
-        uno.setName("Uno");
-//        Concepto dos = new Concepto();
-//        uno.setId(2);
-//        uno.setCode("DOS");
-//        uno.setConsecutivo(2);
-//        uno.setTipoCalculo(ETipoCalculo.FIJO);
-//        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
-//        uno.setName("Tres");
-//        Concepto tres = new Concepto();
-//        uno.setId(3);
-//        uno.setCode("TRES");
-//        uno.setConsecutivo(3);
-//        uno.setTipoCalculo(ETipoCalculo.FIJO);
-//        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
-//        uno.setName("Cuatro");
-//        Concepto cuatro = new Concepto();
-//        uno.setId(4);
-//        uno.setCode("CUATRO");
-//        uno.setConsecutivo(4);
-//        uno.setTipoCalculo(ETipoCalculo.FIJO);
-//        uno.setTipoMovimiento(ETipoMovimiento.PERCEPTION);
-//        uno.setName("Uno");
-        conceptos = new ArrayList<>();
-        conceptos.add(uno);
-//        conceptos.add(dos);
-//        conceptos.add(tres);
-//        conceptos.add(cuatro);
-        
         // Concepto
         Column<NominaQuincenal, String> conceptoCol = new Column<NominaQuincenal, String>((new TextCell())) {
             @Override
             public String getValue(NominaQuincenal object) {
                 Concepto concepto = object.getConcepto();
-                return concepto.getCode() + " " + concepto.getIdTipoConcepto()+ " " +  concepto.getIdTipoMovimiento()+ " " + concepto.getName();
+                //return concepto.getCode() + " " + concepto.getIdTipoConcepto()+ " " +  concepto.getIdTipoMovimiento()+ " " + concepto.getName();
+                return concepto.getName();
             }
         };
-        dataGridPercepciones.addColumn(conceptoCol, "Concepto");
-        dataGridPercepciones.setColumnWidth(conceptoCol, 200, Style.Unit.PX);
+        dataGrid.addColumn(conceptoCol, "Concepto");
+        dataGrid.setColumnWidth(conceptoCol, 80, Style.Unit.PCT);
         
         // Cantidad
         Column<NominaQuincenal, String> cantidadCol = new Column<NominaQuincenal, String>(new TextCell()) {
@@ -192,27 +178,49 @@ public class NominaPercepcionesUI extends Composite {
                     }
                 };
         cantidadCol.setHorizontalAlignment( HasHorizontalAlignment.ALIGN_RIGHT);
-        // Total Percepciones
-        Header<String> subTotalFooter = new Header<String>(new TextCell()) {
-            @Override
-            public String getValue() {
-                
-                List<NominaQuincenal> items = dataGridPercepciones.getVisibleItems();
-                if (items.isEmpty()) {
-                    return "";
-                } else {
+//        // Total Percepciones
+//        Header<String> subTotalFooter = new Header<String>(new TextCell()) {
+//            @Override
+//            public String getValue() {
+//                
+//                List<NominaQuincenal> items = dataGrid.getVisibleItems();
+//                if (items.isEmpty()) {
+//                    return "";
+//                } else {
+//                    // create MathContext object with 2 precision
+//                    BigDecimal totalPercepciones = BigDecimal.ZERO;
+//                    for (NominaQuincenal nomQuin : items) {
+//                        totalPercepciones = totalPercepciones.add(nomQuin.getCantidad());
+//                    }
+//                    return Utils.formatCurrency(totalPercepciones);
+//                }
+//            }
+//            
+//        };
+        SafeHtmlHeader headerCantidad = new SafeHtmlHeader(new SafeHtml() { 
+            @Override 
+            public String asString() { 
+                return "<p style='text-align:center; margin-bottom: 0px;'>Cantidad</p>"; 
+            } 
+         });
+        SafeHtmlHeader footerCantidad = new SafeHtmlHeader(new SafeHtml() { 
+            @Override 
+            public String asString() { 
+                String result = "0.00";
+                List<NominaQuincenal> items = dataGrid.getVisibleItems();
+                if (!items.isEmpty()) {
                     // create MathContext object with 2 precision
                     BigDecimal totalPercepciones = BigDecimal.ZERO;
                     for (NominaQuincenal nomQuin : items) {
                         totalPercepciones = totalPercepciones.add(nomQuin.getCantidad());
                     }
-                    return Utils.formatCurrency(totalPercepciones);
+                    result = Utils.formatCurrency(totalPercepciones);
                 }
-            }
-        };
-        dataGridPercepciones.addColumn(cantidadCol,  new SafeHtmlHeader(SafeHtmlUtils.fromString("Cantidad")), subTotalFooter);
-        dataGridPercepciones.setColumnWidth(cantidadCol, 100, Style.Unit.PX);
-        
+                return "<p style=\"text-align:right;\">" + result.trim() + "</p>"; 
+            } 
+         });
+        dataGrid.addColumn(cantidadCol, headerCantidad, footerCantidad);
+        dataGrid.setColumnWidth(cantidadCol, 20, Style.Unit.PCT);
     }
     
 //    private EmpleadoREST getEmpleadosREST() {
@@ -240,10 +248,10 @@ public class NominaPercepcionesUI extends Composite {
 //            
 //        }
 //    }
-    
+
     public void setList(List<NominaQuincenal> percepciones) {
         
-        nominaQuincenalProvider.setList(percepciones);
+        provider.setList(percepciones);
     }
     
 //    public void setSelectedBean(Integer idEmpleadoBaseSelected) {

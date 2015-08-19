@@ -27,6 +27,44 @@ public class NominaQuincenalREST extends BaseREST {
     public interface JsonCodec extends JsonEncoderDecoder<NominaQuincenal> {}
     public JsonCodec jsonCodec = GWT.create(JsonCodec.class);
  
+    public void create(NominaQuincenal nominaQuincenal) {
+
+        //BaseREST.setDateFormatPOST();
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/nomina_quincenal";
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        //Create a Jsonizer instance
+        JSONValue jsonValue = jsonCodec.encode(nominaQuincenal);
+        
+        Resource rb = new Resource(url, headers);
+        rb.post().json(jsonValue).send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, "Create " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    NominaQuincenal nuevo = jsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
+                    dbEvent.setResult(nuevo);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "NominaQuincenalREST.CREATE " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+        }));
+
+    }
+    
     public void update(NominaQuincenal nominaQuincenal) {
 
         BaseREST.setDateFormatPOST();

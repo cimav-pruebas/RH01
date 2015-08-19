@@ -174,15 +174,21 @@ code {
 }
 */
 
+.nomina-contenedor{
+    width: 100%;
+}
+.movimientos-contenedor {
+    width: 100%;
+}
+
 .conceptos-panel {
-/*    border: 1px solid red; */
-    margin-top: 10px;
+    margin: 20px;
 }
 .conceptos-panel-body {
     /*border: 2px solid blue; */
     position: relative;
     padding: 3px 0 0 0;
-    min-height: 300px;
+    min-height: 360px;
 }
 .tab-panel{
     height: inherit !important; /**/
@@ -191,6 +197,7 @@ code {
     left: 0;
     right: 0;
     bottom: 0;
+    overflow: hidden;
 }
 .tab-panel-conceptos{
     /* border: red 1px dashed; */
@@ -222,6 +229,11 @@ code {
     height: 100%;
     /* position: initial !important; // de no ponerlo, no aparece*/
 }
+.movimientos-totales{
+    width: 300px;
+    margin-right: 20px;
+    margin-left: auto;
+}
 .totales-panel {
     display: flex;
     border: 1px solid #ddd;
@@ -235,19 +247,19 @@ code {
     padding-bottom: 10px;
 }
 
-.icon-plus {
+.anchor-plus {
     position: absolute;
-    left: 5px;
-    bottom: 8px;
-    cursor: pointer;  
+    left: 10px;
+    bottom: 10px;
+/*    cursor: pointer;   */
     z-index: 400;
 }
 .conceptos-chosen{
     position: absolute;
-    left: 22px;
+    left: 32px;
     height: 30px;
     bottom: 5px;
-    width: 360px;
+    width: 300px;
     z-index: 400;
 }
 .data-grid-movimientos {
@@ -260,3 +272,4 @@ code {
     left: 0;
     text-align: -webkit-auto;
 }
+

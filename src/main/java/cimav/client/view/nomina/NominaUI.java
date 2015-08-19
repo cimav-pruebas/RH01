@@ -6,7 +6,6 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
-import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
@@ -14,6 +13,7 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
+import com.github.gwtbootstrap.client.ui.DataGrid;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.query.client.GQuery;
@@ -40,9 +40,13 @@ public class NominaUI extends Composite {
     Label totalLabel;
     
     @UiField
-    NominaPercepcionesUI nominaPercepcionesUI;
+    NominaMovimientosUI nominaPercepcionesUI;
     @UiField
-    NominaSaldoUI nominaSaldoUI;
+    NominaMovimientosUI nominaDeduccionesUI;
+    @UiField
+    NominaSaldoUI nominaPercepcionesSaldoUI;
+    @UiField
+    NominaSaldoUI nominaDeduccionesSaldoUI;
 
     private EmpleadoREST empleadoREST;
     
@@ -51,16 +55,23 @@ public class NominaUI extends Composite {
         
     }
     
-    @UiHandler({"tabItemConceptos", "tabItemPorSaldo", "tabItemPorPago"})
+    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", "tabPercepPorPago",
+        "tabDeducConceptos", "tabDeducPorSaldo", "tabDeducPorPago"})
     protected void onClick(ClickEvent e) {
         String str = e.getSource().toString();
-        if (str.contains("tabConceptosId")) {
-            nominaPercepcionesUI.dataGridPercepciones.redraw();
-        } else if (str.contains("tabPorSaldoId")) {
-            nominaSaldoUI.dataGrid.redraw();
-        } else if (str.contains("tabPorPeriodoId")) {
+        if (str.contains("tabPercepConceptos")) {
+            nominaPercepcionesUI.dataGrid.redraw();
+        } else if (str.contains("tabPercepPorSaldo")) {
+            nominaPercepcionesSaldoUI.dataGrid.redraw();
+        } else if (str.contains("tabPercepPorPeriodo")) {
             
-        } 
+        } else if (str.contains("tabDeducConceptos")) {
+            nominaDeduccionesUI.dataGrid.redraw();
+        } else if (str.contains("tabDeducPorSaldo")) {
+            nominaDeduccionesSaldoUI.dataGrid.redraw();
+        } else if (str.contains("tabDeducPorPeriodo")) {
+            
+        }
     }
     
 //    private class ActionListener implements NominaPercepcionesUI.ActionListener {
@@ -120,7 +131,10 @@ public class NominaUI extends Composite {
                     EmpleadoNomina empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
                     
                     nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
-                    nominaSaldoUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION, ETipoMovimiento.SALDO));
+                    nominaPercepcionesSaldoUI.setEmpleado(empleadoNominaLoaded);
+                            
+                    nominaDeduccionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
+                    nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded.getTotalPercepciones();
                     BigDecimal totDeducciones = empleadoNominaLoaded.getTotalDeducciones();

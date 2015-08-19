@@ -51,10 +51,99 @@ div.tab-content {
     height: 100%;
 }
 
-.conceptos-icon-edit {
-    cursor: pointer;  
-    position: absolute;  
-    bottom: 5px;  
-    left: 45px; 
-    z-index: 300;
+.conceptos-chosen{
+    position: absolute;
+    left: 32px;
+    height: 30px;
+    bottom: 5px;
+    width: 360px;
+    z-index: 400;
+}
+
+.cellTableEvenRow {
+    background: red  !important;/*#ffffff;*/
+}
+
+
+.childCell {
+  padding-left: 30px;
+  border: 2px solid #eee !important;
+  background: aqua !important;
+}
+
+.groupHeaderCell {
+  padding: 1px 15px;
+  color: coral !important; /* #4b4a4a; */
+  text-shadow: #ddf 1px 1px 0;
+  font-size: 130%;
+  background: #eee;
+}
+
+
+/*
+https://code.google.com/p/google-web-toolkit/source/browse/trunk/user/src/com/google/gwt/user/cellview/client/CellTable.css?r=9513
+*/
+/*
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridEvenRowCell {
+    border: 2px solid fuchsia !important;
+}.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridOddRowCell {
+    border: 2px solid tomato !important;
+}
+*/
+
+/*** .com-google-gwt-user-cellview-client-DataGrid-Style- **/
+
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridHoveredRowCell.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridOddRowCell {
+    border: 1px solid #eeeeee !important;
+    background: #eeeeee !important;
+}
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridHoveredRowCell.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridEvenRowCell {
+    border: 1px solid #eeeeee !important;
+    background: #eeeeee !important;
+}
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridEvenRowCell {
+    border: 1px solid #E0E8F7 !important;
+    background: #E0E8F7 !important;
+}
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridOddRowCell {
+    border: 1px solid #f3f7fb !important;
+    background: #f3f7fb !important;
+}
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridCell {
+    padding: 3px 10px !important;
+    overflow: hidden !important;
+}
+.com-google-gwt-user-cellview-client-DataGrid-Style-dataGridHeader {
+    text-shadow: #ddf 0 0 0 !important;
+}
+.com-google-gwt-user-cellview-client-DataGrid-Style-cellTableKeyboardSelectedRow {
+    background: brown;
+}
+
+/*** .cimav-client-view-nomina-NominaMovimientosUI-CustomStyle- **/
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridHoveredRowCell.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridOddRowCell {
+    border: 1px solid #eeeeee !important;
+    background: #eeeeee !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridHoveredRowCell.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridEvenRowCell {
+    border: 1px solid #eeeeee !important;
+    background: #eeeeee !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridEvenRowCell {
+    border: 1px solid #E0E8F7 !important;
+    background: #E0E8F7 !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridOddRowCell {
+    border: 1px solid #f3f7fb !important;
+    background: #f3f7fb !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridCell {
+    padding: 3px 10px !important;
+    overflow: hidden !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridHeader {
+    text-shadow: #ddf 0 0 0 !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-cellTableKeyboardSelectedRow {
+    background: brown;
 }

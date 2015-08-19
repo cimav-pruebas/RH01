@@ -1,0 +1,81 @@
+/*
+
+.cellDataGridEvenRow {
+    background: cyan !important;
+}
+.cellTableEvenRow {
+    background: cyan !important;
+}
+.cellTableOddRow {
+    background: yellow !important;
+}
+
+.dataGridSelectedRow {
+  background: green !important;
+  color: white !important;
+  height: auto !important;
+  overflow: auto !important;
+}
+
+.dataGridHoveredRow {
+  cursor: crosshair;
+}*/
+
+@def selectionBorderWidth 2px;
+
+.cellTableHeader {
+    padding: 0px;
+    color: chartreuse; /*#545454; */
+    text-align: center;
+    font-size: 13px;
+    background-image: none;
+    background-color: #cfcfcf;
+    height: 25px;
+    vertical-align: middle;
+    font-weight: lighter; /*bold;*/
+    text-shadow: 0 1px 1px rgba(255,255,255,.7);
+}
+.cellTableFirstColumnHeader {
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+}
+.cellTableLastColumnHeader {
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+.cellTableCell {
+    padding: 4px;
+    overflow: hidden;
+    font-size: 12px;
+    color: pink; /*#454545;*/
+}
+.cellTableEvenRow {
+    background: red;/*#ffffff;*/
+}
+//.com-google-gwt-user-cellview-client-DataGrid-Style-cellTableOddRow {
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridOddRow {
+    background: red !important;/*#ECECEC;*/
+}
+.cellTableSelectedRow {
+    background: #628cd5;
+}
+.cellTableSelectedRowCell {
+    border: none;
+}
+.cellTableHoveredRow {
+    background: transparent;
+}
+.cellTableHoveredRowCell {
+    border: none;
+}
+.cellTableKeyboardSelectedRow {
+    background: #ffc;
+}
+.cellTableKeyboardSelectedRowCell {
+    border: none;
+}
+.cellTableKeyboardSelectedCell {
+    border: none;
+}
+
+ 

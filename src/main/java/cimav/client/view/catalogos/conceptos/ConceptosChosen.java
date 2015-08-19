@@ -41,16 +41,17 @@ public class ConceptosChosen extends Composite {
     
     @UiField HTMLPanel htmlPanel;
     
-    private ValueListBox<Concepto> chosen;
+    private final ValueListBox<Concepto> chosen;
     
     private List<Concepto> conceptos;
     
     private ETipoConcepto tipoConcepto;
     private ETipoMovimiento tipoMovimiento;
-    private String idTipoConcepto;
-    private String idTipoMovimiento;
     
-    public ConceptosChosen() {
+    public ConceptosChosen(ETipoConcepto tipoConcepto, ETipoMovimiento tipoMovimiento) {
+        
+        this.tipoConcepto = tipoConcepto;
+        this.tipoMovimiento = tipoMovimiento;
         
         initWidget(uiBinder.createAndBindUi(this));
         
@@ -58,7 +59,7 @@ public class ConceptosChosen extends Composite {
             @Override
             public String render(Concepto object) {
                 if (object == null) {
-                    return "None";
+                    return "Ninguno";
                 }
                 return object.getName();
             }
@@ -81,7 +82,7 @@ public class ConceptosChosen extends Composite {
                         
                         conceptos = (List<Concepto>) restEvent.getResult();
                         // Agregar el Null como valor válido
-                        conceptos.add(null);
+                        // conceptos.add(null);
                         //chosen.setAcceptableValues(conceptos);
                         
                         setConceptosAceptables(); //tipoConcepto, tipoMovimiento);
@@ -121,24 +122,6 @@ public class ConceptosChosen extends Composite {
 
     public ValueListBox<Concepto> getChosen() {
         return this.chosen;
-    }
-
-    public String getIdTipoConcepto() {
-        return idTipoConcepto;
-    }
-
-    public void setIdTipoConcepto(String idTipoConcepto) {
-        this.idTipoConcepto = idTipoConcepto;
-        tipoConcepto = ETipoConcepto.get(idTipoConcepto);
-    }
-
-    public String getIdTipoMovimiento() {
-        return idTipoMovimiento;
-    }
-
-    public void setIdTipoMovimiento(String idTipoMovimiento) {
-        this.idTipoMovimiento = idTipoMovimiento;
-        tipoMovimiento = ETipoMovimiento.get(idTipoMovimiento);
     }
 
 }

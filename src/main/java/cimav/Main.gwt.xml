@@ -4,6 +4,9 @@
 
 <module>
     
+    <!-- usar @def en el css -->
+    <inherits name="com.google.gwt.resources.Resources" />
+    
     <!--  $685,743.67  =  en_US -->
     <inherits name="com.google.gwt.i18n.I18N" />
     <extend-property name="locale" values="en_US" /> 

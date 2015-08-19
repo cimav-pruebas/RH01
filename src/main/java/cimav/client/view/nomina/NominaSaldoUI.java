@@ -8,6 +8,7 @@ package cimav.client.view.nomina;
 import cimav.client.data.domain.Concepto;
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.ETipoMovimiento;
+import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.NominaQuincenalREST;
@@ -23,14 +24,19 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,7 +44,8 @@ import com.google.gwt.view.client.ListDataProvider;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.gwtbootstrap3.client.ui.Icon;
+import org.gwtbootstrap3.client.ui.Anchor;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -57,26 +64,39 @@ public class NominaSaldoUI extends Composite {
     @UiField(provided = true) 
     DataGrid<NominaQuincenal> dataGrid;
 
+    private int empleadoId;
     private ListDataProvider<NominaQuincenal> provider;
     private NominaQuincenalREST nominaQuincenalREST;
     
-    private EditTextCell quincenasCell;
-    private EditTextCell saldoCell;
+    private NomInputCell quincenasCell;
+    private NomInputCell saldoCell;
     
     @UiField
-    Icon iconPlus;
+    Anchor anchorPlus;
+    
+    private final ConceptosChosen conceptosChosen;
+
+    private final ETipoConcepto tipoConcepto;
+    private final ETipoMovimiento tipoMovimiento;
+
     @UiField
-    ConceptosChosen conceptosChosen;
-        
-    public NominaSaldoUI() {
+    HTMLPanel  htmlPanel;
+    
+    @UiConstructor
+    public NominaSaldoUI(String idTipoConcepto, String idTipoMovimiento) {
+    
+        this.tipoConcepto = ETipoConcepto.get(idTipoConcepto);
+        this.tipoMovimiento = ETipoMovimiento.get(idTipoMovimiento);
         
         this.buildGrid(); // antes del initWidget
         
         initWidget(uiBinder.createAndBindUi(this));
         
-        iconPlus.asWidget().addHandler(new ClickPlus(), ClickEvent.getType());
-        //conceptosChosen.setConceptosAceptables(ETipoConcepto.PERCEPCION, ETipoMovimiento.SALDO);
-        
+        conceptosChosen = new ConceptosChosen(this.tipoConcepto, this.tipoMovimiento);
+        conceptosChosen.addStyleName("conceptos-chosen");
+        htmlPanel.add(conceptosChosen);
+                
+        anchorPlus.addClickHandler(new ClickPlus());
     }
 
     private void buildGrid() {
@@ -87,12 +107,12 @@ public class NominaSaldoUI extends Composite {
 
         dataGrid.setAutoHeaderRefreshDisabled(true);
 
-        dataGrid.setEmptyTableWidget(new Label("No hay movimientos"));
+        dataGrid.setEmptyTableWidget(new Label("Sin movimientos"));
 
         dataGrid.setPageSize(20);
 
-        quincenasCell = new EditTextCell();
-        saldoCell = new EditTextCell();
+        quincenasCell = new NomInputCell();
+        saldoCell = new NomInputCell();
         
         initTableColumns(); 
         
@@ -106,28 +126,29 @@ public class NominaSaldoUI extends Composite {
         public void onClick(ClickEvent event) {
             boolean add = true;
             Concepto selected = conceptosChosen.getSelected();
-            int idEmpleado = 0;
-            for(NominaQuincenal nq : provider.getList()) {
-                if (nq.getConcepto().equals(selected)) {
-                    idEmpleado = nq.getIdEmpleado();
-                    add = false;
-                    break;
+            if (selected != null && selected.getId() != null && selected.getId() > 0 ) {
+                for (NominaQuincenal nq : provider.getList()) {
+                    if (nq.getConcepto().equals(selected)) {
+                        add = false;
+                        break;
+                    }
                 }
+            } else {
+                add = false;
             }
             if (add) {
                 NominaQuincenal nuevo = new NominaQuincenal();
                 nuevo.setCantidad(BigDecimal.ZERO);
-                nuevo.setIdEmpleado(idEmpleado);
+                nuevo.setIdEmpleado(empleadoId);
                 nuevo.setNumQuincenas(1);
                 nuevo.setPagoPermanente(BigDecimal.ZERO);
                 nuevo.setPagoUnico(BigDecimal.ZERO);
                 nuevo.setSaldoRestante(BigDecimal.ZERO);
                 nuevo.setConcepto(selected);
                 
-                // TODO Ponerles al DB
-                //getNominaQuincenalsREST().
+                // Crearlo en la DB
+                getNominaQuincenalsREST().create(nuevo);
                 
-                provider.getList().add(nuevo);
             }
         }
     }
@@ -139,9 +160,21 @@ public class NominaSaldoUI extends Composite {
             nominaQuincenalREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
                 @Override
                 public void onRESTExecuted(MethodEvent restEvent) {
-                    if (EMethod.UPDATE.equals(restEvent.getMethod())) {
+                    if (EMethod.CREATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
                             
+                            NominaQuincenal nomQuinNueva = (NominaQuincenal) restEvent.getResult();
+                            
+                            // hasta estar correctamente en la DB, pasarlo al provider
+                            provider.getList().add(nomQuinNueva);
+                        } else {
+                            Growl.growl("Falló creación del movimiento. " + restEvent.getReason());
+                        }
+                    } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                            
+                        }  else {
+                            Growl.growl("Falló actualización del movimiento. " + restEvent.getReason());
                         }
                     }
                 }
@@ -150,36 +183,25 @@ public class NominaSaldoUI extends Composite {
         return nominaQuincenalREST;
     }
     
-    private List<Concepto> conceptos;
-    
     /**
      * Add the columns to the table.
      */
     private void initTableColumns() {
 
-        Concepto uno = new Concepto();
-        uno.setId(1);
-        uno.setCode("S_UNO");
-        uno.setConsecutivo(1);
-        uno.setTipoConcepto(ETipoConcepto.PERCEPCION);
-        uno.setTipoMovimiento(ETipoMovimiento.SALDO);
-        uno.setName("Saldo Uno");
-        conceptos = new ArrayList<>();
-        conceptos.add(uno);
-        
         // Concepto
         Column<NominaQuincenal, String> conceptoCol = new Column<NominaQuincenal, String>((new TextCell())) {
             @Override
             public String getValue(NominaQuincenal object) {
                 Concepto concepto = object.getConcepto();
-                return concepto.getCode() + " " + concepto.getIdTipoConcepto()+ " " +  concepto.getIdTipoMovimiento()+ " " + concepto.getName();
+                //return concepto.getCode() + " " + concepto.getIdTipoConcepto()+ " " +  concepto.getIdTipoMovimiento()+ " " + concepto.getName();
+                return concepto.getName();
             }
         };
         dataGrid.addColumn(conceptoCol, "Concepto");
-        dataGrid.setColumnWidth(conceptoCol, 200, Style.Unit.PX);
-        
+        dataGrid.setColumnWidth(conceptoCol, 100, Style.Unit.PCT);
+
         // Saldo Descuento
-        Column<NominaQuincenal, String> descuentoCol = new Column<NominaQuincenal, String>(new TextCell()) {
+        Column<NominaQuincenal, String> descuentoCol = new Column<NominaQuincenal, String>(new EditTextCell()) {
             @Override
             public String getValue(NominaQuincenal object) {
                 BigDecimal result = object == null || object.getSaldoDescuento() == null ? BigDecimal.ZERO : object.getSaldoDescuento();
@@ -188,7 +210,7 @@ public class NominaSaldoUI extends Composite {
         };
         descuentoCol.setHorizontalAlignment( HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(descuentoCol,  "Descuento");
-        dataGrid.setColumnWidth(descuentoCol, 100, Style.Unit.PX);
+        dataGrid.setColumnWidth(descuentoCol, 90, Style.Unit.PX);
         
         // Saldo Restante
         Column<NominaQuincenal, String> restanteCol = new Column<NominaQuincenal, String>(saldoCell) {
@@ -216,7 +238,7 @@ public class NominaSaldoUI extends Composite {
         });
         restanteCol.setHorizontalAlignment( HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(restanteCol,  "Saldo");
-        dataGrid.setColumnWidth(restanteCol, 100, Style.Unit.PX);
+        dataGrid.setColumnWidth(restanteCol, 90, Style.Unit.PX);
         
         // Quincenas
         Column<NominaQuincenal, String> quincenasCol = new Column<NominaQuincenal, String>(quincenasCell) {
@@ -262,15 +284,21 @@ public class NominaSaldoUI extends Composite {
             }
         };
         //dataGrid.addColumn(quincenasCol,  "Quincenas");
-        dataGrid.addColumn(quincenasCol,  new SafeHtmlHeader(SafeHtmlUtils.fromString("Quincenas")), forzarFooter);
-        dataGrid.setColumnWidth(quincenasCol, 50, Style.Unit.PX);
+        dataGrid.addColumn(quincenasCol,  new SafeHtmlHeader(SafeHtmlUtils.fromString("Veces")), forzarFooter);
+        dataGrid.setColumnWidth(quincenasCol, 60, Style.Unit.PX);
         
     }
     
-    public void setList(List<NominaQuincenal> percepciones) {
-        
-        provider.setList(percepciones);
+    public void setEmpleado(EmpleadoNomina empleado) {
+        this.empleadoId = empleado.getId();
+        List<NominaQuincenal> result = empleado.getNominaQuincenalCollection(this.tipoConcepto, this.tipoMovimiento);
+        provider.setList(result);
     }
+    
+//    public void setList(List<NominaQuincenal> percepciones) {
+//        
+//        provider.setList(percepciones);
+//    }
 
     
 //                    MethodEvent movimiento = new MethodEvent(EMethod.UPDATE_MOVIMIENTO, ETypeResult.SUCCESS, "");
@@ -296,5 +324,14 @@ public class NominaSaldoUI extends Composite {
 //        }
 //    }
 //    // </editor-fold>
+
+//    public void setIdTipoConcepto(String idTipoConcepto) {
+//        this.idTipoConcepto = idTipoConcepto;
+//    }
+//
+//    public void setIdTipoMovimiento(String idTipoMovimiento) {
+//        this.idTipoMovimiento = idTipoMovimiento;
+//    }
+
     
 }
