@@ -24,10 +24,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
@@ -38,11 +35,13 @@ import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Anchor;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
@@ -138,13 +137,9 @@ public class NominaSaldoUI extends Composite {
             }
             if (add) {
                 NominaQuincenal nuevo = new NominaQuincenal();
-                nuevo.setCantidad(BigDecimal.ZERO);
+                // 1ero el concepto para saber si es [P, D, R, I], [S, P]
+                nuevo.setConcepto(selected); 
                 nuevo.setIdEmpleado(empleadoId);
-                nuevo.setNumQuincenas(1);
-                nuevo.setPagoPermanente(BigDecimal.ZERO);
-                nuevo.setPagoUnico(BigDecimal.ZERO);
-                nuevo.setSaldoRestante(BigDecimal.ZERO);
-                nuevo.setConcepto(selected);
                 
                 // Crearlo en la DB
                 getNominaQuincenalsREST().create(nuevo);
@@ -163,15 +158,19 @@ public class NominaSaldoUI extends Composite {
                     if (EMethod.CREATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
                             
-                            NominaQuincenal nomQuinNueva = (NominaQuincenal) restEvent.getResult();
+//                            NominaQuincenal nomQuinNueva = (NominaQuincenal) restEvent.getResult();
+//                            // hasta estar correctamente en la DB, pasarlo al provider
+//                            provider.getList().add(nomQuinNueva);
                             
-                            // hasta estar correctamente en la DB, pasarlo al provider
-                            provider.getList().add(nomQuinNueva);
+                            onMovimiento(restEvent);
+                            
                         } else {
                             Growl.growl("Falló creación del movimiento. " + restEvent.getReason());
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                            
+                            onMovimiento(restEvent);
                             
                         }  else {
                             Growl.growl("Falló actualización del movimiento. " + restEvent.getReason());
@@ -306,32 +305,24 @@ public class NominaSaldoUI extends Composite {
 //                    onMovimiento(movimiento);
                     
     
-//    // <editor-fold defaultstate="collapsed" desc="interface MovimientosListener"> 
-//    public interface MovimientosListener extends java.util.EventListener {
-//        void onMovimiento(MethodEvent event);
-//    }
-//    private final ArrayList listeners = new ArrayList();
-//    public void addMovimientosListener(MovimientosListener listener) {
-//        listeners.add(listener);
-//    }
-//    public void removeMovimientosListener(MovimientosListener listener) {
-//        listeners.remove(listener);
-//    }
-//    public void onMovimiento(MethodEvent restEvent) {
-//        for(Iterator it = listeners.iterator(); it.hasNext();) {
-//            MovimientosListener listener = (MovimientosListener) it.next();
-//            listener.onMovimiento(restEvent);
-//        }
-//    }
-//    // </editor-fold>
-
-//    public void setIdTipoConcepto(String idTipoConcepto) {
-//        this.idTipoConcepto = idTipoConcepto;
-//    }
-//
-//    public void setIdTipoMovimiento(String idTipoMovimiento) {
-//        this.idTipoMovimiento = idTipoMovimiento;
-//    }
+    // <editor-fold defaultstate="collapsed" desc="interface MovimientosListener"> 
+    public interface MovimientosListener extends java.util.EventListener {
+        void onMovimiento(MethodEvent event);
+    }
+    private final ArrayList listeners = new ArrayList();
+    public void addMovimientosListener(MovimientosListener listener) {
+        listeners.add(listener);
+    }
+    public void removeMovimientosListener(MovimientosListener listener) {
+        listeners.remove(listener);
+    }
+    public void onMovimiento(MethodEvent restEvent) {
+        for(Iterator it = listeners.iterator(); it.hasNext();) {
+            MovimientosListener listener = (MovimientosListener) it.next();
+            listener.onMovimiento(restEvent);
+        }
+    }
+    // </editor-fold>
 
     
 }

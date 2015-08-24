@@ -22,7 +22,9 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     
     private String cuentaCimav;
     private String urlPhoto;
-    private Grupo grupo;
+    @JsonIgnore 
+    private EGrupo grupo;
+    private Integer idGrupo;
     private Tabulador nivel;
     private Departamento departamento;
     @JsonIgnore private ESede sede;
@@ -101,12 +103,22 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.idStatus = idStatus;
     }
 
-    public Grupo getGrupo() {
+    public EGrupo getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo) {
+    public void setGrupo(EGrupo grupo) {
         this.grupo = grupo;
+        this.idGrupo = grupo != null ? grupo.getId() : 0;
+    }
+
+    public Integer getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(Integer idGrupo) {
+        this.grupo = EGrupo.get(idGrupo);
+        this.idGrupo = idGrupo;
     }
 
     public Tabulador getNivel() {

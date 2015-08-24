@@ -13,17 +13,22 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
-import com.github.gwtbootstrap.client.ui.DataGrid;
+import com.github.gwtbootstrap.client.ui.Button;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
+import org.gwtbootstrap3.extras.slider.client.ui.Slider;
 
 /**
  *
@@ -48,29 +53,63 @@ public class NominaUI extends Composite {
     @UiField
     NominaSaldoUI nominaDeduccionesSaldoUI;
 
+    @UiField
+    Button btnCalcular;
+    
+    private EmpleadoNomina empleadoNominaLoaded;
+    
     private EmpleadoREST empleadoREST;
+    
+    @UiField
+    HorizontalPanel movimientosContenedor;
     
     public NominaUI() {
         initWidget(uiBinder.createAndBindUi(this));
         
+        btnCalcular.addClickHandler(new CalcularClick());
+        
+        MovimientosListener listener = new MovimientosListener();
+        nominaPercepcionesSaldoUI.addMovimientosListener(listener);
+        nominaDeduccionesSaldoUI.addMovimientosListener(listener);
+
     }
     
-    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", "tabPercepPorPago",
-        "tabDeducConceptos", "tabDeducPorSaldo", "tabDeducPorPago"})
+    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", "tabDeducConceptos", "tabDeducPorSaldo", "tabDeducPorPago"})
     protected void onClick(ClickEvent e) {
         String str = e.getSource().toString();
         if (str.contains("tabPercepConceptos")) {
             nominaPercepcionesUI.dataGrid.redraw();
         } else if (str.contains("tabPercepPorSaldo")) {
             nominaPercepcionesSaldoUI.dataGrid.redraw();
-        } else if (str.contains("tabPercepPorPeriodo")) {
-            
         } else if (str.contains("tabDeducConceptos")) {
             nominaDeduccionesUI.dataGrid.redraw();
         } else if (str.contains("tabDeducPorSaldo")) {
             nominaDeduccionesSaldoUI.dataGrid.redraw();
         } else if (str.contains("tabDeducPorPeriodo")) {
             
+        }
+    }
+    
+    private class CalcularClick implements ClickHandler {
+        @Override
+        public void onClick(ClickEvent event) {
+            Calculo calculo = new Calculo(empleadoNominaLoaded.getId());
+            
+            calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+                @Override
+                public void onRESTExecuted(MethodEvent restEvent) {
+                    if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
+                        if(ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
+                            Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
+                        } else {
+                            Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
+                        }
+                        NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+                    }
+                }
+            });
+            
+            calculo.calcular();
         }
     }
     
@@ -89,13 +128,19 @@ public class NominaUI extends Composite {
     protected void onLoad() {
         super.onLoad(); //To change body of generated methods, choose Tools | Templates.
 
-        GQuery cqFront = GQuery.$(".face.front");
-        
-        cqFront.attr("style","padding: 0; ");
-        
-//        cqFront.$(".trigger").remove();
+        String strClass  = ".cimav-client-view-nomina-NominaUI_NominaUIUiBinderImpl_GenCss_style-movimientos-contenedor";
+        GQuery.$(strClass).$("td").attr("width", "50%");
         
         
+
+        
+//        GQuery cqFront = GQuery.$(".face.front");
+//        
+//        cqFront.attr("style","padding: 0; ");
+//        
+////        cqFront.$(".trigger").remove();
+//        
+//        
 //        /* Replazar el style del icono del Flip Card*/
 //        cqFront.$(".trigger").attr("class","fa fa-pencil").attr("style",
 //            //" border: 1px solid blueviolet; " +
@@ -128,7 +173,7 @@ public class NominaUI extends Composite {
                 if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
                     
                     // re-carga el provider con el empleado reloaded
-                    EmpleadoNomina empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
+                    empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
                     
                     nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
                     nominaPercepcionesSaldoUI.setEmpleado(empleadoNominaLoaded);
@@ -157,6 +202,16 @@ public class NominaUI extends Composite {
         
         getEmpleadosREST().findEmpleadoNominaById(idEmpleadoBaseSelected);
      
+    }
+    
+    private class MovimientosListener implements NominaSaldoUI.MovimientosListener {
+        @Override
+        public void onMovimiento(MethodEvent event) {
+            if (EMethod.CREATE.equals(event.getMethod()) || EMethod.UPDATE.equals(event.getMethod())) {
+                // Se creeo/modificó un saldo; reload al empleado
+                NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+            }
+        }
     }
     
 }

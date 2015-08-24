@@ -55,6 +55,9 @@ html, body {
 }
 .reload-btn {
     width: 70px;
+    top: 2px;
+    position: absolute;
+    right: 1px;
 }
 
 code {
@@ -183,17 +186,18 @@ code {
 
 .conceptos-panel {
     margin: 20px;
+    border-width: 0;
 }
 .conceptos-panel-body {
     /*border: 2px solid blue; */
     position: relative;
-    padding: 3px 0 0 0;
-    min-height: 360px;
+    padding: 0 0 0 0;
+    min-height: 340px;
 }
 .tab-panel{
     height: inherit !important; /**/
     position: absolute;
-    top: 44px;
+    top: 46px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -273,3 +277,28 @@ code {
     text-align: -webkit-auto;
 }
 
+.tab-principal {
+    text-shadow: #ddf 1px 1px 0;
+    font-size: large;     
+}
+.tab-secundario {
+    text-shadow: #ddf 0 0 0;
+    font-size: large;     
+}
+
+.panel-movimientos{
+    margin: 8px 20px 0px 20px;
+}
+.navTabsMovimientosCaptura {
+    
+}
+.tab-content-asistencias{
+    }
+.tab-panel-asistencias {
+    
+}
+
+.tabla-asistencias{
+    padding: 10px;
+    margin: 20px;
+}

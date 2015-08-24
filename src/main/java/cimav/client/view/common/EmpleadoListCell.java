@@ -8,7 +8,6 @@ package cimav.client.view.common;
 import cimav.client.data.domain.EmpleadoBase;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.SingleSelectionModel;

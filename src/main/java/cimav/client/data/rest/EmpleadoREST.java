@@ -11,7 +11,6 @@ import cimav.client.view.common.EMethod;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.view.common.Ajax;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;

@@ -5,6 +5,7 @@ import cimav.client.data.domain.Departamento;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.EEdoCivil;
+import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.ESexo;
 import cimav.client.data.domain.EStatusEmpleado;
@@ -17,7 +18,6 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.domain.Grupo;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.domain.Tabulador;
 import java.math.BigDecimal;
@@ -27,184 +27,6 @@ import java.util.List;
 import org.jboss.errai.databinding.client.api.InitialState;
 
 public class BindableProxyLoaderImpl implements BindableProxyLoader { public void loadBindableProxies() {
-    class cimav_client_data_domain_GrupoProxy extends Grupo implements BindableProxy {
-      private BindableProxyAgent<Grupo> agent;
-      public cimav_client_data_domain_GrupoProxy(InitialState initialState) {
-        this(new Grupo(), initialState);
-      }
-
-      public cimav_client_data_domain_GrupoProxy(Grupo target, InitialState initialState) {
-        agent = new BindableProxyAgent<Grupo>(this, target, initialState);
-        agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
-        agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
-        agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
-        agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
-        agent.copyValues();
-      }
-
-      public BindableProxyAgent getAgent() {
-        return agent;
-      }
-
-      public void updateWidgets() {
-        agent.updateWidgetsAndFireEvents();
-      }
-
-      public Grupo unwrap() {
-        return agent.target;
-      }
-
-      public Grupo deepUnwrap() {
-        final Grupo clone = new Grupo();
-        clone.setId(agent.target.getId());
-        clone.setIsDirty(agent.target.getIsDirty());
-        clone.setName(agent.target.getName());
-        clone.setConsecutivo(agent.target.getConsecutivo());
-        clone.setCode(agent.target.getCode());
-        return clone;
-      }
-
-      public boolean equals(Object obj) {
-        if (obj instanceof cimav_client_data_domain_GrupoProxy) {
-          obj = ((cimav_client_data_domain_GrupoProxy) obj).unwrap();
-        }
-        return agent.target.equals(obj);
-      }
-
-      public int hashCode() {
-        return agent.target.hashCode();
-      }
-
-      public String toString() {
-        return agent.target.toString();
-      }
-
-      public Integer getId() {
-        return agent.target.getId();
-      }
-
-      public void setId(Integer id) {
-        Integer oldValue = agent.target.getId();
-        agent.target.setId(id);
-        agent.updateWidgetsAndFireEvent("id", oldValue, id);
-      }
-
-      public Boolean getIsDirty() {
-        return agent.target.getIsDirty();
-      }
-
-      public void setIsDirty(Boolean isDirty) {
-        Boolean oldValue = agent.target.getIsDirty();
-        agent.target.setIsDirty(isDirty);
-        agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
-      }
-
-      public String getName() {
-        return agent.target.getName();
-      }
-
-      public void setName(String name) {
-        String oldValue = agent.target.getName();
-        agent.target.setName(name);
-        agent.updateWidgetsAndFireEvent("name", oldValue, name);
-      }
-
-      public Boolean isDirty() {
-        return agent.target.isDirty();
-      }
-
-      public Integer getConsecutivo() {
-        return agent.target.getConsecutivo();
-      }
-
-      public void setConsecutivo(Integer consecutivo) {
-        Integer oldValue = agent.target.getConsecutivo();
-        agent.target.setConsecutivo(consecutivo);
-        agent.updateWidgetsAndFireEvent("consecutivo", oldValue, consecutivo);
-      }
-
-      public String getCode() {
-        return agent.target.getCode();
-      }
-
-      public void setCode(String code) {
-        String oldValue = agent.target.getCode();
-        agent.target.setCode(code);
-        agent.updateWidgetsAndFireEvent("code", oldValue, code);
-      }
-
-      public Object get(String property) {
-        if (property.equals("id")) {
-          return getId();
-        }
-        if (property.equals("isDirty")) {
-          return getIsDirty();
-        }
-        if (property.equals("name")) {
-          return getName();
-        }
-        if (property.equals("dirty")) {
-          return isDirty();
-        }
-        if (property.equals("consecutivo")) {
-          return getConsecutivo();
-        }
-        if (property.equals("code")) {
-          return getCode();
-        }
-        throw new NonExistingPropertyException(property);
-      }
-
-      public void set(String property, Object value) {
-        if (property.equals("id")) {
-          agent.target.setId((Integer) value);
-          return;
-        }
-        if (property.equals("isDirty")) {
-          agent.target.setIsDirty((Boolean) value);
-          return;
-        }
-        if (property.equals("name")) {
-          agent.target.setName((String) value);
-          return;
-        }
-        if (property.equals("consecutivo")) {
-          agent.target.setConsecutivo((Integer) value);
-          return;
-        }
-        if (property.equals("code")) {
-          agent.target.setCode((String) value);
-          return;
-        }
-        throw new NonExistingPropertyException(property);
-      }
-
-      public int compareTo(BaseDomain a0) {
-        final int returnValue = agent.target.compareTo(a0);
-        agent.updateWidgetsAndFireEvents();
-        return returnValue;
-      }
-
-      public void becomesDirty() {
-        agent.target.becomesDirty();
-        agent.updateWidgetsAndFireEvents();
-      }
-
-      public void cleanDirty() {
-        agent.target.cleanDirty();
-        agent.updateWidgetsAndFireEvents();
-      }
-    }
-    BindableProxyFactory.addBindableProxy(Grupo.class, new BindableProxyProvider() {
-      public BindableProxy getBindableProxy(Object model, InitialState state) {
-        return new cimav_client_data_domain_GrupoProxy((Grupo) model, state);
-      }
-      public BindableProxy getBindableProxy(InitialState state) {
-        return new cimav_client_data_domain_GrupoProxy(state);
-      }
-    });
     class cimav_client_data_domain_DepartamentoProxy extends Departamento implements BindableProxy {
       private BindableProxyAgent<Departamento> agent;
       public cimav_client_data_domain_DepartamentoProxy(InitialState initialState) {
@@ -844,12 +666,13 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent = new BindableProxyAgent<EmpleadoNomina>(this, target, initialState);
         agent.propertyTypes.put("totalDeducciones", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
+        agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
@@ -879,16 +702,13 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public EmpleadoNomina deepUnwrap() {
         final EmpleadoNomina clone = new EmpleadoNomina();
         clone.setIdStatus(agent.target.getIdStatus());
-        if (agent.target.getGrupo() instanceof BindableProxy) {
-          clone.setGrupo((Grupo) ((BindableProxy) getGrupo()).deepUnwrap());
-        } else {
-          clone.setGrupo(agent.target.getGrupo());
-        }
+        clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIsDirty(agent.target.getIsDirty());
         clone.setStatus(agent.target.getStatus());
         clone.setSede(agent.target.getSede());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
+        clone.setIdGrupo(agent.target.getIdGrupo());
         clone.setCode(agent.target.getCode());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
         clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
@@ -948,15 +768,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("idStatus", oldValue, idStatus);
       }
 
-      public Grupo getGrupo() {
+      public EGrupo getGrupo() {
         return agent.target.getGrupo();
       }
 
-      public void setGrupo(Grupo grupo) {
-        if (agent.binders.containsKey("grupo")) {
-          grupo = (Grupo) agent.binders.get("grupo").setModel(grupo, InitialState.FROM_MODEL, true);
-        }
-        Grupo oldValue = agent.target.getGrupo();
+      public void setGrupo(EGrupo grupo) {
+        EGrupo oldValue = agent.target.getGrupo();
         agent.target.setGrupo(grupo);
         agent.updateWidgetsAndFireEvent("grupo", oldValue, grupo);
       }
@@ -1009,6 +826,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         String oldValue = agent.target.getUrlPhoto();
         agent.target.setUrlPhoto(urlPhoto);
         agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
+      }
+
+      public Integer getIdGrupo() {
+        return agent.target.getIdGrupo();
+      }
+
+      public void setIdGrupo(Integer idGrupo) {
+        Integer oldValue = agent.target.getIdGrupo();
+        agent.target.setIdGrupo(idGrupo);
+        agent.updateWidgetsAndFireEvent("idGrupo", oldValue, idGrupo);
       }
 
       public String getCode() {
@@ -1141,6 +968,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("urlPhoto")) {
           return getUrlPhoto();
         }
+        if (property.equals("idGrupo")) {
+          return getIdGrupo();
+        }
         if (property.equals("code")) {
           return getCode();
         }
@@ -1183,7 +1013,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           return;
         }
         if (property.equals("grupo")) {
-          agent.target.setGrupo((Grupo) value);
+          agent.target.setGrupo((EGrupo) value);
           return;
         }
         if (property.equals("idSede")) {
@@ -1204,6 +1034,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("urlPhoto")) {
           agent.target.setUrlPhoto((String) value);
+          return;
+        }
+        if (property.equals("idGrupo")) {
+          agent.target.setIdGrupo((Integer) value);
           return;
         }
         if (property.equals("code")) {
@@ -1290,12 +1124,13 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public cimav_client_data_domain_EmpleadoBaseProxy(EmpleadoBase target, InitialState initialState) {
         agent = new BindableProxyAgent<EmpleadoBase>(this, target, initialState);
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
+        agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
@@ -1322,16 +1157,13 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public EmpleadoBase deepUnwrap() {
         final EmpleadoBase clone = new EmpleadoBase();
         clone.setIdStatus(agent.target.getIdStatus());
-        if (agent.target.getGrupo() instanceof BindableProxy) {
-          clone.setGrupo((Grupo) ((BindableProxy) getGrupo()).deepUnwrap());
-        } else {
-          clone.setGrupo(agent.target.getGrupo());
-        }
+        clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIsDirty(agent.target.getIsDirty());
         clone.setStatus(agent.target.getStatus());
         clone.setSede(agent.target.getSede());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
+        clone.setIdGrupo(agent.target.getIdGrupo());
         clone.setCode(agent.target.getCode());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
         clone.setId(agent.target.getId());
@@ -1375,15 +1207,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("idStatus", oldValue, idStatus);
       }
 
-      public Grupo getGrupo() {
+      public EGrupo getGrupo() {
         return agent.target.getGrupo();
       }
 
-      public void setGrupo(Grupo grupo) {
-        if (agent.binders.containsKey("grupo")) {
-          grupo = (Grupo) agent.binders.get("grupo").setModel(grupo, InitialState.FROM_MODEL, true);
-        }
-        Grupo oldValue = agent.target.getGrupo();
+      public void setGrupo(EGrupo grupo) {
+        EGrupo oldValue = agent.target.getGrupo();
         agent.target.setGrupo(grupo);
         agent.updateWidgetsAndFireEvent("grupo", oldValue, grupo);
       }
@@ -1436,6 +1265,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         String oldValue = agent.target.getUrlPhoto();
         agent.target.setUrlPhoto(urlPhoto);
         agent.updateWidgetsAndFireEvent("urlPhoto", oldValue, urlPhoto);
+      }
+
+      public Integer getIdGrupo() {
+        return agent.target.getIdGrupo();
+      }
+
+      public void setIdGrupo(Integer idGrupo) {
+        Integer oldValue = agent.target.getIdGrupo();
+        agent.target.setIdGrupo(idGrupo);
+        agent.updateWidgetsAndFireEvent("idGrupo", oldValue, idGrupo);
       }
 
       public String getCode() {
@@ -1540,6 +1379,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("urlPhoto")) {
           return getUrlPhoto();
         }
+        if (property.equals("idGrupo")) {
+          return getIdGrupo();
+        }
         if (property.equals("code")) {
           return getCode();
         }
@@ -1573,7 +1415,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           return;
         }
         if (property.equals("grupo")) {
-          agent.target.setGrupo((Grupo) value);
+          agent.target.setGrupo((EGrupo) value);
           return;
         }
         if (property.equals("idSede")) {
@@ -1594,6 +1436,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("urlPhoto")) {
           agent.target.setUrlPhoto((String) value);
+          return;
+        }
+        if (property.equals("idGrupo")) {
+          agent.target.setIdGrupo((Integer) value);
           return;
         }
         if (property.equals("code")) {
@@ -1672,7 +1518,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("curp", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("nivel", new PropertyType(Tabulador.class, true, false));
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("grupo", new PropertyType(Grupo.class, true, false));
+        agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("fechaInicioContrato", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("fechaIngreso", new PropertyType(Date.class, false, false));
@@ -1690,8 +1536,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("fechaFinContrato", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("rfc", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
-        agent.propertyTypes.put("nombre", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("nombre", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("fechaSni", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("fechaBaja", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
@@ -1703,6 +1549,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("numSni", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("direccionColonia", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("tipoSNI", new PropertyType(ETipoSNI.class, false, false));
+        agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("telefono", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("tipoContrato", new PropertyType(ETipoContrato.class, false, false));
         agent.propertyTypes.put("idBanco", new PropertyType(Integer.class, false, false));
@@ -1749,11 +1596,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           clone.setNivel(agent.target.getNivel());
         }
         clone.setIdStatus(agent.target.getIdStatus());
-        if (agent.target.getGrupo() instanceof BindableProxy) {
-          clone.setGrupo((Grupo) ((BindableProxy) getGrupo()).deepUnwrap());
-        } else {
-          clone.setGrupo(agent.target.getGrupo());
-        }
+        clone.setGrupo(agent.target.getGrupo());
         clone.setFechaInicioContrato(agent.target.getFechaInicioContrato());
         clone.setStatus(agent.target.getStatus());
         clone.setFechaIngreso(agent.target.getFechaIngreso());
@@ -1771,8 +1614,8 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setFechaFinContrato(agent.target.getFechaFinContrato());
         clone.setRfc(agent.target.getRfc());
         clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
-        clone.setNombre(agent.target.getNombre());
         clone.setId(agent.target.getId());
+        clone.setNombre(agent.target.getNombre());
         clone.setFechaSni(agent.target.getFechaSni());
         clone.setFechaBaja(agent.target.getFechaBaja());
         if (agent.target.getDepartamento() instanceof BindableProxy) {
@@ -1787,6 +1630,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setNumSni(agent.target.getNumSni());
         clone.setDireccionColonia(agent.target.getDireccionColonia());
         clone.setTipoSNI(agent.target.getTipoSNI());
+        clone.setIdGrupo(agent.target.getIdGrupo());
         clone.setTelefono(agent.target.getTelefono());
         clone.setTipoContrato(agent.target.getTipoContrato());
         clone.setIdBanco(agent.target.getIdBanco());
@@ -1949,15 +1793,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("idStatus", oldValue, idStatus);
       }
 
-      public Grupo getGrupo() {
+      public EGrupo getGrupo() {
         return agent.target.getGrupo();
       }
 
-      public void setGrupo(Grupo grupo) {
-        if (agent.binders.containsKey("grupo")) {
-          grupo = (Grupo) agent.binders.get("grupo").setModel(grupo, InitialState.FROM_MODEL, true);
-        }
-        Grupo oldValue = agent.target.getGrupo();
+      public void setGrupo(EGrupo grupo) {
+        EGrupo oldValue = agent.target.getGrupo();
         agent.target.setGrupo(grupo);
         agent.updateWidgetsAndFireEvent("grupo", oldValue, grupo);
       }
@@ -2132,16 +1973,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("fechaAntiguedad", oldValue, fechaAntiguedad);
       }
 
-      public String getNombre() {
-        return agent.target.getNombre();
-      }
-
-      public void setNombre(String nombre) {
-        String oldValue = agent.target.getNombre();
-        agent.target.setNombre(nombre);
-        agent.updateWidgetsAndFireEvent("nombre", oldValue, nombre);
-      }
-
       public Integer getId() {
         return agent.target.getId();
       }
@@ -2150,6 +1981,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Integer oldValue = agent.target.getId();
         agent.target.setId(id);
         agent.updateWidgetsAndFireEvent("id", oldValue, id);
+      }
+
+      public String getNombre() {
+        return agent.target.getNombre();
+      }
+
+      public void setNombre(String nombre) {
+        String oldValue = agent.target.getNombre();
+        agent.target.setNombre(nombre);
+        agent.updateWidgetsAndFireEvent("nombre", oldValue, nombre);
       }
 
       public Date getFechaSni() {
@@ -2257,6 +2098,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         ETipoSNI oldValue = agent.target.getTipoSNI();
         agent.target.setTipoSNI(tipoSNI);
         agent.updateWidgetsAndFireEvent("tipoSNI", oldValue, tipoSNI);
+      }
+
+      public Integer getIdGrupo() {
+        return agent.target.getIdGrupo();
+      }
+
+      public void setIdGrupo(Integer idGrupo) {
+        Integer oldValue = agent.target.getIdGrupo();
+        agent.target.setIdGrupo(idGrupo);
+        agent.updateWidgetsAndFireEvent("idGrupo", oldValue, idGrupo);
       }
 
       public String getTelefono() {
@@ -2433,11 +2284,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("fechaAntiguedad")) {
           return getFechaAntiguedad();
         }
-        if (property.equals("nombre")) {
-          return getNombre();
-        }
         if (property.equals("id")) {
           return getId();
+        }
+        if (property.equals("nombre")) {
+          return getNombre();
         }
         if (property.equals("fechaSni")) {
           return getFechaSni();
@@ -2471,6 +2322,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("tipoSNI")) {
           return getTipoSNI();
+        }
+        if (property.equals("idGrupo")) {
+          return getIdGrupo();
         }
         if (property.equals("telefono")) {
           return getTelefono();
@@ -2553,7 +2407,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           return;
         }
         if (property.equals("grupo")) {
-          agent.target.setGrupo((Grupo) value);
+          agent.target.setGrupo((EGrupo) value);
           return;
         }
         if (property.equals("fechaInicioContrato")) {
@@ -2624,12 +2478,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setFechaAntiguedad((Date) value);
           return;
         }
-        if (property.equals("nombre")) {
-          agent.target.setNombre((String) value);
-          return;
-        }
         if (property.equals("id")) {
           agent.target.setId((Integer) value);
+          return;
+        }
+        if (property.equals("nombre")) {
+          agent.target.setNombre((String) value);
           return;
         }
         if (property.equals("fechaSni")) {
@@ -2670,6 +2524,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("tipoSNI")) {
           agent.target.setTipoSNI((ETipoSNI) value);
+          return;
+        }
+        if (property.equals("idGrupo")) {
+          agent.target.setIdGrupo((Integer) value);
           return;
         }
         if (property.equals("telefono")) {

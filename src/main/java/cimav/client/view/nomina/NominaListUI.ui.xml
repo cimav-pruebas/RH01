@@ -23,8 +23,8 @@ Uncomment this for XHTML entities
                                 <tr>
                                     <td colspan="2">
                                         <b3:InputGroup addStyleNames="{style.search-txt}">
-                                            <b3:InputGroupAddon icon="SEARCH"/>
                                             <b3:TextBox ui:field="searchTxt" addStyleNames="{style.search-txt-box}" placeholder="Teclear para buscar/filtrar..."/>
+                                            <b3:InputGroupAddon icon="SEARCH"/>
                                         </b3:InputGroup>
                                     </td>
                                 </tr>

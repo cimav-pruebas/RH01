@@ -11,17 +11,25 @@ Uncomment this for XHTML entities
 >
     <ui:style src="nominaUI.css"/>
     <g:VerticalPanel addStyleNames='{style.nomina-contenedor}'>
-        <g:HorizontalPanel addStyleNames='{style.movimientos-contenedor}'>
+        <!--- **** Asistencias **** -->
+        <g:HTMLPanel addStyleNames='{style.panel-movimientos}' >
+            <b3:NavTabs>
+                <b3:TabListItem active="true" ui:field="tabAsistencias" addStyleNames='{style.tab-principal}' dataTarget="#tabAsistenciasId" text="Asistencias"/>
+            </b3:NavTabs>
+            <b3:TabContent ui:field="tabPanelAsistencias" addStyleNames='{style.tab-content-asistencias}'>
+                <b3:TabPane active="true"  b3:id="tabAsistenciasId"  addStyleNames='{style.tab-panel-asistencias}'>
+                    <nom:NominaAsistenciasUI />
+                </b3:TabPane>
+            </b3:TabContent>
+        </g:HTMLPanel>
+        <!--- **** Percepciones y Deducciones **** -->
+        <g:HorizontalPanel ui:field="movimientosContenedor" addStyleNames='{style.movimientos-contenedor}'> 
             <!-- ******* Percepciones ******* -->
             <b3:Panel addStyleNames='{style.conceptos-panel}'>
-                <b3:PanelHeader>
-                    <b3:Heading size="H3" text="Percepciones"/>
-                </b3:PanelHeader>
                 <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                     <b3:NavTabs ui:field="navTabsPercep" >
-                        <b3:TabListItem active="true" ui:field="tabPercepConceptos" dataTarget="#tabPercepConceptosId" text="Conceptos"/>
-                        <b3:TabListItem ui:field="tabPercepPorSaldo" dataTarget="#tabPercepPorSaldoId" text="Por Saldo"/>
-                        <b3:TabListItem ui:field="tabPercepPorPago" dataTarget="#tabPercepPorPeriodoId" text="Por Periodo"/>
+                        <b3:TabListItem active="true" ui:field="tabPercepConceptos" addStyleNames='{style.tab-principal}' dataTarget="#tabPercepConceptosId" text="Percepciones"/>
+                        <b3:TabListItem ui:field="tabPercepPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabPercepPorSaldoId" text="Pagos"/>
                     </b3:NavTabs>
                     <b3:TabContent ui:field="tabPanelConceptos" addStyleNames='{style.tab-panel}'>
                         <b3:TabPane active="true"  b3:id="tabPercepConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
@@ -30,21 +38,16 @@ Uncomment this for XHTML entities
                         <b3:TabPane b3:id="tabPercepPorSaldoId" addStyleNames='{style.tab-panel-conceptos}'>
                             <nom:NominaSaldoUI ui:field="nominaPercepcionesSaldoUI" idTipoConcepto="P" idTipoMovimiento="S" />
                         </b3:TabPane>
-                        <b3:TabPane b3:id="tabPercepPorPeriodoId">
-                        </b3:TabPane>
                     </b3:TabContent>
                 </b3:PanelBody>
             </b3:Panel>
             <!-- ******* Deducciones ******* -->
             <b3:Panel addStyleNames='{style.conceptos-panel}'>
-                <b3:PanelHeader>
-                    <b3:Heading size="H3" text="Deducciones"/>
-                </b3:PanelHeader>
                 <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                     <b3:NavTabs ui:field="navTabsDeduc" >
-                        <b3:TabListItem ui:field="tabDeducConceptos" active="true" dataTarget="#tabDeducConceptosId" text="Conceptos"/>
-                        <b3:TabListItem ui:field="tabDeducPorSaldo" dataTarget="#tabDeducPorSaldoId" text="Por Saldo"/>
-                        <b3:TabListItem ui:field="tabDeducPorPago" dataTarget="#tabDeducPorPeriodoId" text="Por Periodo"/>
+                        <b3:TabListItem ui:field="tabDeducConceptos" addStyleNames='{style.tab-principal}' active="true" dataTarget="#tabDeducConceptosId" text="Deducciones"/>
+                        <b3:TabListItem ui:field="tabDeducPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorSaldoId" text="Por Saldo"/>
+                        <b3:TabListItem ui:field="tabDeducPorPago" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorPeriodoId" text="Por Periodo"/>
                     </b3:NavTabs>
                     <b3:TabContent addStyleNames='{style.tab-panel}'>
                         <b3:TabPane active="true"  b3:id="tabDeducConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
@@ -59,7 +62,7 @@ Uncomment this for XHTML entities
                 </b3:PanelBody>
             </b3:Panel>
         </g:HorizontalPanel>
-            <!-- ******* Totales ******* -->
+        <!-- ******* Totales ******* -->
         <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>
             <g:HTMLPanel addStyleNames="{style.totales-panel}">
                 <table style = "width: 100%;">
@@ -70,83 +73,11 @@ Uncomment this for XHTML entities
                     </tr>
                     <tr>
                         <td style="text-align: right;">
-                            <b:Button type="SUCCESS" text="Calcular"/>
+                            <b:Button ui:field="btnCalcular" type="SUCCESS" text="Calcular"/>
                         </td>
                     </tr>
                 </table>
             </g:HTMLPanel>
         </g:HorizontalPanel>
     </g:VerticalPanel>
-    <!--
-    <b:Container>
-        <b:Row>
-            <b:Column size="8">
-                <b3:Panel addStyleNames='{style.conceptos-panel}'>
-                    <b3:PanelHeader>
-                        <b3:Heading size="H3" text="Percepciones"/>
-                    </b3:PanelHeader>
-                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
-                        <b3:NavTabs ui:field="navTabsPercep" >
-                            <b3:TabListItem active="true" ui:field="tabPercepConceptos" dataTarget="#tabPercepConceptosId" text="Conceptos"/>
-                            <b3:TabListItem ui:field="tabPercepPorSaldo" dataTarget="#tabPercepPorSaldoId" text="Por Saldo"/>
-                            <b3:TabListItem ui:field="tabPercepPorPago" dataTarget="#tabPercepPorPeriodoId" text="Por Periodo"/>
-                        </b3:NavTabs>
-                        <b3:TabContent ui:field="tabPanelConceptos" addStyleNames='{style.tab-panel}'>
-                            <b3:TabPane active="true"  b3:id="tabPercepConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
-                                <nom:NominaMovimientosUI ui:field="nominaPercepcionesUI" />
-                            </b3:TabPane>
-                            <b3:TabPane b3:id="tabPercepPorSaldoId" addStyleNames='{style.tab-panel-conceptos}'>
-                                <nom:NominaSaldoUI ui:field="nominaPercepcionesSaldoUI" idTipoConcepto="P" idTipoMovimiento="S" />
-                            </b3:TabPane>
-                            <b3:TabPane b3:id="tabPercepPorPeriodoId">
-                            </b3:TabPane>
-                        </b3:TabContent>
-                    </b3:PanelBody>
-                </b3:Panel>
-            </b:Column>
-            <b:Column size="8">
-                <b3:Panel addStyleNames='{style.conceptos-panel}'>
-                    <b3:PanelHeader>
-                        <b3:Heading size="H3" text="Deduciones"/>
-                    </b3:PanelHeader>
-                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
-                        <b3:NavTabs ui:field="navTabsDeduc" >
-                            <b3:TabListItem ui:field="tabDeducConceptos" active="true" dataTarget="#tabDeducConceptosId" text="Conceptos"/>
-                            <b3:TabListItem ui:field="tabDeducPorSaldo" dataTarget="#tabDeducPorSaldoId" text="Por Saldo"/>
-                            <b3:TabListItem ui:field="tabDeducPorPago" dataTarget="#tabDeducPorPeriodoId" text="Por Periodo"/>
-                        </b3:NavTabs>
-                        <b3:TabContent addStyleNames='{style.tab-panel}'>
-                            <b3:TabPane active="true"  b3:id="tabDeducConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
-                                <nom:NominaMovimientosUI ui:field="nominaDeduccionesUI" />
-                            </b3:TabPane>
-                            <b3:TabPane b3:id="tabDeducPorSaldoId" addStyleNames='{style.tab-panel-conceptos}'>
-                                <nom:NominaSaldoUI ui:field="nominaDeduccionesSaldoUI" idTipoConcepto="D" idTipoMovimiento="S" />
-                            </b3:TabPane>
-                            <b3:TabPane b3:id="tabDeducPorPeriodoId">
-                            </b3:TabPane>
-                        </b3:TabContent>
-                    </b3:PanelBody>
-                </b3:Panel>
-            </b:Column> 
-        </b:Row>
-        <b:Row>
-            <b:Column size="4"  offset="8">
-                <g:HTMLPanel addStyleNames="{style.totales-panel}">
-                    <table style = "width: 100%;">
-                        <tr>
-                            <td style="text-align: right;">
-                                <g:Label ui:field="totalLabel" text="Totales" addStyleNames="{style.total-label}"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">
-                                <b:Button type="SUCCESS" text="Calcular"/>
-                            </td>
-                        </tr>
-                    </table>
-                </g:HTMLPanel>
-            </b:Column>
-        </b:Row>
-    </b:Container>            
-    -->
 </ui:UiBinder>

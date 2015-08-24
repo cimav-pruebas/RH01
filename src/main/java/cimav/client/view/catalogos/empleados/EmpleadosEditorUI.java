@@ -11,6 +11,7 @@ import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.EEdoCivil;
+import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.ESexo;
 import cimav.client.data.domain.EStatusEmpleado;
@@ -24,7 +25,6 @@ import cimav.client.view.catalogos.empleados.sni.TipoSNIChosen;
 import cimav.client.view.catalogos.empleados.tipoantiguedad.TipoAntiguedadChosen;
 import cimav.client.view.catalogos.empleados.tipocontrato.TipoContratoChosen;
 import cimav.client.view.catalogos.empleados.tipoempleado.TipoEmpleadoChosen;
-import cimav.client.view.catalogos.grupo.GrupoChosen;
 import cimav.client.view.catalogos.tabulador.TabuladorChosen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -109,7 +109,7 @@ public class EmpleadosEditorUI extends Composite {
     private final FechaDateBox fechaSNIDatePicker = new FechaDateBox();
     private final ValueListBox<EStatusEmpleado> statusEmpladoChose;
     private final JefeChosen jefeChosen;
-    private final GrupoChosen grupoChosen;
+    private final ValueListBox<EGrupo> grupoChosen;
     private final TabuladorChosen tabuladorChosen;
     private final TipoEmpleadoChosen tipoEmpleadoChosen;
     private final TipoContratoChosen tipoContratoChosen;
@@ -293,8 +293,27 @@ public class EmpleadosEditorUI extends Composite {
         statusEmpladoChose.setWidth(width);
         jefeChosen = new JefeChosen();
         jefeChosen.setWidth("400px");
-        grupoChosen = new GrupoChosen();
-        grupoChosen.setWidth(width);
+
+        grupoChosen = new ValueListBox<>(new Renderer<EGrupo>() {
+            @Override
+            public String render(EGrupo object) {
+                if (object == null) {
+                    return "Ninguno";
+                }
+                return object.getCode() + " " + object.getName();
+            }
+
+            @Override
+            public void render(EGrupo object, Appendable appendable) throws IOException {
+                String s = render(object);
+                appendable.append(s);
+            }
+        });
+        List<EGrupo> grupos = Arrays.asList(EGrupo.values());
+        grupoChosen.setValue(EGrupo.AYA); //default
+        grupoChosen.setAcceptableValues(grupos);
+        grupoChosen.setWidth("400px");
+        
         tabuladorChosen = new TabuladorChosen();
         tabuladorChosen.setWidth(width);
         tipoEmpleadoChosen = new TipoEmpleadoChosen();
@@ -512,7 +531,7 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(fechaAntiguedadDatePicker, "fechaAntiguedad")
                     .bind(statusEmpladoChose, "status")
                     .bind(jefeChosen.getChosen(), "jefe")
-                    .bind(grupoChosen.getChosen(), "grupo")
+                    .bind(grupoChosen, "grupo")
                     .bind(tabuladorChosen.getChosen(), "nivel")
                     .bind(tipoEmpleadoChosen.getChosen(), "tipoEmpleado")
                     .bind(tipoContratoChosen.getChosen(), "tipoContrato")
