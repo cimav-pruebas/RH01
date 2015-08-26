@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -250,6 +252,13 @@ public class NominaMovimientosUI extends Composite {
 //    }
 
     public void setList(List<NominaQuincenal> percepciones) {
+        
+        Collections.sort(percepciones, new Comparator<NominaQuincenal>() {
+            @Override
+            public int compare(NominaQuincenal obj1, NominaQuincenal obj2) {
+                return obj1.getConcepto().getCode().compareTo(obj2.getConcepto().getCode());
+            }
+        });
         
         provider.setList(percepciones);
     }

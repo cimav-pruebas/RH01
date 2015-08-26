@@ -4,38 +4,33 @@ Uncomment this for XHTML entities
 -->
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
-             xmlns:b3s="urn:import:org.gwtbootstrap3.extras.slider.client.ui"
->
-<!--
              xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
-             xmlns:b3.html='urn:import:org.gwtbootstrap3.client.ui.html'
- 
-    -->
-
-    <ui:style src="nominaUI.css"/>
+>
+    <!-- <ui:style src="nominaUI.css"/> -->
+    <ui:style >
+        #tabla-asistencias {
+            margin-top: 20px;
+            margin-left: 20px;
+            width: 700px;
+            table-layout: fixed;
+        }
+    </ui:style>
     
     <g:HTMLPanel>
 <!--                    <b3:Heading size="H1" text="Sample Web App"/>
                     <paper-slider min="10" max="200" value="110"></paper-slider>
                     <b3.html:Paragraph>Just fork this repo and get started!!</b3.html:Paragraph>
                     <b3s:Slider ui:field="sliderAsistencias" min="1" max="15" step="1" value="11.0"/> -->
-        <table class='tabla-asistencias' width='400px' >
+        <table id='tabla-asistencias'>
             <tr>
-                <td >Asistencias</td>
-                <td >
-                    <code class='label-cyt-grp-niv'><span >CODE_ASISTENCIAS</span></code>
-                </td>
-                <td >
-                    <b3s:Slider ui:field="sliderAsistencias" min="1" max="15" step="1" value="10" tooltip="HIDE"/>
-                </td>
-                <td >
-                    <code class='label-cyt-grp-niv'><span >CODE_FALTAS</span></code>
-                </td>
-                <td >Faltas</td>
+                <td style='width: 70px;     text-align: -webkit-right;'>Asistencias</td>
+                <td style='padding-left: 10px;     width: 70px;'>Faltas</td>
+                <td style='width: 480px;'>Razón</td>
             </tr>
             <tr>
-                <td >Razón</td>
-                <td colspan='3'>RAZON_</td>
+                <td style='text-align: -webkit-right;'><b3:IntegerBox ui:field="spinAsistencias"/></td>
+                <td style='padding-left: 10px;'><b3:IntegerBox ui:field="spinFaltas"/></td>
+                <td ><b3:TextBox ui:field="txtRazon"/></td>
             </tr>
         </table> 
     </g:HTMLPanel>

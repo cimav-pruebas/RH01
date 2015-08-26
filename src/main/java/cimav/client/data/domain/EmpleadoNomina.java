@@ -35,6 +35,8 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     private Date fechaAntiguedad;
     private List<NominaQuincenal> nominaQuincenalCollection;
     
+    private Falta falta;
+    
     public EmpleadoNomina() {
         super();
     }
@@ -159,6 +161,14 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
             }
         }
         return result;
+    }
+
+    public Falta getFalta() {
+        return falta;
+    }
+
+    public void setFalta(Falta falta) {
+        this.falta = falta;
     }
     
     /** 

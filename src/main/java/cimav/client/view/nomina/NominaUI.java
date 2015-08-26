@@ -17,7 +17,6 @@ import com.github.gwtbootstrap.client.ui.Button;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -28,7 +27,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
-import org.gwtbootstrap3.extras.slider.client.ui.Slider;
 
 /**
  *
@@ -52,7 +50,9 @@ public class NominaUI extends Composite {
     NominaSaldoUI nominaPercepcionesSaldoUI;
     @UiField
     NominaSaldoUI nominaDeduccionesSaldoUI;
-
+    @UiField
+    NominaAsistenciasUI nominaAsistenciasUI;
+    
     @UiField
     Button btnCalcular;
     
@@ -93,6 +93,7 @@ public class NominaUI extends Composite {
     private class CalcularClick implements ClickHandler {
         @Override
         public void onClick(ClickEvent event) {
+            
             Calculo calculo = new Calculo(empleadoNominaLoaded.getId());
             
             calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
@@ -186,6 +187,8 @@ public class NominaUI extends Composite {
                     BigDecimal total = totPercepciones.subtract(totDeducciones);
                     
                     totalLabel.setText(Utils.formatCurrency(total));
+                    
+                    nominaAsistenciasUI.setEmpleado(empleadoNominaLoaded);
                     
                 } else {
                     

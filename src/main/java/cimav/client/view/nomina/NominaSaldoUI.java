@@ -35,7 +35,6 @@ import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
@@ -67,8 +66,8 @@ public class NominaSaldoUI extends Composite {
     private ListDataProvider<NominaQuincenal> provider;
     private NominaQuincenalREST nominaQuincenalREST;
     
-    private NomInputCell quincenasCell;
-    private NomInputCell saldoCell;
+    private NomQuincenasInputCell quincenasCell;
+    private NomCantidadInputCell saldoCell;
     
     @UiField
     Anchor anchorPlus;
@@ -110,8 +109,8 @@ public class NominaSaldoUI extends Composite {
 
         dataGrid.setPageSize(20);
 
-        quincenasCell = new NomInputCell();
-        saldoCell = new NomInputCell();
+        quincenasCell = new NomQuincenasInputCell();
+        saldoCell = new NomCantidadInputCell();
         
         initTableColumns(); 
         
@@ -237,7 +236,7 @@ public class NominaSaldoUI extends Composite {
         });
         restanteCol.setHorizontalAlignment( HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(restanteCol,  "Saldo");
-        dataGrid.setColumnWidth(restanteCol, 90, Style.Unit.PX);
+        dataGrid.setColumnWidth(restanteCol, 110, Style.Unit.PX);
         
         // Quincenas
         Column<NominaQuincenal, String> quincenasCol = new Column<NominaQuincenal, String>(quincenasCell) {
@@ -267,7 +266,6 @@ public class NominaSaldoUI extends Composite {
                     
                     getNominaQuincenalsREST().update(object);
                     
-                    GWT.log("Contador: " + cont++);
                 } catch (NumberFormatException | NullPointerException e) {
                 }
                 quincenasCell.clearViewData(object);
@@ -284,7 +282,7 @@ public class NominaSaldoUI extends Composite {
         };
         //dataGrid.addColumn(quincenasCol,  "Quincenas");
         dataGrid.addColumn(quincenasCol,  new SafeHtmlHeader(SafeHtmlUtils.fromString("Veces")), forzarFooter);
-        dataGrid.setColumnWidth(quincenasCol, 60, Style.Unit.PX);
+        dataGrid.setColumnWidth(quincenasCol, 68, Style.Unit.PX);
         
     }
     

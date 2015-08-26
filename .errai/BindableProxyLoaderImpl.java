@@ -18,6 +18,7 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.Falta;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.domain.Tabulador;
 import java.math.BigDecimal;
@@ -669,6 +670,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("falta", new PropertyType(Falta.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
@@ -705,6 +707,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIsDirty(agent.target.getIsDirty());
+        clone.setFalta(agent.target.getFalta());
         clone.setStatus(agent.target.getStatus());
         clone.setSede(agent.target.getSede());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
@@ -796,6 +799,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Boolean oldValue = agent.target.getIsDirty();
         agent.target.setIsDirty(isDirty);
         agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
+      }
+
+      public Falta getFalta() {
+        return agent.target.getFalta();
+      }
+
+      public void setFalta(Falta falta) {
+        Falta oldValue = agent.target.getFalta();
+        agent.target.setFalta(falta);
+        agent.updateWidgetsAndFireEvent("falta", oldValue, falta);
       }
 
       public EStatusEmpleado getStatus() {
@@ -959,6 +972,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("isDirty")) {
           return getIsDirty();
         }
+        if (property.equals("falta")) {
+          return getFalta();
+        }
         if (property.equals("status")) {
           return getStatus();
         }
@@ -1022,6 +1038,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("isDirty")) {
           agent.target.setIsDirty((Boolean) value);
+          return;
+        }
+        if (property.equals("falta")) {
+          agent.target.setFalta((Falta) value);
           return;
         }
         if (property.equals("status")) {

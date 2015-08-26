@@ -18,7 +18,7 @@ Uncomment this for XHTML entities
             </b3:NavTabs>
             <b3:TabContent ui:field="tabPanelAsistencias" addStyleNames='{style.tab-content-asistencias}'>
                 <b3:TabPane active="true"  b3:id="tabAsistenciasId"  addStyleNames='{style.tab-panel-asistencias}'>
-                    <nom:NominaAsistenciasUI />
+                    <nom:NominaAsistenciasUI ui:field="nominaAsistenciasUI" />
                 </b3:TabPane>
             </b3:TabContent>
         </g:HTMLPanel>
