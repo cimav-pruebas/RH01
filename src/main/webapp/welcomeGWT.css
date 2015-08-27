@@ -116,7 +116,8 @@ https://code.google.com/p/google-web-toolkit/source/browse/trunk/user/src/com/go
     background: #f3f7fb !important;
 }
 .com-google-gwt-user-cellview-client-DataGrid-Style-dataGridCell {
-    padding: 3px 10px !important;
+     /*padding: 3px 10px !important; */
+    padding: 1px !important;
     overflow: hidden !important;
     
     font-size: smaller;
@@ -136,6 +137,13 @@ https://code.google.com/p/google-web-toolkit/source/browse/trunk/user/src/com/go
 .cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridHoveredRowCell.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridEvenRowCell {
     border: 1px solid #eeeeee !important;
     background: #eeeeee !important;
+}
+.cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridHoveredRowCell input {
+    border: 1px solid #eeeeee !important;
+    background: #eeeeee !important;
+    
+    color: red;
+    
 }
 .cimav-client-view-nomina-NominaMovimientosUI-CustomStyle-dataGridEvenRowCell {
     border: 1px solid #E0E8F7 !important;
@@ -163,4 +171,11 @@ https://code.google.com/p/google-web-toolkit/source/browse/trunk/user/src/com/go
 .panel-heading {
     text-align: -webkit-center;
     font-size: large;
+}
+
+.trash-visible {
+    visibility: visible;
+}
+.trash-hidden {
+    visibility: hidden;
 }

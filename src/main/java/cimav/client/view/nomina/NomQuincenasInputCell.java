@@ -48,7 +48,7 @@ public class NomQuincenasInputCell extends TextInputCell {
             sb.appendHtmlConstant("<input type=\"text\" tabindex=\"-1\"></input>");
         } else {
             // this is where we set value, size, style
-            sb.append(template.input(s, "width: 100%; text-align: inherit; margin: 0px; height: 24px !important; padding: 2px 6px;"));
+            sb.append(template.input(s, "width: 100%; text-align: inherit; margin: 0px; height: 22px !important; padding: 2px 6px; font-size:11px;"));
         }
     }
 }

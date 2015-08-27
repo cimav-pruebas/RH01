@@ -50,8 +50,6 @@ public class NominaUI extends Composite {
     NominaSaldoUI nominaPercepcionesSaldoUI;
     @UiField
     NominaSaldoUI nominaDeduccionesSaldoUI;
-    @UiField
-    NominaAsistenciasUI nominaAsistenciasUI;
     
     @UiField
     Button btnCalcular;
@@ -187,8 +185,6 @@ public class NominaUI extends Composite {
                     BigDecimal total = totPercepciones.subtract(totDeducciones);
                     
                     totalLabel.setText(Utils.formatCurrency(total));
-                    
-                    nominaAsistenciasUI.setEmpleado(empleadoNominaLoaded);
                     
                 } else {
                     

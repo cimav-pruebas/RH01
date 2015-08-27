@@ -302,3 +302,7 @@ code {
     padding: 10px;
     margin: 20px;
 }
+
+.trash-visible {
+    visibility: hidden;
+}

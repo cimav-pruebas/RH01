@@ -5,17 +5,10 @@
  */
 package cimav.client.view.nomina;
 
-import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.rest.FaltaREST;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import org.gwtbootstrap3.client.ui.IntegerBox;
-import org.gwtbootstrap3.client.ui.TextBox;
 
 /**
  *
@@ -28,79 +21,79 @@ public class NominaAsistenciasUI extends Composite {
     interface NominaAsistenciasUIUiBinder extends UiBinder<Widget, NominaAsistenciasUI> {
     }
     
-    private FaltaREST faltaRest;
-    private EmpleadoNomina empleadoNomina;
-    
-    @UiField
-    IntegerBox spinAsistencias;
-    @UiField
-    IntegerBox spinFaltas;
-    @UiField
-    TextBox txtRazon;
+//    private FaltaREST faltaRest;
+//    private EmpleadoNomina empleadoNomina;
+//    
+//    @UiField
+//    IntegerBox spinAsistencias;
+//    @UiField
+//    IntegerBox spinFaltas;
+//    @UiField
+//    TextBox txtRazon;
     
     public NominaAsistenciasUI() {
         initWidget(uiBinder.createAndBindUi(this));
         
-        spinAsistencias.getElement().setAttribute("style", "width:60px; height:inherit; text-align:right;");
-        spinAsistencias.getElement().setAttribute("type", "number");
-        spinAsistencias.getElement().setAttribute("step", "1");
-        spinAsistencias.getElement().setAttribute("min", "1");
-        spinAsistencias.getElement().setAttribute("max", "15");
-        spinAsistencias.getElement().setAttribute("value", "15");
-        spinAsistencias.getElement().setAttribute("disabled", "");
-        spinFaltas.getElement().setAttribute("style", "width:60px; height:inherit; text-align:right;");
-        spinFaltas.getElement().setAttribute("type", "number");
-        spinFaltas.getElement().setAttribute("step", "1");
-        spinFaltas.getElement().setAttribute("min", "1");
-        spinFaltas.getElement().setAttribute("max", "15");
-        spinFaltas.getElement().setAttribute("value", "0");
-        
-        spinFaltas.addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(ChangeEvent event) {
-                Integer faltas = spinFaltas.getValue();
-                if (faltas==null || faltas<0 || faltas>15) {
-                    spinFaltas.setValue(empleadoNomina.getFalta().getFaltas(), false);
-                } else {
-                    Integer asistencias = 15 - faltas;
-                    spinAsistencias.setValue(asistencias);
-                    
-                    empleadoNomina.getFalta().setFaltas(faltas);
-                            
-                    getREST().update(empleadoNomina.getFalta());
-                }
-            }
-        });
-        
-        txtRazon.addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(ChangeEvent event) {
-                empleadoNomina.getFalta().setRazon(txtRazon.getText());
-
-                getREST().update(empleadoNomina.getFalta());
-            }
-        });
+//        spinAsistencias.getElement().setAttribute("style", "width:60px; height:inherit; text-align:right;");
+//        spinAsistencias.getElement().setAttribute("type", "number");
+//        spinAsistencias.getElement().setAttribute("step", "1");
+//        spinAsistencias.getElement().setAttribute("min", "1");
+//        spinAsistencias.getElement().setAttribute("max", "15");
+//        spinAsistencias.getElement().setAttribute("value", "15");
+//        spinAsistencias.getElement().setAttribute("disabled", "");
+//        spinFaltas.getElement().setAttribute("style", "width:60px; height:inherit; text-align:right;");
+//        spinFaltas.getElement().setAttribute("type", "number");
+//        spinFaltas.getElement().setAttribute("step", "1");
+//        spinFaltas.getElement().setAttribute("min", "1");
+//        spinFaltas.getElement().setAttribute("max", "15");
+//        spinFaltas.getElement().setAttribute("value", "0");
+//        
+//        spinFaltas.addChangeHandler(new ChangeHandler() {
+//            @Override
+//            public void onChange(ChangeEvent event) {
+//                Integer faltas = spinFaltas.getValue();
+//                if (faltas==null || faltas<0 || faltas>15) {
+//                    spinFaltas.setValue(empleadoNomina.getFalta().getFaltas(), false);
+//                } else {
+//                    Integer asistencias = 15 - faltas;
+//                    spinAsistencias.setValue(asistencias);
+//                    
+//                    empleadoNomina.getFalta().setFaltas(faltas);
+//                            
+//                    getREST().update(empleadoNomina.getFalta());
+//                }
+//            }
+//        });
+//        
+//        txtRazon.addChangeHandler(new ChangeHandler() {
+//            @Override
+//            public void onChange(ChangeEvent event) {
+//                empleadoNomina.getFalta().setRazon(txtRazon.getText());
+//
+//                getREST().update(empleadoNomina.getFalta());
+//            }
+//        });
 
     }
 
-    private FaltaREST getREST() {
-        if (faltaRest == null) {
-            faltaRest = new FaltaREST();
-        }
-        return faltaRest;
-    }
-    
-    public void setEmpleado(EmpleadoNomina empleado) {
-        if (empleado == null || empleado.getFalta() == null) {
-            return;
-        }
-        empleadoNomina = empleado;
-
-        Integer faltas = empleadoNomina.getFalta().getFaltas();
-        Integer asistencias = 15 - faltas;
-        this.spinAsistencias.setValue(asistencias);
-        spinFaltas.setValue(faltas, false);
-        txtRazon.setValue(empleadoNomina.getFalta().getRazon(), false);
-    }
+//    private FaltaREST getREST() {
+//        if (faltaRest == null) {
+//            faltaRest = new FaltaREST();
+//        }
+//        return faltaRest;
+//    }
+//    
+//    public void setEmpleado(EmpleadoNomina empleado) {
+//        if (empleado == null || empleado.getFalta() == null) {
+//            return;
+//        }
+//        empleadoNomina = empleado;
+//
+//        Integer faltas = empleadoNomina.getFalta().getFaltas();
+//        Integer asistencias = 15 - faltas;
+//        this.spinAsistencias.setValue(asistencias);
+//        spinFaltas.setValue(faltas, false);
+//        txtRazon.setValue(empleadoNomina.getFalta().getRazon(), false);
+//    }
     
 }

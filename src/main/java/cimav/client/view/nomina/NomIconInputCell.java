@@ -16,16 +16,17 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
  *
  * @author juan.calderon
  */
-public class NomCantidadInputCell extends TextInputCell {
-
+public class NomIconInputCell extends TextInputCell {
     private static Template template;
 
     interface Template extends SafeHtmlTemplates {
-        @SafeHtmlTemplates.Template("<input type='text' min='0.00' max='29999.99'  value='{0}' tabindex='-1' size='12' maxlength='12' style='{1}'></input>")
-        SafeHtml input(String value, String style);
+        
+        String strHtml = "<a><i id='the-trash' class='fa fa-trash fa-lg' style='visibility:hidden;' /></a>";
+        @SafeHtmlTemplates.Template(strHtml)
+        SafeHtml input(String visibility);
     }
-
-    public NomCantidadInputCell() {
+    
+    public NomIconInputCell() {
         template = GWT.create(Template.class);
     }
 
@@ -43,10 +44,10 @@ public class NomCantidadInputCell extends TextInputCell {
         String s = (viewData != null) ? viewData.getCurrentValue() : value;
         if (s == null) // || isEditing)
         {
-            sb.appendHtmlConstant("<input type=\"text\" tabindex=\"-1\"></input>");
+            sb.appendHtmlConstant("<input type='text' tabindex='-1'></input>");
         } else {
             // this is where we set value, size, style
-            sb.append(template.input(s, "width: 100%; text-align: inherit; margin: 0px; height: 22px !important; font-size:11px;"));  
+            sb.append(template.input(s));
         }
     }
 }

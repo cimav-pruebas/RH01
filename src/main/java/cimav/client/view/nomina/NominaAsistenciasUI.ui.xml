@@ -21,7 +21,7 @@ Uncomment this for XHTML entities
                     <paper-slider min="10" max="200" value="110"></paper-slider>
                     <b3.html:Paragraph>Just fork this repo and get started!!</b3.html:Paragraph>
                     <b3s:Slider ui:field="sliderAsistencias" min="1" max="15" step="1" value="11.0"/> -->
-        <table id='tabla-asistencias'>
+<!--        <table id='tabla-asistencias'>
             <tr>
                 <td style='width: 70px;     text-align: -webkit-right;'>Asistencias</td>
                 <td style='padding-left: 10px;     width: 70px;'>Faltas</td>
@@ -32,6 +32,6 @@ Uncomment this for XHTML entities
                 <td style='padding-left: 10px;'><b3:IntegerBox ui:field="spinFaltas"/></td>
                 <td ><b3:TextBox ui:field="txtRazon"/></td>
             </tr>
-        </table> 
+        </table>   -->
     </g:HTMLPanel>
 </ui:UiBinder>

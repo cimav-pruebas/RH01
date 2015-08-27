@@ -5,8 +5,9 @@
  */
 package cimav.client.data.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.Date;
 
 /**
  *
@@ -16,11 +17,15 @@ public class Falta implements  Serializable {
     
     private Integer id;
     private Integer idEmpleado;
+    private Integer dias;
     private Integer faltas;
-    private String razon;
+    private Date fechaInicio;
+    @JsonIgnore private ETipoFalta tipoFalta;
+    private String idTipo;
 
     public Falta() {
-        faltas = 0;
+        dias = 1;
+        fechaInicio = new Date();
     }
 
     public Integer getId() {
@@ -39,6 +44,40 @@ public class Falta implements  Serializable {
         this.idEmpleado = idEmpleado;
     }
 
+    public Integer getDias() {
+        return dias;
+    }
+
+    public void setDias(Integer dias) {
+        this.dias = dias;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public ETipoFalta getTipoFalta() {
+        return tipoFalta;
+    }
+
+    public void setTipoFalta(ETipoFalta tipoFalta) {
+        this.tipoFalta = tipoFalta;
+        this.idTipo = tipoFalta != null ? tipoFalta.getId() : "XX";
+    }
+
+    public String getIdTipo() {
+        return idTipo;
+    }
+
+    public void setIdTipo(String idTipo) {
+        this.tipoFalta = ETipoFalta.get(idTipo);
+        this.idTipo = idTipo;
+    }
+
     public Integer getFaltas() {
         return faltas;
     }
@@ -46,41 +85,6 @@ public class Falta implements  Serializable {
     public void setFaltas(Integer faltas) {
         this.faltas = faltas;
     }
-
-    public String getRazon() {
-        return razon;
-    }
-
-    public void setRazon(String razon) {
-        this.razon = razon;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        hash = 43 * hash + Objects.hashCode(this.idEmpleado);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Falta other = (Falta) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.idEmpleado, other.idEmpleado)) {
-            return false;
-        }
-        return true;
-    }
-    
     
     
 }
