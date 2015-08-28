@@ -112,48 +112,11 @@ public class NominaUI extends Composite {
         }
     }
     
-//    private class ActionListener implements NominaPercepcionesUI.ActionListener {
-//        @Override
-//        public void onActionEditor(MethodEvent restEvent) {
-//            if (EMethod.SUMAR_TOTAL.equals(restEvent.getMethod())) {
-//                if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-//                    totalLabel.setText("15,000");
-//                }
-//            }
-//        }
-//    }
-    
     @Override
     protected void onLoad() {
         super.onLoad(); //To change body of generated methods, choose Tools | Templates.
-
         String strClass  = ".cimav-client-view-nomina-NominaUI_NominaUIUiBinderImpl_GenCss_style-movimientos-contenedor";
         GQuery.$(strClass).$("td").attr("width", "50%");
-        
-        
-
-        
-//        GQuery cqFront = GQuery.$(".face.front");
-//        
-//        cqFront.attr("style","padding: 0; ");
-//        
-////        cqFront.$(".trigger").remove();
-//        
-//        
-//        /* Replazar el style del icono del Flip Card*/
-//        cqFront.$(".trigger").attr("class","fa fa-pencil").attr("style",
-//            //" border: 1px solid blueviolet; " +
-//            " cursor: pointer; " +
-//            " position: absolute; " +
-//            " bottom: 5px; " +
-//            " left: 5px; " +
-//            " z-index: 300; " 
-//        );
-        
-//        cqFront.append("<i id='noManches' class='fa fa-plus' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 5px;  z-index: 300; '></i>");
-//        cqFront.append("<i class='fa fa-minus' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 25px;  z-index: 300; '></i>");
-//        cqFront.append("<i class='fa fa-pencil' style=' cursor: pointer;  position: absolute;  bottom: 5px;  left: 45px;  z-index: 300; '></i>");
-        
     }   
 
     private EmpleadoREST getEmpleadosREST() {
@@ -206,8 +169,10 @@ public class NominaUI extends Composite {
     private class MovimientosListener implements NominaSaldoUI.MovimientosListener {
         @Override
         public void onMovimiento(MethodEvent event) {
-            if (EMethod.CREATE.equals(event.getMethod()) || EMethod.UPDATE.equals(event.getMethod())) {
-                // Se creeo/modificó un saldo; reload al empleado
+            if (EMethod.CREATE.equals(event.getMethod()) 
+                    || EMethod.UPDATE.equals(event.getMethod()) 
+                    || EMethod.DELETE.equals(event.getMethod())) {
+                // Se creeo/modificó/borro un saldo; reload al empleado
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }
         }

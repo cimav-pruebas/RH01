@@ -21,7 +21,7 @@ public class NomIconInputCell extends TextInputCell {
 
     interface Template extends SafeHtmlTemplates {
         
-        String strHtml = "<a><i id='the-trash' class='fa fa-trash fa-lg' style='visibility:hidden;' /></a>";
+        String strHtml = "<a onclick='removeSaldo(id)' id='{0}' style='color: #B3B3B3; visibility:hidden;'><i class='fa fa-times fa-lg' style='cursor: pointer; transform: scale(1.2); ' /></a>";
         @SafeHtmlTemplates.Template(strHtml)
         SafeHtml input(String visibility);
     }
@@ -41,13 +41,13 @@ public class NomIconInputCell extends TextInputCell {
         }
 
         // boolean isEditing = this.isEditing(context, null, value);
-        String s = (viewData != null) ? viewData.getCurrentValue() : value;
-        if (s == null) // || isEditing)
+        String v = (viewData != null) ? viewData.getCurrentValue() : value;
+        if (v == null) // || isEditing)
         {
             sb.appendHtmlConstant("<input type='text' tabindex='-1'></input>");
         } else {
             // this is where we set value, size, style
-            sb.append(template.input(s));
+            sb.append(template.input(v));
         }
     }
 }

@@ -257,6 +257,8 @@ code {
     bottom: 10px;
 /*    cursor: pointer;   */
     z-index: 400;
+    color: gray;
+    transform: scale(1.5);
 }
 .conceptos-chosen{
     position: absolute;

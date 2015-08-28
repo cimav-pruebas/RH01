@@ -21,12 +21,16 @@ import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArrayMixed;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQuery;
+import static com.google.gwt.query.client.GQuery.window;
+import com.google.gwt.query.client.Properties;
 import com.google.gwt.query.client.css.CSS;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -100,10 +104,17 @@ public class NominaSaldoUI extends Composite {
         
         anchorPlus.addClickHandler(new ClickPlus());
         
+        Properties wnd = window.cast();
+        wnd.setFunction("removeSaldo", new Function() {
+            public void f() {
+                JsArrayMixed args = arguments(0);
+                String idSaldo = args.getString(0);
+                getNominaQuincenalsREST().remove(idSaldo);
+            }
+        });
+        
     }
 
-    
-    
     private void buildGrid() {
 
         List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
@@ -130,17 +141,17 @@ public class NominaSaldoUI extends Composite {
             @Override
             public void onRowHover(RowHoverEvent event) {
                 TableRowElement rowEle = event.getHoveringRow();
-                Element iconEle = rowEle.getElementsByTagName("i").getItem(0);
+                Element removeSandoEle = rowEle.getElementsByTagName("a").getItem(0);
                 if (event.isUnHover()) {
-                    GQuery.$(iconEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
+                    GQuery.$(removeSandoEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
                 } else {
-                    GQuery.$(iconEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
+                    GQuery.$(removeSandoEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
                 }
             }
         });
         
     }
-
+    
     private class ClickPlus implements ClickHandler {
 
         @Override
@@ -181,14 +192,10 @@ public class NominaSaldoUI extends Composite {
                 public void onRESTExecuted(MethodEvent restEvent) {
                     if (EMethod.CREATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-
-//                            NominaQuincenal nomQuinNueva = (NominaQuincenal) restEvent.getResult();
-//                            // hasta estar correctamente en la DB, pasarlo al provider
-//                            provider.getList().add(nomQuinNueva);
                             onMovimiento(restEvent);
 
                         } else {
-                            Growl.growl("FallÃƒÂ³ creaciÃƒÂ³n del movimiento. " + restEvent.getReason());
+                            Growl.growl("Falló creaciÃƒÂ³n del movimiento. " + restEvent.getReason());
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
@@ -196,7 +203,15 @@ public class NominaSaldoUI extends Composite {
                             onMovimiento(restEvent);
 
                         } else {
-                            Growl.growl("FallÃƒÂ³ actualizaciÃƒÂ³n del movimiento. " + restEvent.getReason());
+                            Growl.growl("Falló actualizaciÃƒÂ³n del movimiento. " + restEvent.getReason());
+                        }
+                    }  else if (EMethod.DELETE.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+
+                            onMovimiento(restEvent);
+
+                        } else {
+                            Growl.growl("Falló eliminación del movimiento. " + restEvent.getReason());
                         }
                     }
                 }
@@ -210,14 +225,15 @@ public class NominaSaldoUI extends Composite {
      */
     private void initTableColumns() {
 
+        // id + icon remove
         Column<NominaQuincenal, String> iconCol = new Column<NominaQuincenal, String>(new NomIconInputCell()) {
             @Override
             public String getValue(NominaQuincenal object) {
-                return "";
+                return "" + object.getId();
             }
         };
         dataGrid.addColumn(iconCol, "");
-        dataGrid.setColumnWidth(iconCol, 14, Style.Unit.PX);
+        dataGrid.setColumnWidth(iconCol, 16, Style.Unit.PX);
         
         // Concepto
         Column<NominaQuincenal, String> conceptoCol = new Column<NominaQuincenal, String>((new TextCell())) {

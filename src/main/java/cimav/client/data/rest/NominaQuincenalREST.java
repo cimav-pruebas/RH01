@@ -101,4 +101,37 @@ public class NominaQuincenalREST extends BaseREST {
 
     }
     
+    public void remove(String id) {
+
+        BaseREST.setDateFormatPOST();
+
+        String url = BaseREST.URL_REST_BASE + "api/nomina_quincenal/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers); 
+        rb.delete().send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.FAILURE, "remove " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    // No regresa nada
+                    MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.SUCCESS, "remove listo");
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "NominaQuincenalREST.remove " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+        }));
+
+    }
+    
 }
