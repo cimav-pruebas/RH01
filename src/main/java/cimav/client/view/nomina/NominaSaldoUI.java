@@ -17,7 +17,6 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
-import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -62,8 +61,6 @@ public class NominaSaldoUI extends Composite {
 
     private static NominaSaldoUIUiBinder uiBinder = GWT.create(NominaSaldoUIUiBinder.class);
 
-    private int cont = 0;
-
     interface NominaSaldoUIUiBinder extends UiBinder<Widget, NominaSaldoUI> {
     }
 
@@ -74,7 +71,7 @@ public class NominaSaldoUI extends Composite {
     private ListDataProvider<NominaQuincenal> provider;
     private NominaQuincenalREST nominaQuincenalREST;
 
-    private NomQuincenasInputCell quincenasCell;
+    private NomIntegerInputCell quincenasCell;
     private NomCantidadInputCell saldoCell;
 
     @UiField
@@ -99,7 +96,7 @@ public class NominaSaldoUI extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
 
         conceptosChosen = new ConceptosChosen(this.tipoConcepto, this.tipoMovimiento);
-        conceptosChosen.addStyleName("conceptos-chosen");
+        conceptosChosen.addStyleName("movimientos-chosen");
         htmlPanel.add(conceptosChosen);
         
         anchorPlus.addClickHandler(new ClickPlus());
@@ -129,7 +126,7 @@ public class NominaSaldoUI extends Composite {
 
         dataGrid.setPageSize(20);
 
-        quincenasCell = new NomQuincenasInputCell();
+        quincenasCell = new NomIntegerInputCell("24");
         saldoCell = new NomCantidadInputCell();
 
         initTableColumns();

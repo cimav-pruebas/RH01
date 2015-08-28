@@ -22,6 +22,7 @@ public class Falta implements  Serializable {
     private Date fechaInicio;
     @JsonIgnore private ETipoFalta tipoFalta;
     private String idTipo;
+    private String folio;
 
     public Falta() {
         dias = 1;
@@ -85,6 +86,15 @@ public class Falta implements  Serializable {
     public void setFaltas(Integer faltas) {
         this.faltas = faltas;
     }
+
+    public String getFolio() {
+        return folio;
+    }
+
+    public void setFolio(String folio) {
+        this.folio = folio;
+    }
     
+
     
 }

@@ -260,14 +260,6 @@ code {
     color: gray;
     transform: scale(1.5);
 }
-.conceptos-chosen{
-    position: absolute;
-    left: 32px;
-    height: 30px;
-    bottom: 5px;
-    width: 300px;
-    z-index: 400;
-}
 .data-grid-movimientos {
     position: absolute !important;
     /* overflow: visible; */

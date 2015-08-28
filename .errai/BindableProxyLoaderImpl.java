@@ -670,13 +670,13 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
-        agent.propertyTypes.put("falta", new PropertyType(Falta.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("faltaCollection", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
@@ -707,13 +707,23 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIsDirty(agent.target.getIsDirty());
-        clone.setFalta(agent.target.getFalta());
         clone.setStatus(agent.target.getStatus());
         clone.setSede(agent.target.getSede());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
         clone.setIdGrupo(agent.target.getIdGrupo());
         clone.setCode(agent.target.getCode());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
+        if (agent.target.getFaltaCollection() != null) {
+          final List faltaCollectionClone = new ArrayList();
+          for (Object faltaCollectionElem : agent.target.getFaltaCollection()) {
+            if (faltaCollectionElem instanceof BindableProxy) {
+              faltaCollectionClone.add(((BindableProxy) faltaCollectionElem).deepUnwrap());
+            } else {
+              faltaCollectionClone.add(faltaCollectionElem);
+            }
+          }
+          clone.setFaltaCollection(faltaCollectionClone);
+        }
         clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
         clone.setId(agent.target.getId());
         if (agent.target.getDepartamento() instanceof BindableProxy) {
@@ -801,16 +811,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
       }
 
-      public Falta getFalta() {
-        return agent.target.getFalta();
-      }
-
-      public void setFalta(Falta falta) {
-        Falta oldValue = agent.target.getFalta();
-        agent.target.setFalta(falta);
-        agent.updateWidgetsAndFireEvent("falta", oldValue, falta);
-      }
-
       public EStatusEmpleado getStatus() {
         return agent.target.getStatus();
       }
@@ -869,6 +869,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         String oldValue = agent.target.getCuentaCimav();
         agent.target.setCuentaCimav(cuentaCimav);
         agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
+      }
+
+      public List getFaltaCollection() {
+        return agent.target.getFaltaCollection();
+      }
+
+      public void setFaltaCollection(List<Falta> faltaCollection) {
+        List<Falta> oldValue = agent.target.getFaltaCollection();
+        faltaCollection = agent.ensureBoundListIsProxied("faltaCollection", faltaCollection);
+        agent.target.setFaltaCollection(faltaCollection);
+        agent.updateWidgetsAndFireEvent("faltaCollection", oldValue, faltaCollection);
       }
 
       public Date getFechaAntiguedad() {
@@ -972,9 +983,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("isDirty")) {
           return getIsDirty();
         }
-        if (property.equals("falta")) {
-          return getFalta();
-        }
         if (property.equals("status")) {
           return getStatus();
         }
@@ -992,6 +1000,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("cuentaCimav")) {
           return getCuentaCimav();
+        }
+        if (property.equals("faltaCollection")) {
+          return getFaltaCollection();
         }
         if (property.equals("fechaAntiguedad")) {
           return getFechaAntiguedad();
@@ -1040,10 +1051,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setIsDirty((Boolean) value);
           return;
         }
-        if (property.equals("falta")) {
-          agent.target.setFalta((Falta) value);
-          return;
-        }
         if (property.equals("status")) {
           agent.target.setStatus((EStatusEmpleado) value);
           return;
@@ -1066,6 +1073,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("cuentaCimav")) {
           agent.target.setCuentaCimav((String) value);
+          return;
+        }
+        if (property.equals("faltaCollection")) {
+          agent.target.setFaltaCollection((List<Falta>) value);
           return;
         }
         if (property.equals("fechaAntiguedad")) {

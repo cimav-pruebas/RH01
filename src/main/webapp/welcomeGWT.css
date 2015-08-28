@@ -57,13 +57,15 @@ div.tab-content {
     border-bottom-right-radius: 4px;
 }
 
-.conceptos-chosen{
+.movimientos-chosen{
     position: absolute;
     left: 32px;
     height: 30px;
     bottom: 5px;
     width: 360px;
     z-index: 400;
+    width: 360px !important;
+    margin-bottom: 0;
 }
 
 .cellTableEvenRow {

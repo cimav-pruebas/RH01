@@ -33,6 +33,13 @@ public enum ETipoFalta {
         this.seCobra = seCobra;
     }
 
+    @Override
+    public String toString() {
+        return this.id + " " + this.descripcion;
+    }
+
+    
+    
     public static ETipoFalta get(String id) {
         ETipoFalta result = ETipoFalta.AI; // default
         for (ETipoFalta value : ETipoFalta.values()) {

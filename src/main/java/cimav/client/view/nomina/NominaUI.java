@@ -50,6 +50,8 @@ public class NominaUI extends Composite {
     NominaSaldoUI nominaPercepcionesSaldoUI;
     @UiField
     NominaSaldoUI nominaDeduccionesSaldoUI;
+    @UiField
+    NominaFaltasUI nominaFaltasUI;
     
     @UiField
     Button btnCalcular;
@@ -69,10 +71,11 @@ public class NominaUI extends Composite {
         MovimientosListener listener = new MovimientosListener();
         nominaPercepcionesSaldoUI.addMovimientosListener(listener);
         nominaDeduccionesSaldoUI.addMovimientosListener(listener);
-
+        nominaFaltasUI.addFaltasListener(new FaltasListener());
     }
     
-    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", "tabDeducConceptos", "tabDeducPorSaldo", "tabDeducPorPago"})
+    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", 
+        "tabDeducConceptos", "tabDeducPorSaldo", "tabDeducPorPago", "tabDeducFaltas"})
     protected void onClick(ClickEvent e) {
         String str = e.getSource().toString();
         if (str.contains("tabPercepConceptos")) {
@@ -85,6 +88,8 @@ public class NominaUI extends Composite {
             nominaDeduccionesSaldoUI.dataGrid.redraw();
         } else if (str.contains("tabDeducPorPeriodo")) {
             
+        } else if (str.contains("tabDeducFaltas")) {
+            nominaFaltasUI.dataGrid.redraw();
         }
     }
     
@@ -142,6 +147,7 @@ public class NominaUI extends Composite {
                             
                     nominaDeduccionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
                     nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
+                    nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded.getTotalPercepciones();
                     BigDecimal totDeducciones = empleadoNominaLoaded.getTotalDeducciones();
@@ -173,6 +179,17 @@ public class NominaUI extends Composite {
                     || EMethod.UPDATE.equals(event.getMethod()) 
                     || EMethod.DELETE.equals(event.getMethod())) {
                 // Se creeo/modificó/borro un saldo; reload al empleado
+                NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+            }
+        }
+    }
+    private class FaltasListener implements NominaFaltasUI.FaltasListener {
+        @Override
+        public void onFalta(MethodEvent event) {
+            if (EMethod.CREATE.equals(event.getMethod()) 
+                    || EMethod.UPDATE.equals(event.getMethod()) 
+                    || EMethod.DELETE.equals(event.getMethod())) {
+                // Se creeo/modificó/borro una Falta; reload al empleado
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }
         }

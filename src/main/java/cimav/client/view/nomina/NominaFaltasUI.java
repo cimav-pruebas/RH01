@@ -6,17 +6,27 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoFalta;
+import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.Falta;
+import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.FaltaREST;
-import cimav.client.view.common.Utils;
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
+import cimav.client.view.common.MethodEvent;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArrayMixed;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.query.client.Function;
+import com.google.gwt.query.client.GQuery;
+import static com.google.gwt.query.client.GQuery.window;
+import com.google.gwt.query.client.Properties;
+import com.google.gwt.query.client.css.CSS;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -34,9 +44,9 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Anchor;
 
@@ -52,21 +62,23 @@ public class NominaFaltasUI extends Composite {
     }
     
     @UiField
-    private HTMLPanel htmlPanel;
+    HTMLPanel htmlPanel;
     
     @UiField(provided = true)
-    private DataGrid<Falta> dataGrid;
+    DataGrid<Falta> dataGrid;
     
     @UiField
-    private Anchor anchorPlus;
+    Anchor anchorPlus;
     
-    private int empleadoId;
     private ListDataProvider<Falta> provider;
     private FaltaREST faltaREST;
     
     private final ValueListBox<ETipoFalta> faltaChosen;
     
     public NominaFaltasUI() {
+        
+        this.buildGrid(); // antes del initWidget
+        
         initWidget(uiBinder.createAndBindUi(this));
         
         
@@ -88,6 +100,21 @@ public class NominaFaltasUI extends Composite {
         List<ETipoFalta> tipos = Arrays.asList(ETipoFalta.values());
         faltaChosen.setValue(ETipoFalta.AI); //default
         faltaChosen.setAcceptableValues(tipos);
+        faltaChosen.addStyleName("movimientos-chosen");
+        
+        htmlPanel.add(faltaChosen);
+        
+        anchorPlus.addClickHandler(new ClickPlus());
+        
+        Properties wnd = window.cast();
+        wnd.setFunction("removeFalta", new Function() {
+            public void f() {
+                JsArrayMixed args = arguments(0);
+                String idSaldo = args.getString(0);
+                //getNominaQuincenalsREST().remove(idSaldo);
+            }
+        });
+
         
     }
     private void buildGrid() {
@@ -95,10 +122,11 @@ public class NominaFaltasUI extends Composite {
         List<Falta> list = new ArrayList<>();
         provider = new ListDataProvider<>(list);
         dataGrid = new DataGrid<>(provider.getKeyProvider());
+        dataGrid.getElement().setId("idDataGrid");
 
         dataGrid.setAutoHeaderRefreshDisabled(true);
 
-        dataGrid.setEmptyTableWidget(new Label("Sin movimientos"));
+        dataGrid.setEmptyTableWidget(new Label("Sin faltas"));
 
         dataGrid.setPageSize(20);
 
@@ -107,9 +135,20 @@ public class NominaFaltasUI extends Composite {
 //        // Add the CellList to the adapter in the database.
         provider.addDataDisplay(dataGrid);
 
-        
+        dataGrid.addRowHoverHandler(new RowHoverEvent.Handler() {
+            @Override
+            public void onRowHover(RowHoverEvent event) {
+                TableRowElement rowEle = event.getHoveringRow();
+                Element removeSandoEle = rowEle.getElementsByTagName("a").getItem(0);
+                if (event.isUnHover()) {
+                    GQuery.$(removeSandoEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
+                } else {
+                    GQuery.$(removeSandoEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
+                }
+            }
+        });
+
     }
-    private int c = 0;
 
     private class ClickPlus implements ClickHandler {
 
@@ -118,15 +157,121 @@ public class NominaFaltasUI extends Composite {
         }
     }
     
-    private void initTableColumns() {
-
-
-    }
-    
     private FaltaREST getREST() {
         if (faltaREST == null) {
             faltaREST = new FaltaREST();
+            faltaREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+                @Override
+                public void onRESTExecuted(MethodEvent restEvent) {
+                }
+            });
         }
         return faltaREST;
     }
+    
+    private void initTableColumns() {
+
+        // id + icon remove
+        Column<Falta, String> iconCol = new Column<Falta, String>(new NomIconInputCell()) {
+            @Override
+            public String getValue(Falta object) {
+                return "" + object.getId();
+            }
+        };
+        dataGrid.addColumn(iconCol, "");
+        dataGrid.setColumnWidth(iconCol, 16, Style.Unit.PX);
+        
+        // Id+Tipo
+        Column<Falta, SafeHtml> tipoCol = new Column<Falta, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(Falta object) {
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong>" +object.getIdTipo()+ "</strong> " + "<span>"+object.getTipoFalta().getDescripcion()+"</span></div>");
+                return sb.toSafeHtml();
+            }
+        };
+        dataGrid.addColumn(tipoCol, "Tipo");
+        dataGrid.setColumnWidth(tipoCol, 60, Style.Unit.PCT);
+
+        // Fecha
+        Column<Falta, String> fechaCol = new Column<Falta, String>((new NomDateInputCell())) {
+            @Override
+            public String getValue(Falta object) {
+                return object.getFechaInicio().toString();
+            }
+        };
+        dataGrid.addColumn(fechaCol, "Fecha");
+        dataGrid.setColumnWidth(fechaCol, 120, Style.Unit.PX);
+
+        // Dias
+        Column<Falta, String> diasCol = new Column<Falta, String>(new NomIntegerInputCell("80")) {
+            @Override
+            public String getValue(Falta object) {
+                Integer result = object == null || object.getDias() == null ? 0 : object.getDias();
+                return Integer.toString(result);
+            }
+        };
+        diasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dataGrid.addColumn(diasCol, "Días");
+        dataGrid.setColumnWidth(diasCol, 68, Style.Unit.PX);
+
+        // Faltas
+        Column<Falta, String> faltasCol = new Column<Falta, String>(new TextCell()) {
+            @Override
+            public String getValue(Falta object) {
+                Integer result = object == null || object.getFaltas()== null ? 0 : object.getFaltas();
+                return Integer.toString(result);
+            }
+        };
+        faltasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        Header<String> forzarFooter = new Header<String>(new TextCell()) {
+            @Override
+            public String getValue() {
+                return "  ";
+            }
+        };
+        //dataGrid.addColumn(faltasCol, "Días");
+        dataGrid.addColumn(faltasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Faltas")), forzarFooter);
+        dataGrid.setColumnWidth(faltasCol, 68, Style.Unit.PX);
+
+        // Folio
+        Column<Falta, String> folioCol = new Column<Falta, String>(new NomTextInputCell()) {
+            @Override
+            public String getValue(Falta object) {
+                return object.getFolio();
+            }
+        };
+        dataGrid.addColumn(folioCol, "Folio");
+        dataGrid.setColumnWidth(folioCol, 40, Style.Unit.PCT);
+
+    }
+
+    public void setEmpleado(EmpleadoNomina empleado) {
+        List<Falta> result = empleado.getFaltaCollection();
+        provider.setList(result);
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="interface FaltasListener"> 
+    public interface FaltasListener extends java.util.EventListener {
+
+        void onFalta(MethodEvent event);
+    }
+    private final ArrayList listeners = new ArrayList();
+
+    public void addFaltasListener(FaltasListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeFaltasListener(FaltasListener listener) {
+        listeners.remove(listener);
+    }
+
+    public void onFalta(MethodEvent restEvent) {
+        for (Iterator it = listeners.iterator(); it.hasNext();) {
+            FaltasListener listener = (FaltasListener) it.next();
+            listener.onFalta(restEvent);
+        }
+    }
+    // </editor-fold>
+    
 }

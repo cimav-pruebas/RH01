@@ -48,6 +48,7 @@ Uncomment this for XHTML entities
                         <b3:TabListItem ui:field="tabDeducConceptos" addStyleNames='{style.tab-principal}' active="true" dataTarget="#tabDeducConceptosId" text="Deducciones"/>
                         <b3:TabListItem ui:field="tabDeducPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorSaldoId" text="Por Saldo"/>
                         <b3:TabListItem ui:field="tabDeducPorPago" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorPeriodoId" text="Por Periodo"/>
+                        <b3:TabListItem ui:field="tabDeducFaltas" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducFaltasId" text="Faltas"/>
                     </b3:NavTabs>
                     <b3:TabContent addStyleNames='{style.tab-panel}'>
                         <b3:TabPane active="true"  b3:id="tabDeducConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
@@ -57,6 +58,9 @@ Uncomment this for XHTML entities
                             <nom:NominaSaldoUI ui:field="nominaDeduccionesSaldoUI" idTipoConcepto="D" idTipoMovimiento="S" />
                         </b3:TabPane>
                         <b3:TabPane b3:id="tabDeducPorPeriodoId">
+                        </b3:TabPane>
+                        <b3:TabPane b3:id="tabDeducFaltasId" addStyleNames='{style.tab-panel-conceptos}'>
+                            <nom:NominaFaltasUI ui:field="nominaFaltasUI" />
                         </b3:TabPane>
                     </b3:TabContent>
                 </b3:PanelBody>

@@ -35,7 +35,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     private Date fechaAntiguedad;
     private List<NominaQuincenal> nominaQuincenalCollection;
     
-    private Falta falta;
+    private List<Falta> faltaCollection;
     
     public EmpleadoNomina() {
         super();
@@ -146,7 +146,15 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     public void setNominaQuincenalCollection(List<NominaQuincenal> nominaQuincenalCollection) {
         this.nominaQuincenalCollection = nominaQuincenalCollection;
     }
-    
+
+    public List<Falta> getFaltaCollection() {
+        return faltaCollection;
+    }
+
+    public void setFaltaCollection(List<Falta> faltaCollection) {
+        this.faltaCollection = faltaCollection;
+    }
+
     /** 
      * Regresa la lista por TipoConcepto y TipoMovimiento
      * @param tipoConcepto
@@ -163,14 +171,6 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         return result;
     }
 
-    public Falta getFalta() {
-        return falta;
-    }
-
-    public void setFalta(Falta falta) {
-        this.falta = falta;
-    }
-    
     /** 
      * Regresa la lista por TipoConcepto 
      * @param tipoConcepto
@@ -203,10 +203,5 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         }
         return result;
     }
-    
-////    public BigDecimal getTotal() {
-////        BigDecimal result = this.getTotalPercepciones().subtract(this.getTotalDeducciones());
-////        return result;
-////    }
-    
+
 }
