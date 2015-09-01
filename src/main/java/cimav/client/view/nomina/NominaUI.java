@@ -49,7 +49,11 @@ public class NominaUI extends Composite {
     @UiField
     NominaSaldoUI nominaPercepcionesSaldoUI;
     @UiField
+    NominaSaldoUI nominaPercepcionesPagoUI;
+    @UiField
     NominaSaldoUI nominaDeduccionesSaldoUI;
+    @UiField
+    NominaSaldoUI nominaDeduccionesPagoUI;
     @UiField
     NominaFaltasUI nominaFaltasUI;
     
@@ -70,11 +74,13 @@ public class NominaUI extends Composite {
         
         MovimientosListener listener = new MovimientosListener();
         nominaPercepcionesSaldoUI.addMovimientosListener(listener);
+        nominaPercepcionesPagoUI.addMovimientosListener(listener);
         nominaDeduccionesSaldoUI.addMovimientosListener(listener);
+        nominaDeduccionesPagoUI.addMovimientosListener(listener);
         nominaFaltasUI.addFaltasListener(new FaltasListener());
     }
     
-    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", 
+    @UiHandler({"tabPercepConceptos", "tabPercepPorSaldo", "tabPercepPorPago", 
         "tabDeducConceptos", "tabDeducPorSaldo", "tabDeducPorPago", "tabDeducFaltas"})
     protected void onClick(ClickEvent e) {
         String str = e.getSource().toString();
@@ -82,12 +88,14 @@ public class NominaUI extends Composite {
             nominaPercepcionesUI.dataGrid.redraw();
         } else if (str.contains("tabPercepPorSaldo")) {
             nominaPercepcionesSaldoUI.dataGrid.redraw();
+        } else if (str.contains("tabPercepPorPago")) {
+            nominaPercepcionesPagoUI.dataGrid.redraw();
         } else if (str.contains("tabDeducConceptos")) {
             nominaDeduccionesUI.dataGrid.redraw();
         } else if (str.contains("tabDeducPorSaldo")) {
             nominaDeduccionesSaldoUI.dataGrid.redraw();
-        } else if (str.contains("tabDeducPorPeriodo")) {
-            
+        } else if (str.contains("tabDeducPorPago")) {
+            nominaDeduccionesPagoUI.dataGrid.redraw();
         } else if (str.contains("tabDeducFaltas")) {
             nominaFaltasUI.dataGrid.redraw();
         }
@@ -144,9 +152,12 @@ public class NominaUI extends Composite {
                     
                     nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
                     nominaPercepcionesSaldoUI.setEmpleado(empleadoNominaLoaded);
+                    nominaPercepcionesPagoUI.setEmpleado(empleadoNominaLoaded);
                             
                     nominaDeduccionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
                     nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
+                    nominaDeduccionesPagoUI.setEmpleado(empleadoNominaLoaded);
+
                     nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded.getTotalPercepciones();
@@ -178,7 +189,7 @@ public class NominaUI extends Composite {
             if (EMethod.CREATE.equals(event.getMethod()) 
                     || EMethod.UPDATE.equals(event.getMethod()) 
                     || EMethod.DELETE.equals(event.getMethod())) {
-                // Se creeo/modificó/borro un saldo; reload al empleado
+                // Se creeo/modificó/borro un saldo/pago; reload al empleado
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }
         }

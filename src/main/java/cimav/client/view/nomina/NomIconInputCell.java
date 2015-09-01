@@ -17,17 +17,33 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
  * @author juan.calderon
  */
 public class NomIconInputCell extends TextInputCell {
-    private static Template template;
+    
+    public static final int SALDO = 0;
+    public static final int FALTA = 1;
+    
+    private static TemplateSaldo templateSaldo;
+    private static TemplateFalta templateFalta;
 
-    interface Template extends SafeHtmlTemplates {
-        
+    interface TemplateSaldo extends SafeHtmlTemplates {
         String strHtml = "<a onclick='removeSaldo(id)' id='{0}' style='color: #B3B3B3; visibility:hidden;'><i class='fa fa-times fa-lg' style='cursor: pointer; transform: scale(1.2); ' /></a>";
         @SafeHtmlTemplates.Template(strHtml)
         SafeHtml input(String visibility);
     }
+    interface TemplateFalta extends SafeHtmlTemplates {
+        String strHtml = "<a onclick='removeFalta(id)' id='{0}' style='color: #B3B3B3; visibility:hidden;'><i class='fa fa-times fa-lg' style='cursor: pointer; transform: scale(1.2); ' /></a>";
+        @SafeHtmlTemplates.Template(strHtml)
+        SafeHtml input(String visibility);
+    }
     
-    public NomIconInputCell() {
-        template = GWT.create(Template.class);
+    private int tipo = SALDO;
+    
+    public NomIconInputCell(int tipo) {
+        this.tipo = tipo;
+        if (SALDO == tipo) {
+            templateSaldo = GWT.create(TemplateSaldo.class);
+        } else if (FALTA == tipo) {
+            templateFalta = GWT.create(TemplateFalta.class);
+        }
     }
 
     @Override
@@ -46,8 +62,11 @@ public class NomIconInputCell extends TextInputCell {
         {
             sb.appendHtmlConstant("<input type='text' tabindex='-1'></input>");
         } else {
-            // this is where we set value, size, style
-            sb.append(template.input(v));
+            if (SALDO == tipo) {
+                sb.append(templateSaldo.input(v));
+            } else if (FALTA == tipo) {
+                sb.append(templateFalta.input(v));
+            }
         }
     }
 }

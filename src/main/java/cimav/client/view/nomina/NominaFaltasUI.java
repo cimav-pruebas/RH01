@@ -10,6 +10,8 @@ import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.Falta;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.FaltaREST;
+import cimav.client.view.common.EMethod;
+import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
@@ -20,6 +22,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
@@ -49,6 +52,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Anchor;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -74,6 +78,8 @@ public class NominaFaltasUI extends Composite {
     private FaltaREST faltaREST;
     
     private final ValueListBox<ETipoFalta> faltaChosen;
+    
+    private Integer idEmpleado;
     
     public NominaFaltasUI() {
         
@@ -110,8 +116,8 @@ public class NominaFaltasUI extends Composite {
         wnd.setFunction("removeFalta", new Function() {
             public void f() {
                 JsArrayMixed args = arguments(0);
-                String idSaldo = args.getString(0);
-                //getNominaQuincenalsREST().remove(idSaldo);
+                String idFalta = args.getString(0);
+                getREST().remove(idFalta);
             }
         });
 
@@ -139,11 +145,11 @@ public class NominaFaltasUI extends Composite {
             @Override
             public void onRowHover(RowHoverEvent event) {
                 TableRowElement rowEle = event.getHoveringRow();
-                Element removeSandoEle = rowEle.getElementsByTagName("a").getItem(0);
+                Element removeFaltaEle = rowEle.getElementsByTagName("a").getItem(0);
                 if (event.isUnHover()) {
-                    GQuery.$(removeSandoEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
+                    GQuery.$(removeFaltaEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
                 } else {
-                    GQuery.$(removeSandoEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
+                    GQuery.$(removeFaltaEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
                 }
             }
         });
@@ -154,6 +160,26 @@ public class NominaFaltasUI extends Composite {
 
         @Override
         public void onClick(ClickEvent event) {
+            
+            boolean add = true;
+            ETipoFalta selected = faltaChosen.getValue();
+            if (selected != null && selected.getId() != null && !selected.getId().isEmpty()) {
+                for (Falta f : provider.getList()) {
+                    if (f.getTipoFalta().equals(selected)) {
+                        add = false;
+                        break;
+                    }
+                }
+            } else {
+                add = false;
+            }
+            if (add) {
+                Falta nueva = new Falta();
+                nueva.setIdEmpleado(idEmpleado);
+                nueva.setTipoFalta(selected);
+                // Crearla en la DB
+                getREST().create(nueva);
+            }
         }
     }
     
@@ -163,6 +189,30 @@ public class NominaFaltasUI extends Composite {
             faltaREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
                 @Override
                 public void onRESTExecuted(MethodEvent restEvent) {
+                    if (EMethod.CREATE.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                            onFalta(restEvent);
+
+                        } else {
+                            Growl.growl("Falló creación de la falta. " + restEvent.getReason());
+                        }
+                    } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+
+                            onFalta(restEvent);
+
+                        } else {
+                            Growl.growl("Falló actualización de la falta. " + restEvent.getReason());
+                        }
+                    }  else if (EMethod.DELETE.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+
+                            onFalta(restEvent);
+
+                        } else {
+                            Growl.growl("Falló eliminación de la falta. " + restEvent.getReason());
+                        }
+                    }
                 }
             });
         }
@@ -172,7 +222,7 @@ public class NominaFaltasUI extends Composite {
     private void initTableColumns() {
 
         // id + icon remove
-        Column<Falta, String> iconCol = new Column<Falta, String>(new NomIconInputCell()) {
+        Column<Falta, String> iconCol = new Column<Falta, String>(new NomIconInputCell(NomIconInputCell.FALTA)) {
             @Override
             public String getValue(Falta object) {
                 return "" + object.getId();
@@ -197,7 +247,9 @@ public class NominaFaltasUI extends Composite {
         Column<Falta, String> fechaCol = new Column<Falta, String>((new NomDateInputCell())) {
             @Override
             public String getValue(Falta object) {
-                return object.getFechaInicio().toString();
+                DateTimeFormat dtf = DateTimeFormat.getFormat("yyy-MM-dd"); // usado por el Input de HTML5
+                String result = dtf.format(object.getFechaInicio());
+                return result;
             }
         };
         dataGrid.addColumn(fechaCol, "Fecha");
@@ -247,6 +299,7 @@ public class NominaFaltasUI extends Composite {
     }
 
     public void setEmpleado(EmpleadoNomina empleado) {
+        this.idEmpleado = empleado.getId();
         List<Falta> result = empleado.getFaltaCollection();
         provider.setList(result);
     }

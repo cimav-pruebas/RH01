@@ -27,6 +27,44 @@ public class FaltaREST extends BaseREST {
     public interface JsonCodec extends JsonEncoderDecoder<Falta> {}
     public JsonCodec jsonCodec = GWT.create(JsonCodec.class);
  
+    public void create(Falta falta) {
+
+        //BaseREST.setDateFormatPOST();
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/falta";
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        //Create a Jsonizer instance
+        JSONValue jsonValue = jsonCodec.encode(falta);
+        
+        Resource rb = new Resource(url, headers);
+        rb.post().json(jsonValue).send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, "Create " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Falta nueva = jsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
+                    dbEvent.setResult(nueva);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "FaltaREST.CREATE " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+        }));
+
+    }
+    
     public void update(Falta falta) {
 
         BaseREST.setDateFormatPOST();
@@ -56,6 +94,39 @@ public class FaltaREST extends BaseREST {
                 } catch (Exception e) {
                     String error = "FaltaREST.UPDATE " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+        }));
+
+    }
+
+    public void remove(String id) {
+
+        BaseREST.setDateFormatPOST();
+
+        String url = BaseREST.URL_REST_BASE + "api/falta/" + id;
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers); 
+        rb.delete().send(Ajax.jsonCall(new JsonCallback() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.FAILURE, "remove " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    // No regresa nada
+                    MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.SUCCESS, "remove listo");
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "FaltaREST.remove " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }

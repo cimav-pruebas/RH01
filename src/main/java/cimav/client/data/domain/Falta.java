@@ -5,6 +5,7 @@
  */
 package cimav.client.data.domain;
 
+import cimav.client.view.Quincena;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
@@ -25,8 +26,9 @@ public class Falta implements  Serializable {
     private String folio;
 
     public Falta() {
-        dias = 1;
         fechaInicio = new Date();
+        tipoFalta = ETipoFalta.AI;
+        this.setDias(1);
     }
 
     public Integer getId() {
@@ -49,7 +51,9 @@ public class Falta implements  Serializable {
         return dias;
     }
 
-    public void setDias(Integer dias) {
+    public final void setDias(Integer dias) {
+        int diasParaFinQuincena = Quincena.getDiaFin() - this.fechaInicio.getDay();
+        this.faltas = diasParaFinQuincena - dias;
         this.dias = dias;
     }
 
