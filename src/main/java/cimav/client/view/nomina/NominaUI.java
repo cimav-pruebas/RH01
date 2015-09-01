@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
+import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
@@ -56,6 +57,12 @@ public class NominaUI extends Composite {
     NominaSaldoUI nominaDeduccionesPagoUI;
     @UiField
     NominaFaltasUI nominaFaltasUI;
+    
+    @UiField TabBadgeListItem tabPercepPorSaldo;
+    @UiField TabBadgeListItem tabPercepPorPago;
+    @UiField TabBadgeListItem tabDeducPorSaldo;
+    @UiField TabBadgeListItem tabDeducPorPago;
+    @UiField TabBadgeListItem tabDeducFaltas;
     
     @UiField
     Button btnCalcular;
@@ -151,20 +158,26 @@ public class NominaUI extends Composite {
                     empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
                     
                     nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
-                    nominaPercepcionesSaldoUI.setEmpleado(empleadoNominaLoaded);
-                    nominaPercepcionesPagoUI.setEmpleado(empleadoNominaLoaded);
+                    int percepSaldos = nominaPercepcionesSaldoUI.setEmpleado(empleadoNominaLoaded);
+                    int percepPagos = nominaPercepcionesPagoUI.setEmpleado(empleadoNominaLoaded);
                             
                     nominaDeduccionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
-                    nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
-                    nominaDeduccionesPagoUI.setEmpleado(empleadoNominaLoaded);
+                    int deduccSaldos = nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
+                    int deduccPgos = nominaDeduccionesPagoUI.setEmpleado(empleadoNominaLoaded);
 
-                    nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
+                    int deducFaltas = nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded.getTotalPercepciones();
                     BigDecimal totDeducciones = empleadoNominaLoaded.getTotalDeducciones();
                     BigDecimal total = totPercepciones.subtract(totDeducciones);
                     
                     totalLabel.setText(Utils.formatCurrency(total));
+
+                    tabPercepPorSaldo.setCount(percepSaldos);
+                    tabPercepPorPago.setCount(percepPagos);
+                    tabDeducPorSaldo.setCount(deduccSaldos);
+                    tabDeducPorPago.setCount(deduccPgos);
+                    tabDeducFaltas.setCount(deducFaltas);
                     
                 } else {
                     

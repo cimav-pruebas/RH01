@@ -181,3 +181,12 @@ https://code.google.com/p/google-web-toolkit/source/browse/trunk/user/src/com/go
 .trash-hidden {
     visibility: hidden;
 }
+
+
+
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 12px 8px;
+}

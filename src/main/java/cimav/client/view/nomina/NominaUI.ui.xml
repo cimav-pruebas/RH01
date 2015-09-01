@@ -12,7 +12,7 @@ Uncomment this for XHTML entities
     <ui:style src="nominaUI.css"/>
     <g:VerticalPanel addStyleNames='{style.nomina-contenedor}'>
         <!--- **** Asistencias **** -->
-        <g:HTMLPanel addStyleNames='{style.panel-movimientos}' >
+        <!-- <g:HTMLPanel addStyleNames='{style.panel-movimientos}' >
             <b3:NavTabs>
                 <b3:TabListItem active="true" ui:field="tabAsistencias" addStyleNames='{style.tab-principal}' dataTarget="#tabAsistenciasId" text="Datos"/>
             </b3:NavTabs>
@@ -20,7 +20,7 @@ Uncomment this for XHTML entities
                 <b3:TabPane active="true"  b3:id="tabAsistenciasId"  addStyleNames='{style.tab-panel-asistencias}'>
                 </b3:TabPane>
             </b3:TabContent>
-        </g:HTMLPanel>
+        </g:HTMLPanel> -->
         <!--- **** Percepciones y Deducciones **** -->
         <g:HorizontalPanel ui:field="movimientosContenedor" addStyleNames='{style.movimientos-contenedor}'> 
             <!-- ******* Percepciones ******* -->
@@ -28,8 +28,8 @@ Uncomment this for XHTML entities
                 <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                     <b3:NavTabs ui:field="navTabsPercep" >
                         <b3:TabListItem active="true" ui:field="tabPercepConceptos" addStyleNames='{style.tab-principal}' dataTarget="#tabPercepConceptosId" text="Percepciones"/>
-                        <b3:TabListItem ui:field="tabPercepPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabPercepPorSaldoId" text="Saldo"/>
-                        <b3:TabListItem ui:field="tabPercepPorPago" addStyleNames='{style.tab-secundario}' dataTarget="#tabPercepPorPagoId" text="Pago"/>
+                        <nom:TabBadgeListItem ui:field="tabPercepPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabPercepPorSaldoId" text="Saldo"/>
+                        <nom:TabBadgeListItem ui:field="tabPercepPorPago" addStyleNames='{style.tab-secundario}' dataTarget="#tabPercepPorPagoId" text="Pago"/>
                     </b3:NavTabs>
                     <b3:TabContent ui:field="tabPanelConceptos" addStyleNames='{style.tab-panel}'>
                         <b3:TabPane active="true"  b3:id="tabPercepConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>
@@ -49,9 +49,9 @@ Uncomment this for XHTML entities
                 <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                     <b3:NavTabs ui:field="navTabsDeduc" >
                         <b3:TabListItem ui:field="tabDeducConceptos" addStyleNames='{style.tab-principal}' active="true" dataTarget="#tabDeducConceptosId" text="Deducciones"/>
-                        <b3:TabListItem ui:field="tabDeducPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorSaldoId" text="Saldo"/>
-                        <b3:TabListItem ui:field="tabDeducPorPago" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorPagoId" text="Pago"/>
-                        <b3:TabListItem ui:field="tabDeducFaltas" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducFaltasId" text="Faltas"/>
+                        <nom:TabBadgeListItem ui:field="tabDeducPorSaldo" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorSaldoId" text="Saldo"/>
+                        <nom:TabBadgeListItem ui:field="tabDeducPorPago" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducPorPagoId" text="Pago"/>
+                        <nom:TabBadgeListItem ui:field="tabDeducFaltas" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducFaltasId" text="Faltas"/>
                     </b3:NavTabs>
                     <b3:TabContent addStyleNames='{style.tab-panel}'>
                         <b3:TabPane active="true"  b3:id="tabDeducConceptosId"  addStyleNames='{style.tab-panel-conceptos}'>

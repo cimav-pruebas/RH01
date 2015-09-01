@@ -86,7 +86,7 @@ public class NominaSaldoUI extends Composite {
 
     @UiField
     HTMLPanel htmlPanel;
-
+    
     @UiConstructor
     public NominaSaldoUI(String idTipoConcepto, String idTipoMovimiento) {
 
@@ -233,7 +233,13 @@ public class NominaSaldoUI extends Composite {
                 return "" + object.getId();
             }
         };
-        dataGrid.addColumn(iconCol, "");
+        Header<String> forzarFooter = new Header<String>(new TextCell()) {
+            @Override
+            public String getValue() {
+                return "  ";
+            }
+        };
+        dataGrid.addColumn(iconCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("")), forzarFooter);
         dataGrid.setColumnWidth(iconCol, 16, Style.Unit.PX);
 
         // Concepto
@@ -241,7 +247,6 @@ public class NominaSaldoUI extends Composite {
             @Override
             public String getValue(NominaQuincenal object) {
                 Concepto concepto = object.getConcepto();
-                //return concepto.getCode() + " " + concepto.getIdTipoConcepto()+ " " +  concepto.getIdTipoMovimiento()+ " " + concepto.getName();
                 return concepto.getName();
             }
         };
@@ -326,14 +331,7 @@ public class NominaSaldoUI extends Composite {
                 }
             });
             quincenasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-            Header<String> forzarFooter = new Header<String>(new TextCell()) {
-                @Override
-                public String getValue() {
-                    return "  ";
-                }
-            };
-            //dataGrid.addColumn(quincenasCol,  "Quincenas");
-            dataGrid.addColumn(quincenasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Veces")), forzarFooter);
+            dataGrid.addColumn(quincenasCol,  "Veces");
             dataGrid.setColumnWidth(quincenasCol, 68, Style.Unit.PX);
 
         } else if (ETipoMovimiento.PAGO.equals(this.tipoMovimiento)) {
@@ -397,10 +395,11 @@ public class NominaSaldoUI extends Composite {
         }
     }
 
-    public void setEmpleado(EmpleadoNomina empleado) {
+    public int setEmpleado(EmpleadoNomina empleado) {
         this.empleadoId = empleado.getId();
         List<NominaQuincenal> result = empleado.getNominaQuincenalCollection(this.tipoConcepto, this.tipoMovimiento);
         provider.setList(result);
+        return result.size();
     }
 
 //    public void setList(List<NominaQuincenal> percepciones) {

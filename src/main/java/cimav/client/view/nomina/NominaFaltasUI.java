@@ -298,10 +298,11 @@ public class NominaFaltasUI extends Composite {
 
     }
 
-    public void setEmpleado(EmpleadoNomina empleado) {
+    public int setEmpleado(EmpleadoNomina empleado) {
         this.idEmpleado = empleado.getId();
         List<Falta> result = empleado.getFaltaCollection();
         provider.setList(result);
+        return result.size();
     }
 
     // <editor-fold defaultstate="collapsed" desc="interface FaltasListener"> 
