@@ -136,6 +136,26 @@ public class NominaUI extends Composite {
         }
     }
     
+    public void calcular() {
+        Calculo calculo = new Calculo();
+
+        calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+            @Override
+            public void onRESTExecuted(MethodEvent restEvent) {
+                if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
+                    if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
+                        Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
+                    } else {
+                        Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
+                    }
+                    NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+                }
+            }
+        });
+
+        calculo.calcular(empleadoNominaLoaded.getId());
+    }
+    
     @Override
     protected void onLoad() {
         super.onLoad(); //To change body of generated methods, choose Tools | Templates.

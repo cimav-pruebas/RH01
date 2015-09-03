@@ -19,6 +19,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -28,17 +30,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.HasData;
-import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconFlip;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
+import org.gwtbootstrap3.extras.toggleswitch.client.ui.ToggleSwitch;
 
 /**
  *
@@ -65,6 +64,8 @@ public class NominaListUI extends Composite {
     
     @UiField
     Button btnCalcularTodos;
+    @UiField
+    ToggleSwitch toggleSwitch;
 
     private static EmpleadosBaseProvider empleadosBaseProvider;
 
@@ -118,6 +119,17 @@ public class NominaListUI extends Composite {
         reloadAll();
         
         btnCalcularTodos.addClickHandler(new CalcularTodosClickHandler());
+        
+        toggleSwitch.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+                if (event.getValue()) {
+                    btnCalcularTodos.setType(ButtonType.PRIMARY);
+                } else {
+                    btnCalcularTodos.setType(ButtonType.WARNING);
+                }
+            }
+        });
     }
 
     private class ReloadClickHandler implements ClickHandler {
@@ -140,9 +152,13 @@ public class NominaListUI extends Composite {
 
         @Override
         public void onClick(ClickEvent event) {
-            Calculo calculo = new Calculo();
-            for(EmpleadoBase emp : cellList.getVisibleItems()) {
-                calculo.calcular(emp.getId());
+            if (toggleSwitch.getValue()) {
+                nominaUI.calcular();
+            } else {
+                Calculo calculo = new Calculo();
+                for (EmpleadoBase emp : cellList.getVisibleItems()) {
+                    calculo.calcular(emp.getId());
+                }
             }
         }
     }

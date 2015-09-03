@@ -7,6 +7,7 @@ Uncomment this for XHTML entities
              xmlns:c="urn:import:com.google.gwt.user.cellview.client"
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
              xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:b3.toggle="urn:import:org.gwtbootstrap3.extras.toggleswitch.client.ui"
              xmlns:nom="urn:import:cimav.client.view.nomina"
 >
              
@@ -52,9 +53,10 @@ Uncomment this for XHTML entities
                         <g:ScrollPanel ui:field="scrollPanel" addStyleNames="{style.scroll-panel}" />
                     </g:center>
                     <g:south size="52">
-                        <g:VerticalPanel width="100%" height="100%">
+                        <g:VerticalPanel >
                             <g:HTMLPanel addStyleNames="{style.footer-bar-lista-empleados}">
-                                <b3:Button ui:field="btnCalcularTodos" type="SUCCESS" text="Calcular" addStyleNames="{style.calcular-todos-btn}"/>
+                                <b3.toggle:ToggleSwitch ui:field="toggleSwitch" labelText="Modo" offColor="WARNING" offIcon="USERS" onColor="PRIMARY" onIcon="USER" value="true" addStyleNames="{style.calcular-toogle}"/>
+                                <b3:Button ui:field="btnCalcularTodos" type="PRIMARY" text="Calcular" addStyleNames="{style.calcular-btn}"/>
                             </g:HTMLPanel>
                         </g:VerticalPanel>
                     </g:south> 

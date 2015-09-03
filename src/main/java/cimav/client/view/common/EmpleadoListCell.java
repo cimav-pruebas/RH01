@@ -5,9 +5,11 @@
  */
 package cimav.client.view.common;
 
+import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.EmpleadoBase;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -35,11 +37,14 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
 
             String es_null = "---";
             String grupoStr = value.getGrupo() != null ? value.getGrupo().getCode() : es_null;
+            //boolean tieneEstimulos = EGrupo.CYT.equals(value.getGrupo());
             String deptoCodeStr = value.getDepartamento() != null ? value.getDepartamento().getCode() : es_null;
             String deptoNameStr = value.getDepartamento() != null ? value.getDepartamento().getName() : es_null;
             String nivelStr = value.getNivel() != null ? value.getNivel().getCode() : es_null;
             String nivelNombreStr = value.getNivel() != null ? value.getNivel().getName(): es_null;
             String sedeStr = value.getSede() != null ? value.getSede().getAbrev() : es_null;
+            DateTimeFormat dtf = DateTimeFormat.getFormat("dd/MMM/yyyy");
+            String fechaAntStr = dtf.format(value.getFechaAntiguedad());
             
             String html
                     = "<table width='100%' cellspacing='0' cellpadding='0' style='cursor: pointer; text-align: left; vertical-align: middle; border-bottom:1px solid lightgray;'>\n"
@@ -97,11 +102,14 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
                 html = html.replace("URL_FOTO_REEMPLAZO", chkStrNull(value.getUrlPhoto()));
                 html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getName()));
                 html = html.replace("GRUPO_REEMPLAZO", chkStrNull(grupoStr));
+                html = html.replace("TOOL_TIP_ESTIMULOS_REEMPLAZO", chkStrNull("0"));
                 html = html.replace("TOOL_TIP_NIVEL_REEMPLAZO", chkStrNull(nivelNombreStr));
                 html = html.replace("NIVEL_REEMPLAZO", chkStrNull(nivelStr));
                 html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));
                 html = html.replace("TOOL_TIP_DEPTO_REEMPLAZO", chkStrNull(deptoNameStr));
                 html = html.replace("SEDE_REEMPLAZO", chkStrNull(sedeStr));
+                html = html.replace("TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO", chkStrNull("0 Años, 0 Meses y 0 Días"));
+                html = html.replace("FECHA_ANTIGUEDAD_REEMPLAZO", chkStrNull(fechaAntStr));
                 if (value.getId() != null) {
                     html = html.replace("ID_REEMPLAZO", value.getId().toString());
                 } else {

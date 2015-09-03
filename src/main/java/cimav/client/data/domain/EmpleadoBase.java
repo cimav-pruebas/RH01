@@ -7,6 +7,7 @@ package cimav.client.data.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import org.jboss.errai.databinding.client.api.Bindable;
 
 /**
@@ -28,6 +29,8 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
     @JsonIgnore private EStatusEmpleado status;
     private Integer idStatus;
 
+    private Date fechaAntiguedad;
+    
     public EmpleadoBase() {
         super();
         
@@ -126,5 +129,12 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
         this.departamento = departamento;
     }
 
+    public Date getFechaAntiguedad() {
+        return fechaAntiguedad;
+    }
+
+    public void setFechaAntiguedad(Date fechaAntiguedad) {
+        this.fechaAntiguedad = fechaAntiguedad;
+    }
     
 }

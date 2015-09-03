@@ -1164,6 +1164,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
@@ -1197,6 +1198,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIdGrupo(agent.target.getIdGrupo());
         clone.setCode(agent.target.getCode());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
+        clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
         clone.setId(agent.target.getId());
         if (agent.target.getDepartamento() instanceof BindableProxy) {
           clone.setDepartamento((Departamento) ((BindableProxy) getDepartamento()).deepUnwrap());
@@ -1328,6 +1330,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
       }
 
+      public Date getFechaAntiguedad() {
+        return agent.target.getFechaAntiguedad();
+      }
+
+      public void setFechaAntiguedad(Date fechaAntiguedad) {
+        Date oldValue = agent.target.getFechaAntiguedad();
+        agent.target.setFechaAntiguedad(fechaAntiguedad);
+        agent.updateWidgetsAndFireEvent("fechaAntiguedad", oldValue, fechaAntiguedad);
+      }
+
       public Integer getId() {
         return agent.target.getId();
       }
@@ -1419,6 +1431,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("cuentaCimav")) {
           return getCuentaCimav();
         }
+        if (property.equals("fechaAntiguedad")) {
+          return getFechaAntiguedad();
+        }
         if (property.equals("id")) {
           return getId();
         }
@@ -1479,6 +1494,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("cuentaCimav")) {
           agent.target.setCuentaCimav((String) value);
+          return;
+        }
+        if (property.equals("fechaAntiguedad")) {
+          agent.target.setFechaAntiguedad((Date) value);
           return;
         }
         if (property.equals("id")) {
