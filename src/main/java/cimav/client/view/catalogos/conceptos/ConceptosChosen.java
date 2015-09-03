@@ -104,7 +104,9 @@ public class ConceptosChosen extends Composite {
         }
         for (Concepto concepto : this.conceptos) {
             if(concepto != null && concepto.getTipoConcepto() != null && concepto.getTipoMovimiento() != null) {
-                if (concepto.getTipoConcepto().equals(this.tipoConcepto) && concepto.getTipoMovimiento().equals(this.tipoMovimiento)) {
+                //if (concepto.getTipoConcepto().equals(this.tipoConcepto) && concepto.getTipoMovimiento().equals(this.tipoMovimiento)) {
+                // que sea P o D y que no sea calculo
+                if (concepto.getTipoConcepto().equals(this.tipoConcepto) && !ETipoMovimiento.CALCULO.equals(concepto.getTipoMovimiento())) {
                     acceptableConceptos.add(concepto);
                 }
             }

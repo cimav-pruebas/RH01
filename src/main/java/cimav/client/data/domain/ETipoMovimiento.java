@@ -12,8 +12,7 @@ package cimav.client.data.domain;
 public enum ETipoMovimiento {
     CALCULO("C", "Cálculo"),
     SALDO("S", "Saldo"),
-    PAGO("P", "Pago"),
-    FALTA("F", "Falta");
+    PAGO("P", "Pago");
     
     private String id;
     private String name;

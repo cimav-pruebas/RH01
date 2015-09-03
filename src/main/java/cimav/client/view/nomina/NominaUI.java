@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
-import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
@@ -57,6 +56,11 @@ public class NominaUI extends Composite {
     NominaSaldoUI nominaDeduccionesPagoUI;
     @UiField
     NominaFaltasUI nominaFaltasUI;
+
+    @UiField
+    NominaMovimientosUI nominaRepercucionesUI;
+    @UiField
+    NominaMovimientosUI nominaInternosUI;
     
     @UiField TabBadgeListItem tabPercepPorSaldo;
     @UiField TabBadgeListItem tabPercepPorPago;
@@ -112,7 +116,7 @@ public class NominaUI extends Composite {
         @Override
         public void onClick(ClickEvent event) {
             
-            Calculo calculo = new Calculo(empleadoNominaLoaded.getId());
+            Calculo calculo = new Calculo();
             
             calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
                 @Override
@@ -128,7 +132,7 @@ public class NominaUI extends Composite {
                 }
             });
             
-            calculo.calcular();
+            calculo.calcular(empleadoNominaLoaded.getId());
         }
     }
     
@@ -178,6 +182,9 @@ public class NominaUI extends Composite {
                     tabDeducPorSaldo.setCount(deduccSaldos);
                     tabDeducPorPago.setCount(deduccPgos);
                     tabDeducFaltas.setCount(deducFaltas);
+                    
+                    nominaRepercucionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.REPERCUCION));
+                    nominaInternosUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.INTERNO));
                     
                 } else {
                     

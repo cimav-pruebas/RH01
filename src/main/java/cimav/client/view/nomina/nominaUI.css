@@ -300,3 +300,18 @@ code {
 .trash-visible {
     visibility: hidden;
 }
+
+.calcular-todos-btn{
+    width: 50%;
+    position: absolute;
+    top: 10px;
+    left: 80px;
+}
+
+.footer-bar-lista-empleados {
+    height: 100%;
+    width: 100%;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    margin-top: 2px;
+}

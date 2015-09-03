@@ -13,12 +13,9 @@ import cimav.client.data.rest.CalculoREST;
  */
 public class Calculo {
 
-    private Integer idEmpleadoNomina;
-
     private CalculoREST calculoREST;
     
-    public Calculo(Integer idEmpleadoNomina) {
-        this.idEmpleadoNomina = idEmpleadoNomina;
+    public Calculo() {
     }
     
     public CalculoREST getREST() {
@@ -28,12 +25,8 @@ public class Calculo {
         return calculoREST;
     }
     
-    public void calcular() {
-        getREST().calcular(this.idEmpleadoNomina);
-    }
-
-    public void setIdEmpleadoNomina(Integer idEmpleadoNomina) {
-        this.idEmpleadoNomina = idEmpleadoNomina;
+    public void calcular(int id) {
+        getREST().calcular(id);
     }
     
 }

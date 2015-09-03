@@ -28,8 +28,13 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.IconFlip;
@@ -57,6 +62,9 @@ public class NominaListUI extends Composite {
     
     @UiField
     NominaUI nominaUI;
+    
+    @UiField
+    Button btnCalcularTodos;
 
     private static EmpleadosBaseProvider empleadosBaseProvider;
 
@@ -108,6 +116,8 @@ public class NominaListUI extends Composite {
 
         /* Al arrancar, cargar a todos los empleados */
         reloadAll();
+        
+        btnCalcularTodos.addClickHandler(new CalcularTodosClickHandler());
     }
 
     private class ReloadClickHandler implements ClickHandler {
@@ -126,6 +136,17 @@ public class NominaListUI extends Composite {
         }
     }
 
+    private class CalcularTodosClickHandler implements ClickHandler {
+
+        @Override
+        public void onClick(ClickEvent event) {
+            Calculo calculo = new Calculo();
+            for(EmpleadoBase emp : cellList.getVisibleItems()) {
+                calculo.calcular(emp.getId());
+            }
+        }
+    }
+    
     private void deseleccionar() {
         EmpleadoBase empSel = selectionModel.getSelectedObject();
         if (empSel != null) {

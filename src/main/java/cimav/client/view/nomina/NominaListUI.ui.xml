@@ -52,10 +52,10 @@ Uncomment this for XHTML entities
                         <g:ScrollPanel ui:field="scrollPanel" addStyleNames="{style.scroll-panel}" />
                     </g:center>
                     <g:south size="52">
-                        <g:VerticalPanel>
-                            <g:HTML>
-                                <h1>Tool bar</h1>
-                            </g:HTML>
+                        <g:VerticalPanel width="100%" height="100%">
+                            <g:HTMLPanel addStyleNames="{style.footer-bar-lista-empleados}">
+                                <b3:Button ui:field="btnCalcularTodos" type="SUCCESS" text="Calcular" addStyleNames="{style.calcular-todos-btn}"/>
+                            </g:HTMLPanel>
                         </g:VerticalPanel>
                     </g:south> 
                 </g:DockLayoutPanel>
