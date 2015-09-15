@@ -7,12 +7,12 @@ Uncomment this for XHTML entities
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
              xmlns:nom="urn:import:cimav.client.view.nomina"
              xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
-             
 >
     <ui:style src="nominaUI.css"/>
     <g:ScrollPanel addStyleNames='{style.nomina-contenedor}'>
         <g:VerticalPanel addStyleNames='{style.nomina-contenedor}'>
             <!--- **** Asistencias **** -->
+            
             <!-- <g:HTMLPanel addStyleNames='{style.panel-movimientos}' >
                 <b3:NavTabs>
                     <b3:TabListItem active="true" ui:field="tabAsistencias" addStyleNames='{style.tab-principal}' dataTarget="#tabAsistenciasId" text="Datos"/>

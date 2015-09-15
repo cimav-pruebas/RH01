@@ -120,16 +120,7 @@ public class NominaListUI extends Composite {
         
         btnCalcularTodos.addClickHandler(new CalcularTodosClickHandler());
         
-        toggleSwitch.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<Boolean> event) {
-                if (event.getValue()) {
-                    btnCalcularTodos.setType(ButtonType.PRIMARY);
-                } else {
-                    btnCalcularTodos.setType(ButtonType.WARNING);
-                }
-            }
-        });
+        toggleSwitch.addValueChangeHandler(new CalcularToggleSwitch());
     }
 
     private class ReloadClickHandler implements ClickHandler {
@@ -160,6 +151,18 @@ public class NominaListUI extends Composite {
                     calculo.calcular(emp.getId());
                 }
             }
+        }
+    }
+    
+    private class CalcularToggleSwitch implements ValueChangeHandler<Boolean> {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+                if (event.getValue()) {
+                    btnCalcularTodos.setType(ButtonType.PRIMARY);
+                } else {
+                    btnCalcularTodos.setType(ButtonType.WARNING);
+                    
+                }
         }
     }
     
