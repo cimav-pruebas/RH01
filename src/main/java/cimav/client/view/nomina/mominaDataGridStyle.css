@@ -21,7 +21,7 @@
   cursor: crosshair;
 }*/
 
-@def selectionBorderWidth 2px;
+// @def selectionBorderWidth 2px;
 
 .cellTableHeader {
     padding: 0px;
