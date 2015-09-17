@@ -28,5 +28,8 @@ public class Calculo {
     public void calcular(int id) {
         getREST().calcular(id);
     }
+    public void calcular(String ids) {
+        getREST().calcular(ids);
+    }
     
 }

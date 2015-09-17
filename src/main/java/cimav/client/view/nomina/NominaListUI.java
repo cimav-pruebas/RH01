@@ -147,9 +147,15 @@ public class NominaListUI extends Composite {
                 nominaUI.calcular();
             } else {
                 Calculo calculo = new Calculo();
+                String ids = "";
                 for (EmpleadoBase emp : cellList.getVisibleItems()) {
-                    calculo.calcular(emp.getId());
+                    //calculo.calcular(emp.getId());
+                    ids = ids + "{\"id\":" + emp.getId() + "},\n";
                 }
+                ids = ("[" + ids + "]").replace(",\n]", "]");
+                //ids = "[{\"id\":156},{\"id\":56}]";
+                GWT.log(ids);
+                calculo.calcular(ids);
             }
         }
     }
