@@ -32,5 +32,6 @@ public enum EMethod {
     UPDATE_MOVIMIENTO,
     
     // CALCULO
-    CALCULAR
+    CALCULAR_ONE,
+    CALCULAR_ALL
 }

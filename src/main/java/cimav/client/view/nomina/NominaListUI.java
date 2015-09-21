@@ -9,6 +9,7 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.EmpleadoBase;
+import cimav.client.data.rest.BaseREST;
 import cimav.client.view.catalogos.empleados.ICellListResources;
 import cimav.client.view.common.EmpleadoListCell;
 import cimav.client.view.provider.EmpleadosBaseProvider;
@@ -63,7 +64,7 @@ public class NominaListUI extends Composite {
     NominaUI nominaUI;
     
     @UiField
-    Button btnCalcularTodos;
+    Button btnCalcular;
     @UiField
     ToggleSwitch toggleSwitch;
 
@@ -118,7 +119,7 @@ public class NominaListUI extends Composite {
         /* Al arrancar, cargar a todos los empleados */
         reloadAll();
         
-        btnCalcularTodos.addClickHandler(new CalcularTodosClickHandler());
+        btnCalcular.addClickHandler(new CalcularClickHandler());
         
         toggleSwitch.addValueChangeHandler(new CalcularToggleSwitch());
     }
@@ -139,34 +140,69 @@ public class NominaListUI extends Composite {
         }
     }
 
-    private class CalcularTodosClickHandler implements ClickHandler {
+    private Calculo calculo;
+    
+    private class CalcularClickHandler implements ClickHandler {
 
         @Override
         public void onClick(ClickEvent event) {
+            if (calculo == null) {
+                calculo = new Calculo();
+                calculo.getREST().addRESTExecutedListener(new RESTExecutedListener());
+            }
             if (toggleSwitch.getValue()) {
-                nominaUI.calcular();
+                // calcular empleado seleccionado
+                EmpleadoBase empSel = selectionModel.getSelectedObject();
+                if (empSel != null) {
+                    Integer idEmp = empSel.getId();
+                    calculo.calcular(idEmp);
+                }
             } else {
-                Calculo calculo = new Calculo();
+                // calcular todos los empleados filtrados
                 String ids = "";
                 for (EmpleadoBase emp : cellList.getVisibleItems()) {
                     //calculo.calcular(emp.getId());
                     ids = ids + "{\"id\":" + emp.getId() + "},\n";
                 }
                 ids = ("[" + ids + "]").replace(",\n]", "]");
-                //ids = "[{\"id\":156},{\"id\":56}]";
-                GWT.log(ids);
                 calculo.calcular(ids);
             }
         }
+    }
+    
+    private class RESTExecutedListener implements BaseREST.RESTExecutedListener {
+        @Override
+        public void onRESTExecuted(MethodEvent restEvent) {
+            EmpleadoBase empSel = selectionModel.getSelectedObject();
+            if (EMethod.CALCULAR_ONE.equals(restEvent.getMethod())) {
+                String codeEmp = empSel.getCode();
+                if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
+                    Growl.growl(codeEmp + " calculado");
+                } else {
+                    Growl.growl(codeEmp + " fallo cálculo");
+                }
+                nominaUI.setSelectedBean(empSel.getId());
+            } else if (EMethod.CALCULAR_ALL.equals(restEvent.getMethod())) {
+                if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
+                    Growl.growl("Cálculo de empleados seleccionados correcto");
+                } else {
+                    Growl.growl("Cálculo de empleados seleccionados falló");
+                }
+                if (empSel != null) {
+                    nominaUI.setSelectedBean(empSel.getId());
+                }
+            }
+        }
+        
     }
     
     private class CalcularToggleSwitch implements ValueChangeHandler<Boolean> {
         @Override
         public void onValueChange(ValueChangeEvent<Boolean> event) {
                 if (event.getValue()) {
-                    btnCalcularTodos.setType(ButtonType.PRIMARY);
+                    btnCalcular.setType(ButtonType.PRIMARY);
                 } else {
-                    btnCalcularTodos.setType(ButtonType.WARNING);
+                    btnCalcular.setType(ButtonType.WARNING);
                     
                 }
         }

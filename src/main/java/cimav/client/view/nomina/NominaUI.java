@@ -68,9 +68,6 @@ public class NominaUI extends Composite {
     @UiField TabBadgeListItem tabDeducPorPago;
     @UiField TabBadgeListItem tabDeducFaltas;
     
-    @UiField
-    Button btnCalcular;
-    
     private EmpleadoNomina empleadoNominaLoaded;
     
     private EmpleadoREST empleadoREST;
@@ -80,8 +77,6 @@ public class NominaUI extends Composite {
     
     public NominaUI() {
         initWidget(uiBinder.createAndBindUi(this));
-        
-        btnCalcular.addClickHandler(new CalcularClick());
         
         MovimientosListener listener = new MovimientosListener();
         nominaPercepcionesSaldoUI.addMovimientosListener(listener);
@@ -112,49 +107,49 @@ public class NominaUI extends Composite {
         }
     }
     
-    private class CalcularClick implements ClickHandler {
-        @Override
-        public void onClick(ClickEvent event) {
-            
-            Calculo calculo = new Calculo();
-            
-            calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
-                @Override
-                public void onRESTExecuted(MethodEvent restEvent) {
-                    if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
-                        if(ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
-                            Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
-                        } else {
-                            Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
-                        }
-                        NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
-                    }
-                }
-            });
-            
-            calculo.calcular(empleadoNominaLoaded.getId());
-        }
-    }
+//    private class CalcularClick implements ClickHandler {
+//        @Override
+//        public void onClick(ClickEvent event) {
+//            
+//            Calculo calculo = new Calculo();
+//            
+//            calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+//                @Override
+//                public void onRESTExecuted(MethodEvent restEvent) {
+//                    if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
+//                        if(ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
+//                            Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
+//                        } else {
+//                            Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
+//                        }
+//                        NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+//                    }
+//                }
+//            });
+//            
+//            calculo.calcular(empleadoNominaLoaded.getId());
+//        }
+//    }
     
-    public void calcular() {
-        Calculo calculo = new Calculo();
-
-        calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
-            @Override
-            public void onRESTExecuted(MethodEvent restEvent) {
-                if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
-                    if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
-                        Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
-                    } else {
-                        Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
-                    }
-                    NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
-                }
-            }
-        });
-
-        calculo.calcular(empleadoNominaLoaded.getId());
-    }
+//    public void calcular() {
+//        Calculo calculo = new Calculo();
+//
+//        calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+//            @Override
+//            public void onRESTExecuted(MethodEvent restEvent) {
+//                if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
+//                    if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
+//                        Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
+//                    } else {
+//                        Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
+//                    }
+//                    NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+//                }
+//            }
+//        });
+//
+//        calculo.calcular(empleadoNominaLoaded.getId());
+//    }
     
     @Override
     protected void onLoad() {

@@ -36,19 +36,19 @@ public class CalculoREST extends BaseREST {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR, ETypeResult.FAILURE, "CalculoREST.calcular " + exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR_ONE, ETypeResult.FAILURE, "CalculoREST.calcular " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR, ETypeResult.SUCCESS, "CalculoREST.calcular listo");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR_ONE, ETypeResult.SUCCESS, "CalculoREST.calcular listo");
                     dbEvent.setResult(response);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
                     String error = "CalculoREST.calcular " + e.getMessage();
-                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR, ETypeResult.FAILURE, error);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR_ONE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }
@@ -60,31 +60,31 @@ public class CalculoREST extends BaseREST {
 
         BaseREST.setDateFormatPOST();
 
-        String url = BaseREST.URL_REST_BASE + "api/calculo/romper";
+        String url = BaseREST.URL_REST_BASE + "api/calculo";
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
 
-        JSONValue jsonValue =JSONParser.parseLenient(ids);
+        JSONValue jsonValue =JSONParser.parseStrict(ids);
         
         Resource rb = new Resource(url, headers);
         rb.post().json(jsonValue).send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR, ETypeResult.FAILURE, "CalculoREST.calcular " + exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR_ALL, ETypeResult.FAILURE, "CalculoREST.calcular " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR, ETypeResult.SUCCESS, "CalculoREST.calcular listo");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR_ALL, ETypeResult.SUCCESS, "CalculoREST.calcular listo");
                     dbEvent.setResult(response);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
                     String error = "CalculoREST.calcular " + e.getMessage();
-                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR, ETypeResult.FAILURE, error);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CALCULAR_ALL, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }

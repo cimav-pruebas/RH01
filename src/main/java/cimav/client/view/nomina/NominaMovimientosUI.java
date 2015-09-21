@@ -9,11 +9,13 @@ import cimav.client.data.domain.Concepto;
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.view.common.Utils;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.apache.bcel.generic.AALOAD;
 
 /**
  *
@@ -94,22 +97,34 @@ public class NominaMovimientosUI extends Composite {
 
     private void initTableColumns() {
 
-        // Concepto
-        Column<NominaQuincenal, String> conceptoCol = new Column<NominaQuincenal, String>((new TextCell())) {
+                // Concepto
+        Column<NominaQuincenal, SafeHtml> conceptoCol = new Column<NominaQuincenal, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public String getValue(NominaQuincenal object) {
-                Concepto concepto = object.getConcepto();
-                return concepto.getName();
+            public SafeHtml getValue(NominaQuincenal object) {
+                SafeHtmlBuilder a = new SafeHtmlBuilder();
+                if (object.getConcepto().getSuma()) {
+                    a.appendHtmlConstant("<span>" + object.getConcepto().getName() + "</span>");
+                } else {
+                    a.appendHtmlConstant("<span style='color: grey; font-style: italic;'>" + object.getConcepto().getName() + "</span>");
+                }
+		return a.toSafeHtml();            
             }
         };
         dataGrid.addColumn(conceptoCol, "Concepto");
         dataGrid.setColumnWidth(conceptoCol, 80, Style.Unit.PCT);
 
         // Cantidad
-        Column<NominaQuincenal, String> cantidadCol = new Column<NominaQuincenal, String>(new TextCell()) {
+        Column<NominaQuincenal, SafeHtml> cantidadCol = new Column<NominaQuincenal, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public String getValue(NominaQuincenal object) {
-                return Utils.formatCantidad(object.getCantidad());
+            public SafeHtml getValue(NominaQuincenal object) {
+                String result = Utils.formatCantidad(object.getCantidad());
+                SafeHtmlBuilder a = new SafeHtmlBuilder();
+                if (object.getConcepto().getSuma()) {
+                    a.appendHtmlConstant("<span>" + result + "</span>");
+                } else {
+                    a.appendHtmlConstant("<span style='color: grey; font-style: italic;'>" + result + "</span>");
+                }
+		return a.toSafeHtml();            
             }
         };
         cantidadCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -129,7 +144,9 @@ public class NominaMovimientosUI extends Composite {
                         // create MathContext object with 2 precision
                         BigDecimal totalPercepciones = BigDecimal.ZERO;
                         for (NominaQuincenal nomQuin : items) {
-                            totalPercepciones = totalPercepciones.add(nomQuin.getCantidad());
+                            if (nomQuin.getConcepto().getSuma()) { // si el concepto suma (ej. Despensa no suma)
+                                totalPercepciones = totalPercepciones.add(nomQuin.getCantidad());
+                            }
                         }
                         result = Utils.formatCurrency(totalPercepciones);
                     }

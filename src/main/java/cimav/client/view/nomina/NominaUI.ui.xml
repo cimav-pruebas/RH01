@@ -80,11 +80,6 @@ Uncomment this for XHTML entities
                                 <g:Label ui:field="totalLabel" text="Totales" addStyleNames="{style.total-label}"/>
                             </td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;">
-                                <b:Button ui:field="btnCalcular" type="PRIMARY" text="Calcular"/>
-                            </td>
-                        </tr>
                     </table>
                 </g:HTMLPanel>
             </g:HorizontalPanel>

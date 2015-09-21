@@ -56,7 +56,7 @@ Uncomment this for XHTML entities
                         <g:VerticalPanel >
                             <g:HTMLPanel addStyleNames="{style.footer-bar-lista-empleados}">
                                 <b3.toggle:ToggleSwitch ui:field="toggleSwitch" labelText="Modo" offColor="WARNING" offIcon="USERS" onColor="PRIMARY" onIcon="USER" value="true" addStyleNames="{style.calcular-toogle}"/>
-                                <b3:Button ui:field="btnCalcularTodos" type="PRIMARY" text="Calcular" addStyleNames="{style.calcular-btn}"/>
+                                <b3:Button ui:field="btnCalcular" type="PRIMARY" text="Calcular" addStyleNames="{style.calcular-btn}"/>
                             </g:HTMLPanel>
                         </g:VerticalPanel>
                     </g:south> 

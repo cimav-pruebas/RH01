@@ -24,9 +24,13 @@ public class Concepto extends BaseDomain {
     @Json(name = "idTipoMovimiento")
     private String idTipoMovimiento;
 
+    @Json(name = "suma")
+    private Boolean suma;
+    
     public Concepto() {
         super();
         this.tipoConcepto = ETipoConcepto.PERCEPCION;
+        this.suma = true;
     }
     
     public ETipoConcepto getTipoConcepto() {
@@ -63,6 +67,14 @@ public class Concepto extends BaseDomain {
     public void setIdTipoMovimiento(String idTipoMovimiento) {
         this.tipoMovimiento = ETipoMovimiento.get(idTipoMovimiento);
         this.idTipoMovimiento = idTipoMovimiento;
+    }
+
+    public Boolean getSuma() {
+        return suma;
+    }
+
+    public void setSuma(Boolean suma) {
+        this.suma = suma;
     }
     
 }
