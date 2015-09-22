@@ -5,12 +5,10 @@
  */
 package cimav.client.view.nomina;
 
-import cimav.client.data.domain.Concepto;
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.CssResource;
@@ -32,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.apache.bcel.generic.AALOAD;
 
 /**
  *

@@ -52,11 +52,27 @@ public class Falta implements  Serializable {
     }
 
     public final void setDias(Integer dias) {
-        int diasParaFinQuincena = Quincena.getDiaFin() - this.fechaInicio.getDay();
-        this.faltas = diasParaFinQuincena - dias;
         this.dias = dias;
+        if (this.getTipoFalta().isIncapacidad()) {
+            // TODO falta calcular faltas para incapacidades
+            this.faltas = dias + 1;
+        } else if (this.getTipoFalta().isFalta()) {
+            // tantos días, tantas faltas
+            this.faltas = dias;
+        } else if (this.getTipoFalta().isPermiso()) {
+            // no cuentan como faltas
+            this.faltas = 0;
+        }  
     }
 
+    public Integer getFaltas() {
+        return faltas;
+    }
+
+    public void setFaltas(Integer faltas) {
+        this.faltas = faltas;
+    }
+    
     public Date getFechaInicio() {
         return fechaInicio;
     }
@@ -81,14 +97,6 @@ public class Falta implements  Serializable {
     public void setIdTipo(String idTipo) {
         this.tipoFalta = ETipoFalta.get(idTipo);
         this.idTipo = idTipo;
-    }
-
-    public Integer getFaltas() {
-        return faltas;
-    }
-
-    public void setFaltas(Integer faltas) {
-        this.faltas = faltas;
     }
 
     public String getFolio() {

@@ -13,6 +13,9 @@ import cimav.client.data.rest.FaltaREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
+import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.DatePickerCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -23,6 +26,7 @@ import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
@@ -49,6 +53,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Anchor;
@@ -81,6 +86,8 @@ public class NominaFaltasUI extends Composite {
     
     private Integer idEmpleado;
     
+    private DatePickerCell fechaInicioCell;
+            
     public NominaFaltasUI() {
         
         this.buildGrid(); // antes del initWidget
@@ -136,6 +143,8 @@ public class NominaFaltasUI extends Composite {
 
         dataGrid.setPageSize(20);
 
+        fechaInicioCell = new DatePickerCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM));
+        
         initTableColumns();
 
 //        // Add the CellList to the adapter in the database.
@@ -243,18 +252,73 @@ public class NominaFaltasUI extends Composite {
         dataGrid.addColumn(tipoCol, "Tipo");
         dataGrid.setColumnWidth(tipoCol, 60, Style.Unit.PCT);
 
+        
         // Fecha
-        Column<Falta, String> fechaCol = new Column<Falta, String>((new NomDateInputCell())) {
+        Column<Falta, Date> fechaCol = new Column<Falta, Date>(fechaInicioCell) {
             @Override
-            public String getValue(Falta object) {
-                DateTimeFormat dtf = DateTimeFormat.getFormat("yyy-MM-dd"); // usado por el Input de HTML5
-                String result = dtf.format(object.getFechaInicio());
-                return result;
+            public Date getValue(Falta object) {
+                //DateTimeFormat dtf = DateTimeFormat.getFormat("yyy-MM-dd"); // usado por el Input de HTML5
+                //String result = dtf.format(object.getFechaInicio());
+                return object.getFechaInicio();
             }
         };
+        fechaCol.setFieldUpdater(new FieldUpdater<Falta, Date>() {
+            @Override
+            public void update(int index, Falta object, Date value) {
+                try {
+                    object.setFechaInicio(value);
+                    getREST().update(object);
+                } catch (Exception ex) {
+
+                }
+                fechaInicioCell.clearViewData(object);
+                int absRowIndex = index;
+                dataGrid.redrawRow(absRowIndex);
+            }
+        });
+        
+//        fechaCol.setFieldUpdater(new FieldUpdater<Falta, String>() {
+//            @Override
+//            public void update(int index, Falta object, String value) {
+//                try {
+//                    DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
+//                    Date fechaInicio = dateTimeFormat.parse(value);
+//                    object.setFechaInicio(fechaInicio);
+//                    getREST().update(object);
+//                } catch (Exception ex) {
+//
+//                }
+//                fechaInicioCell.clearViewData(object);
+//                int absRowIndex = index;
+//                dataGrid.redrawRow(absRowIndex);
+//            }
+//        });
         dataGrid.addColumn(fechaCol, "Fecha");
         dataGrid.setColumnWidth(fechaCol, 120, Style.Unit.PX);
-
+                
+        
+//// DateCell.
+//    DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
+//    Column
+//    addColumn(new DateCell(dateFormat), "Date", new GetValue<Date>() {
+//      @Override
+//      public Date getValue(ContactInfo contact) {
+//        return contact.getBirthday();
+//      }
+//    }, null);
+//
+//    // DatePickerCell.
+//    addColumn(new DatePickerCell(dateFormat), "DatePicker", new GetValue<Date>() {
+//      @Override
+//      public Date getValue(ContactInfo contact) {
+//        return contact.getBirthday();
+//      }
+//    }, new FieldUpdater<ContactInfo, Date>() {
+//      @Override
+//      public void update(int index, ContactInfo object, Date value) {
+//        pendingChanges.add(new BirthdayChange(object, value));
+//      }
+//    });
         // Dias
         Column<Falta, String> diasCol = new Column<Falta, String>(new NomIntegerInputCell("80")) {
             @Override
