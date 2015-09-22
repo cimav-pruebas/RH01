@@ -53,6 +53,8 @@ import com.google.gwt.view.client.ListDataProvider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -365,6 +367,12 @@ public class NominaFaltasUI extends Composite {
     public int setEmpleado(EmpleadoNomina empleado) {
         this.idEmpleado = empleado.getId();
         List<Falta> result = empleado.getFaltaCollection();
+        Collections.sort(result, new Comparator<Falta>() {
+            @Override
+            public int compare(Falta f1, Falta f2) {
+                return f1.getFechaInicio().compareTo(f2.getFechaInicio());
+            }
+        });
         provider.setList(result);
         return result.size();
     }
