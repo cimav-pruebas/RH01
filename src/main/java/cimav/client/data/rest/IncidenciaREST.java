@@ -5,7 +5,7 @@
  */
 package cimav.client.data.rest;
 
-import cimav.client.data.domain.Falta;
+import cimav.client.data.domain.Incidencia;
 import cimav.client.view.common.Ajax;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
@@ -22,23 +22,23 @@ import org.fusesource.restygwt.client.Resource;
  *
  * @author juan.calderon
  */
-public class FaltaREST extends BaseREST {
+public class IncidenciaREST extends BaseREST {
   
-    public interface JsonCodec extends JsonEncoderDecoder<Falta> {}
+    public interface JsonCodec extends JsonEncoderDecoder<Incidencia> {}
     public JsonCodec jsonCodec = GWT.create(JsonCodec.class);
  
-    public void create(Falta falta) {
+    public void create(Incidencia incidencia) {
 
         //BaseREST.setDateFormatPOST();
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/falta";
+        String url = BaseREST.URL_REST_BASE + "api/incidencias";
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
 
         //Create a Jsonizer instance
-        JSONValue jsonValue = jsonCodec.encode(falta);
+        JSONValue jsonValue = jsonCodec.encode(incidencia);
         
         Resource rb = new Resource(url, headers);
         rb.post().json(jsonValue).send(Ajax.jsonCall(new JsonCallback() {
@@ -51,12 +51,12 @@ public class FaltaREST extends BaseREST {
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    Falta nueva = jsonCodec.decode(response);
+                    Incidencia nueva = jsonCodec.decode(response);
                     MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
                     dbEvent.setResult(nueva);
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    String error = "FaltaREST.CREATE " + e.getMessage();
+                    String error = "IncidenciaREST.CREATE " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
@@ -65,23 +65,23 @@ public class FaltaREST extends BaseREST {
 
     }
     
-    public void update(Falta falta) {
+    public void update(Incidencia incidencia) {
 
         BaseREST.setDateFormatPOST();
 
-        String url = BaseREST.URL_REST_BASE + "api/falta/" + falta.getId();
+        String url = BaseREST.URL_REST_BASE + "api/incidencias/" + incidencia.getId();
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
 
         //Create a Jsonizer instance
-        JSONValue jsonValue = jsonCodec.encode(falta);
+        JSONValue jsonValue = jsonCodec.encode(incidencia);
 
         Resource rb = new Resource(url, headers); 
         rb.put().json(jsonValue).send(Ajax.jsonCall(new JsonCallback() {
             @Override
             public void onFailure(Method method, Throwable exception) {
-                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, "FaltaREST.UPDATE " + exception.getMessage());
+                MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, "IncidenciaREST.UPDATE " + exception.getMessage());
                 onRESTExecuted(dbEvent);
             }
 
@@ -89,10 +89,10 @@ public class FaltaREST extends BaseREST {
             public void onSuccess(Method method, JSONValue response) {
                 try {
                     // No regresa nada
-                    MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.SUCCESS, "FaltaREST.UPDATE listo");
+                    MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.SUCCESS, "IncidenciaREST.UPDATE listo");
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    String error = "FaltaREST.UPDATE " + e.getMessage();
+                    String error = "IncidenciaREST.UPDATE " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.UPDATE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
@@ -105,7 +105,7 @@ public class FaltaREST extends BaseREST {
 
         BaseREST.setDateFormatPOST();
 
-        String url = BaseREST.URL_REST_BASE + "api/falta/" + id;
+        String url = BaseREST.URL_REST_BASE + "api/incidencias/" + id;
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
@@ -125,7 +125,7 @@ public class FaltaREST extends BaseREST {
                     MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.SUCCESS, "remove listo");
                     onRESTExecuted(dbEvent);
                 } catch (Exception e) {
-                    String error = "FaltaREST.remove " + e.getMessage();
+                    String error = "IncidenciaREST.remove " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.DELETE, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }

@@ -5,11 +5,11 @@
  */
 package cimav.client.view.nomina;
 
-import cimav.client.data.domain.ETipoFalta;
+import cimav.client.data.domain.ETipoIncidencia;
 import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.domain.Falta;
+import cimav.client.data.domain.Incidencia;
 import cimav.client.data.rest.BaseREST;
-import cimav.client.data.rest.FaltaREST;
+import cimav.client.data.rest.IncidenciaREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
@@ -75,15 +75,15 @@ public class NominaFaltasUI extends Composite {
     HTMLPanel htmlPanel;
     
     @UiField(provided = true)
-    DataGrid<Falta> dataGrid;
+    DataGrid<Incidencia> dataGrid;
     
     @UiField
     Anchor anchorPlus;
     
-    private ListDataProvider<Falta> provider;
-    private FaltaREST faltaREST;
+    private ListDataProvider<Incidencia> provider;
+    private IncidenciaREST faltaREST;
     
-    private final ValueListBox<ETipoFalta> faltaChosen;
+    private final ValueListBox<ETipoIncidencia> faltaChosen;
     
     private Integer idEmpleado;
     
@@ -98,9 +98,9 @@ public class NominaFaltasUI extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
         
         
-        faltaChosen = new org.gwtbootstrap3.client.ui.ValueListBox<>(new Renderer<ETipoFalta>() {
+        faltaChosen = new org.gwtbootstrap3.client.ui.ValueListBox<>(new Renderer<ETipoIncidencia>() {
             @Override
-            public String render(ETipoFalta object) {
+            public String render(ETipoIncidencia object) {
                 if (object == null) {
                     return "None";
                 }
@@ -108,13 +108,13 @@ public class NominaFaltasUI extends Composite {
             }
 
             @Override
-            public void render(ETipoFalta object, Appendable appendable) throws IOException {
+            public void render(ETipoIncidencia object, Appendable appendable) throws IOException {
                 String s = render(object);
                 appendable.append(s);
             }
         });
-        List<ETipoFalta> tipos = Arrays.asList(ETipoFalta.values());
-        faltaChosen.setValue(ETipoFalta.AI); //default
+        List<ETipoIncidencia> tipos = Arrays.asList(ETipoIncidencia.values());
+        faltaChosen.setValue(ETipoIncidencia.AI); //default
         faltaChosen.setAcceptableValues(tipos);
         faltaChosen.addStyleName("movimientos-chosen");
         
@@ -135,14 +135,14 @@ public class NominaFaltasUI extends Composite {
     }
     private void buildGrid() {
 
-        List<Falta> list = new ArrayList<>();
+        List<Incidencia> list = new ArrayList<>();
         provider = new ListDataProvider<>(list);
         dataGrid = new DataGrid<>(provider.getKeyProvider());
         dataGrid.getElement().setId("idDataGrid");
 
         dataGrid.setAutoHeaderRefreshDisabled(true);
 
-        dataGrid.setEmptyTableWidget(new Label("Sin faltas"));
+        dataGrid.setEmptyTableWidget(new Label("Sin incidencias"));
 
         dataGrid.setPageSize(20);
 
@@ -176,10 +176,10 @@ public class NominaFaltasUI extends Composite {
         public void onClick(ClickEvent event) {
             
             boolean add = true;
-            ETipoFalta selected = faltaChosen.getValue();
+            ETipoIncidencia selected = faltaChosen.getValue();
             if (selected != null && selected.getId() != null && !selected.getId().isEmpty()) {
-                for (Falta f : provider.getList()) {
-                    if (f.getTipoFalta().equals(selected)) {
+                for (Incidencia f : provider.getList()) {
+                    if (f.getTipo().equals(selected)) {
                         add = false;
                         break;
                     }
@@ -188,18 +188,18 @@ public class NominaFaltasUI extends Composite {
                 add = false;
             }
             if (add) {
-                Falta nueva = new Falta();
+                Incidencia nueva = new Incidencia();
                 nueva.setIdEmpleado(idEmpleado);
-                nueva.setTipoFalta(selected);
+                nueva.setTipo(selected);
                 // Crearla en la DB
                 getREST().create(nueva);
             }
         }
     }
     
-    private FaltaREST getREST() {
+    private IncidenciaREST getREST() {
         if (faltaREST == null) {
-            faltaREST = new FaltaREST();
+            faltaREST = new IncidenciaREST();
             faltaREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
                 @Override
                 public void onRESTExecuted(MethodEvent restEvent) {
@@ -236,9 +236,9 @@ public class NominaFaltasUI extends Composite {
     private void initTableColumns() {
 
         // id + icon remove
-        Column<Falta, String> iconCol = new Column<Falta, String>(new NomIconInputCell(NomIconInputCell.FALTA)) {
+        Column<Incidencia, String> iconCol = new Column<Incidencia, String>(new NomIconInputCell(NomIconInputCell.FALTA)) {
             @Override
-            public String getValue(Falta object) {
+            public String getValue(Incidencia object) {
                 return "" + object.getId();
             }
         };
@@ -246,11 +246,11 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setColumnWidth(iconCol, 16, Style.Unit.PX);
         
         // Id+Tipo
-        Column<Falta, SafeHtml> tipoCol = new Column<Falta, SafeHtml>(new SafeHtmlCell()) {
+        Column<Incidencia, SafeHtml> tipoCol = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public SafeHtml getValue(Falta object) {
+            public SafeHtml getValue(Incidencia object) {
                 SafeHtmlBuilder sb = new SafeHtmlBuilder();
-                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong>" +object.getIdTipo()+ "</strong> " + "<span>"+object.getTipoFalta().getDescripcion()+"</span></div>");
+                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong>" +object.getCode()+ "</strong> " + "<span>"+object.getTipo().getDescripcion()+"</span></div>");
                 return sb.toSafeHtml();
             }
         };
@@ -258,15 +258,15 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setColumnWidth(tipoCol, 60, Style.Unit.PCT);
         
         // Fecha
-        Column<Falta, Date> fechaCol = new Column<Falta, Date>(fechaInicioCell) {
+        Column<Incidencia, Date> fechaCol = new Column<Incidencia, Date>(fechaInicioCell) {
             @Override
-            public Date getValue(Falta object) {
+            public Date getValue(Incidencia object) {
                 return object.getFechaInicio();
             }
         };
-        fechaCol.setFieldUpdater(new FieldUpdater<Falta, Date>() {
+        fechaCol.setFieldUpdater(new FieldUpdater<Incidencia, Date>() {
             @Override
-            public void update(int index, Falta object, Date value) {
+            public void update(int index, Incidencia object, Date value) {
                 try {
                     object.setFechaInicio(value);
                     getREST().update(object);
@@ -282,16 +282,16 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setColumnWidth(fechaCol, 120, Style.Unit.PX);
 
         // Dias
-        Column<Falta, String> diasCol = new Column<Falta, String>(diasCell) {
+        Column<Incidencia, String> diasCol = new Column<Incidencia, String>(diasCell) {
             @Override
-            public String getValue(Falta object) {
+            public String getValue(Incidencia object) {
                 Integer result = object == null || object.getDias() == null ? 0 : object.getDias();
                 return Integer.toString(result);
             }
         };
-        diasCol.setFieldUpdater(new FieldUpdater<Falta, String>() {
+        diasCol.setFieldUpdater(new FieldUpdater<Incidencia, String>() {
             @Override
-            public void update(int index, Falta object, String value) {
+            public void update(int index, Incidencia object, String value) {
                 try {
                     Integer dias = Integer.parseInt(value);
                     object.setDias(dias);
@@ -309,10 +309,10 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setColumnWidth(diasCol, 68, Style.Unit.PX);
 
         // Faltas
-        Column<Falta, String> faltasCol = new Column<Falta, String>(new TextCell()) {
+        Column<Incidencia, String> faltasCol = new Column<Incidencia, String>(new TextCell()) {
             @Override
-            public String getValue(Falta object) {
-                Integer result = object == null || object.getFaltas()== null ? 0 : object.getFaltas();
+            public String getValue(Incidencia object) {
+                Integer result = object == null || object.getIncidencias()== null ? 0 : object.getIncidencias();
                 return Integer.toString(result);
             }
         };
@@ -324,19 +324,19 @@ public class NominaFaltasUI extends Composite {
             }
         };
         //dataGrid.addColumn(faltasCol, "Días");
-        dataGrid.addColumn(faltasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Faltas")), forzarFooter);
+        dataGrid.addColumn(faltasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Incidencias")), forzarFooter);
         dataGrid.setColumnWidth(faltasCol, 68, Style.Unit.PX);
 
         // Folio
-        Column<Falta, String> folioCol = new Column<Falta, String>(folioCell) {
+        Column<Incidencia, String> folioCol = new Column<Incidencia, String>(folioCell) {
             @Override
-            public String getValue(Falta object) {
+            public String getValue(Incidencia object) {
                 return object.getFolio();
             }
         };
-        folioCol.setFieldUpdater(new FieldUpdater<Falta, String>() {
+        folioCol.setFieldUpdater(new FieldUpdater<Incidencia, String>() {
             @Override
-            public void update(int index, Falta object, String value) {
+            public void update(int index, Incidencia object, String value) {
                 try {
                     object.setFolio(value);
                     getREST().update(object);
@@ -355,10 +355,10 @@ public class NominaFaltasUI extends Composite {
 
     public int setEmpleado(EmpleadoNomina empleado) {
         this.idEmpleado = empleado.getId();
-        List<Falta> result = empleado.getFaltaCollection();
-        Collections.sort(result, new Comparator<Falta>() {
+        List<Incidencia> result = empleado.getIncidencias();
+        Collections.sort(result, new Comparator<Incidencia>() {
             @Override
-            public int compare(Falta f1, Falta f2) {
+            public int compare(Incidencia f1, Incidencia f2) {
                 return f1.getFechaInicio().compareTo(f2.getFechaInicio());
             }
         });

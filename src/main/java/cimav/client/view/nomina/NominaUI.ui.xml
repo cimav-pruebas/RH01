@@ -79,7 +79,7 @@ Uncomment this for XHTML entities
                 <b3:Panel addStyleNames='{style.conceptos-panel}'>
                     <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                         <b3:NavTabs ui:field="navTabsFaltas" >
-                            <nom:TabBadgeListItem ui:field="tabDeducFaltas" active="true" addStyleNames='{style.tab-principal}' dataTarget="#tabDeducFaltasId" text="Faltas"/>
+                            <nom:TabBadgeListItem ui:field="tabDeducFaltas" active="true" addStyleNames='{style.tab-principal}' dataTarget="#tabDeducFaltasId" text="Incidencias"/>
                         </b3:NavTabs>
                         <b3:TabContent addStyleNames='{style.tab-panel}'>
                             <b3:TabPane  active="true" b3:id="tabDeducFaltasId" addStyleNames='{style.tab-panel-conceptos}'>

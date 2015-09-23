@@ -35,7 +35,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     private Date fechaAntiguedad;
     private List<NominaQuincenal> nominaQuincenalCollection;
     
-    private List<Falta> faltaCollection;
+    private List<Incidencia> incidencias;
     
     public EmpleadoNomina() {
         super();
@@ -147,12 +147,12 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.nominaQuincenalCollection = nominaQuincenalCollection;
     }
 
-    public List<Falta> getFaltaCollection() {
-        return faltaCollection;
+    public List<Incidencia> getIncidencias() {
+        return incidencias;
     }
 
-    public void setFaltaCollection(List<Falta> faltaCollection) {
-        this.faltaCollection = faltaCollection;
+    public void setIncidencias(List<Incidencia> incidencias) {
+        this.incidencias = incidencias;
     }
 
     /** 

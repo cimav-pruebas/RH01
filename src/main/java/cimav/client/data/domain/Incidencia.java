@@ -13,20 +13,22 @@ import java.util.Date;
  *
  * @author juan.calderon
  */
-public class Falta implements  Serializable {
+public class Incidencia implements Serializable {
     
     private Integer id;
     private Integer idEmpleado;
     private Integer dias;
-    private Integer faltas;
+    private Integer incidencias;
     private Date fechaInicio;
-    @JsonIgnore private ETipoFalta tipoFalta;
-    private String idTipo;
+    @JsonIgnore private ETipoIncidencia tipo;
+    private String code;
     private String folio;
+    private String clase;
 
-    public Falta() {
+    public Incidencia() {
         fechaInicio = new Date();
-        tipoFalta = ETipoFalta.AI;
+        tipo = ETipoIncidencia.AI;
+        clase = tipo.getClase();
         this.setDias(1);
     }
 
@@ -52,24 +54,24 @@ public class Falta implements  Serializable {
 
     public final void setDias(Integer dias) {
         this.dias = dias;
-        if (this.getTipoFalta().isIncapacidad()) {
+        if (this.getTipo().isIncapacidad()) {
             // TODO falta calcular faltas para incapacidades
-            this.faltas = dias + 1;
-        } else if (this.getTipoFalta().isFalta()) {
+            this.incidencias = dias + 1;
+        } else if (this.getTipo().isFalta()) {
             // tantos días, tantas faltas
-            this.faltas = dias;
-        } else if (this.getTipoFalta().isPermiso()) {
+            this.incidencias = dias;
+        } else if (this.getTipo().isPermiso()) {
             // no cuentan como faltas
-            this.faltas = 0;
+            this.incidencias = 0;
         }  
     }
 
-    public Integer getFaltas() {
-        return faltas;
+    public Integer getIncidencias() {
+        return incidencias;
     }
 
-    public void setFaltas(Integer faltas) {
-        this.faltas = faltas;
+    public void setIncidencias(Integer incidencias) {
+        this.incidencias = incidencias;
     }
     
     public Date getFechaInicio() {
@@ -80,22 +82,24 @@ public class Falta implements  Serializable {
         this.fechaInicio = fechaInicio;
     }
 
-    public ETipoFalta getTipoFalta() {
-        return tipoFalta;
+    public ETipoIncidencia getTipo() {
+        return tipo;
     }
 
-    public void setTipoFalta(ETipoFalta tipoFalta) {
-        this.tipoFalta = tipoFalta;
-        this.idTipo = tipoFalta != null ? tipoFalta.getId() : "XX";
+    public void setTipo(ETipoIncidencia tipo) {
+        this.tipo = tipo;
+        this.code = tipo != null ? tipo.getId() : "XX";
+        this.clase = this.tipo.getClase();
     }
 
-    public String getIdTipo() {
-        return idTipo;
+    public String getCode() {
+        return code;
     }
 
-    public void setIdTipo(String idTipo) {
-        this.tipoFalta = ETipoFalta.get(idTipo);
-        this.idTipo = idTipo;
+    public void setCode(String code) {
+        this.tipo = ETipoIncidencia.get(code);
+        this.code = code;
+        this.clase = this.tipo.getClase();
     }
 
     public String getFolio() {
@@ -105,7 +109,13 @@ public class Falta implements  Serializable {
     public void setFolio(String folio) {
         this.folio = folio;
     }
-    
 
+    public String getClase() {
+        return clase;
+    }
+
+    public void setClase(String clase) {
+        this.clase = clase;
+    }
     
 }

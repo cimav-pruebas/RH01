@@ -46,7 +46,7 @@ public class NomTextInputCell extends TextInputCell {
             sb.appendHtmlConstant("<input type'text' tabindex='-1'></input>");
         } else {
             // this is where we set value, size, style
-            sb.append(template.input(v, "width: 100%; text-align: inherit; margin: 0px; height: 22px !important; font-size:11px;"));  
+            sb.append(template.input(v, "width: 130px; text-align: inherit; margin: 0px; height: 22px !important; font-size:11px;"));  
         }
     }
 }
