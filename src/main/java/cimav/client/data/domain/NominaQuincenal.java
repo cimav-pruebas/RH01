@@ -21,10 +21,9 @@ public class NominaQuincenal implements  Serializable{
     private Concepto concepto;
     private BigDecimal cantidad;
 
-    private BigDecimal pagoUnico;
-    private BigDecimal pagoPermanente;
-    private BigDecimal saldoDescuento;
-    private BigDecimal saldoRestante;
+    private BigDecimal pago;
+    private BigDecimal saldo;
+    private Boolean permanente;
     
     private Integer idEmpleado;
     
@@ -32,10 +31,9 @@ public class NominaQuincenal implements  Serializable{
         this.idEmpleado = 0;
         this.numQuincenas = 1;
         this.cantidad = BigDecimal.ZERO;
-        this.pagoUnico = BigDecimal.ZERO;
-        this.pagoPermanente = BigDecimal.ZERO;
-        this.saldoDescuento = BigDecimal.ZERO;
-        this.saldoRestante = BigDecimal.ZERO;
+        this.pago = BigDecimal.ZERO;
+        this.saldo = BigDecimal.ZERO;
+        this.permanente = Boolean.FALSE;
     }
 
     public Integer getId() {
@@ -53,14 +51,7 @@ public class NominaQuincenal implements  Serializable{
     public void setNumQuincenas(Integer numQuincenas) {
         this.numQuincenas = numQuincenas;
         
-        int quin = this.numQuincenas > 0 ? this.numQuincenas : 1;
-        
-        if (concepto != null && ETipoMovimiento.SALDO.equals(concepto.getTipoMovimiento())) {
-            this.saldoDescuento = this.saldoRestante.divide(new BigDecimal(quin), RoundingMode.HALF_UP);
-            this.cantidad = this.saldoDescuento;
-        } else if (concepto != null && ETipoMovimiento.PAGO.equals(concepto.getTipoMovimiento())) {
-        } 
-        
+        this.setCantidad();
     }
 
     public Concepto getConcepto() {
@@ -79,74 +70,59 @@ public class NominaQuincenal implements  Serializable{
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getPagoUnico() {
-        return pagoUnico;
-    }
-
-    public void setPagoUnico(BigDecimal pagoUnico) {
-        if (pagoUnico == null || pagoUnico.signum() == -1) {
-            pagoUnico = BigDecimal.ZERO;
-        }
-        
-        this.pagoUnico = pagoUnico;
-        
-        if (concepto != null && ETipoMovimiento.PAGO.equals(concepto.getTipoMovimiento())) {
-            this.cantidad = this.pagoUnico;
-        }
-    }
-
-    public BigDecimal getPagoPermanente() {
-        return pagoPermanente;
-    }
-
-    public void setPagoPermanente(BigDecimal pagoPermanente) {
-        if (pagoPermanente == null || pagoPermanente.signum() == -1) {
-            pagoPermanente = BigDecimal.ZERO;
-        }
-        
-        this.pagoPermanente = pagoPermanente;
-        
-        if (concepto != null && ETipoMovimiento.PAGO.equals(concepto.getTipoMovimiento())) {
-            // si hay Pago Unico, se cobra el Pago unico
-            if (this.pagoUnico != null && this.pagoUnico.signum() == 1) {
-                this.cantidad = this.pagoUnico;
-            } else {
-                this.cantidad = this.pagoPermanente;
-            }
-        }
-        
-        this.pagoPermanente = pagoPermanente;
-    }
-
-    public BigDecimal getSaldoDescuento() {
-        return saldoDescuento;
-    }
-
-//    public void setSaldoDescuento(BigDecimal saldoDescuento) {
-//        this.saldoDescuento = saldoDescuento;
-//    }
-
-    public BigDecimal getSaldoRestante() {
-        return saldoRestante;
-    }
-
-    public void setSaldoRestante(BigDecimal saldoRestante) {
-        this.saldoRestante = saldoRestante;
-        
-        int quin = this.numQuincenas > 0 ? this.numQuincenas : 1;
-        this.saldoDescuento = this.saldoRestante.divide(new BigDecimal(quin), RoundingMode.HALF_UP);
-        
-        if (concepto != null && ETipoMovimiento.SALDO.equals(concepto.getTipoMovimiento())) {
-            this.cantidad = this.saldoDescuento;
-        }
-    }
-
     public Integer getIdEmpleado() {
         return idEmpleado;
     }
 
     public void setIdEmpleado(Integer idEmpleado) {
         this.idEmpleado = idEmpleado;
+    }
+
+    public BigDecimal getPago() {
+        return pago;
+    }
+
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+
+        this.setCantidad();
+    }
+    
+    private void setCantidad() {
+        if (this.numQuincenas == null || this.numQuincenas <= 0) {
+            // no pueden ser menos de 1 quincena
+            this.numQuincenas = 1;
+        }
+        
+        if (this.saldo == null || this.saldo.signum() == 0) {
+            // los saldos negativos si pasan
+            this.saldo = BigDecimal.ZERO;
+            this.pago = BigDecimal.ZERO;
+            return;
+        }
+        
+        if (this.permanente) {
+            // si es Permanente, NO prorratea el saldo entre las quincenas
+            this.pago = this.saldo;
+        } else {
+            // si NO es Permanente, SI prorratea el saldo entre las quincenas
+            this.pago = this.saldo.divide(new BigDecimal(this.numQuincenas), RoundingMode.HALF_UP);
+        }
+        
+        this.cantidad = this.pago;
+    }
+
+    public Boolean getPermanente() {
+        return permanente;
+    }
+
+    public void setPermanente(Boolean permanente) {
+        this.permanente = permanente;
+        this.setCantidad();
     }
 
     @Override

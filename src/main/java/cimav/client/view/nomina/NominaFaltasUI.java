@@ -13,7 +13,6 @@ import cimav.client.data.rest.FaltaREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
-import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -89,6 +88,8 @@ public class NominaFaltasUI extends Composite {
     private Integer idEmpleado;
     
     private DatePickerCell fechaInicioCell;
+    private NomIntegerInputCell diasCell;
+    private NomTextInputCell folioCell;
             
     public NominaFaltasUI() {
         
@@ -146,6 +147,8 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setPageSize(20);
 
         fechaInicioCell = new DatePickerCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM));
+        diasCell = new NomIntegerInputCell("80");
+        folioCell = new NomTextInputCell();
         
         initTableColumns();
 
@@ -253,14 +256,11 @@ public class NominaFaltasUI extends Composite {
         };
         dataGrid.addColumn(tipoCol, "Tipo");
         dataGrid.setColumnWidth(tipoCol, 60, Style.Unit.PCT);
-
         
         // Fecha
         Column<Falta, Date> fechaCol = new Column<Falta, Date>(fechaInicioCell) {
             @Override
             public Date getValue(Falta object) {
-                //DateTimeFormat dtf = DateTimeFormat.getFormat("yyy-MM-dd"); // usado por el Input de HTML5
-                //String result = dtf.format(object.getFechaInicio());
                 return object.getFechaInicio();
             }
         };
@@ -278,57 +278,32 @@ public class NominaFaltasUI extends Composite {
                 dataGrid.redrawRow(absRowIndex);
             }
         });
-        
-//        fechaCol.setFieldUpdater(new FieldUpdater<Falta, String>() {
-//            @Override
-//            public void update(int index, Falta object, String value) {
-//                try {
-//                    DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
-//                    Date fechaInicio = dateTimeFormat.parse(value);
-//                    object.setFechaInicio(fechaInicio);
-//                    getREST().update(object);
-//                } catch (Exception ex) {
-//
-//                }
-//                fechaInicioCell.clearViewData(object);
-//                int absRowIndex = index;
-//                dataGrid.redrawRow(absRowIndex);
-//            }
-//        });
         dataGrid.addColumn(fechaCol, "Fecha");
         dataGrid.setColumnWidth(fechaCol, 120, Style.Unit.PX);
-                
-        
-//// DateCell.
-//    DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
-//    Column
-//    addColumn(new DateCell(dateFormat), "Date", new GetValue<Date>() {
-//      @Override
-//      public Date getValue(ContactInfo contact) {
-//        return contact.getBirthday();
-//      }
-//    }, null);
-//
-//    // DatePickerCell.
-//    addColumn(new DatePickerCell(dateFormat), "DatePicker", new GetValue<Date>() {
-//      @Override
-//      public Date getValue(ContactInfo contact) {
-//        return contact.getBirthday();
-//      }
-//    }, new FieldUpdater<ContactInfo, Date>() {
-//      @Override
-//      public void update(int index, ContactInfo object, Date value) {
-//        pendingChanges.add(new BirthdayChange(object, value));
-//      }
-//    });
+
         // Dias
-        Column<Falta, String> diasCol = new Column<Falta, String>(new NomIntegerInputCell("80")) {
+        Column<Falta, String> diasCol = new Column<Falta, String>(diasCell) {
             @Override
             public String getValue(Falta object) {
                 Integer result = object == null || object.getDias() == null ? 0 : object.getDias();
                 return Integer.toString(result);
             }
         };
+        diasCol.setFieldUpdater(new FieldUpdater<Falta, String>() {
+            @Override
+            public void update(int index, Falta object, String value) {
+                try {
+                    Integer dias = Integer.parseInt(value);
+                    object.setDias(dias);
+                    getREST().update(object);
+                } catch (Exception ex) {
+
+                }
+                diasCell.clearViewData(object);
+                int absRowIndex = index;
+                dataGrid.redrawRow(absRowIndex);
+            }
+        });
         diasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(diasCol, "Días");
         dataGrid.setColumnWidth(diasCol, 68, Style.Unit.PX);
@@ -353,12 +328,26 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setColumnWidth(faltasCol, 68, Style.Unit.PX);
 
         // Folio
-        Column<Falta, String> folioCol = new Column<Falta, String>(new NomTextInputCell()) {
+        Column<Falta, String> folioCol = new Column<Falta, String>(folioCell) {
             @Override
             public String getValue(Falta object) {
                 return object.getFolio();
             }
         };
+        folioCol.setFieldUpdater(new FieldUpdater<Falta, String>() {
+            @Override
+            public void update(int index, Falta object, String value) {
+                try {
+                    object.setFolio(value);
+                    getREST().update(object);
+                } catch (Exception ex) {
+
+                }
+                folioCell.clearViewData(object);
+                int absRowIndex = index;
+                dataGrid.redrawRow(absRowIndex);
+            }
+        });        
         dataGrid.addColumn(folioCol, "Folio");
         dataGrid.setColumnWidth(folioCol, 40, Style.Unit.PCT);
 

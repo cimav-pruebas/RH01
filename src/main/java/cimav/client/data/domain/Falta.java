@@ -5,7 +5,6 @@
  */
 package cimav.client.data.domain;
 
-import cimav.client.view.Quincena;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
