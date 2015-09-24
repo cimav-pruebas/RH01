@@ -87,10 +87,7 @@ public class NominaListUI extends Composite {
         selectionModel.addSelectionChangeHandler(new SelectionHandler());
         cellList.setPageSize(800);  // máximo son 400 empleados. Al mostrarlos todos, no se requiere Pager.
         scrollPanel.add(cellList);
-
-//                SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-//        pager = new SimplePager(SimplePager.TextLocation.CENTER, pagerResources, false, 0, true);
-//        pager.setDisplay(dataGrid);
+        
         /* Inyectarle style absolute al Abuelo para que funcione el scroll del cellList */
         Element divAbue = cellList.getElement().getParentElement().getParentElement();
         divAbue.getStyle().setPosition(Style.Position.ABSOLUTE);
@@ -200,10 +197,27 @@ public class NominaListUI extends Composite {
         @Override
         public void onValueChange(ValueChangeEvent<Boolean> event) {
                 if (event.getValue()) {
-                    btnCalcular.setType(ButtonType.PRIMARY);
+                    btnCalcular.setType(ButtonType.PRIMARY);  
+                    
+                    EmpleadoBase empSel = selectionModel.getSelectedObject();
+                    if (empSel != null) {
+                        nominaUI.setSelectedBean(empSel.getId());
+                    } else {
+                        nominaUI.setSelectedBean(null);
+                    }
+                    
                 } else {
                     btnCalcular.setType(ButtonType.WARNING);
                     
+                    // seleccionar todos los empleados filtrados
+                    String ids = "";
+                    for (EmpleadoBase emp : cellList.getVisibleItems()) {
+                        //calculo.calcular(emp.getId());
+                        ids = ids + "{\"id\":" + emp.getId() + "},\n";
+                    }
+                    ids = ("[" + ids + "]").replace(",\n]", "]");
+                    
+                    nominaUI.setSelectedList(ids);
                 }
         }
     }
@@ -213,6 +227,8 @@ public class NominaListUI extends Composite {
         if (empSel != null) {
             // deseleccionar sin lanzar el listener
             selectionModel.setSelected(empSel, false);
+            
+            //nominaUI.setSelectedBean(0); // muestra Empleado inexistente
         }
     }
 
@@ -308,25 +324,30 @@ public class NominaListUI extends Composite {
         @Override
         public void onSelectionChange(SelectionChangeEvent event) {
             if (event.getSource() instanceof SingleSelectionModel) {
+                
+                if (toggleSwitch.getValue()) {
 
-                EmpleadoBase empleadoSelected = null;
-                try {
-                    SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
-                    empleadoSelected = (EmpleadoBase) selModel.getSelectedObject();
+                    EmpleadoBase empleadoSelected = null;
+                    try {
+                        SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
+                        empleadoSelected = (EmpleadoBase) selModel.getSelectedObject();
 
-                    if (empleadoSelected == null) {
-                        return;
-                    }
+//                        if (empleadoSelected == null) {
+//                            return;
+//                        }
+                        
+                        Integer id = empleadoSelected == null ? 0 : empleadoSelected.getId();
+                        nominaUI.setSelectedBean(id);
 
-                    int idx = scrollIntoView(empleadoSelected);
+                        int idx = scrollIntoView(empleadoSelected);
 
                     // GWT.log(idx + " >>> Sel: " + empleadoSelected);
-                    ////Empleado sel = (Empleado) empleadoSelected;
-
-                    nominaUI.setSelectedBean(empleadoSelected.getId());
-
-                } catch (Exception e) {
-                    Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());
+                        ////Empleado sel = (Empleado) empleadoSelected;
+                    } catch (Exception e) {
+                        Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());
+                    }
+                } else {
+                    
                 }
             }
         }

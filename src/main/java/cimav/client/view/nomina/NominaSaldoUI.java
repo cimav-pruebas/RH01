@@ -356,8 +356,11 @@ public class NominaSaldoUI extends Composite {
     }
 
     public int setEmpleado(EmpleadoNomina empleado) {
-        this.empleadoId = empleado.getId();
-        List<NominaQuincenal> result = empleado.getNominaQuincenalCollection(this.tipoConcepto, ETipoMovimiento.PAGO);
+        List<NominaQuincenal> result = new ArrayList<>();
+        if (empleado != null) {
+            this.empleadoId = empleado.getId();
+            result.addAll(empleado.getNominaQuincenalCollection(this.tipoConcepto, ETipoMovimiento.PAGO));
+        }
         provider.setList(result);
         return result.size();
     }

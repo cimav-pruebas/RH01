@@ -27,6 +27,8 @@ public enum EMethod {
     FIND_EMPLEADO_BASE_BY_ID_DEPTO,
     // EmpleadoNomina
     FIND_EMPLEADO_NOMINA_BY_ID,
+    // NominaQuincenal
+    FIND_BY_EMPLEADO_IDS,
 
     //Movimientos
     UPDATE_MOVIMIENTO,

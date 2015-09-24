@@ -57,7 +57,7 @@ public class CalculoREST extends BaseREST {
     }
 
     public void calcular(String ids) {
-
+        
         BaseREST.setDateFormatPOST();
 
         String url = BaseREST.URL_REST_BASE + "api/calculo";

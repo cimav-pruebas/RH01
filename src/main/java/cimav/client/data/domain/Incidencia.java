@@ -29,6 +29,7 @@ public class Incidencia implements Serializable {
         fechaInicio = new Date();
         tipo = ETipoIncidencia.AI;
         clase = tipo.getClase();
+        folio = "";
         this.setDias(1);
     }
 

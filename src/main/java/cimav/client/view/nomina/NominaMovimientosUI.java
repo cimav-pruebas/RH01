@@ -117,9 +117,9 @@ public class NominaMovimientosUI extends Composite {
                 String result = Utils.formatCantidad(object.getCantidad());
                 SafeHtmlBuilder a = new SafeHtmlBuilder();
                 if (object.getConcepto().getSuma()) {
-                    a.appendHtmlConstant("<span>" + result + "</span>");
+                    a.appendHtmlConstant("<span style='padding-right: 5px;'>" + result + "</span>");
                 } else {
-                    a.appendHtmlConstant("<span style='color: grey; font-style: italic;'>" + result + "</span>");
+                    a.appendHtmlConstant("<span style='padding-right: 5px; color: grey; font-style: italic;'>" + result + "</span>");
                 }
 		return a.toSafeHtml();            
             }

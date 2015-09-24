@@ -250,7 +250,8 @@ public class NominaFaltasUI extends Composite {
             @Override
             public SafeHtml getValue(Incidencia object) {
                 SafeHtmlBuilder sb = new SafeHtmlBuilder();
-                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong>" +object.getCode()+ "</strong> " + "<span>"+object.getTipo().getDescripcion()+"</span></div>");
+                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 3px;'>" 
+                        + object.getCode()+ "</strong> " + "<span>"+object.getTipo().getDescripcion()+"</span></div>");
                 return sb.toSafeHtml();
             }
         };
@@ -308,24 +309,26 @@ public class NominaFaltasUI extends Composite {
         dataGrid.addColumn(diasCol, "Días");
         dataGrid.setColumnWidth(diasCol, 68, Style.Unit.PX);
 
-        // Faltas
-        Column<Incidencia, String> faltasCol = new Column<Incidencia, String>(new TextCell()) {
+        // Incidencias
+        Column<Incidencia, SafeHtml> incidenciasCol = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public String getValue(Incidencia object) {
+            public SafeHtml getValue(Incidencia object) {
                 Integer result = object == null || object.getIncidencias()== null ? 0 : object.getIncidencias();
-                return Integer.toString(result);
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 6px;'>" 
+                        + Integer.toString(result)+ "</strong></div>");
+                return sb.toSafeHtml();
             }
         };
-        faltasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        incidenciasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
         Header<String> forzarFooter = new Header<String>(new TextCell()) {
             @Override
             public String getValue() {
                 return "  ";
             }
         };
-        //dataGrid.addColumn(faltasCol, "Días");
-        dataGrid.addColumn(faltasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Incidencias")), forzarFooter);
-        dataGrid.setColumnWidth(faltasCol, 68, Style.Unit.PX);
+        dataGrid.addColumn(incidenciasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Incidencias")), forzarFooter);
+        dataGrid.setColumnWidth(incidenciasCol, 68, Style.Unit.PX);
 
         // Folio
         Column<Incidencia, String> folioCol = new Column<Incidencia, String>(folioCell) {
@@ -354,14 +357,17 @@ public class NominaFaltasUI extends Composite {
     }
 
     public int setEmpleado(EmpleadoNomina empleado) {
-        this.idEmpleado = empleado.getId();
-        List<Incidencia> result = empleado.getIncidencias();
-        Collections.sort(result, new Comparator<Incidencia>() {
-            @Override
-            public int compare(Incidencia f1, Incidencia f2) {
-                return f1.getFechaInicio().compareTo(f2.getFechaInicio());
-            }
-        });
+        List<Incidencia> result = new ArrayList<>();
+        if (empleado != null) {
+            this.idEmpleado = empleado.getId();
+            result = empleado.getIncidencias();
+            Collections.sort(result, new Comparator<Incidencia>() {
+                @Override
+                public int compare(Incidencia f1, Incidencia f2) {
+                    return f1.getFechaInicio().compareTo(f2.getFechaInicio());
+                }
+            });
+        }
         provider.setList(result);
         return result.size();
     }

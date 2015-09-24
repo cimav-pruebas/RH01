@@ -7,8 +7,10 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
+import cimav.client.data.rest.NominaQuincenalREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
@@ -19,11 +21,14 @@ import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -60,6 +65,7 @@ public class NominaUI extends Composite {
     private EmpleadoNomina empleadoNominaLoaded;
     
     private EmpleadoREST empleadoREST;
+    private NominaQuincenalREST nominaQuincenalREST;
     
     @UiField
     HorizontalPanel movimientosContenedor;
@@ -161,16 +167,26 @@ public class NominaUI extends Composite {
                     // re-carga el provider con el empleado reloaded
                     empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
                     
-                    nominaPercepcionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
+                    List<NominaQuincenal> percepciones = new ArrayList<>();
+                    List<NominaQuincenal> deducciones = new ArrayList<>();
+                    List<NominaQuincenal> repercuciones = new ArrayList<>();
+                    
+                    if (empleadoNominaLoaded != null) {
+                        percepciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
+                        deducciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
+                        repercuciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.REPERCUCION));
+                    }
+                    
+                    nominaPercepcionesUI.setList(percepciones);
                     int percepSaldos = nominaPercepcionesSaldoUI.setEmpleado(empleadoNominaLoaded);
                             
-                    nominaDeduccionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
+                    nominaDeduccionesUI.setList(deducciones);
                     int deduccSaldos = nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
 
                     int deducFaltas = nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
                             
-                    BigDecimal totPercepciones = empleadoNominaLoaded.getTotalPercepciones();
-                    BigDecimal totDeducciones = empleadoNominaLoaded.getTotalDeducciones();
+                    BigDecimal totPercepciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalPercepciones() : BigDecimal.ZERO;
+                    BigDecimal totDeducciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalDeducciones() : BigDecimal.ZERO;
                     BigDecimal total = totPercepciones.subtract(totDeducciones);
                     
                     totalLabel.setText(Utils.formatCurrency(total));
@@ -179,14 +195,46 @@ public class NominaUI extends Composite {
                     tabDeducPorSaldo.setCount(deduccSaldos);
                     tabDeducFaltas.setCount(deducFaltas);
                     
-                    nominaRepercucionesUI.setList(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.REPERCUCION));
+                    nominaRepercucionesUI.setList(repercuciones);
                     
                 } else {
-                    
+                    Window.alert("Error NominaUI: " + methodEvent.getReason());
                 }
             } 
             
         }
+    }
+    
+    private NominaQuincenalREST getNominaQuincenalREST() {
+        if (nominaQuincenalREST == null) {
+            nominaQuincenalREST = new NominaQuincenalREST();
+            nominaQuincenalREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+                @Override
+                public void onRESTExecuted(MethodEvent restEvent) {
+                    if (EMethod.FIND_BY_EMPLEADO_IDS.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                            List<NominaQuincenal> list = (List<NominaQuincenal>) restEvent.getResult();
+                            List<NominaQuincenal> percepciones = new ArrayList<>();
+                            List<NominaQuincenal> deducciones = new ArrayList<>();
+                            List<NominaQuincenal> repercuciones = new ArrayList<>();
+                            for(NominaQuincenal nq : list) {
+                                if (ETipoConcepto.PERCEPCION.equals(nq.getConcepto().getTipoConcepto())) {
+                                    percepciones.add(nq);
+                                } else if (ETipoConcepto.DEDUCCION.equals(nq.getConcepto().getTipoConcepto())) {
+                                    deducciones.add(nq);
+                                } else if (ETipoConcepto.REPERCUCION.equals(nq.getConcepto().getTipoConcepto())) {
+                                    repercuciones.add(nq);
+                                }
+                            }
+                            nominaPercepcionesUI.setList(percepciones);
+                            nominaDeduccionesUI.setList(deducciones);
+                            nominaRepercucionesUI.setList(repercuciones);
+                        }
+                    }
+                }
+            });
+        }
+        return nominaQuincenalREST;
     }
     
     public void setSelectedBean(Integer idEmpleadoBaseSelected) {
@@ -195,7 +243,13 @@ public class NominaUI extends Composite {
         idEmpleadoBaseSelected = idEmpleadoBaseSelected == null ? 0 : idEmpleadoBaseSelected;
         
         getEmpleadosREST().findEmpleadoNominaById(idEmpleadoBaseSelected);
-     
+        
+    }
+
+    public void setSelectedList(String ids) {
+        
+        getNominaQuincenalREST().findByEmpleadoIds(ids);
+        
     }
     
     private class PagosListener implements NominaSaldoUI.PagosListener {
