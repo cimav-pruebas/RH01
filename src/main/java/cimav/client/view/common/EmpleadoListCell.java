@@ -5,11 +5,11 @@
  */
 package cimav.client.view.common;
 
-import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.EmpleadoBase;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -22,10 +22,24 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
 
     private final SingleSelectionModel<EmpleadoBase> selectionModel;
 
+    private String colorSelected;
+    
     public EmpleadoListCell(SingleSelectionModel<EmpleadoBase> selectionModel) {
         this.selectionModel = selectionModel;
+        this.colorSelected = "#628cd5";
     }
         
+    public void setSelectable(boolean selectable, int empIdSel) {
+        if (selectable) {
+            colorSelected = "#628cd5";
+        } else {
+            colorSelected = "lightgray"; // "#f0ad4e";
+        }
+        
+        GQuery.$("#td_selec_" + empIdSel + "_left").css("background-color", colorSelected);
+        GQuery.$("#td_selec_" + empIdSel + "_right").css("background-color", colorSelected);
+        
+    }
         @Override
         public void render(Cell.Context context, EmpleadoBase value, SafeHtmlBuilder sb) {
             if (value == null) {
@@ -46,13 +60,15 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
             DateTimeFormat dtf = DateTimeFormat.getFormat("dd/MMM/yyyy");
             String fechaAntStr = dtf.format(value.getFechaAntiguedad());
             
+            String td_selec_id = "td_selec_" + value.getId();
+            
             String html
                     = "<table width='100%' cellspacing='0' cellpadding='0' style='cursor: pointer; text-align: left; vertical-align: middle; border-bottom:1px solid lightgray;'>\n"
                     + " <tbody> \n"
                     + "  <tr >\n"
-                    + "    <td rowspan='6' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
+                    + "    <td rowspan='6' id='" + td_selec_id + "_left' class'td_selection' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
                     + "    <td colspan='3' style='height:10px;'></td>\n"
-                    + "    <td rowspan='6' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
+                    + "    <td rowspan='6' id='" + td_selec_id + "_right' class'td_selection' style='height:auto; width: 5px; SELECTED_COLOR_REEMPLAZO'></td>\n"
                     + "  </tr>\n"
                     + "  <tr>\n"
                     + "    <td width='78px' rowspan='3' style='text-align: center;'>"
@@ -80,11 +96,7 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
                     + "</table>";
 
             if (isSelected) {
-                html = html.replace("SELECTED_COLOR_REEMPLAZO", "background-color: #628cd5;");
-//                html = html.replace("STYLE_INDICADOR_REEMPLAZO", 
-//                        "style = 'position: relative; float: right; top: 4px; width: 14px; height: 14px; border-top: 3px solid #628cd5;\n" +
-//                                                                 "-moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -webkit-transform: rotate(45deg);\n" +
-//                                                                 "transform: rotate(45deg); overflow: hidden; right: 8px; border-right: 3px solid #628cd5;' ");
+                html = html.replace("SELECTED_COLOR_REEMPLAZO", "background-color: " + colorSelected + ";"); // 628cd5;");
             } else if (value.isDirty() != null && value.isDirty()) {
                 html = html.replace("SELECTED_COLOR_REEMPLAZO", "background-color: lightgray;");
             } else {

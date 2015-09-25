@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -72,6 +73,8 @@ public class NominaListUI extends Composite {
 
     private final SingleSelectionModel<EmpleadoBase> selectionModel;
 
+    private EmpleadoListCell empleadoListCell;
+
     public NominaListUI() {
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -80,7 +83,7 @@ public class NominaListUI extends Composite {
         //CellList.Resources cellListResources = GWT.create(CellList.Resources.class);
         CellList.Resources cellListResources = GWT.create(ICellListResources.class);
         selectionModel = new SingleSelectionModel<>();
-        EmpleadoListCell empleadoListCell = new EmpleadoListCell(selectionModel);
+        empleadoListCell = new EmpleadoListCell(selectionModel);
         cellList = new CellList<EmpleadoBase>(empleadoListCell, cellListResources, empleadosBaseProvider.getDataProvider());
         cellList.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         cellList.setSelectionModel(selectionModel);
@@ -156,15 +159,20 @@ public class NominaListUI extends Composite {
                 }
             } else {
                 // calcular todos los empleados filtrados
-                String ids = "";
-                for (EmpleadoBase emp : cellList.getVisibleItems()) {
-                    //calculo.calcular(emp.getId());
-                    ids = ids + "{\"id\":" + emp.getId() + "},\n";
-                }
-                ids = ("[" + ids + "]").replace(",\n]", "]");
+                String ids = getJsonEmpleadosSelectedIds();
                 calculo.calcular(ids);
             }
         }
+    }
+    
+    private String getJsonEmpleadosSelectedIds() {
+        String ids = "";
+        for (EmpleadoBase emp : cellList.getVisibleItems()) {
+            //calculo.calcular(emp.getId());
+            ids = ids + "{\"id\":" + emp.getId() + "},\n";
+        }
+        ids = ("[" + ids + "]").replace(",\n]", "]");
+        return ids;
     }
     
     private class RESTExecutedListener implements BaseREST.RESTExecutedListener {
@@ -184,10 +192,11 @@ public class NominaListUI extends Composite {
                     Growl.growl("Cálculo de empleados seleccionados correcto");
                 } else {
                     Growl.growl("Cálculo de empleados seleccionados falló");
-                }
-                if (empSel != null) {
-                    nominaUI.setSelectedBean(empSel.getId());
-                }
+                }              
+                // agrupar todos los empleados filtrados
+                String ids = getJsonEmpleadosSelectedIds();
+                nominaUI.setSelectedList(ids);
+
             }
         }
         
@@ -196,29 +205,31 @@ public class NominaListUI extends Composite {
     private class CalcularToggleSwitch implements ValueChangeHandler<Boolean> {
         @Override
         public void onValueChange(ValueChangeEvent<Boolean> event) {
+                EmpleadoBase empSel = selectionModel.getSelectedObject();
                 if (event.getValue()) {
                     btnCalcular.setType(ButtonType.PRIMARY);  
                     
-                    EmpleadoBase empSel = selectionModel.getSelectedObject();
                     if (empSel != null) {
                         nominaUI.setSelectedBean(empSel.getId());
+                        empleadoListCell.setSelectable(true, empSel.getId());
                     } else {
                         nominaUI.setSelectedBean(null);
                     }
+
                     
                 } else {
                     btnCalcular.setType(ButtonType.WARNING);
-                    
-                    // seleccionar todos los empleados filtrados
-                    String ids = "";
-                    for (EmpleadoBase emp : cellList.getVisibleItems()) {
-                        //calculo.calcular(emp.getId());
-                        ids = ids + "{\"id\":" + emp.getId() + "},\n";
-                    }
-                    ids = ("[" + ids + "]").replace(",\n]", "]");
-                    
+
+                    // agrupas todos los empleados filtrados
+                    String ids = getJsonEmpleadosSelectedIds();
                     nominaUI.setSelectedList(ids);
+                    
+                    if (empSel != null) {
+                        empleadoListCell.setSelectable(false, empSel.getId());
+                    }
+
                 }
+                //selectionModel.setSelected(null, true);
         }
     }
     
