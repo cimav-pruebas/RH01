@@ -217,11 +217,18 @@ public class NominaUI extends Composite {
                             List<NominaQuincenal> percepciones = new ArrayList<>();
                             List<NominaQuincenal> deducciones = new ArrayList<>();
                             List<NominaQuincenal> repercuciones = new ArrayList<>();
+                            BigDecimal total = BigDecimal.ZERO;
                             for(NominaQuincenal nq : list) {
                                 if (ETipoConcepto.PERCEPCION.equals(nq.getConcepto().getTipoConcepto())) {
                                     percepciones.add(nq);
+                                    if (nq.getConcepto().getSuma()) {
+                                        total = total.add(nq.getCantidad());
+                                    }
                                 } else if (ETipoConcepto.DEDUCCION.equals(nq.getConcepto().getTipoConcepto())) {
                                     deducciones.add(nq);
+                                    if (nq.getConcepto().getSuma()) {
+                                        total = total.subtract(nq.getCantidad());
+                                    }
                                 } else if (ETipoConcepto.REPERCUCION.equals(nq.getConcepto().getTipoConcepto())) {
                                     repercuciones.add(nq);
                                 }
@@ -229,6 +236,8 @@ public class NominaUI extends Composite {
                             nominaPercepcionesUI.setList(percepciones);
                             nominaDeduccionesUI.setList(deducciones);
                             nominaRepercucionesUI.setList(repercuciones);
+                            
+                            totalLabel.setText(Utils.formatCurrency(total));
                         }
                     }
                 }

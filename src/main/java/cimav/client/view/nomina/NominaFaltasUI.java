@@ -97,7 +97,6 @@ public class NominaFaltasUI extends Composite {
         
         initWidget(uiBinder.createAndBindUi(this));
         
-        
         faltaChosen = new org.gwtbootstrap3.client.ui.ValueListBox<>(new Renderer<ETipoIncidencia>() {
             @Override
             public String render(ETipoIncidencia object) {
@@ -127,10 +126,9 @@ public class NominaFaltasUI extends Composite {
             public void f() {
                 JsArrayMixed args = arguments(0);
                 String idFalta = args.getString(0);
-                getREST().remove(idFalta);
+                getIncidenciasREST().remove(idFalta);
             }
         });
-
         
     }
     private void buildGrid() {
@@ -191,13 +189,18 @@ public class NominaFaltasUI extends Composite {
                 Incidencia nueva = new Incidencia();
                 nueva.setIdEmpleado(idEmpleado);
                 nueva.setTipo(selected);
+                nueva.setFechaInicial(new Date());
+                nueva.setDias(1);
+                
+                nueva.ajustar();
+                
                 // Crearla en la DB
-                getREST().create(nueva);
+                getIncidenciasREST().create(nueva);
             }
         }
     }
     
-    private IncidenciaREST getREST() {
+    private IncidenciaREST getIncidenciasREST() {
         if (faltaREST == null) {
             faltaREST = new IncidenciaREST();
             faltaREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
@@ -262,15 +265,18 @@ public class NominaFaltasUI extends Composite {
         Column<Incidencia, Date> fechaCol = new Column<Incidencia, Date>(fechaInicioCell) {
             @Override
             public Date getValue(Incidencia object) {
-                return object.getFechaInicio();
+                return object.getFechaInicial();
             }
         };
         fechaCol.setFieldUpdater(new FieldUpdater<Incidencia, Date>() {
             @Override
             public void update(int index, Incidencia object, Date value) {
                 try {
-                    object.setFechaInicio(value);
-                    getREST().update(object);
+                    object.setFechaInicial(value);
+                    
+                    object.ajustar();
+                    
+                    getIncidenciasREST().update(object);
                 } catch (Exception ex) {
 
                 }
@@ -296,7 +302,10 @@ public class NominaFaltasUI extends Composite {
                 try {
                     Integer dias = Integer.parseInt(value);
                     object.setDias(dias);
-                    getREST().update(object);
+                    
+                    object.ajustar();
+                    
+                    getIncidenciasREST().update(object);
                 } catch (Exception ex) {
 
                 }
@@ -309,27 +318,51 @@ public class NominaFaltasUI extends Composite {
         dataGrid.addColumn(diasCol, "Días");
         dataGrid.setColumnWidth(diasCol, 68, Style.Unit.PX);
 
-        // Incidencias
-        Column<Incidencia, SafeHtml> incidenciasCol = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
+        // Dias Habiles
+        Column<Incidencia, SafeHtml> diasHabilesCols = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
             @Override
             public SafeHtml getValue(Incidencia object) {
-                Integer result = object == null || object.getIncidencias()== null ? 0 : object.getIncidencias();
+                Integer result = object == null || object.getDiasHabiles()== null ? 0 : object.getDiasHabiles();
                 SafeHtmlBuilder sb = new SafeHtmlBuilder();
                 sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 6px;'>" 
                         + Integer.toString(result)+ "</strong></div>");
                 return sb.toSafeHtml();
             }
         };
-        incidenciasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        Header<String> forzarFooter = new Header<String>(new TextCell()) {
+        diasHabilesCols.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dataGrid.addColumn(diasHabilesCols, new SafeHtmlHeader(SafeHtmlUtils.fromString("Hábiles")));
+        dataGrid.setColumnWidth(diasHabilesCols, 68, Style.Unit.PX);
+
+        // Dias Inhabiles
+        Column<Incidencia, SafeHtml> diasInhabiles = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public String getValue() {
-                return "  ";
+            public SafeHtml getValue(Incidencia object) {
+                Integer result = object == null || object.getDiasInhabiles()== null ? 0 : object.getDiasInhabiles();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 6px;'>" 
+                        + Integer.toString(result)+ "</strong></div>");
+                return sb.toSafeHtml();
             }
         };
-        dataGrid.addColumn(incidenciasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Incidencias")), forzarFooter);
-        dataGrid.setColumnWidth(incidenciasCol, 68, Style.Unit.PX);
+        diasInhabiles.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dataGrid.addColumn(diasInhabiles, new SafeHtmlHeader(SafeHtmlUtils.fromString("Inhábiles")));
+        dataGrid.setColumnWidth(diasInhabiles, 68, Style.Unit.PX);
 
+        // Dias Restantes
+        Column<Incidencia, SafeHtml> diasRestantesCol = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(Incidencia object) {
+                Integer result = object == null || object.getDiasRestantes()== null ? 0 : object.getDiasRestantes();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 6px;'>" 
+                        + Integer.toString(result)+ "</strong></div>");
+                return sb.toSafeHtml();
+            }
+        };
+        diasRestantesCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dataGrid.addColumn(diasRestantesCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Restantes")));
+        dataGrid.setColumnWidth(diasRestantesCol, 68, Style.Unit.PX);
+        
         // Folio
         Column<Incidencia, String> folioCol = new Column<Incidencia, String>(folioCell) {
             @Override
@@ -342,7 +375,7 @@ public class NominaFaltasUI extends Composite {
             public void update(int index, Incidencia object, String value) {
                 try {
                     object.setFolio(value);
-                    getREST().update(object);
+                    getIncidenciasREST().update(object);
                 } catch (Exception ex) {
 
                 }
@@ -351,7 +384,13 @@ public class NominaFaltasUI extends Composite {
                 dataGrid.redrawRow(absRowIndex);
             }
         });        
-        dataGrid.addColumn(folioCol, "Folio");
+        Header<String> forzarFooter = new Header<String>(new TextCell()) {
+            @Override
+            public String getValue() {
+                return "  ";
+            }
+        };
+        dataGrid.addColumn(folioCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Folio")), forzarFooter);
         dataGrid.setColumnWidth(folioCol, 40, Style.Unit.PCT);
 
     }
@@ -364,7 +403,8 @@ public class NominaFaltasUI extends Composite {
             Collections.sort(result, new Comparator<Incidencia>() {
                 @Override
                 public int compare(Incidencia f1, Incidencia f2) {
-                    return f1.getFechaInicio().compareTo(f2.getFechaInicio());
+                    //return f1.getFechaInicial().compareTo(f2.getFechaInicial());
+                    return f1.getId().compareTo(f2.getId());
                 }
             });
         }

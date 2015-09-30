@@ -39,6 +39,8 @@ import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconFlip;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
+import org.gwtbootstrap3.extras.growl.client.ui.GrowlOptions;
+import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
 import org.gwtbootstrap3.extras.toggleswitch.client.ui.ToggleSwitch;
 
 /**
@@ -184,7 +186,10 @@ public class NominaListUI extends Composite {
                 if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
                     Growl.growl(codeEmp + " calculado");
                 } else {
-                    Growl.growl(codeEmp + " fallo cálculo");
+                    GrowlOptions go = new GrowlOptions();
+                    go.setType(GrowlType.DANGER);
+                    go.setDelay(0);
+                    Growl.growl(codeEmp + " falló cálculo. " + restEvent.getReason(), go);
                 }
                 nominaUI.setSelectedBean(empSel.getId());
             } else if (EMethod.CALCULAR_ALL.equals(restEvent.getMethod())) {

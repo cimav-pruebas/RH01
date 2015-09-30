@@ -29,8 +29,7 @@ public class IncidenciaREST extends BaseREST {
  
     public void create(Incidencia incidencia) {
 
-        //BaseREST.setDateFormatPOST();
-        BaseREST.setDateFormatGET();
+        BaseREST.setDateFormatPOST();
 
         String url = BaseREST.URL_REST_BASE + "api/incidencias";
 
@@ -51,6 +50,7 @@ public class IncidenciaREST extends BaseREST {
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
+                    BaseREST.setDateFormatGET();
                     Incidencia nueva = jsonCodec.decode(response);
                     MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
                     dbEvent.setResult(nueva);

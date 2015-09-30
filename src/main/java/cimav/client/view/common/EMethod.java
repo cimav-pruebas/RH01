@@ -35,5 +35,6 @@ public enum EMethod {
     
     // CALCULO
     CALCULAR_ONE,
-    CALCULAR_ALL
+    CALCULAR_ALL,
+    FIND_QUINCENA
 }

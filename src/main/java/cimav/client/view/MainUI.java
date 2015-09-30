@@ -5,6 +5,12 @@
  */
 package cimav.client.view;
 
+import cimav.client.data.domain.Quincena;
+import cimav.client.data.rest.BaseREST;
+import cimav.client.data.rest.CalculoREST;
+import cimav.client.view.common.EMethod;
+import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.MethodEvent;
 import com.github.gwtbootstrap.client.ui.NavLink;
 import com.github.gwtbootstrap.client.ui.NavList;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
@@ -20,6 +26,9 @@ import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
+import org.gwtbootstrap3.extras.growl.client.ui.GrowlOptions;
+import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
 
 /**
  *
@@ -46,6 +55,8 @@ public class MainUI extends Composite {
 
     Widget currentWorkWidget;
 
+    private static Quincena quincena;
+    
     public void setTit(String t) {
         lSubTitulo.setText(t);
     }
@@ -81,10 +92,39 @@ public class MainUI extends Composite {
     }
 
     public MainUI() {
+        
         initWidget(uiBinder.createAndBindUi(this));
 
-        westPanel.getElement().setAttribute("id", "west-panel");
+        westPanel.getElement().setAttribute("id", "west-panel");        
+        
     }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad(); 
+        
+        if (quincena == null) {
+            CalculoREST calculoREST = new CalculoREST();
+            calculoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+                @Override
+                public void onRESTExecuted(MethodEvent restEvent) {
+                    if (EMethod.FIND_QUINCENA.equals(restEvent.getMethod())) {
+                        if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                            quincena = (Quincena) restEvent.getResult();
+                        } else {
+                            GrowlOptions go = new GrowlOptions();
+                            go.setType(GrowlType.DANGER);
+                            go.setDelay(0);
+                            Growl.growl("Falló al cargar la Quincena. " + restEvent.getReason(), go);
+                        }
+                    }
+                }
+            });
+            calculoREST.findQuincena();
+        }           
+    }
+    
+    
 
     public void setCenterPanel(String titulo, String subTitulo, Widget widget) {
 
@@ -105,6 +145,10 @@ public class MainUI extends Composite {
         }
     }
 
+    public static Quincena getQuincena() {
+        return quincena;
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="interface OptionMenuChangeListener para cuando selecciona una Option"> 
     public interface OptionMenuChangeListener extends java.util.EventListener {
 

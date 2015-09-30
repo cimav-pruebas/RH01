@@ -5,14 +5,17 @@
  */
 package cimav.client.data.rest;
 
+import cimav.client.data.domain.Quincena;
 import cimav.client.view.common.Ajax;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import java.util.HashMap;
 import org.fusesource.restygwt.client.JsonCallback;
+import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.Resource;
 
@@ -22,6 +25,45 @@ import org.fusesource.restygwt.client.Resource;
  */
 public class CalculoREST extends BaseREST {
 
+    public interface QuincenaJsonCodec extends JsonEncoderDecoder<Quincena> {}
+    public QuincenaJsonCodec quincenaJsonCodec = GWT.create(QuincenaJsonCodec.class);
+    
+    public void findQuincena() {
+
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/calculo/quincena/";
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_QUINCENA, ETypeResult.FAILURE, "FIND_QUINCENA " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Quincena quincena = (Quincena) quincenaJsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_QUINCENA, ETypeResult.SUCCESS, "FIND_QUINCENA listo");
+                    dbEvent.setResult(quincena);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "FIND_QUINCENA >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_QUINCENA, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+    
     public void calcular(int id) {
 
         BaseREST.setDateFormatGET();
