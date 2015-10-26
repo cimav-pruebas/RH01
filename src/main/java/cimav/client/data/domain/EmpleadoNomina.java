@@ -37,6 +37,8 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     
     private List<Incidencia> incidencias;
     
+    private EmpleadoQuincenal empleadoQuincenal;
+    
     public EmpleadoNomina() {
         super();
     }
@@ -155,6 +157,14 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.incidencias = incidencias;
     }
 
+    public EmpleadoQuincenal getEmpleadoQuincenal() {
+        return empleadoQuincenal;
+    }
+
+    public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
+        this.empleadoQuincenal = empleadoQuincenal;
+    }
+
     /** 
      * Regresa la lista por TipoConcepto y TipoMovimiento
      * @param tipoConcepto
@@ -179,8 +189,15 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     public List<NominaQuincenal> getNominaQuincenalCollection(ETipoConcepto tipoConcepto) {
         List<NominaQuincenal> result = new ArrayList<>();
         for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
-            if (nominaQuincenal.getConcepto().getTipoConcepto().equals(tipoConcepto)) {
-                result.add(nominaQuincenal);
+            ETipoConcepto tipo = nominaQuincenal.getConcepto().getTipoConcepto();
+            if (ETipoConcepto.REPERCUCION.equals(tipoConcepto)) {
+                if (tipo.equals(ETipoConcepto.REPERCUCION) || tipo.equals(ETipoConcepto.INTERNO)) {
+                    result.add(nominaQuincenal);
+                }
+            } else {
+                if (tipo.equals(tipoConcepto)) {
+                    result.add(nominaQuincenal);
+                }
             }
         }
         return result;

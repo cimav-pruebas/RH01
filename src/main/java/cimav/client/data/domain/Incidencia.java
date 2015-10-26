@@ -8,7 +8,6 @@ package cimav.client.data.domain;
 import cimav.client.view.MainUI;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.datepicker.client.CalendarUtil;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

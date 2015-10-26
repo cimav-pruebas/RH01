@@ -56,10 +56,16 @@
         <g:center>
             <g:DockLayoutPanel unit='PX'>
                 <g:north size='64'>
-                    <g:VerticalPanel addStyleNames="{style.center-panel-header}">
-                        <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
-                        <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
-                    </g:VerticalPanel>                
+                    <g:HorizontalPanel ui:field="centerPanelHeaderId" addStyleNames="{style.center-panel-header}">
+                        <g:VerticalPanel >
+                            <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
+                            <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
+                        </g:VerticalPanel>                
+                        <g:VerticalPanel >
+                            <g:Label text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
+                            <g:Label text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
+                        </g:VerticalPanel>
+                    </g:HorizontalPanel>                
                 </g:north>
                 <g:center>
                     <g:FlowPanel ui:field="workPanel" addStyleNames="{style.work-panel}">
@@ -72,3 +78,44 @@
     
     </g:HTMLPanel>
 </ui:UiBinder>
+
+<!--
+<table cellspacing="0" cellpadding="0" class="cimav-client-view-MainUI_MainUiBinderImpl_GenCss_style-center-panel-header" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px;">
+    <tbody>
+        <tr>
+            <td align="left" style="vertical-align: top;" width="50%">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: top;" width="50%">
+                                <div class="gwt-Label cimav-client-view-MainUI_MainUiBinderImpl_GenCss_style-center-panel-header-titulo">Movimientos y Cálculo</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="vertical-align: top;" width="50%">
+                                <div class="gwt-Label cimav-client-view-MainUI_MainUiBinderImpl_GenCss_style-center-panel-header-sub-titulo">Captura de percepciones y deducciones. Cálculo de Nómina</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td align="left" style="vertical-align: top;" width="50%">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: top;" width="50%">
+                                <div class="gwt-Label cimav-client-view-MainUI_MainUiBinderImpl_GenCss_style-center-panel-header-titulo">TITULO</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="vertical-align: top;" width="50%">
+                                <div class="gwt-Label cimav-client-view-MainUI_MainUiBinderImpl_GenCss_style-center-panel-header-sub-titulo">Sub-Titulo un tanto más largo</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+-->

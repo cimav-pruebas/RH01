@@ -15,17 +15,22 @@ import com.github.gwtbootstrap.client.ui.NavLink;
 import com.github.gwtbootstrap.client.ui.NavList;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlOptions;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
@@ -50,6 +55,7 @@ public class MainUI extends Composite {
 
     @UiField StackLayoutPanel westPanel;
     @UiField FlowPanel workPanel;
+    @UiField HorizontalPanel centerPanelHeaderId;
     @UiField Label lTitulo;
     @UiField Label lSubTitulo;
 
@@ -121,7 +127,15 @@ public class MainUI extends Composite {
                 }
             });
             calculoREST.findQuincena();
-        }           
+        }
+        
+        centerPanelHeaderId.getElement().setId("centerPanelHeaderId");
+        //GQuery.$("#centerPanelHeaderId").css("border","solid 5px red");
+        List<Widget> tds = GQuery.$("#centerPanelHeaderId").$("table > tr > td").widgets();
+        if (tds != null && tds.size() >= 2) {
+            tds.get(0).getElement().getStyle().setWidth(100, Style.Unit.PCT);
+            tds.get(1).getElement().getStyle().setWidth(300, Style.Unit.PX);
+        }
     }
     
     

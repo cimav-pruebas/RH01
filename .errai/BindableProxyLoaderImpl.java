@@ -18,6 +18,7 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.EmpleadoQuincenal;
 import cimav.client.data.domain.Incidencia;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.domain.Tabulador;
@@ -670,6 +671,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("empleadoQuincenal", new PropertyType(EmpleadoQuincenal.class, false, false));
         agent.propertyTypes.put("incidencias", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
@@ -707,6 +709,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIsDirty(agent.target.getIsDirty());
+        clone.setEmpleadoQuincenal(agent.target.getEmpleadoQuincenal());
         if (agent.target.getIncidencias() != null) {
           final List incidenciasClone = new ArrayList();
           for (Object incidenciasElem : agent.target.getIncidencias()) {
@@ -809,6 +812,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Boolean oldValue = agent.target.getIsDirty();
         agent.target.setIsDirty(isDirty);
         agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
+      }
+
+      public EmpleadoQuincenal getEmpleadoQuincenal() {
+        return agent.target.getEmpleadoQuincenal();
+      }
+
+      public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
+        EmpleadoQuincenal oldValue = agent.target.getEmpleadoQuincenal();
+        agent.target.setEmpleadoQuincenal(empleadoQuincenal);
+        agent.updateWidgetsAndFireEvent("empleadoQuincenal", oldValue, empleadoQuincenal);
       }
 
       public List getIncidencias() {
@@ -983,6 +996,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("isDirty")) {
           return getIsDirty();
         }
+        if (property.equals("empleadoQuincenal")) {
+          return getEmpleadoQuincenal();
+        }
         if (property.equals("incidencias")) {
           return getIncidencias();
         }
@@ -1049,6 +1065,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("isDirty")) {
           agent.target.setIsDirty((Boolean) value);
+          return;
+        }
+        if (property.equals("empleadoQuincenal")) {
+          agent.target.setEmpleadoQuincenal((EmpleadoQuincenal) value);
           return;
         }
         if (property.equals("incidencias")) {
