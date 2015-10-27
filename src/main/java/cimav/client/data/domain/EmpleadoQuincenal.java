@@ -16,31 +16,30 @@ import org.fusesource.restygwt.client.Json;
 public class EmpleadoQuincenal implements  Serializable {
     
     private Integer id;
-    @Json(name = "id_empleado")
+    @Json(name = "idEmpleado")
     private Integer idEmpleado;
     
     // Faltas, Incapacidades, Ordinarios y Descanso se modifican junto
     // a las Incidencias
     private Integer faltas;
-    @Json(name = "incapacidades_habiles")
+    @Json(name = "incapacidadHabiles")
     private Integer incapacidadHabiles;
-    @Json(name = "incapacidades_inhabiles")
+    @Json(name = "incapacidadInhabiles")
     private Integer incapacidadInhabiles;
     private Integer ordinarios;
     private Integer descanso;
-    @JsonIgnore
-    private Integer trabajados;
-    
-    // Los Años y Dias se calculan al inicio de la Quincena
-    @JsonIgnore
-    private Boolean cumpleYears;
     
     // Si cumple años durante la quicena la PAnt es proporcional.
     // diasPAntUno corresponde a los dias con los años anteriores
     // diasPAntDos corresponde a los dias con los años nuevos
-    @Json(name = "years_pant")
+    @Json(name = "yearPAnt")
     private Integer yearPAnt;
-    @Json(name = "dias_pant_uno") 
+    @Json(name = "monthsPAnt")
+    private Integer monthsPAnt;
+    @Json(name = "daysPAnt")
+    private Integer daysPAnt;
+    
+    @Json(name = "diasPAntUno") 
     private Integer diasPAntUno;
     @Json(name = "dias_pant_dos")
     private Integer diasPAntDos;
@@ -108,17 +107,28 @@ public class EmpleadoQuincenal implements  Serializable {
         return ordinarios + descanso;
     }
     
-    public Boolean getCumpleYears() {
-        // si cumple años de antiguedad, entonces 
-        return diasPAntDos > 0;
-    }
-
     public Integer getYearPAnt() {
         return yearPAnt;
     }
 
     public void setYearPAnt(Integer yearPAnt) {
         this.yearPAnt = yearPAnt;
+    }
+
+    public Integer getMonthsPAnt() {
+        return monthsPAnt;
+    }
+
+    public void setMonthsPAnt(Integer monthsPAnt) {
+        this.monthsPAnt = monthsPAnt;
+    }
+
+    public Integer getDaysPAnt() {
+        return daysPAnt;
+    }
+
+    public void setDaysPAnt(Integer daysPAnt) {
+        this.daysPAnt = daysPAnt;
     }
 
     public Integer getDiasPAntUno() {
