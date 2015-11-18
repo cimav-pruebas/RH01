@@ -94,7 +94,7 @@ public class MainEntryPoint implements EntryPoint {
                             // actua como Singleton en el ciclo de vida
                             empleadosUI = new EmpleadosUI();
                         }
-                        mainUi.setCenterPanel("Personal", "Consultas, altas, bajas y cambios", empleadosUI);
+                        mainUi.setCenterPanel("Empleados", "Consultas, altas, bajas y cambios", empleadosUI);
                         break;
                     case MainUI.OPT_DEPARTAMENTOS:
                         if (deptosUI == null) {

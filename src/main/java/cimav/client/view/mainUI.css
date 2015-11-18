@@ -64,6 +64,28 @@ h2 {
     font-weight: bold;
     /*    margin: 10px 10px 0px;*/
 }
+.num-quincena {
+    float: left;
+    font-size: 17pt;
+    background-color: #428bca;
+    border: 1px solid #357ebd;
+    border-radius: 20px;
+    width: 40px;
+    padding-left: 5px;
+    padding-top: 2px;
+    height: 38px;
+    margin-right: 3px;
+}
+.status-quincena {
+    font-size: 17pt;
+    background-color: #428bca;
+    border: 1px solid #357ebd;
+    border-radius: 20px;
+    margin-top: 2px;
+}
+.fechas-quincena {
+    float: left;
+}
 .center-panel-header-sub-titulo {
     /*    color: #4B4A4A;*/
     //    padding: 10px 0px;

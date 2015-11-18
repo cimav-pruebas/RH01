@@ -27,7 +27,7 @@
                 <g:stack >
                     <g:header size='30' >Catálogos</g:header>
                     <b2:NavList ui:field="optionMenu">
-                        <b2:NavLink name="optionPersonal" ui:field="optionPersonal" >Personal</b2:NavLink> 
+                        <b2:NavLink name="optionPersonal" ui:field="optionPersonal" >Empleados</b2:NavLink> 
                         <b2:NavLink name="optionDepartamentos" ui:field="optionDepartamentos" >Departamentos</b2:NavLink>
                         <b2:NavLink name="optionTabulador" ui:field="optionTabulador" >Tabulador</b2:NavLink>
                     </b2:NavList>
@@ -56,16 +56,23 @@
         <g:center>
             <g:DockLayoutPanel unit='PX'>
                 <g:north size='64'>
-                    <g:HorizontalPanel ui:field="centerPanelHeaderId" addStyleNames="{style.center-panel-header}">
-                        <g:VerticalPanel >
-                            <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
-                            <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
-                        </g:VerticalPanel>                
-                        <g:VerticalPanel >
-                            <g:Label text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
-                            <g:Label text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
-                        </g:VerticalPanel>
-                    </g:HorizontalPanel>                
+                    <g:HTMLPanel addStyleNames="{style.center-panel-header}">
+                        <div style="clear:both; width:100%; text-align: -webkit-auto;">
+                            <div id="left" style="float:left;">
+                                <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
+                                <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
+                            </div>
+                            <div id="right" style="float:right;">
+                                <g:Label ui:field="lNumQuincena" text="..." addStyleNames="{style.num-quincena}"/> 
+                                <g:Label text="Status" addStyleNames="{style.status-quincena}"/> 
+                                <g:Label text="01/Ene/2015 - 15/Ene/2015" addStyleNames="{style.fechas-quincena}"/>                                     
+                                <!--
+                                <i class="fa fa-bell-slash"></i>                              
+                                -->
+                                
+                            </div>
+                        </div>
+                    </g:HTMLPanel>
                 </g:north>
                 <g:center>
                     <g:FlowPanel ui:field="workPanel" addStyleNames="{style.work-panel}">
