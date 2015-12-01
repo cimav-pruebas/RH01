@@ -117,7 +117,7 @@ public class Incidencia implements Serializable {
                 // Máximo igual a los ordinarios
                 this.dias = MainUI.getQuincena().getDiasOrdinarios();
             }
-            // todas la faltas capturadas son sobre dias hábiles
+            // todas la faltas capturadas son sobre dias hábiles; no hay faltas en días inhabiles o de asueto
             this.diasHabiles = this.dias;
             // no hay faltas en días de descanso
             this.diasInhabiles = 0;

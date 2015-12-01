@@ -207,7 +207,9 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         List<NominaQuincenal> percepciones = this.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION);
         BigDecimal result = BigDecimal.ZERO;
         for(NominaQuincenal percepcion : percepciones) {
-            result = result.add(percepcion.getCantidad());
+            if (percepcion.getConcepto().getSuma()) {
+                result = result.add(percepcion.getCantidad());
+            }
         }
         return result;
     }
@@ -216,7 +218,9 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         List<NominaQuincenal> deducciones = this.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION);
         BigDecimal result = BigDecimal.ZERO;
         for(NominaQuincenal deduccion : deducciones) {
-            result = result.add(deduccion.getCantidad());
+            if (deduccion.getConcepto().getSuma()) {
+                result = result.add(deduccion.getCantidad());
+            }
         }
         return result;
     }
