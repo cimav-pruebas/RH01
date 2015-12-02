@@ -30,8 +30,8 @@ public class TabBadgeListItem extends TabListItem {
         add(badge, (com.google.gwt.dom.client.Element)anchor.getElement());
     }
 
-    public void setCount(int count) {
-        this.badge.setText("" + count);
+    public void setCount(String count) {
+        this.badge.setText(count);
     }
     
     

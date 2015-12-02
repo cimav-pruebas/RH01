@@ -80,10 +80,14 @@ Uncomment this for XHTML entities
                     <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                         <b3:NavTabs ui:field="navTabsFaltas" >
                             <nom:TabBadgeListItem ui:field="tabDeducFaltas" active="true" addStyleNames='{style.tab-principal}' dataTarget="#tabDeducFaltasId" text="Incidencias"/>
+                            <nom:TabBadgeListItem ui:field="tabDeducHorasExtras" active="true" addStyleNames='{style.tab-secundario}' dataTarget="#tabDeducHorasExtrasId" text="Horas Extras"/>
                         </b3:NavTabs>
                         <b3:TabContent addStyleNames='{style.tab-panel}'>
                             <b3:TabPane  active="true" b3:id="tabDeducFaltasId" addStyleNames='{style.tab-panel-conceptos}'>
                                 <nom:NominaFaltasUI ui:field="nominaFaltasUI" />
+                            </b3:TabPane>
+                            <b3:TabPane  b3:id="tabDeducHorasExtrasId" addStyleNames='{style.tab-panel-conceptos}'>
+                                <nom:HorasExtrasUI ui:field="horasExtrasUI" />
                             </b3:TabPane>
                         </b3:TabContent>
                     </b3:PanelBody>

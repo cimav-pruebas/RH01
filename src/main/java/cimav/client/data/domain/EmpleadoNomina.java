@@ -39,6 +39,8 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     
     private EmpleadoQuincenal empleadoQuincenal;
     
+    private List<HoraExtra> horasExtras;
+    
     public EmpleadoNomina() {
         super();
     }
@@ -163,6 +165,14 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
 
     public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
         this.empleadoQuincenal = empleadoQuincenal;
+    }
+
+    public List<HoraExtra> getHorasExtras() {
+        return horasExtras;
+    }
+
+    public void setHorasExtras(List<HoraExtra> horasExtras) {
+        this.horasExtras = horasExtras;
     }
 
     /** 

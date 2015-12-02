@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.ValueListBox;
 
@@ -111,6 +113,12 @@ public class ConceptosChosen extends Composite {
                 }
             }
         }
+        Collections.sort(acceptableConceptos, new Comparator<Concepto>() {
+            @Override
+            public int compare(Concepto c1, Concepto c2) {
+                return c1.getName().compareTo(c2.getName());
+            }
+        });
         chosen.setAcceptableValues(acceptableConceptos);
     }
     

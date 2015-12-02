@@ -54,6 +54,8 @@ public class NominaUI extends Composite {
     NominaSaldoUI nominaDeduccionesSaldoUI;
     @UiField
     NominaFaltasUI nominaFaltasUI;
+    @UiField
+    HorasExtrasUI horasExtrasUI;
 
     @UiField
     NominaMovimientosUI nominaRepercucionesUI;
@@ -61,6 +63,7 @@ public class NominaUI extends Composite {
     @UiField TabBadgeListItem tabPercepPorSaldo;
     @UiField TabBadgeListItem tabDeducPorSaldo;
     @UiField TabBadgeListItem tabDeducFaltas;
+    @UiField TabBadgeListItem tabDeducHorasExtras;
     
     private EmpleadoNomina empleadoNominaLoaded;
     
@@ -77,12 +80,13 @@ public class NominaUI extends Composite {
         nominaPercepcionesSaldoUI.addPagosListener(listener);
         nominaDeduccionesSaldoUI.addPagosListener(listener);
         nominaFaltasUI.addFaltasListener(new FaltasListener());
+        horasExtrasUI.addHorasExtrasListener(new HoraExtraListener());
     }
     
     @UiHandler({
         "tabPercepConceptos",   "tabPercepPorSaldo", 
         "tabDeducConceptos",    "tabDeducPorSaldo", 
-        "tabDeducFaltas"})
+        "tabDeducFaltas", "tabDeducHorasExtras"})
     protected void onClick(ClickEvent e) {
         String str = e.getSource().toString();
         if (str.contains("tabPercepConceptos")) {
@@ -95,6 +99,8 @@ public class NominaUI extends Composite {
             nominaDeduccionesSaldoUI.dataGrid.redraw();
         } else if (str.contains("tabDeducFaltas")) {
             nominaFaltasUI.dataGrid.redraw();
+        } else if (str.contains("tabDeducHorasExtras")) {
+            horasExtrasUI.dataGrid.redraw();
         }
     }
     
@@ -184,6 +190,8 @@ public class NominaUI extends Composite {
                     int deduccSaldos = nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
 
                     int deducFaltas = nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
+                    
+                    Double horasExtras = horasExtrasUI.setEmpleado(empleadoNominaLoaded);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalPercepciones() : BigDecimal.ZERO;
                     BigDecimal totDeducciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalDeducciones() : BigDecimal.ZERO;
@@ -191,9 +199,10 @@ public class NominaUI extends Composite {
                     
                     totalLabel.setText(Utils.formatCurrency(total));
 
-                    tabPercepPorSaldo.setCount(percepSaldos);
-                    tabDeducPorSaldo.setCount(deduccSaldos);
-                    tabDeducFaltas.setCount(deducFaltas);
+                    tabPercepPorSaldo.setCount(String.valueOf(percepSaldos));
+                    tabDeducPorSaldo.setCount(String.valueOf(deduccSaldos));
+                    tabDeducFaltas.setCount(String.valueOf(deducFaltas));
+                    tabDeducHorasExtras.setCount(String.valueOf(horasExtras));
                     
                     nominaRepercucionesUI.setList(repercuciones);
                     
@@ -279,6 +288,17 @@ public class NominaUI extends Composite {
              || EMethod.UPDATE.equals(event.getMethod()) 
              || EMethod.DELETE.equals(event.getMethod())) {
                 // Se creeo/modificó/borro una Falta; reload al empleado
+                NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
+            }
+        }
+    }
+    private class HoraExtraListener implements HorasExtrasUI.HorasExtrasListener {
+        @Override
+        public void onHoraExtra(MethodEvent event) {
+            if (EMethod.CREATE.equals(event.getMethod()) 
+             || EMethod.UPDATE.equals(event.getMethod()) 
+             || EMethod.DELETE.equals(event.getMethod())) {
+                // Se creeo/modificó/borro una HoraExtra; reload al empleado
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }
         }
