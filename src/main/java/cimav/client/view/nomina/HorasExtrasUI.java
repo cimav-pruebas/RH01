@@ -5,7 +5,6 @@
  */
 package cimav.client.view.nomina;
 
-import cimav.client.data.domain.ETipoIncidencia;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.HoraExtra;
 import cimav.client.data.rest.BaseREST;
@@ -15,6 +14,7 @@ import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayMixed;
@@ -29,8 +29,9 @@ import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
 import com.google.gwt.query.client.Properties;
 import com.google.gwt.query.client.css.CSS;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
@@ -44,9 +45,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -90,12 +89,12 @@ public class HorasExtrasUI extends Composite {
         anchorPlus.addClickHandler(new HorasExtrasUI.ClickPlus());
         
         Properties wnd = window.cast();
-        wnd.setFunction("removeFalta", new Function() {
+        wnd.setFunction("removeHoraExtra", new Function() {
             // relacionado con NomIconInputCell
             public void f() {
                 JsArrayMixed args = arguments(0);
-                String idFalta = args.getString(0);
-                getHorasExtrasREST().remove(idFalta);
+                String idHoraExtra = args.getString(0);
+                getHorasExtrasREST().remove(idHoraExtra);
             }
         });
         
@@ -126,11 +125,11 @@ public class HorasExtrasUI extends Composite {
             @Override
             public void onRowHover(RowHoverEvent event) {
                 TableRowElement rowEle = event.getHoveringRow();
-                Element removeFaltaEle = rowEle.getElementsByTagName("a").getItem(0);
+                Element removeHoraExtraEle = rowEle.getElementsByTagName("a").getItem(0);
                 if (event.isUnHover()) {
-                    GQuery.$(removeFaltaEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
+                    GQuery.$(removeHoraExtraEle).css(CSS.VISIBILITY.with(Style.Visibility.HIDDEN));
                 } else {
-                    GQuery.$(removeFaltaEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
+                    GQuery.$(removeHoraExtraEle).css(CSS.VISIBILITY.with(Style.Visibility.VISIBLE));
                 }
             }
         });
@@ -159,26 +158,26 @@ public class HorasExtrasUI extends Composite {
                 public void onRESTExecuted(MethodEvent restEvent) {
                     if (EMethod.CREATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-                            onFalta(restEvent);
+                            onHoraExtra(restEvent);
 
                         } else {
-                            Growl.growl("Falló creación de la hora extra. " + restEvent.getReason());
+                            Growl.growl("Fallá creación de la hora extra. " + restEvent.getReason());
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
 
-                            onFalta(restEvent);
+                            onHoraExtra(restEvent);
 
                         } else {
-                            Growl.growl("Falló actualización de la hora extra. " + restEvent.getReason());
+                            Growl.growl("Fallá actualización de la hora extra. " + restEvent.getReason());
                         }
                     }  else if (EMethod.DELETE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
 
-                            onFalta(restEvent);
+                            onHoraExtra(restEvent);
 
                         } else {
-                            Growl.growl("Falló eliminación de la hora extra. " + restEvent.getReason());
+                            Growl.growl("Fallá eliminación de la hora extra. " + restEvent.getReason());
                         }
                     }
                 }
@@ -198,6 +197,23 @@ public class HorasExtrasUI extends Composite {
         };
         dataGrid.addColumn(iconCol, "");
         dataGrid.setColumnWidth(iconCol, 16, Style.Unit.PX);
+        
+        // Semana
+        Column<HoraExtra, SafeHtml> semanaCol = new Column<HoraExtra, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(HoraExtra object) {
+                SafeHtmlBuilder a = new SafeHtmlBuilder();
+                a.appendHtmlConstant("<span>" + object.getWeekOfYear() + "</span>");
+//                if (object.getConcepto().getSuma()) {
+//                    a.appendHtmlConstant("<span>" + object.getConcepto().getName() + "</span>");
+//                } else {
+//                    a.appendHtmlConstant("<span style='color: grey; font-style: italic;'>" + object.getConcepto().getName() + "</span>");
+//                }
+		return a.toSafeHtml();            
+            }
+        };
+        dataGrid.addColumn(semanaCol, "Semana");
+        dataGrid.setColumnWidth(semanaCol, 120, Style.Unit.PCT);
         
         // Fecha
         Column<HoraExtra, Date> diaCol = new Column<HoraExtra, Date>(diaCell) {
@@ -223,7 +239,7 @@ public class HorasExtrasUI extends Composite {
                 dataGrid.redrawRow(absRowIndex);
             }
         });
-        dataGrid.addColumn(diaCol, "Día");
+        dataGrid.addColumn(diaCol, "Día (fecha)");
         dataGrid.setColumnWidth(diaCol, 120, Style.Unit.PX);
 
         // Horas
@@ -259,7 +275,7 @@ public class HorasExtrasUI extends Composite {
                 return "  ";
             }
         };
-        dataGrid.addColumn(horasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Folio")), forzarFooter);
+        dataGrid.addColumn(horasCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Horas")), forzarFooter);
         dataGrid.setColumnWidth(horasCol, 68, Style.Unit.PX);
 
     }
@@ -268,7 +284,9 @@ public class HorasExtrasUI extends Composite {
         List<HoraExtra> horas = new ArrayList<>();
         if (empleado != null) {
             this.idEmpleado = empleado.getId();
-            horas = empleado.getHorasExtras();
+            if (empleado.getHorasExtras() != null) {
+                horas.addAll(empleado.getHorasExtras());
+            }
 //            Collections.sort(result, new Comparator<Incidencia>() {
 //                @Override
 //                public int compare(Incidencia f1, Incidencia f2) {
@@ -279,7 +297,7 @@ public class HorasExtrasUI extends Composite {
         }
         Double result = 0.00;
         for(HoraExtra he : horas) {
-            result =+ he.getHoras();
+            result = result + he.getHoras();
         }
         provider.setList(horas);
         return result;
@@ -300,7 +318,7 @@ public class HorasExtrasUI extends Composite {
         listeners.remove(listener);
     }
 
-    public void onFalta(MethodEvent restEvent) {
+    public void onHoraExtra(MethodEvent restEvent) {
         for (Iterator it = listeners.iterator(); it.hasNext();) {
             HorasExtrasListener listener = (HorasExtrasListener) it.next();
             listener.onHoraExtra(restEvent);

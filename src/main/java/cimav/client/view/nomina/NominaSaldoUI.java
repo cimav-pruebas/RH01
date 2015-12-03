@@ -197,7 +197,6 @@ public class NominaSaldoUI extends Composite {
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-
                             onPago(restEvent);
                         } else {
                             Growl.growl("Falló actualización del pago. " + restEvent.getReason());

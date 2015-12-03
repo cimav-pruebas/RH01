@@ -19,6 +19,7 @@ import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.EmpleadoQuincenal;
+import cimav.client.data.domain.HoraExtra;
 import cimav.client.data.domain.Incidencia;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.domain.Tabulador;
@@ -680,6 +681,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
+        agent.propertyTypes.put("horasExtras", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
         agent.propertyTypes.put("nominaQuincenalCollection", new PropertyType(List.class, false, true));
@@ -728,6 +730,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setCode(agent.target.getCode());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
         clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
+        if (agent.target.getHorasExtras() != null) {
+          final List horasExtrasClone = new ArrayList();
+          for (Object horasExtrasElem : agent.target.getHorasExtras()) {
+            if (horasExtrasElem instanceof BindableProxy) {
+              horasExtrasClone.add(((BindableProxy) horasExtrasElem).deepUnwrap());
+            } else {
+              horasExtrasClone.add(horasExtrasElem);
+            }
+          }
+          clone.setHorasExtras(horasExtrasClone);
+        }
         clone.setId(agent.target.getId());
         if (agent.target.getDepartamento() instanceof BindableProxy) {
           clone.setDepartamento((Departamento) ((BindableProxy) getDepartamento()).deepUnwrap());
@@ -905,6 +918,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("fechaAntiguedad", oldValue, fechaAntiguedad);
       }
 
+      public List getHorasExtras() {
+        return agent.target.getHorasExtras();
+      }
+
+      public void setHorasExtras(List<HoraExtra> horasExtras) {
+        List<HoraExtra> oldValue = agent.target.getHorasExtras();
+        horasExtras = agent.ensureBoundListIsProxied("horasExtras", horasExtras);
+        agent.target.setHorasExtras(horasExtras);
+        agent.updateWidgetsAndFireEvent("horasExtras", oldValue, horasExtras);
+      }
+
       public Integer getId() {
         return agent.target.getId();
       }
@@ -1023,6 +1047,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("fechaAntiguedad")) {
           return getFechaAntiguedad();
         }
+        if (property.equals("horasExtras")) {
+          return getHorasExtras();
+        }
         if (property.equals("id")) {
           return getId();
         }
@@ -1101,6 +1128,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("fechaAntiguedad")) {
           agent.target.setFechaAntiguedad((Date) value);
+          return;
+        }
+        if (property.equals("horasExtras")) {
+          agent.target.setHorasExtras((List<HoraExtra>) value);
           return;
         }
         if (property.equals("id")) {

@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -103,50 +104,6 @@ public class NominaUI extends Composite {
             horasExtrasUI.dataGrid.redraw();
         }
     }
-    
-//    private class CalcularClick implements ClickHandler {
-//        @Override
-//        public void onClick(ClickEvent event) {
-//            
-//            Calculo calculo = new Calculo();
-//            
-//            calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
-//                @Override
-//                public void onRESTExecuted(MethodEvent restEvent) {
-//                    if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
-//                        if(ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
-//                            Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
-//                        } else {
-//                            Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
-//                        }
-//                        NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
-//                    }
-//                }
-//            });
-//            
-//            calculo.calcular(empleadoNominaLoaded.getId());
-//        }
-//    }
-    
-//    public void calcular() {
-//        Calculo calculo = new Calculo();
-//
-//        calculo.getREST().addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
-//            @Override
-//            public void onRESTExecuted(MethodEvent restEvent) {
-//                if (EMethod.CALCULAR.equals(restEvent.getMethod())) {
-//                    if (ETypeResult.SUCCESS.equals((restEvent.getTypeResult()))) {
-//                        Growl.growl(empleadoNominaLoaded.getCode() + " calculado");
-//                    } else {
-//                        Growl.growl(empleadoNominaLoaded.getCode() + " fallo cálculo");
-//                    }
-//                    NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
-//                }
-//            }
-//        });
-//
-//        calculo.calcular(empleadoNominaLoaded.getId());
-//    }
     
     @Override
     protected void onLoad() {
@@ -288,6 +245,9 @@ public class NominaUI extends Composite {
              || EMethod.UPDATE.equals(event.getMethod()) 
              || EMethod.DELETE.equals(event.getMethod())) {
                 // Se creeo/modificó/borro una Falta; reload al empleado
+                
+                Growl.growl("BBB RESPONDO LISTERN");
+                
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }
         }

@@ -20,9 +20,11 @@ public class NomIconInputCell extends TextInputCell {
     
     public static final int SALDO = 0;
     public static final int FALTA = 1;
+    public static final int HORA_EXTRA = 2;
     
     private static TemplateSaldo templateSaldo;
     private static TemplateFalta templateFalta;
+    private static TemplateHoraExtra templateHoraExtra;
 
     interface TemplateSaldo extends SafeHtmlTemplates {
         String strHtml = "<a onclick='removeSaldo(id)' id='{0}' style='color: #B3B3B3; visibility:hidden;'><i class='fa fa-times fa-lg' style='cursor: pointer; transform: scale(1.2); ' /></a>";
@@ -31,6 +33,11 @@ public class NomIconInputCell extends TextInputCell {
     }
     interface TemplateFalta extends SafeHtmlTemplates {
         String strHtml = "<a onclick='removeFalta(id)' id='{0}' style='color: #B3B3B3; visibility:hidden;'><i class='fa fa-times fa-lg' style='cursor: pointer; transform: scale(1.2); ' /></a>";
+        @SafeHtmlTemplates.Template(strHtml)
+        SafeHtml input(String visibility);
+    }
+    interface TemplateHoraExtra extends SafeHtmlTemplates {
+        String strHtml = "<a onclick='removeHoraExtra(id)' id='{0}' style='color: #B3B3B3; visibility:hidden;'><i class='fa fa-times fa-lg' style='cursor: pointer; transform: scale(1.2); ' /></a>";
         @SafeHtmlTemplates.Template(strHtml)
         SafeHtml input(String visibility);
     }
@@ -43,6 +50,8 @@ public class NomIconInputCell extends TextInputCell {
             templateSaldo = GWT.create(TemplateSaldo.class);
         } else if (FALTA == tipo) {
             templateFalta = GWT.create(TemplateFalta.class);
+        } else if (HORA_EXTRA == tipo) {
+            templateHoraExtra = GWT.create(TemplateHoraExtra.class);
         }
     }
 
@@ -66,6 +75,8 @@ public class NomIconInputCell extends TextInputCell {
                 sb.append(templateSaldo.input(v));
             } else if (FALTA == tipo) {
                 sb.append(templateFalta.input(v));
+            }  else if (HORA_EXTRA == tipo) {
+                sb.append(templateHoraExtra.input(v));
             }
         }
     }

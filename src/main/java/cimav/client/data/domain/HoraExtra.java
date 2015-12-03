@@ -5,7 +5,9 @@
  */
 package cimav.client.data.domain;
 
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,6 +21,7 @@ public class HoraExtra implements Serializable {
     private Date dia;
     private Double horas;
     private Integer quincena;
+    private Integer weekOfYear;
 
     public HoraExtra() {
         this.dia = new Date();
@@ -63,6 +66,14 @@ public class HoraExtra implements Serializable {
 
     public void setQuincena(Integer quincena) {
         this.quincena = quincena;
+    }
+
+    public Integer getWeekOfYear() {
+        return weekOfYear;
+    }
+
+    public void setWeekOfYear(Integer weekOfYear) {
+        this.weekOfYear = weekOfYear;
     }
     
     
