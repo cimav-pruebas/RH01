@@ -7,6 +7,7 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoIncidencia;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.EmpleadoQuincenal;
 import cimav.client.data.domain.Incidencia;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.IncidenciaREST;
@@ -395,11 +396,11 @@ public class NominaFaltasUI extends Composite {
 
     }
 
-    public int setEmpleado(EmpleadoNomina empleado) {
+    public int setEmpleado(EmpleadoQuincenal empleadoQuincenal) {
         List<Incidencia> result = new ArrayList<>();
-        if (empleado != null) {
-            this.idEmpleado = empleado.getId();
-            result = empleado.getIncidencias();
+        if (empleadoQuincenal != null) {
+            this.idEmpleado = empleadoQuincenal.getIdEmpleado();
+            result = empleadoQuincenal.getIncidencias();
             Collections.sort(result, new Comparator<Incidencia>() {
                 @Override
                 public int compare(Incidencia f1, Incidencia f2) {

@@ -5,8 +5,8 @@
  */
 package cimav.client.data.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.List;
 import org.fusesource.restygwt.client.Json;
 
 /**
@@ -44,6 +44,10 @@ public class EmpleadoQuincenal implements  Serializable {
     @Json(name = "dias_pant_dos")
     private Integer diasPAntDos;
 
+    private List<Incidencia> incidencias;
+    
+    private List<HoraExtra> horasExtras;
+    
     public EmpleadoQuincenal() {
     }
 
@@ -146,6 +150,23 @@ public class EmpleadoQuincenal implements  Serializable {
     public void setDiasPAntDos(Integer diasPAntDos) {
         this.diasPAntDos = diasPAntDos;
     }
+
+    public List<Incidencia> getIncidencias() {
+        return incidencias;
+    }
+
+    public void setIncidencias(List<Incidencia> incidencias) {
+        this.incidencias = incidencias;
+    }
+
+    public List<HoraExtra> getHorasExtras() {
+        return horasExtras;
+    }
+
+    public void setHorasExtras(List<HoraExtra> horasExtras) {
+        this.horasExtras = horasExtras;
+    }
+
 
     
 }

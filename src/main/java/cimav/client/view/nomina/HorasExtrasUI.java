@@ -6,6 +6,7 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.EmpleadoQuincenal;
 import cimav.client.data.domain.HoraExtra;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.HorasExtrasREST;
@@ -280,12 +281,12 @@ public class HorasExtrasUI extends Composite {
 
     }
 
-    public Double setEmpleado(EmpleadoNomina empleado) {
+    public Double setEmpleado(EmpleadoQuincenal empleadoQuincenal) {
         List<HoraExtra> horas = new ArrayList<>();
-        if (empleado != null) {
-            this.idEmpleado = empleado.getId();
-            if (empleado.getHorasExtras() != null) {
-                horas.addAll(empleado.getHorasExtras());
+        if (empleadoQuincenal != null) {
+            this.idEmpleado = empleadoQuincenal.getIdEmpleado();
+            if (empleadoQuincenal.getHorasExtras() != null) {
+                horas.addAll(empleadoQuincenal.getHorasExtras());
             }
 //            Collections.sort(result, new Comparator<Incidencia>() {
 //                @Override

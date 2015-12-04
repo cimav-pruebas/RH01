@@ -146,9 +146,9 @@ public class NominaUI extends Composite {
                     nominaDeduccionesUI.setList(deducciones);
                     int deduccSaldos = nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
 
-                    int deducFaltas = nominaFaltasUI.setEmpleado(empleadoNominaLoaded);
+                    int deducFaltas = nominaFaltasUI.setEmpleado(empleadoNominaLoaded.getEmpleadoQuincenal());
                     
-                    Double horasExtras = horasExtrasUI.setEmpleado(empleadoNominaLoaded);
+                    Double horasExtras = horasExtrasUI.setEmpleado(empleadoNominaLoaded.getEmpleadoQuincenal());
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalPercepciones() : BigDecimal.ZERO;
                     BigDecimal totDeducciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalDeducciones() : BigDecimal.ZERO;

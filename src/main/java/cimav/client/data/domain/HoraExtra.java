@@ -5,9 +5,7 @@
  */
 package cimav.client.data.domain;
 
-import com.google.gwt.user.datepicker.client.CalendarUtil;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

@@ -35,16 +35,18 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     private Date fechaAntiguedad;
     private List<NominaQuincenal> nominaQuincenalCollection;
     
-    private List<Incidencia> incidencias;
-    
+//    private List<Incidencia> incidencias;
+//    
     private EmpleadoQuincenal empleadoQuincenal;
-    
-    private List<HoraExtra> horasExtras;
+//    
+//    private List<HoraExtra> horasExtras;
+//    @JsonIgnore private Double hrsDobles;
+//    @JsonIgnore private Double hrsTriples;
     
     public EmpleadoNomina() {
         super();
     }
-
+    
     public Date getFechaAntiguedad() {
         return fechaAntiguedad;
     }
@@ -151,14 +153,6 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.nominaQuincenalCollection = nominaQuincenalCollection;
     }
 
-    public List<Incidencia> getIncidencias() {
-        return incidencias;
-    }
-
-    public void setIncidencias(List<Incidencia> incidencias) {
-        this.incidencias = incidencias;
-    }
-
     public EmpleadoQuincenal getEmpleadoQuincenal() {
         return empleadoQuincenal;
     }
@@ -167,14 +161,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.empleadoQuincenal = empleadoQuincenal;
     }
 
-    public List<HoraExtra> getHorasExtras() {
-        return horasExtras;
-    }
-
-    public void setHorasExtras(List<HoraExtra> horasExtras) {
-        this.horasExtras = horasExtras;
-    }
-
+    
     /** 
      * Regresa la lista por TipoConcepto y TipoMovimiento
      * @param tipoConcepto
