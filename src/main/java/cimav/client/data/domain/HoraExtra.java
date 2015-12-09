@@ -23,7 +23,7 @@ public class HoraExtra implements Serializable {
 
     public HoraExtra() {
         this.dia = new Date();
-        this.horas = 0.00;
+        this.horas = 1.00;
     }
 
     public Integer getId() {

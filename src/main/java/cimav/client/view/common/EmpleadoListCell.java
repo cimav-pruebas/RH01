@@ -59,12 +59,12 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
             String sedeStr = value.getSede() != null ? value.getSede().getAbrev() : es_null;
             DateTimeFormat dtf = DateTimeFormat.getFormat("dd/MMM/yyyy");
             String fechaAntStr = dtf.format(value.getFechaAntiguedad());
-            String diasMesesAniosStr = "Nulo";
-            if (value.getEmpleadoQuincenal() != null) {
-                diasMesesAniosStr = value.getEmpleadoQuincenal().getDaysPAnt() + " día(s), "
-                        + value.getEmpleadoQuincenal().getMonthsPAnt() + " mese(s), "
-                        + value.getEmpleadoQuincenal().getYearPAnt() + " año(s)";
-            }
+//            String diasMesesAniosStr = "Nulo";
+//            if (value.getgetEmpleadoQuincenal() != null) {
+//                diasMesesAniosStr = value.getEmpleadoQuincenal().getDaysPAnt() + " día(s), "
+//                        + value.getEmpleadoQuincenal().getMonthsPAnt() + " mese(s), "
+//                        + value.getEmpleadoQuincenal().getYearPAnt() + " año(s)";
+//            }
             
             String td_selec_id = "td_selec_" + value.getId();
             
@@ -91,7 +91,7 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
                     + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_NIVEL_REEMPLAZO'><span >NIVEL_REEMPLAZO</span></code> "
                     + "         <code class='label-cyt-grp-niv'><span >SEDE_REEMPLAZO</span></code> "
                     + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_DEPTO_REEMPLAZO' ><span >DEPTO_CODIGO_REEMPLAZO</span></code> "
-                    + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO'><span >FECHA_ANTIGUEDAD_REEMPLAZO</span></code> "
+//                    + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO'><span >FECHA_ANTIGUEDAD_REEMPLAZO</span></code> "
                     + "    </td>\n"
                     + "  </tr>\n"
                     + "  <tr style='border-bottom:1px solid lightgray;'>\n"
@@ -126,7 +126,7 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
                 html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));
                 html = html.replace("TOOL_TIP_DEPTO_REEMPLAZO", chkStrNull(deptoNameStr));
                 html = html.replace("SEDE_REEMPLAZO", chkStrNull(sedeStr));
-                html = html.replace("TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO", chkStrNull(diasMesesAniosStr));
+//                html = html.replace("TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO", chkStrNull(diasMesesAniosStr));
                 html = html.replace("FECHA_ANTIGUEDAD_REEMPLAZO", chkStrNull(fechaAntStr));
                 if (value.getId() != null) {
                     html = html.replace("ID_REEMPLAZO", value.getId().toString());

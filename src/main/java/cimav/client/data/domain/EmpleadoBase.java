@@ -31,7 +31,7 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
 
     private Date fechaAntiguedad;
     
-    private EmpleadoQuincenal empleadoQuincenal;
+//    private EmpleadoQuincenal empleadoQuincenal;
     
     public EmpleadoBase() {
         super();
@@ -139,13 +139,4 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
         this.fechaAntiguedad = fechaAntiguedad;
     }
 
-    public EmpleadoQuincenal getEmpleadoQuincenal() {
-        return empleadoQuincenal;
-    }
-
-    public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
-        this.empleadoQuincenal = empleadoQuincenal;
-    }
- 
-    
 }
