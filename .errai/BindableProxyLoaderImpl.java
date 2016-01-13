@@ -1143,11 +1143,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public cimav_client_data_domain_EmpleadoBaseProxy(EmpleadoBase target, InitialState initialState) {
         agent = new BindableProxyAgent<EmpleadoBase>(this, target, initialState);
+        agent.propertyTypes.put("estimulosProductividad", new PropertyType(Double.class, false, false));
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
-        agent.propertyTypes.put("empleadoQuincenal", new PropertyType(EmpleadoQuincenal.class, false, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
@@ -1178,11 +1178,11 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public EmpleadoBase deepUnwrap() {
         final EmpleadoBase clone = new EmpleadoBase();
+        clone.setEstimulosProductividad(agent.target.getEstimulosProductividad());
         clone.setIdStatus(agent.target.getIdStatus());
         clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIsDirty(agent.target.getIsDirty());
-        clone.setEmpleadoQuincenal(agent.target.getEmpleadoQuincenal());
         clone.setStatus(agent.target.getStatus());
         clone.setSede(agent.target.getSede());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
@@ -1219,6 +1219,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public String toString() {
         return agent.target.toString();
+      }
+
+      public Double getEstimulosProductividad() {
+        return agent.target.getEstimulosProductividad();
+      }
+
+      public void setEstimulosProductividad(Double estimulosProductividad) {
+        Double oldValue = agent.target.getEstimulosProductividad();
+        agent.target.setEstimulosProductividad(estimulosProductividad);
+        agent.updateWidgetsAndFireEvent("estimulosProductividad", oldValue, estimulosProductividad);
       }
 
       public Integer getIdStatus() {
@@ -1259,16 +1269,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Boolean oldValue = agent.target.getIsDirty();
         agent.target.setIsDirty(isDirty);
         agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
-      }
-
-      public EmpleadoQuincenal getEmpleadoQuincenal() {
-        return agent.target.getEmpleadoQuincenal();
-      }
-
-      public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
-        EmpleadoQuincenal oldValue = agent.target.getEmpleadoQuincenal();
-        agent.target.setEmpleadoQuincenal(empleadoQuincenal);
-        agent.updateWidgetsAndFireEvent("empleadoQuincenal", oldValue, empleadoQuincenal);
       }
 
       public EStatusEmpleado getStatus() {
@@ -1402,6 +1402,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
 
       public Object get(String property) {
+        if (property.equals("estimulosProductividad")) {
+          return getEstimulosProductividad();
+        }
         if (property.equals("idStatus")) {
           return getIdStatus();
         }
@@ -1413,9 +1416,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("isDirty")) {
           return getIsDirty();
-        }
-        if (property.equals("empleadoQuincenal")) {
-          return getEmpleadoQuincenal();
         }
         if (property.equals("status")) {
           return getStatus();
@@ -1460,6 +1460,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
 
       public void set(String property, Object value) {
+        if (property.equals("estimulosProductividad")) {
+          agent.target.setEstimulosProductividad((Double) value);
+          return;
+        }
         if (property.equals("idStatus")) {
           agent.target.setIdStatus((Integer) value);
           return;
@@ -1474,10 +1478,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("isDirty")) {
           agent.target.setIsDirty((Boolean) value);
-          return;
-        }
-        if (property.equals("empleadoQuincenal")) {
-          agent.target.setEmpleadoQuincenal((EmpleadoQuincenal) value);
           return;
         }
         if (property.equals("status")) {

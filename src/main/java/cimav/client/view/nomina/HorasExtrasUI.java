@@ -5,7 +5,6 @@
  */
 package cimav.client.view.nomina;
 
-import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.EmpleadoQuincenal;
 import cimav.client.data.domain.HoraExtra;
 import cimav.client.data.rest.BaseREST;
@@ -190,7 +189,7 @@ public class HorasExtrasUI extends Composite {
     private void initTableColumns() {
 
         // id + icon remove
-        Column<HoraExtra, String> iconCol = new Column<HoraExtra, String>(new NomIconInputCell(NomIconInputCell.FALTA)) {
+        Column<HoraExtra, String> iconCol = new Column<HoraExtra, String>(new NomIconInputCell(NomIconInputCell.HORA_EXTRA)) {
             @Override
             public String getValue(HoraExtra object) {
                 return "" + object.getId();

@@ -16,6 +16,7 @@ import com.github.gwtbootstrap.client.ui.NavList;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -54,6 +55,7 @@ public class MainUI extends Composite {
     @UiField Label lTitulo;
     @UiField Label lSubTitulo;
     @UiField Label lNumQuincena;
+    @UiField Label lFechasQuincena;
 
     Widget currentWorkWidget;
 
@@ -114,6 +116,8 @@ public class MainUI extends Composite {
                             quincena = (Quincena) restEvent.getResult();
                             
                             lNumQuincena.setText("" + quincena.getQuincena());
+                            DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
+                            lFechasQuincena.setText("" + fmt.format(quincena.getFechaInicio()) + " - " + fmt.format(quincena.getFechaFinCalendario()));
                             
                         } else {
                             GrowlOptions go = new GrowlOptions();

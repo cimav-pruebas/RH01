@@ -7,6 +7,7 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.EmpleadoQuincenal;
 import cimav.client.data.domain.NominaQuincenal;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
@@ -29,7 +30,6 @@ import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -146,9 +146,10 @@ public class NominaUI extends Composite {
                     nominaDeduccionesUI.setList(deducciones);
                     int deduccSaldos = nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
 
-                    int deducFaltas = nominaFaltasUI.setEmpleado(empleadoNominaLoaded.getEmpleadoQuincenal());
+                    EmpleadoQuincenal empleadoQuincenal = empleadoNominaLoaded != null ? empleadoNominaLoaded.getEmpleadoQuincenal() : null;
                     
-                    Double horasExtras = horasExtrasUI.setEmpleado(empleadoNominaLoaded.getEmpleadoQuincenal());
+                    int deducFaltas = nominaFaltasUI.setEmpleado(empleadoQuincenal);
+                    Double horasExtras = horasExtrasUI.setEmpleado(empleadoQuincenal);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalPercepciones() : BigDecimal.ZERO;
                     BigDecimal totDeducciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalDeducciones() : BigDecimal.ZERO;
@@ -245,9 +246,6 @@ public class NominaUI extends Composite {
              || EMethod.UPDATE.equals(event.getMethod()) 
              || EMethod.DELETE.equals(event.getMethod())) {
                 // Se creeo/modificó/borro una Falta; reload al empleado
-                
-                Growl.growl("BBB RESPONDO LISTERN");
-                
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }
         }

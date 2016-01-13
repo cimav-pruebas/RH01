@@ -52,6 +52,7 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
             String es_null = "---";
             String grupoStr = value.getGrupo() != null ? value.getGrupo().getCode() : es_null;
             //boolean tieneEstimulos = EGrupo.CYT.equals(value.getGrupo());
+            String estimulosCyt = value.getEstimulosProductividad() != null ? "" + value.getEstimulosProductividad() : es_null;
             String deptoCodeStr = value.getDepartamento() != null ? value.getDepartamento().getCode() : es_null;
             String deptoNameStr = value.getDepartamento() != null ? value.getDepartamento().getName() : es_null;
             String nivelStr = value.getNivel() != null ? value.getNivel().getCode() : es_null;
@@ -91,7 +92,8 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
                     + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_NIVEL_REEMPLAZO'><span >NIVEL_REEMPLAZO</span></code> "
                     + "         <code class='label-cyt-grp-niv'><span >SEDE_REEMPLAZO</span></code> "
                     + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_DEPTO_REEMPLAZO' ><span >DEPTO_CODIGO_REEMPLAZO</span></code> "
-//                    + "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO'><span >FECHA_ANTIGUEDAD_REEMPLAZO</span></code> "
+                    //+ "         <code class='label-cyt-grp-niv' data-toggle='tooltip' data-placement='left' title='TOOL_TIP_FECHA_ANTIGUEDAD_REEMPLAZO'><span >FECHA_ANTIGUEDAD_REEMPLAZO</span></code> "
+                    + "         <code class='label-cyt-grp-niv' ><span >FECHA_ANTIGUEDAD_REEMPLAZO</span></code> "
                     + "    </td>\n"
                     + "  </tr>\n"
                     + "  <tr style='border-bottom:1px solid lightgray;'>\n"
@@ -120,7 +122,7 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
                 html = html.replace("URL_FOTO_REEMPLAZO", chkStrNull(value.getUrlPhoto()));
                 html = html.replace("NOMBRE_REEMPLAZO", chkStrNull(value.getName()));
                 html = html.replace("GRUPO_REEMPLAZO", chkStrNull(grupoStr));
-                html = html.replace("TOOL_TIP_ESTIMULOS_REEMPLAZO", chkStrNull("0"));
+                html = html.replace("TOOL_TIP_ESTIMULOS_REEMPLAZO", chkStrNull(estimulosCyt));
                 html = html.replace("TOOL_TIP_NIVEL_REEMPLAZO", chkStrNull(nivelNombreStr));
                 html = html.replace("NIVEL_REEMPLAZO", chkStrNull(nivelStr));
                 html = html.replace("DEPTO_CODIGO_REEMPLAZO", chkStrNull(deptoCodeStr));

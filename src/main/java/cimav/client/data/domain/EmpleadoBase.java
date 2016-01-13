@@ -28,6 +28,7 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
     private Integer idSede;
     @JsonIgnore private EStatusEmpleado status;
     private Integer idStatus;
+    private Double estimulosProductividad;
 
     private Date fechaAntiguedad;
     
@@ -137,6 +138,14 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
 
     public void setFechaAntiguedad(Date fechaAntiguedad) {
         this.fechaAntiguedad = fechaAntiguedad;
+    }
+
+    public Double getEstimulosProductividad() {
+        return estimulosProductividad;
+    }
+
+    public void setEstimulosProductividad(Double estimulosProductividad) {
+        this.estimulosProductividad = estimulosProductividad;
     }
 
 }

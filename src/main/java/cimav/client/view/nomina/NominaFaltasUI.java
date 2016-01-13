@@ -6,7 +6,6 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoIncidencia;
-import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.EmpleadoQuincenal;
 import cimav.client.data.domain.Incidencia;
 import cimav.client.data.rest.BaseREST;
@@ -216,7 +215,6 @@ public class NominaFaltasUI extends Composite {
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-                            Growl.growl("BBB REST ACTUALIZADO");
                             onFalta(restEvent);
 
                         } else {
@@ -305,7 +303,6 @@ public class NominaFaltasUI extends Composite {
                     object.setDias(dias);
                     
                     object.ajustar();
-                    Growl.growl("BBB SOLICITO");
                     getIncidenciasREST().update(object);
                 } catch (Exception ex) {
 
@@ -431,7 +428,6 @@ public class NominaFaltasUI extends Composite {
     public void onFalta(MethodEvent restEvent) {
         int y = 1;
         for (Iterator it = listeners.iterator(); it.hasNext();) {
-            Growl.growl("BBB LISTENER ----> " + y++);
             FaltasListener listener = (FaltasListener) it.next();
             listener.onFalta(restEvent);
         }
