@@ -116,6 +116,7 @@ public class EmpleadosEditorUI extends Composite {
     private final TipoAntiguedadChosen tipoAntiguedadChosen;
     private final TipoSNIChosen tipoSniChosen;
     private final TextBox numSNITxtBox;
+    private final TextBox numEstimulosProductividadTxtBox;
     // personal
     private final ValueListBox<ESexo> sexoChose;
     private final ValueListBox<EEdoCivil> edoCivilChose;
@@ -326,7 +327,9 @@ public class EmpleadosEditorUI extends Composite {
         tipoSniChosen.setWidth(width);
         numSNITxtBox = new TextBox();
         numSNITxtBox.setWidth(width);
-
+        numEstimulosProductividadTxtBox = new TextBox();
+        numEstimulosProductividadTxtBox.setWidth("162px");
+                
         int row = 1;
         flexEditorLaboral.setHTML(row, 0, "Sede");
         flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
@@ -406,7 +409,7 @@ public class EmpleadosEditorUI extends Composite {
         row++;
         flexEditorLaboral.setHTML(row, 0, "Número estímulos");
         row++;
-        flexEditorLaboral.setWidget(row, 0, new Label("Not Yet..."));
+        flexEditorLaboral.setWidget(row, 0, numEstimulosProductividadTxtBox);
 
         
         FlexTable.FlexCellFormatter cellFormatterPersonal = flexEditorPersonal.getFlexCellFormatter();
@@ -538,6 +541,7 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(tipoAntiguedadChosen.getChosen(), "tipoAntiguedad")
                     .bind(tipoSniChosen.getChosen(), "tipoSNI")
                     .bind(numSNITxtBox, "numSni")
+                    .bind(numEstimulosProductividadTxtBox, "estimulosProductividad")
                     // personal
                     .bind(sexoChose, "sexo")
                     .bind(edoCivilChose, "edoCivil")

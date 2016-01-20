@@ -43,8 +43,11 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
 //    @JsonIgnore private Double hrsDobles;
 //    @JsonIgnore private Double hrsTriples;
     
+    private Double estimulosProductividad;
+    
     public EmpleadoNomina() {
         super();
+        this.estimulosProductividad = 0.00;
     }
     
     public Date getFechaAntiguedad() {
@@ -161,7 +164,14 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.empleadoQuincenal = empleadoQuincenal;
     }
 
-    
+    public Double getEstimulosProductividad() {
+        return estimulosProductividad;
+    }
+
+    public void setEstimulosProductividad(Double estimulosProductividad) {
+        this.estimulosProductividad = estimulosProductividad;
+    }
+
     /** 
      * Regresa la lista por TipoConcepto y TipoMovimiento
      * @param tipoConcepto

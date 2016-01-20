@@ -185,7 +185,10 @@ code {
 }
 
 .conceptos-panel {
-    margin: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 0;
     border-width: 0;
 }
 .conceptos-panel-body {
@@ -234,20 +237,35 @@ code {
     /* position: initial !important; // de no ponerlo, no aparece*/
 }
 .movimientos-totales{
-    width: 300px;
+    width: 100%; /* width: 300px; 
     margin-right: 20px;
     margin-left: auto;
+                 */
 }
+
+.info-panel-body {
+    position: relative;
+}
+.total-panel-body {
+    position: relative;
+    float: right;
+}
+/*
 .totales-panel {
     display: flex;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  
 }
-
+*/
 .total-label {
     font-size: 28px;
+    /* padding-bottom: 10px; */
+}
+.estimulos-antiguedad-label {
+    font-size: 14px;
     /* padding-bottom: 10px; */
 }
 

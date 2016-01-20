@@ -61,6 +61,19 @@ Uncomment this for XHTML entities
             </g:HorizontalPanel>
             <!-- ******* Totales ******* -->
             <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>
+                <!-- Info -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelBody addStyleNames='{style.info-panel-body}'>
+                        <g:Label ui:field="antiguedadLabel" text="Antigüedad" addStyleNames="{style.estimulos-antiguedad-label}"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+                <!-- Totales -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelBody addStyleNames='{style.total-panel-body}'>
+                        <g:Label ui:field="totalLabel" text="Totales" addStyleNames="{style.total-label}"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+                <!--
                 <g:HTMLPanel addStyleNames="{style.totales-panel}">
                     <table style = "width: 100%;">
                         <tr>
@@ -70,6 +83,7 @@ Uncomment this for XHTML entities
                         </tr>
                     </table>
                 </g:HTMLPanel>
+                -->
             </g:HorizontalPanel>
             <!--- **** Repercucciones e Internos **** -->
             <g:HorizontalPanel ui:field="repercucionesInternosContenedor" addStyleNames='{style.movimientos-contenedor}'> 

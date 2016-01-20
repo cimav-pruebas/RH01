@@ -113,6 +113,8 @@ public class Empleado extends BaseDomain implements Serializable {
     private String telefono;
     private String emailPersonal;
     
+    private Double estimulosProductividad;
+    
     public Empleado() {
         super();
         
@@ -629,6 +631,14 @@ public class Empleado extends BaseDomain implements Serializable {
 
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+
+    public Double getEstimulosProductividad() {
+        return estimulosProductividad;
+    }
+
+    public void setEstimulosProductividad(Double estimulosProductividad) {
+        this.estimulosProductividad = estimulosProductividad;
     }
 
 }

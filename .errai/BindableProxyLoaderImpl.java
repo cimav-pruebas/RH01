@@ -665,6 +665,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public cimav_client_data_domain_EmpleadoNominaProxy(EmpleadoNomina target, InitialState initialState) {
         agent = new BindableProxyAgent<EmpleadoNomina>(this, target, initialState);
+        agent.propertyTypes.put("estimulosProductividad", new PropertyType(Double.class, false, false));
         agent.propertyTypes.put("totalDeducciones", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
@@ -703,6 +704,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public EmpleadoNomina deepUnwrap() {
         final EmpleadoNomina clone = new EmpleadoNomina();
+        clone.setEstimulosProductividad(agent.target.getEstimulosProductividad());
         clone.setIdStatus(agent.target.getIdStatus());
         clone.setGrupo(agent.target.getGrupo());
         clone.setIdSede(agent.target.getIdSede());
@@ -755,6 +757,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
 
       public String toString() {
         return agent.target.toString();
+      }
+
+      public Double getEstimulosProductividad() {
+        return agent.target.getEstimulosProductividad();
+      }
+
+      public void setEstimulosProductividad(Double estimulosProductividad) {
+        Double oldValue = agent.target.getEstimulosProductividad();
+        agent.target.setEstimulosProductividad(estimulosProductividad);
+        agent.updateWidgetsAndFireEvent("estimulosProductividad", oldValue, estimulosProductividad);
       }
 
       public BigDecimal getTotalDeducciones() {
@@ -957,6 +969,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
 
       public Object get(String property) {
+        if (property.equals("estimulosProductividad")) {
+          return getEstimulosProductividad();
+        }
         if (property.equals("totalDeducciones")) {
           return getTotalDeducciones();
         }
@@ -1024,6 +1039,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       }
 
       public void set(String property, Object value) {
+        if (property.equals("estimulosProductividad")) {
+          agent.target.setEstimulosProductividad((Double) value);
+          return;
+        }
         if (property.equals("idStatus")) {
           agent.target.setIdStatus((Integer) value);
           return;
@@ -1602,6 +1621,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("apellidoMaterno", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("estimulosProductividad", new PropertyType(Double.class, false, false));
         agent.propertyTypes.put("banco", new PropertyType(EBanco.class, false, false));
         agent.propertyTypes.put("emailPersonal", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("numSni", new PropertyType(String.class, false, false));
@@ -1683,6 +1703,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         clone.setName(agent.target.getName());
         clone.setApellidoMaterno(agent.target.getApellidoMaterno());
+        clone.setEstimulosProductividad(agent.target.getEstimulosProductividad());
         clone.setBanco(agent.target.getBanco());
         clone.setEmailPersonal(agent.target.getEmailPersonal());
         clone.setNumSni(agent.target.getNumSni());
@@ -2108,6 +2129,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("apellidoMaterno", oldValue, apellidoMaterno);
       }
 
+      public Double getEstimulosProductividad() {
+        return agent.target.getEstimulosProductividad();
+      }
+
+      public void setEstimulosProductividad(Double estimulosProductividad) {
+        Double oldValue = agent.target.getEstimulosProductividad();
+        agent.target.setEstimulosProductividad(estimulosProductividad);
+        agent.updateWidgetsAndFireEvent("estimulosProductividad", oldValue, estimulosProductividad);
+      }
+
       public EBanco getBanco() {
         return agent.target.getBanco();
       }
@@ -2366,6 +2397,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("apellidoMaterno")) {
           return getApellidoMaterno();
         }
+        if (property.equals("estimulosProductividad")) {
+          return getEstimulosProductividad();
+        }
         if (property.equals("banco")) {
           return getBanco();
         }
@@ -2562,6 +2596,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("apellidoMaterno")) {
           agent.target.setApellidoMaterno((String) value);
+          return;
+        }
+        if (property.equals("estimulosProductividad")) {
+          agent.target.setEstimulosProductividad((Double) value);
           return;
         }
         if (property.equals("banco")) {

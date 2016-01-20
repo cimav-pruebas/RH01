@@ -5,6 +5,7 @@
  */
 package cimav.client.view.common;
 
+import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.EmpleadoBase;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
@@ -51,7 +52,11 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
 
             String es_null = "---";
             String grupoStr = value.getGrupo() != null ? value.getGrupo().getCode() : es_null;
-            //boolean tieneEstimulos = EGrupo.CYT.equals(value.getGrupo());
+            boolean tieneEstimulos = EGrupo.CYT.equals(value.getGrupo());
+            if (tieneEstimulos) {
+                String estimulos = value.getEstimulosProductividad() != null ? "" + value.getEstimulosProductividad() : es_null;
+                grupoStr = grupoStr + "(" + estimulos + ")";
+            }
             String estimulosCyt = value.getEstimulosProductividad() != null ? "" + value.getEstimulosProductividad() : es_null;
             String deptoCodeStr = value.getDepartamento() != null ? value.getDepartamento().getCode() : es_null;
             String deptoNameStr = value.getDepartamento() != null ? value.getDepartamento().getName() : es_null;
