@@ -7,11 +7,11 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.NominaQuincenal;
+import cimav.client.view.common.ICustomDataGridResource;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -47,17 +47,6 @@ public class NominaMovimientosUI extends Composite {
 
     private ListDataProvider<NominaQuincenal> provider;
 
-    interface CustomDataGridResources extends DataGrid.Resources {
-
-        @Override
-        @CssResource.NotStrict
-        @Source(value = {DataGrid.Style.DEFAULT_CSS, "cimav/client/view/nomina/mominaDataGridStyle.css"})
-        CustomStyle dataGridStyle();
-    }
-
-    public interface CustomStyle extends DataGrid.Style {
-    }
-
     private final ETipoConcepto tipoConcepto;
 
     @UiConstructor
@@ -72,16 +61,18 @@ public class NominaMovimientosUI extends Composite {
     }
 
     private void buildGrid() {
-
+        
         List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
         provider = new ListDataProvider<>(nominaQuincenalList);
 
-        CustomDataGridResources customDataGridResources = GWT.create(CustomDataGridResources.class);
-        dataGrid = new DataGrid<>(60, customDataGridResources);
+        ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
+        dataGridResource.dataGridStyle().ensureInjected();
+        
+        dataGrid = new DataGrid<>(60, dataGridResource);
 
         dataGrid.setAutoHeaderRefreshDisabled(true);
 
-        dataGrid.setEmptyTableWidget(new Label("Sin movimientos"));
+        dataGrid.setEmptyTableWidget(new Label("Sin movimientos de momento"));
 
         dataGrid.setPageSize(20);
         dataGrid.setMinimumTableWidth(400, Style.Unit.PX);

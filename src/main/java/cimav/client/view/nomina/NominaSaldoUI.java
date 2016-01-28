@@ -15,6 +15,7 @@ import cimav.client.data.rest.NominaQuincenalREST;
 import cimav.client.view.catalogos.conceptos.ConceptosChosen;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.ICustomDataGridResource;
 import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -32,6 +33,8 @@ import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
 import com.google.gwt.query.client.Properties;
 import com.google.gwt.query.client.css.CSS;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
@@ -113,10 +116,16 @@ public class NominaSaldoUI extends Composite {
     }
 
     private void buildGrid() {
-
+        
         List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
         provider = new ListDataProvider<>(nominaQuincenalList);
-        dataGrid = new DataGrid<>(provider.getKeyProvider());
+        
+        ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
+        dataGridResource.dataGridStyle().ensureInjected();
+        
+        dataGrid = new DataGrid<>(60, dataGridResource);
+        
+        //dataGrid = new DataGrid<>(provider.getKeyProvider());
 
         dataGrid.getElement().setId("idDataGrid");
 
