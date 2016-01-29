@@ -6,6 +6,7 @@
 package cimav.client.view.common;
 
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.cellview.client.DataGrid;
 
 /**
@@ -14,10 +15,11 @@ import com.google.gwt.user.cellview.client.DataGrid;
  */
 public interface ICustomDataGridResource extends DataGrid.Resources {
 
+    @CssResource.NotStrict
     @ClientBundle.Source({DataGrid.Style.DEFAULT_CSS, "cimav/client/view/nomina/mominaDataGridStyle.css"})
     @Override
-    MyCustomStyle dataGridStyle();
+    CustomStyle dataGridStyle();
 
-    public interface MyCustomStyle extends DataGrid.Style {}
+    public interface CustomStyle extends DataGrid.Style {}
 
 }

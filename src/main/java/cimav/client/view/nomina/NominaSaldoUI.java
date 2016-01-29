@@ -23,6 +23,7 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayMixed;
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableRowElement;
@@ -44,6 +45,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -114,7 +116,7 @@ public class NominaSaldoUI extends Composite {
         });
 
     }
-
+    
     private void buildGrid() {
         
         List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
@@ -279,8 +281,11 @@ public class NominaSaldoUI extends Composite {
             }
         });
         permanenteCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(permanenteCol, "Permanente");
-        dataGrid.setColumnWidth(permanenteCol, 80, Style.Unit.PX);
+        TextHeader permanenteHeader = new TextHeader("");
+        permanenteHeader.setHeaderStyleNames("permanenteHeader");
+
+        dataGrid.addColumn(permanenteCol, permanenteHeader);
+        dataGrid.setColumnWidth(permanenteCol, 20, Style.Unit.PX);
         
         // Pago
         Column<NominaQuincenal, String> pagoCol = new Column<NominaQuincenal, String>(new TextCell()) {

@@ -6,6 +6,11 @@
     color: #777;
     text-shadow: #ddf 0 0 0;
 }
+.permanenteHeader {
+    background-image: url(/images/link16gray.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .dataGridFooter {
     padding: 3px;
     border-top: 1px solid #ccc;
@@ -43,6 +48,4 @@
     border: 1px solid #eeeeee; 
     background-color: #eeeeee;
 }
-
-
 

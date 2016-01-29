@@ -15,7 +15,7 @@
     
     <inherits name="com.google.gwt.user.User"/>
     <inherits name='com.google.gwt.user.theme.standard.Standard'/> 
-    
+
     <!-- Guava -->
     <inherits name="com.google.common.base.Base"/> 
     
