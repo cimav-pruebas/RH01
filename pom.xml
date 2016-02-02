@@ -101,6 +101,11 @@
         <version>1.6.1</version>
     </dependency>
         <dependency>
+            <groupId>com.google.api</groupId>
+            <artifactId>gwt-oauth2</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>

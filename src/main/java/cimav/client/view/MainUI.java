@@ -5,21 +5,29 @@
  */
 package cimav.client.view;
 
+import cimav.client.GWTService;
+import cimav.client.GWTServiceAsync;
 import cimav.client.data.domain.Quincena;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.CalculoREST;
+import cimav.client.view.common.Ajax;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
+import cimav.shared.Usuario;
 import com.github.gwtbootstrap.client.ui.NavLink;
 import com.github.gwtbootstrap.client.ui.NavList;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
+import com.google.api.gwt.oauth2.client.Auth;
+import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -43,6 +51,16 @@ public class MainUI extends Composite {
     interface MainUiBinder extends UiBinder<Widget, MainUI> {
     }
 
+    // constants for OAuth2 (don't forget to update GOOGLE_CLIENT_ID  -  http://code.google.com/apis/console)
+    private static final Auth AUTH = Auth.get();
+    private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
+    private static final String GOOGLE_CLIENT_ID = "411158167495.apps.googleusercontent.com";
+    // The auth scope being requested. This scope will allow the application to identify who the authenticated user is.
+    private static final String USER_INFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
+
+    private final GWTServiceAsync gwtServiceAsync;
+    private Usuario usuario;
+    
     public static final String OPT_NONE = "optionNone";
     public static final String OPT_PERSONAL = "optionPersonal";
     public static final String OPT_DEPARTAMENTOS = "optionDepartamentos";
@@ -60,11 +78,83 @@ public class MainUI extends Composite {
     Widget currentWorkWidget;
 
     private static Quincena quincena;
+
+    public MainUI() {
+        gwtServiceAsync = GWT.create(GWTService.class);
+        
+        initWidget(uiBinder.createAndBindUi(this));
+
+        westPanel.getElement().setAttribute("id", "west-panel");        
+    }
     
     public void setTit(String t) {
         lSubTitulo.setText(t);
     }
 
+    public void loginIn() {
+        
+        final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID).withScopes(USER_INFO_PROFILE_SCOPE);
+        
+        // Calling login() will display a popup to the user the first time it is
+        // called. Once the user has granted access to the application,
+        // subsequent calls to login() will not display the popup, and will
+        // immediately result in the callback being given the token to use.
+        
+        /* Esta es la llamada al Login */
+
+        AUTH.login(req, new Callback<String, Throwable>() {
+            @Override
+            public void onSuccess(final String tokenAutorizacion) {
+                // Si se logea, regresa un Token Autorizado
+                if (!tokenAutorizacion.trim().isEmpty()) { //TODO simpre considera que no tiene token
+                    // Si no tiene AUN el token autorizado, busca la autorización
+                    gwtServiceAsync.loginProfile(tokenAutorizacion, Ajax.call(new AsyncCallback<Usuario>() {
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            // Falló la autorización
+                            GWT.log("login.autorizacion -> onFailure");
+                            
+                            // se Deslogea
+                            //loginOut();
+                        }
+                        @Override
+                        public void onSuccess(Usuario usuarioSrv) {
+                            // Paso la autorización
+                            
+                            // asigna el usuario logeado del lado del servidor al usuario del lado del cliente
+                            usuario = usuarioSrv;
+                            
+                            // Si tiene nombre es que se pudo logear.
+                            usuario.setLoggedIn(usuario.getNombre() != null && !usuario.getNombre().trim().isEmpty());
+
+                            // Actulizar componentes de Login
+//                            loginImage.setVisible(true);
+//                            loginImage.setUrl(usuario.getPictureUrl());
+//                            loginLabel.setText(usuario.getNombre());
+//                            loginSignImage.setTitle("Salir");
+//                            loginSignImage.setUrl(Constantes.ICON_SIGN_OUT);                            
+                            
+                            // Muestra toda el Area Central
+//                            centralFlowPanel.setVisible(true);
+                            
+                        }
+                    }));
+                    
+                }
+                
+            }
+            @Override
+            public void onFailure(Throwable caught) {
+                // No se logeo
+                GWT.log("login -> onFailure");
+                
+                // se Deslogea
+//                loginOut();
+            }
+        });
+        
+    }
+    
     @UiHandler({"optionUno", "optionDos", "optionTres", OPT_PERSONAL, OPT_DEPARTAMENTOS, OPT_TABULADOR, OPT_NOMINA})
     protected void onClick(ClickEvent e) {
 
@@ -93,13 +183,6 @@ public class MainUI extends Composite {
         if (OPT_PERSONAL.equals(navLink.getName())) {
         } else {
         }
-    }
-
-    public MainUI() {
-        
-        initWidget(uiBinder.createAndBindUi(this));
-
-        westPanel.getElement().setAttribute("id", "west-panel");        
     }
 
     @Override

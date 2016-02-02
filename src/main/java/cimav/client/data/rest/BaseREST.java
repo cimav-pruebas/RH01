@@ -21,6 +21,18 @@ public class BaseREST {
     //public static final String URL_REST_BASE = "http://10.0.4.40:8080/rest_rh/"; 
     //public static final String URL_REST_BASE = "http://localhost:8080/RestRH01/";
     
+/*    private static HashMap<String, String> headers;
+    
+    public static HashMap<String, String> getHeaders() {
+        if (headers == null) {
+            headers = new HashMap<>();
+            headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+            headers.put("UserLogged", "ElUsuarioLogeado");
+        }
+        return headers;
+    }
+    */
+    
     public static void setDateFormatGET() {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
     }
@@ -28,7 +40,7 @@ public class BaseREST {
     public static void setDateFormatPOST() {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     }
-    
+
 //    private static BaseREST instance;
 //
 //    public static BaseREST get() {

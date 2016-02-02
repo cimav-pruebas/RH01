@@ -81,6 +81,7 @@ public class ConceptoREST extends BaseREST {
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+        headers.put("Username", "mkyong");
 
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {

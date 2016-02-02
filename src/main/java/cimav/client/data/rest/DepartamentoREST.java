@@ -39,7 +39,7 @@ public class DepartamentoREST extends BaseREST {
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
+        
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -82,7 +82,7 @@ public class DepartamentoREST extends BaseREST {
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
+        
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -117,11 +117,11 @@ public class DepartamentoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/departamento";
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue departamentoJSONValue = jsonCodec.encode(departamento);
+        
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
         
         Resource rb = new Resource(url, headers);
         rb.post().json(departamentoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
