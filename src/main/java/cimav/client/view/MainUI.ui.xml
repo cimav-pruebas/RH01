@@ -4,7 +4,9 @@
              xmlns:b2="urn:import:com.github.gwtbootstrap.client.ui"
              xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
 >
-    
+
+    <!--              xmlns:b3="urn:import:org.gwtbootstrap3.client.ui" -->
+
     <ui:style src="mainUI.css" /> 
         
     <g:HTMLPanel styleName="{style.main-html-panel}">

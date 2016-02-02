@@ -190,6 +190,7 @@
                 <configuration>
                     <superDevMode>${sdm.active}</superDevMode>
                     <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+                    <jsInteropMode>JS</jsInteropMode>
                 </configuration>
             </plugin>
             <plugin>
