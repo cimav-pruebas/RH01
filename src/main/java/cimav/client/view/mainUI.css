@@ -40,6 +40,14 @@ html, body {
     border-top: 3px solid red;
     border-bottom: 1px solid gray;
     padding: 1px 5px 1px 5px;
+    
+/*    position: fixed !important;
+    overflow: visible;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1;    */
 }
 h2 {
     float: left;

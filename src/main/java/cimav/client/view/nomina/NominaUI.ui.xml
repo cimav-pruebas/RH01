@@ -121,6 +121,15 @@ Uncomment this for XHTML entities
                     </b3:PanelBody>
                 </b3:Panel>
             </g:HorizontalPanel>
+            
+            <!-- ******* Espacio al final ******* -->
+            <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>                
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                    </b3:PanelBody>
+                </b3:Panel>
+            </g:HorizontalPanel>
+            
         </g:VerticalPanel>
     </g:ScrollPanel>
 </ui:UiBinder>

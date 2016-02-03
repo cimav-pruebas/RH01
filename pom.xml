@@ -33,12 +33,13 @@
         <dependency>
             <groupId>org.gwtbootstrap3</groupId>
             <artifactId>gwtbootstrap3</artifactId>
-            <version>0.9.1</version>
+            <version>0.9.2</version>
         </dependency>
         <dependency>
             <groupId>org.gwtbootstrap3</groupId>
             <artifactId>gwtbootstrap3-extras</artifactId>
             <version>0.9.1</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.arcbees</groupId>
@@ -190,7 +191,7 @@
                 <configuration>
                     <superDevMode>${sdm.active}</superDevMode>
                     <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
-                    <jsInteropMode>JS</jsInteropMode>
+<!--                    <jsInteropMode>JS</jsInteropMode> -->
                 </configuration>
             </plugin>
             <plugin>
