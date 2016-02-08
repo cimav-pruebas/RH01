@@ -73,17 +73,6 @@ Uncomment this for XHTML entities
                         <g:Label ui:field="totalLabel" text="Totales" addStyleNames="{style.total-label}"/>
                     </b3:PanelBody>
                 </b3:Panel>
-                <!--
-                <g:HTMLPanel addStyleNames="{style.totales-panel}">
-                    <table style = "width: 100%;">
-                        <tr>
-                            <td style="text-align: right;">
-                                <g:Label ui:field="totalLabel" text="Totales" addStyleNames="{style.total-label}"/>
-                            </td>
-                        </tr>
-                    </table>
-                </g:HTMLPanel>
-                -->
             </g:HorizontalPanel>
             <!--- **** Repercucciones e Internos **** -->
             <g:HorizontalPanel ui:field="repercucionesInternosContenedor" addStyleNames='{style.movimientos-contenedor}'> 
@@ -112,10 +101,14 @@ Uncomment this for XHTML entities
                     <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                         <b3:NavTabs ui:field="navTabsRepercuciones" >
                             <b3:TabListItem active="true" ui:field="tabRepercuciones" addStyleNames='{style.tab-principal}' dataTarget="#tabRepercucionesId" text="Repercuciones"/>
+                            <b3:TabListItem ui:field="tabInternos" addStyleNames='{style.tab-secundario}' dataTarget="#tabInternosId" text="Internos"/>
                         </b3:NavTabs>
                         <b3:TabContent addStyleNames='{style.tab-panel}'>
                             <b3:TabPane active="true"  b3:id="tabRepercucionesId"  addStyleNames='{style.tab-panel-conceptos}'>
                                 <nom:NominaMovimientosUI ui:field="nominaRepercucionesUI" idTipoConcepto="R"/>
+                            </b3:TabPane>
+                            <b3:TabPane  b3:id="tabInternosId" addStyleNames='{style.tab-panel-conceptos}'>
+                                <nom:NominaMovimientosUI ui:field="nominaInternosUI" idTipoConcepto="I"/>
                             </b3:TabPane>
                         </b3:TabContent>
                     </b3:PanelBody>

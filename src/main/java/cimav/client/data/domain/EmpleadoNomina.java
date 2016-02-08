@@ -197,6 +197,7 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         List<NominaQuincenal> result = new ArrayList<>();
         for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
             ETipoConcepto tipo = nominaQuincenal.getConcepto().getTipoConcepto();
+            /*
             if (ETipoConcepto.REPERCUCION.equals(tipoConcepto)) {
                 if (tipo.equals(ETipoConcepto.REPERCUCION) || tipo.equals(ETipoConcepto.INTERNO)) {
                     result.add(nominaQuincenal);
@@ -205,6 +206,10 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
                 if (tipo.equals(tipoConcepto)) {
                     result.add(nominaQuincenal);
                 }
+            }
+            */
+            if (tipo.equals(tipoConcepto)) {
+                result.add(nominaQuincenal);
             }
         }
         return result;

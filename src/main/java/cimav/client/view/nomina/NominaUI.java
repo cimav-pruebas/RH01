@@ -62,6 +62,8 @@ public class NominaUI extends Composite {
 
     @UiField
     NominaMovimientosUI nominaRepercucionesUI;
+    @UiField
+    NominaMovimientosUI nominaInternosUI;
     
     @UiField TabBadgeListItem tabPercepPorSaldo;
     @UiField TabBadgeListItem tabDeducPorSaldo;
@@ -89,8 +91,10 @@ public class NominaUI extends Composite {
     @UiHandler({
         "tabPercepConceptos",   "tabPercepPorSaldo", 
         "tabDeducConceptos",    "tabDeducPorSaldo", 
-        "tabDeducFaltas", "tabDeducHorasExtras"})
+        "tabDeducFaltas", "tabDeducHorasExtras",
+        "tabRepercuciones", "tabInternos"})
     protected void onClick(ClickEvent e) {
+        /* Todos los Tab Requieren el ReDraw */
         String str = e.getSource().toString();
         if (str.contains("tabPercepConceptos")) {
             nominaPercepcionesUI.dataGrid.redraw();
@@ -104,6 +108,10 @@ public class NominaUI extends Composite {
             nominaFaltasUI.dataGrid.redraw();
         } else if (str.contains("tabDeducHorasExtras")) {
             horasExtrasUI.dataGrid.redraw();
+        } else if (str.contains("tabRepercuciones")) {
+            nominaRepercucionesUI.dataGrid.redraw();
+        } else if (str.contains("tabInternos")) {
+            nominaInternosUI.dataGrid.redraw();
         }
     }
     
@@ -135,11 +143,13 @@ public class NominaUI extends Composite {
                     List<NominaQuincenal> percepciones = new ArrayList<>();
                     List<NominaQuincenal> deducciones = new ArrayList<>();
                     List<NominaQuincenal> repercuciones = new ArrayList<>();
+                    List<NominaQuincenal> internos = new ArrayList<>();
                     
                     if (empleadoNominaLoaded != null) {
                         percepciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
                         deducciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
                         repercuciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.REPERCUCION));
+                        internos.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.INTERNO));
                     }
                     
                     nominaPercepcionesUI.setList(percepciones);
@@ -165,6 +175,7 @@ public class NominaUI extends Composite {
                     tabDeducHorasExtras.setCount(String.valueOf(horasExtras));
                     
                     nominaRepercucionesUI.setList(repercuciones);
+                    nominaInternosUI.setList(internos);
                     
                     String antiguedad = empleadoNominaLoaded != null && empleadoQuincenal.getYearPAnt() != null ?
                             empleadoQuincenal.getYearPAnt() + " año(s), " + empleadoQuincenal.getMonthsPAnt() + " mes(es) y " + empleadoQuincenal.getDaysPAnt() + " día(s)"
@@ -191,6 +202,7 @@ public class NominaUI extends Composite {
                             List<NominaQuincenal> percepciones = new ArrayList<>();
                             List<NominaQuincenal> deducciones = new ArrayList<>();
                             List<NominaQuincenal> repercuciones = new ArrayList<>();
+                            List<NominaQuincenal> internos = new ArrayList<>();
                             BigDecimal total = BigDecimal.ZERO;
                             for(NominaQuincenal nq : list) {
                                 if (ETipoConcepto.PERCEPCION.equals(nq.getConcepto().getTipoConcepto())) {
@@ -205,11 +217,14 @@ public class NominaUI extends Composite {
                                     }
                                 } else if (ETipoConcepto.REPERCUCION.equals(nq.getConcepto().getTipoConcepto())) {
                                     repercuciones.add(nq);
+                                }  else if (ETipoConcepto.INTERNO.equals(nq.getConcepto().getTipoConcepto())) {
+                                    internos.add(nq);
                                 }
                             }
                             nominaPercepcionesUI.setList(percepciones);
                             nominaDeduccionesUI.setList(deducciones);
                             nominaRepercucionesUI.setList(repercuciones);
+                            nominaInternosUI.setList(internos);
                             
                             totalLabel.setText(Utils.formatCurrency(total));
                             
