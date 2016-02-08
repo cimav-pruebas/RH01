@@ -322,7 +322,7 @@ public class NominaListUI extends Composite {
             }
         }
     }
-
+    
     private int scrollIntoView(EmpleadoBase empleadoToView) {
         int idx = -2;
         if (cellList.getVisibleItemCount() > 0 && empleadoToView != null) {

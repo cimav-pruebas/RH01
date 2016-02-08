@@ -125,7 +125,7 @@ Uncomment this for XHTML entities
             <!-- ******* Espacio al final ******* -->
             <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>                
                 <b3:Panel addStyleNames='{style.conceptos-panel}'>
-                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                    <b3:PanelBody addStyleNames='{style.footer-panel-body}'>
                     </b3:PanelBody>
                 </b3:Panel>
             </g:HorizontalPanel>

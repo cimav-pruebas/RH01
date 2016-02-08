@@ -197,6 +197,12 @@ code {
     padding: 0 0 0 0;
     min-height: 340px;
 }
+.footer-panel-body {
+    /*border: 2px solid blue; */
+    position: relative;
+    padding: 0 0 0 0;
+    min-height: 40px;
+}
 .tab-panel{
     height: inherit !important; /**/
     position: absolute;

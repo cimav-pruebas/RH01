@@ -13,8 +13,9 @@ import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.TabuladorREST;
 import com.arcbees.chosen.client.gwt.ChosenValueListBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArrayMixed;
 import com.google.gwt.text.shared.Renderer;
-import com.google.common.base.Strings;
+//import com.google.common.base.Strings;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -50,7 +51,15 @@ public class TabuladorChosen extends Composite {
                 if (object == null) {
                     return "None";
                 }
-                String result = Strings.padEnd(object.getCode(), 8, ' ');
+                
+                //String result = Strings.padEnd(object.getCode(), 8, ' ');
+                
+//                JsArrayMixed args = JavaScriptObject.createArray().cast();
+//                args.push(object.getCode());
+//                String result = format("%1$-8s", args);
+                
+                String result = object.getCode();
+                
                 result = result + object.getName();
                 
                 return result;
@@ -88,6 +97,10 @@ public class TabuladorChosen extends Composite {
         });
         rest.findAll();
     }
+    
+    public static native String format (String format, JsArrayMixed values) /*-{
+        return vsprintf(format, values);
+    }-*/;    
     
     public void setSelected(Tabulador value) {
         chosen.setValue(value, true);

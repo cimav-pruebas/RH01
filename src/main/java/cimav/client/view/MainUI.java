@@ -198,7 +198,8 @@ public class MainUI extends Composite {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
                             quincena = (Quincena) restEvent.getResult();
                             
-                            lNumQuincena.setText("" + quincena.getQuincena());
+                            String quin = quincena.getQuincena() < 10 ? "0" + quincena.getQuincena() : "" + quincena.getQuincena();
+                            lNumQuincena.setText(quin);
                             DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
                             lFechasQuincena.setText("" + fmt.format(quincena.getFechaInicio()) + " - " + fmt.format(quincena.getFechaFinCalendario()));
                             

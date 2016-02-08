@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gwt.version>2.7.0</gwt.version>
         <sdm.active>true</sdm.active>
-        <runTarget>welcomeGWT.html</runTarget>
+        <runTarget>welcomeGWT.html</runTarget> 
     </properties>
     <dependencies>
         <dependency>
@@ -53,6 +53,7 @@
             <version>1.4.3</version>
             <scope>provided</scope>
         </dependency>
+<!--    
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava-gwt</artifactId>
@@ -63,7 +64,22 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>18.0</version>
-        </dependency>
+        </dependency> 
+        -->
+    
+        <!-- dependencias necesairas poara Gwt 2.8
+<dependency>
+	<groupId>com.googlecode.gwtquery</groupId>
+	<artifactId>gwtquery</artifactId>
+	<version>1.5-beta1</version>
+</dependency>
+<dependency>
+	<groupId>com.google.guava</groupId>
+	<artifactId>guava-gwt</artifactId>
+        <version>20.0-SNAPSHOT</version>
+</dependency>
+        -->    
+                        
         <dependency>
             <groupId>org.jboss.errai</groupId>
             <artifactId>errai-data-binding</artifactId>
@@ -132,8 +148,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
@@ -158,8 +174,8 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-<!--                             <outputDirectory>${endorsed.dir}</outputDirectory>   -->
-                            <outputDirectory>${project.build.dir}/${project.build.finalName}</outputDirectory>
+            <outputDirectory>${endorsed.dir}</outputDirectory>   
+<!--                                             <outputDirectory>${project.build.dir}/${project.build.finalName}</outputDirectory> -->
                             <silent>true</silent>
                             <artifactItems>
                                 <artifactItem>
@@ -176,7 +192,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>2.7.0</version>
+                <version>${gwt.version}</version>
                 <executions>
                     <execution>
                          <configuration>
@@ -192,6 +208,7 @@
                     <superDevMode>${sdm.active}</superDevMode>
                     <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
 <!--                    <jsInteropMode>JS</jsInteropMode> -->
+                    <extraJvmArgs>-Xmx2048M -Xss1024M</extraJvmArgs>
                 </configuration>
             </plugin>
             <plugin>
