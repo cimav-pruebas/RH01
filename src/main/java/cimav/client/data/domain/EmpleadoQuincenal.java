@@ -29,20 +29,20 @@ public class EmpleadoQuincenal implements  Serializable {
     private Integer ordinarios;
     private Integer descanso;
     
-    // Si cumple años durante la quicena la PAnt es proporcional.
-    // diasPAntUno corresponde a los dias con los años anteriores
-    // diasPAntDos corresponde a los dias con los años nuevos
-    @Json(name = "yearPAnt")
-    private Integer yearPAnt;
-    @Json(name = "monthsPAnt")
-    private Integer monthsPAnt;
-    @Json(name = "daysPAnt")
-    private Integer daysPAnt;
-    
-    @Json(name = "diasPAntUno") 
-    private Integer diasPAntUno;
-    @Json(name = "dias_pant_dos")
-    private Integer diasPAntDos;
+//    // Si cumple años durante la quicena la PAnt es proporcional.
+//    // diasPAntUno corresponde a los dias con los años anteriores
+//    // diasPAntDos corresponde a los dias con los años nuevos
+//    @Json(name = "yearPAnt")
+//    private Integer yearPAnt;
+//    @Json(name = "monthsPAnt")
+//    private Integer monthsPAnt;
+//    @Json(name = "daysPAnt")
+//    private Integer daysPAnt;
+//    
+//    @Json(name = "diasPAntUno") 
+//    private Integer diasPAntUno;
+//    @Json(name = "dias_pant_dos")
+//    private Integer diasPAntDos;
 
     private List<Incidencia> incidencias;
     
@@ -111,46 +111,6 @@ public class EmpleadoQuincenal implements  Serializable {
         return ordinarios + descanso;
     }
     
-    public Integer getYearPAnt() {
-        return yearPAnt;
-    }
-
-    public void setYearPAnt(Integer yearPAnt) {
-        this.yearPAnt = yearPAnt;
-    }
-
-    public Integer getMonthsPAnt() {
-        return monthsPAnt;
-    }
-
-    public void setMonthsPAnt(Integer monthsPAnt) {
-        this.monthsPAnt = monthsPAnt;
-    }
-
-    public Integer getDaysPAnt() {
-        return daysPAnt;
-    }
-
-    public void setDaysPAnt(Integer daysPAnt) {
-        this.daysPAnt = daysPAnt;
-    }
-
-    public Integer getDiasPAntUno() {
-        return diasPAntUno;
-    }
-
-    public void setDiasPAntUno(Integer diasPAntUno) {
-        this.diasPAntUno = diasPAntUno;
-    }
-
-    public Integer getDiasPAntDos() {
-        return diasPAntDos;
-    }
-
-    public void setDiasPAntDos(Integer diasPAntDos) {
-        this.diasPAntDos = diasPAntDos;
-    }
-
     public List<Incidencia> getIncidencias() {
         return incidencias;
     }

@@ -32,7 +32,10 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
 
     private Date fechaAntiguedad;
     
-//    private EmpleadoQuincenal empleadoQuincenal;
+    private Integer pantDayEven;
+    private Integer pantDayOdd;
+    private Integer pantMonths;
+    private Integer pantYears;
     
     public EmpleadoBase() {
         super();
@@ -148,4 +151,37 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
         this.estimulosProductividad = estimulosProductividad;
     }
 
+    public Integer getPantDayEven() {
+        return pantDayEven;
+    }
+
+    public void setPantDayEven(Integer pantDayEven) {
+        this.pantDayEven = pantDayEven;
+    }
+
+    public Integer getPantDayOdd() {
+        return pantDayOdd;
+    }
+
+    public void setPantDayOdd(Integer pantDayOdd) {
+        this.pantDayOdd = pantDayOdd;
+    }
+
+    public Integer getPantMonths() {
+        return pantMonths;
+    }
+
+    public void setPantMonths(Integer pantMonths) {
+        this.pantMonths = pantMonths;
+    }
+
+    public Integer getPantYears() {
+        return pantYears;
+    }
+
+    public void setPantYears(Integer pantYears) {
+        this.pantYears = pantYears;
+    }
+
+    
 }

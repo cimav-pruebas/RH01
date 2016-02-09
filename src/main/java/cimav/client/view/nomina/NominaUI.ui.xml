@@ -64,7 +64,6 @@ Uncomment this for XHTML entities
                 <!-- Info -->
                 <b3:Panel addStyleNames='{style.conceptos-panel}'>
                     <b3:PanelBody addStyleNames='{style.info-panel-body}'>
-                        <g:Label ui:field="antiguedadLabel" text="Antigüedad" addStyleNames="{style.estimulos-antiguedad-label}"/>
                     </b3:PanelBody>
                 </b3:Panel>
                 <!-- Totales -->

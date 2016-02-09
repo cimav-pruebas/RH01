@@ -44,8 +44,6 @@ public class NominaUI extends Composite {
     
     @UiField
     Label totalLabel;
-    @UiField
-    Label antiguedadLabel;
     
     @UiField
     NominaMovimientosUI nominaPercepcionesUI;
@@ -176,11 +174,6 @@ public class NominaUI extends Composite {
                     
                     nominaRepercucionesUI.setList(repercuciones);
                     nominaInternosUI.setList(internos);
-                    
-                    String antiguedad = empleadoNominaLoaded != null && empleadoQuincenal.getYearPAnt() != null ?
-                            empleadoQuincenal.getYearPAnt() + " año(s), " + empleadoQuincenal.getMonthsPAnt() + " mes(es) y " + empleadoQuincenal.getDaysPAnt() + " día(s)"
-                            : "Sin antigüedad";
-                    antiguedadLabel.setText(antiguedad);
                     
                 } else {
                     Window.alert("Error NominaUI: " + methodEvent.getReason());

@@ -40,10 +40,8 @@ public class Empleado extends BaseDomain implements Serializable {
     
     private String rfc;
     private String curp;
- //   private String cuentaCimav;
     private String cuentaBanco;
     private String imss;
-//    private String urlPhoto;
     
     @NotBlank(message = "Nombre no puede estar vacío")
     @Size(min = 3, max = 40, message = "Nombre debe tener entre 3 y 40 caracteres")
@@ -114,6 +112,11 @@ public class Empleado extends BaseDomain implements Serializable {
     private String emailPersonal;
     
     private Double estimulosProductividad;
+    
+    private Integer pantDayEven;
+    private Integer pantDayOdd;
+    private Integer pantMonths;
+    private Integer pantYears;
     
     public Empleado() {
         super();
@@ -641,4 +644,37 @@ public class Empleado extends BaseDomain implements Serializable {
         this.estimulosProductividad = estimulosProductividad;
     }
 
+    public Integer getPantDayEven() {
+        return pantDayEven;
+    }
+
+    public void setPantDayEven(Integer pantDayEven) {
+        this.pantDayEven = pantDayEven;
+    }
+
+    public Integer getPantDayOdd() {
+        return pantDayOdd;
+    }
+
+    public void setPantDayOdd(Integer pantDayOdd) {
+        this.pantDayOdd = pantDayOdd;
+    }
+
+    public Integer getPantMonths() {
+        return pantMonths;
+    }
+
+    public void setPantMonths(Integer pantMonths) {
+        this.pantMonths = pantMonths;
+    }
+
+    public Integer getPantYears() {
+        return pantYears;
+    }
+
+    public void setPantYears(Integer pantYears) {
+        this.pantYears = pantYears;
+    }
+
+    
 }

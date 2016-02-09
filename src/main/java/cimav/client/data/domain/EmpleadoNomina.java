@@ -45,6 +45,11 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     
     private Double estimulosProductividad;
     
+    private Integer pantDayEven;
+    private Integer pantDayOdd;
+    private Integer pantMonths;
+    private Integer pantYears;
+    
     public EmpleadoNomina() {
         super();
         this.estimulosProductividad = 0.00;
@@ -56,6 +61,38 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
 
     public void setFechaAntiguedad(Date fechaAntiguedad) {
         this.fechaAntiguedad = fechaAntiguedad;
+    }
+
+    public Integer getPantDayEven() {
+        return pantDayEven;
+    }
+
+    public void setPantDayEven(Integer pantDayEven) {
+        this.pantDayEven = pantDayEven;
+    }
+
+    public Integer getPantDayOdd() {
+        return pantDayOdd;
+    }
+
+    public void setPantDayOdd(Integer pantDayOdd) {
+        this.pantDayOdd = pantDayOdd;
+    }
+
+    public Integer getPantMonths() {
+        return pantMonths;
+    }
+
+    public void setPantMonths(Integer pantMonths) {
+        this.pantMonths = pantMonths;
+    }
+
+    public Integer getPantYears() {
+        return pantYears;
+    }
+
+    public void setPantYears(Integer pantYears) {
+        this.pantYears = pantYears;
     }
  
     public String getUrlPhoto() {
@@ -237,4 +274,5 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         return result;
     }
 
+    
 }
