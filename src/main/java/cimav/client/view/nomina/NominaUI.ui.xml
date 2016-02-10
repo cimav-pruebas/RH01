@@ -95,19 +95,19 @@ Uncomment this for XHTML entities
                     </b3:PanelBody>
                 </b3:Panel>
                 
-                <!-- ******* Repercuciones ******* -->
+                <!-- ******* Internos & Repercuciones ******* -->
                 <b3:Panel addStyleNames='{style.conceptos-panel}'>
                     <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
                         <b3:NavTabs ui:field="navTabsRepercuciones" >
-                            <b3:TabListItem active="true" ui:field="tabRepercuciones" addStyleNames='{style.tab-principal}' dataTarget="#tabRepercucionesId" text="Repercuciones"/>
-                            <b3:TabListItem ui:field="tabInternos" addStyleNames='{style.tab-secundario}' dataTarget="#tabInternosId" text="Internos"/>
+                            <b3:TabListItem active="true" ui:field="tabInternos" addStyleNames='{style.tab-secundario}' dataTarget="#tabInternosId" text="Internos"/>
+                            <b3:TabListItem ui:field="tabRepercuciones" addStyleNames='{style.tab-principal}' dataTarget="#tabRepercucionesId" text="Repercuciones"/>
                         </b3:NavTabs>
                         <b3:TabContent addStyleNames='{style.tab-panel}'>
-                            <b3:TabPane active="true"  b3:id="tabRepercucionesId"  addStyleNames='{style.tab-panel-conceptos}'>
-                                <nom:NominaMovimientosUI ui:field="nominaRepercucionesUI" idTipoConcepto="R"/>
-                            </b3:TabPane>
-                            <b3:TabPane  b3:id="tabInternosId" addStyleNames='{style.tab-panel-conceptos}'>
+                            <b3:TabPane  active="true"  b3:id="tabInternosId" addStyleNames='{style.tab-panel-conceptos}'>
                                 <nom:NominaMovimientosUI ui:field="nominaInternosUI" idTipoConcepto="I"/>
+                            </b3:TabPane>
+                            <b3:TabPane b3:id="tabRepercucionesId"  addStyleNames='{style.tab-panel-conceptos}'>
+                                <nom:NominaMovimientosUI ui:field="nominaRepercucionesUI" idTipoConcepto="R"/>
                             </b3:TabPane>
                         </b3:TabContent>
                     </b3:PanelBody>

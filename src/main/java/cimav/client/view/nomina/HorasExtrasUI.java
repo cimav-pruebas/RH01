@@ -11,6 +11,7 @@ import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.HorasExtrasREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.ICustomDataGridResource;
 import cimav.client.view.common.MethodEvent;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -104,7 +105,14 @@ public class HorasExtrasUI extends Composite {
 
         List<HoraExtra> list = new ArrayList<>();
         provider = new ListDataProvider<>(list);
-        dataGrid = new DataGrid<>(provider.getKeyProvider());
+        
+        ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
+        dataGridResource.dataGridStyle().ensureInjected();
+        
+        dataGrid = new DataGrid<>(60, dataGridResource);
+        
+        
+        //dataGrid = new DataGrid<>(provider.getKeyProvider());
         dataGrid.getElement().setId("idDataGrid");
 
         dataGrid.setAutoHeaderRefreshDisabled(true);

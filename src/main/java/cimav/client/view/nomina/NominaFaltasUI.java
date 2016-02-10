@@ -12,6 +12,7 @@ import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.IncidenciaREST;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.ICustomDataGridResource;
 import cimav.client.view.common.MethodEvent;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -135,7 +136,13 @@ public class NominaFaltasUI extends Composite {
 
         List<Incidencia> list = new ArrayList<>();
         provider = new ListDataProvider<>(list);
-        dataGrid = new DataGrid<>(provider.getKeyProvider());
+        
+        ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
+        dataGridResource.dataGridStyle().ensureInjected();
+        
+        dataGrid = new DataGrid<>(60, dataGridResource);
+        
+        //dataGrid = new DataGrid<>(provider.getKeyProvider());
         dataGrid.getElement().setId("idDataGrid");
 
         dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -314,7 +321,7 @@ public class NominaFaltasUI extends Composite {
         });
         diasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(diasCol, "Días");
-        dataGrid.setColumnWidth(diasCol, 68, Style.Unit.PX);
+        dataGrid.setColumnWidth(diasCol, 88, Style.Unit.PX);
 
         // Dias Habiles
         Column<Incidencia, SafeHtml> diasHabilesCols = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
