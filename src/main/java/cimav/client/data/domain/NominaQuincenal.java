@@ -27,6 +27,8 @@ public class NominaQuincenal implements  Serializable{
     
     private Integer idEmpleado;
     
+    private BigDecimal cantidadEmpresa;
+    
     public NominaQuincenal() {
         this.idEmpleado = 0;
         this.numQuincenas = 1;
@@ -34,6 +36,7 @@ public class NominaQuincenal implements  Serializable{
         this.pago = BigDecimal.ZERO;
         this.saldo = BigDecimal.ZERO;
         this.permanente = Boolean.FALSE;
+        this.cantidadEmpresa = BigDecimal.ZERO;
     }
 
     public Integer getId() {
@@ -90,6 +93,14 @@ public class NominaQuincenal implements  Serializable{
         this.saldo = saldo;
 
         this.setCantidad();
+    }
+
+    public BigDecimal getCantidadEmpresa() {
+        return cantidadEmpresa;
+    }
+
+    public void setCantidadEmpresa(BigDecimal cantidadEmpresa) {
+        this.cantidadEmpresa = cantidadEmpresa;
     }
     
     private void setCantidad() {

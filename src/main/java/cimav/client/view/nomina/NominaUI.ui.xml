@@ -107,7 +107,7 @@ Uncomment this for XHTML entities
                                 <nom:NominaMovimientosUI ui:field="nominaInternosUI" idTipoConcepto="I"/>
                             </b3:TabPane>
                             <b3:TabPane b3:id="tabRepercucionesId"  addStyleNames='{style.tab-panel-conceptos}'>
-                                <nom:NominaMovimientosUI ui:field="nominaRepercucionesUI" idTipoConcepto="R"/>
+                                <nom:NominaRepercucionesUI ui:field="nominaRepercucionesUI" idTipoConcepto="R"/>
                             </b3:TabPane>
                         </b3:TabContent>
                     </b3:PanelBody>

@@ -59,7 +59,7 @@ public class NominaUI extends Composite {
     HorasExtrasUI horasExtrasUI;
 
     @UiField
-    NominaMovimientosUI nominaRepercucionesUI;
+    NominaRepercucionesUI nominaRepercucionesUI;
     @UiField
     NominaMovimientosUI nominaInternosUI;
     
