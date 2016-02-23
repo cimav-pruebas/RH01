@@ -32,7 +32,7 @@ public class CalculoREST extends BaseREST {
 
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/calculo/quincena/";
+        String url = BaseREST.URL_REST_BASE + "api/quincena/";
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");

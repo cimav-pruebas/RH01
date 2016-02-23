@@ -6,7 +6,7 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoIncidencia;
-import cimav.client.data.domain.EmpleadoQuincenal;
+import cimav.client.data.domain.Nomina;
 import cimav.client.data.domain.Incidencia;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.IncidenciaREST;
@@ -198,7 +198,7 @@ public class NominaFaltasUI extends Composite {
                 nueva.setTipo(selected);
                 nueva.setFechaInicial(new Date());
                 nueva.setDias(1);
-                
+                        
                 nueva.ajustar();
                 
                 // Crearla en la DB
@@ -400,7 +400,7 @@ public class NominaFaltasUI extends Composite {
 
     }
 
-    public int setEmpleado(EmpleadoQuincenal empleadoQuincenal) {
+    public int setEmpleado(Nomina empleadoQuincenal) {
         List<Incidencia> result = new ArrayList<>();
         if (empleadoQuincenal != null) {
             this.idEmpleado = empleadoQuincenal.getIdEmpleado();

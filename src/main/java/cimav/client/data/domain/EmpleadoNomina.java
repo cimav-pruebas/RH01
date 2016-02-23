@@ -33,15 +33,9 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     private Integer idStatus;
 
     private Date fechaAntiguedad;
-    private List<NominaQuincenal> nominaQuincenalCollection;
+    private List<Movimiento> movimientos;
     
-//    private List<Incidencia> incidencias;
-//    
-    private EmpleadoQuincenal empleadoQuincenal;
-//    
-//    private List<HoraExtra> horasExtras;
-//    @JsonIgnore private Double hrsDobles;
-//    @JsonIgnore private Double hrsTriples;
+    private Nomina nomina;
     
     private Double estimulosProductividad;
     
@@ -185,20 +179,20 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
         this.departamento = departamento;
     }
 
-    public List<NominaQuincenal> getNominaQuincenalCollection() {
-        return nominaQuincenalCollection;
+    public List<Movimiento> getMovimientos() {
+        return movimientos;
     }
 
-    public void setNominaQuincenalCollection(List<NominaQuincenal> nominaQuincenalCollection) {
-        this.nominaQuincenalCollection = nominaQuincenalCollection;
+    public void setMovimientos(List<Movimiento> movimientos) {
+        this.movimientos = movimientos;
     }
 
-    public EmpleadoQuincenal getEmpleadoQuincenal() {
-        return empleadoQuincenal;
+    public Nomina getNomina() {
+        return nomina;
     }
 
-    public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
-        this.empleadoQuincenal = empleadoQuincenal;
+    public void setNomina(Nomina nomina) {
+        this.nomina = nomina;
     }
 
     public Double getEstimulosProductividad() {
@@ -215,11 +209,11 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
      * @param tipoMovimiento
      * @return 
      */
-    public List<NominaQuincenal> getNominaQuincenalCollection(ETipoConcepto tipoConcepto, ETipoMovimiento tipoMovimiento) {
-        List<NominaQuincenal> result = new ArrayList<>();
-        for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
-            if (nominaQuincenal.getConcepto().getTipoConcepto().equals(tipoConcepto) && nominaQuincenal.getConcepto().getTipoMovimiento().equals(tipoMovimiento)) {
-                result.add(nominaQuincenal);
+    public List<Movimiento> getMovimientos(ETipoConcepto tipoConcepto, ETipoMovimiento tipoMovimiento) {
+        List<Movimiento> result = new ArrayList<>();
+        for(Movimiento movimiento : movimientos) {
+            if (movimiento.getConcepto().getTipoConcepto().equals(tipoConcepto) && movimiento.getConcepto().getTipoMovimiento().equals(tipoMovimiento)) {
+                result.add(movimiento);
             }
         }
         return result;
@@ -230,10 +224,10 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
      * @param tipoConcepto
      * @return 
      */
-    public List<NominaQuincenal> getNominaQuincenalCollection(ETipoConcepto tipoConcepto) {
-        List<NominaQuincenal> result = new ArrayList<>();
-        for(NominaQuincenal nominaQuincenal : nominaQuincenalCollection) {
-            ETipoConcepto tipo = nominaQuincenal.getConcepto().getTipoConcepto();
+    public List<Movimiento> getMovimientos(ETipoConcepto tipoConcepto) {
+        List<Movimiento> result = new ArrayList<>();
+        for(Movimiento movimiento : movimientos) {
+            ETipoConcepto tipo = movimiento.getConcepto().getTipoConcepto();
             /*
             if (ETipoConcepto.REPERCUCION.equals(tipoConcepto)) {
                 if (tipo.equals(ETipoConcepto.REPERCUCION) || tipo.equals(ETipoConcepto.INTERNO)) {
@@ -246,16 +240,16 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
             }
             */
             if (tipo.equals(tipoConcepto)) {
-                result.add(nominaQuincenal);
+                result.add(movimiento);
             }
         }
         return result;
     }
     
     public BigDecimal getTotalPercepciones() {
-        List<NominaQuincenal> percepciones = this.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION);
+        List<Movimiento> percepciones = this.getMovimientos(ETipoConcepto.PERCEPCION);
         BigDecimal result = BigDecimal.ZERO;
-        for(NominaQuincenal percepcion : percepciones) {
+        for(Movimiento percepcion : percepciones) {
             if (percepcion.getConcepto().getSuma()) {
                 result = result.add(percepcion.getCantidad());
             }
@@ -264,9 +258,9 @@ public class EmpleadoNomina extends BaseDomain implements Serializable{
     }
     
     public BigDecimal getTotalDeducciones() {
-        List<NominaQuincenal> deducciones = this.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION);
+        List<Movimiento> deducciones = this.getMovimientos(ETipoConcepto.DEDUCCION);
         BigDecimal result = BigDecimal.ZERO;
-        for(NominaQuincenal deduccion : deducciones) {
+        for(Movimiento deduccion : deducciones) {
             if (deduccion.getConcepto().getSuma()) {
                 result = result.add(deduccion.getCantidad());
             }

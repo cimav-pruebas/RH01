@@ -15,6 +15,8 @@ import java.util.Objects;
  */
 public class Quincena implements Serializable {
     
+    private static Quincena quincenaStatic;
+    
     private Integer year;
     private Integer mes;
     private Integer quincena;
@@ -33,6 +35,21 @@ public class Quincena implements Serializable {
     public Quincena() {
     }
 
+    public static Quincena create() {
+        if (quincenaStatic == null) {
+            quincenaStatic = new Quincena();
+        }
+        return quincenaStatic;
+    }
+
+    public static Quincena get() {
+        return quincenaStatic;
+    }
+
+    public static void set(Quincena quincena) {
+        quincenaStatic = quincena;
+    }
+    
     public Integer getQuincena() {
         return quincena;
     }

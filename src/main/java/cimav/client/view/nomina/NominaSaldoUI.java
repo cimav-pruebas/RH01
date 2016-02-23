@@ -9,7 +9,7 @@ import cimav.client.data.domain.Concepto;
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.ETipoMovimiento;
 import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.domain.NominaQuincenal;
+import cimav.client.data.domain.Movimiento;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.NominaQuincenalREST;
 import cimav.client.view.catalogos.conceptos.ConceptosChosen;
@@ -68,10 +68,10 @@ public class NominaSaldoUI extends Composite {
     }
 
     @UiField(provided = true)
-    DataGrid<NominaQuincenal> dataGrid;
+    DataGrid<Movimiento> dataGrid;
 
     private int empleadoId;
-    private ListDataProvider<NominaQuincenal> provider;
+    private ListDataProvider<Movimiento> provider;
     private NominaQuincenalREST nominaQuincenalREST;
 
     private NomIntegerInputCell quincenasCell;
@@ -116,7 +116,7 @@ public class NominaSaldoUI extends Composite {
     
     private void buildGrid() {
         
-        List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
+        List<Movimiento> nominaQuincenalList = new ArrayList<>();
         provider = new ListDataProvider<>(nominaQuincenalList);
         
         ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
@@ -166,7 +166,7 @@ public class NominaSaldoUI extends Composite {
             boolean add = true;
             Concepto selected = conceptosChosen.getSelected();
             if (selected != null && selected.getId() != null && selected.getId() > 0) {
-                for (NominaQuincenal nq : provider.getList()) {
+                for (Movimiento nq : provider.getList()) {
                     if (nq.getConcepto().equals(selected)) {
                         add = false;
                         break;
@@ -176,11 +176,11 @@ public class NominaSaldoUI extends Composite {
                 add = false;
             }
             if (add) {
-                NominaQuincenal nuevo = new NominaQuincenal();
+                Movimiento nuevo = new Movimiento();
                 // 1ero el concepto para saber si es [P, D, R, I], [P]
                 nuevo.setConcepto(selected);
                 nuevo.setIdEmpleado(empleadoId);
-
+                
                 // Crearlo en la DB
                 getNominaQuincenalsREST().create(nuevo);
 
@@ -230,9 +230,9 @@ public class NominaSaldoUI extends Composite {
     private void initTableColumns() {
 
         // id + icon remove
-        Column<NominaQuincenal, String> iconCol = new Column<NominaQuincenal, String>(new NomIconInputCell(NomIconInputCell.SALDO)) {
+        Column<Movimiento, String> iconCol = new Column<Movimiento, String>(new NomIconInputCell(NomIconInputCell.SALDO)) {
             @Override
-            public String getValue(NominaQuincenal object) {
+            public String getValue(Movimiento object) {
                 return "" + object.getId();
             }
         };
@@ -246,9 +246,9 @@ public class NominaSaldoUI extends Composite {
         dataGrid.setColumnWidth(iconCol, 16, Style.Unit.PX);
 
         // Concepto
-        Column<NominaQuincenal, String> conceptoCol = new Column<NominaQuincenal, String>((new TextCell())) {
+        Column<Movimiento, String> conceptoCol = new Column<Movimiento, String>((new TextCell())) {
             @Override
-            public String getValue(NominaQuincenal object) {
+            public String getValue(Movimiento object) {
                 Concepto concepto = object.getConcepto();
                 return concepto.getName();
             }
@@ -257,15 +257,15 @@ public class NominaSaldoUI extends Composite {
         dataGrid.setColumnWidth(conceptoCol, 100, Style.Unit.PCT);
 
         // Permanente
-        Column<NominaQuincenal, Boolean> permanenteCol = new Column<NominaQuincenal, Boolean>(permanenteCell) {
+        Column<Movimiento, Boolean> permanenteCol = new Column<Movimiento, Boolean>(permanenteCell) {
             @Override
-            public Boolean getValue(NominaQuincenal object) {
+            public Boolean getValue(Movimiento object) {
                 return object.getPermanente();
             }
         };
-        permanenteCol.setFieldUpdater(new FieldUpdater<NominaQuincenal, Boolean>() {
+        permanenteCol.setFieldUpdater(new FieldUpdater<Movimiento, Boolean>() {
             @Override
-            public void update(int index, NominaQuincenal object, Boolean value) {
+            public void update(int index, Movimiento object, Boolean value) {
                 try {
                     object.setPermanente(value);
                     getNominaQuincenalsREST().update(object);
@@ -285,9 +285,9 @@ public class NominaSaldoUI extends Composite {
         dataGrid.setColumnWidth(permanenteCol, 20, Style.Unit.PX);
         
         // Pago
-        Column<NominaQuincenal, String> pagoCol = new Column<NominaQuincenal, String>(new TextCell()) {
+        Column<Movimiento, String> pagoCol = new Column<Movimiento, String>(new TextCell()) {
             @Override
-            public String getValue(NominaQuincenal object) {
+            public String getValue(Movimiento object) {
                 BigDecimal result = object == null || object.getPago() == null ? BigDecimal.ZERO : object.getPago();
                 return Utils.formatCantidad(result);
             }
@@ -297,16 +297,16 @@ public class NominaSaldoUI extends Composite {
         dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PX);
 
         // Saldo 
-        Column<NominaQuincenal, String> saldoCol = new Column<NominaQuincenal, String>(saldoCell) {
+        Column<Movimiento, String> saldoCol = new Column<Movimiento, String>(saldoCell) {
             @Override
-            public String getValue(NominaQuincenal object) {
+            public String getValue(Movimiento object) {
                 BigDecimal result = object == null || object.getSaldo() == null ? BigDecimal.ZERO : object.getSaldo();
                 return Utils.formatCantidad(result);
             }
         };
-        saldoCol.setFieldUpdater(new FieldUpdater<NominaQuincenal, String>() {
+        saldoCol.setFieldUpdater(new FieldUpdater<Movimiento, String>() {
             @Override
-            public void update(int index, NominaQuincenal object, String value) {
+            public void update(int index, Movimiento object, String value) {
                 BigDecimal nuevoSaldo;
                 try {
                     nuevoSaldo = new BigDecimal(value.trim());
@@ -325,16 +325,16 @@ public class NominaSaldoUI extends Composite {
         dataGrid.setColumnWidth(saldoCol, 110, Style.Unit.PX);
 
         // Quincenas
-        Column<NominaQuincenal, String> quincenasCol = new Column<NominaQuincenal, String>(quincenasCell) {
+        Column<Movimiento, String> quincenasCol = new Column<Movimiento, String>(quincenasCell) {
             @Override
-            public String getValue(NominaQuincenal object) {
+            public String getValue(Movimiento object) {
                 Integer result = object == null || object.getNumQuincenas() == null ? 0 : object.getNumQuincenas();
                 return Integer.toString(result);
             }
         };
-        quincenasCol.setFieldUpdater(new FieldUpdater<NominaQuincenal, String>() {
+        quincenasCol.setFieldUpdater(new FieldUpdater<Movimiento, String>() {
             @Override
-            public void update(int index, NominaQuincenal object, String value) {
+            public void update(int index, Movimiento object, String value) {
                     // Push the changes into the MyDTO. At this point, you could send an
                 // asynchronous request to the server to update the database.
                 // value es el valor capturado
@@ -366,10 +366,10 @@ public class NominaSaldoUI extends Composite {
     }
 
     public int setEmpleado(EmpleadoNomina empleado) {
-        List<NominaQuincenal> result = new ArrayList<>();
+        List<Movimiento> result = new ArrayList<>();
         if (empleado != null) {
             this.empleadoId = empleado.getId();
-            result.addAll(empleado.getNominaQuincenalCollection(this.tipoConcepto, ETipoMovimiento.PAGO));
+            result.addAll(empleado.getMovimientos(this.tipoConcepto, ETipoMovimiento.PAGO));
         }
         provider.setList(result);
         return result.size();

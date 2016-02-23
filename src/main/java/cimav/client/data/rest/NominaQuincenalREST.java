@@ -5,7 +5,7 @@
  */
 package cimav.client.data.rest;
 
-import cimav.client.data.domain.NominaQuincenal;
+import cimav.client.data.domain.Movimiento;
 import cimav.client.view.common.Ajax;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
@@ -28,7 +28,7 @@ import org.fusesource.restygwt.client.Resource;
  */
 public class NominaQuincenalREST extends BaseREST {
     
-    public interface JsonCodec extends JsonEncoderDecoder<NominaQuincenal> {}
+    public interface JsonCodec extends JsonEncoderDecoder<Movimiento> {}
     public JsonCodec jsonCodec = GWT.create(JsonCodec.class);
  
     public void findByEmpleadoIds(String empleadoIds) {
@@ -53,11 +53,11 @@ public class NominaQuincenalREST extends BaseREST {
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    List<NominaQuincenal> result = new ArrayList<>();
+                    List<Movimiento> result = new ArrayList<>();
                     JSONArray array = response.isArray();
                     for (int i = 0; i < array.size(); i++) {
                         JSONValue val = array.get(i);
-                        NominaQuincenal nq = jsonCodec.decode(val);
+                        Movimiento nq = jsonCodec.decode(val);
                         result.add(nq);
                     }
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_EMPLEADO_IDS, ETypeResult.SUCCESS, "NominaQuincenalREST.FIND_BY_EMPLEADO_IDS listo");
@@ -73,7 +73,7 @@ public class NominaQuincenalREST extends BaseREST {
 
     }
     
-    public void create(NominaQuincenal nominaQuincenal) {
+    public void create(Movimiento nominaQuincenal) {
 
         //BaseREST.setDateFormatPOST();
         BaseREST.setDateFormatGET();
@@ -97,7 +97,7 @@ public class NominaQuincenalREST extends BaseREST {
             @Override
             public void onSuccess(Method method, JSONValue response) {
                 try {
-                    NominaQuincenal nuevo = jsonCodec.decode(response);
+                    Movimiento nuevo = jsonCodec.decode(response);
                     MethodEvent dbEvent = new MethodEvent(EMethod.CREATE, ETypeResult.SUCCESS, "create listo");
                     dbEvent.setResult(nuevo);
                     onRESTExecuted(dbEvent);
@@ -111,7 +111,7 @@ public class NominaQuincenalREST extends BaseREST {
 
     }
     
-    public void update(NominaQuincenal nominaQuincenal) {
+    public void update(Movimiento nominaQuincenal) {
 
         BaseREST.setDateFormatPOST();
 

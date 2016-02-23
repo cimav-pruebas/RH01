@@ -77,7 +77,7 @@ public class MainUI extends Composite {
 
     Widget currentWorkWidget;
 
-    private static Quincena quincena;
+    //private static Quincena quincena;
 
     public MainUI() {
         gwtServiceAsync = GWT.create(GWTService.class);
@@ -189,19 +189,19 @@ public class MainUI extends Composite {
     protected void onLoad() {
         super.onLoad(); 
         
-        if (quincena == null) {
+        if (Quincena.get() == null) {
             CalculoREST calculoREST = new CalculoREST();
             calculoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
                 @Override
                 public void onRESTExecuted(MethodEvent restEvent) {
                     if (EMethod.FIND_QUINCENA.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-                            quincena = (Quincena) restEvent.getResult();
+                            Quincena.set((Quincena) restEvent.getResult());
                             
-                            String quin = quincena.getQuincena() < 10 ? "0" + quincena.getQuincena() : "" + quincena.getQuincena();
+                            String quin = Quincena.get().getQuincena() < 10 ? "0" + Quincena.get().getQuincena() : "" + Quincena.get().getQuincena();
                             lNumQuincena.setText(quin);
                             DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
-                            lFechasQuincena.setText("" + fmt.format(quincena.getFechaInicio()) + " - " + fmt.format(quincena.getFechaFinCalendario()));
+                            lFechasQuincena.setText("" + fmt.format(Quincena.get().getFechaInicio()) + " - " + fmt.format(Quincena.get().getFechaFinCalendario()));
                             
                         } else {
                             GrowlOptions go = new GrowlOptions();
@@ -227,8 +227,6 @@ public class MainUI extends Composite {
 //        centerPanelHeaderId.setCellHorizontalAlignment(centerPanelHeaderId.getWidget(1), HasHorizontalAlignment.HorizontalAlignmentConstant.endOf(HasDirection.Direction.RTL));
 
     }
-    
-    
 
     public void setCenterPanel(String titulo, String subTitulo, Widget widget) {
 
@@ -249,10 +247,6 @@ public class MainUI extends Composite {
         }
     }
 
-    public static Quincena getQuincena() {
-        return quincena;
-    }
-    
     // <editor-fold defaultstate="collapsed" desc="interface OptionMenuChangeListener para cuando selecciona una Option"> 
     public interface OptionMenuChangeListener extends java.util.EventListener {
 

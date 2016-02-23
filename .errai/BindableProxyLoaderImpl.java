@@ -18,8 +18,8 @@ import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.domain.EmpleadoQuincenal;
-import cimav.client.data.domain.NominaQuincenal;
+import cimav.client.data.domain.Movimiento;
+import cimav.client.data.domain.Nomina;
 import cimav.client.data.domain.Tabulador;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -1683,12 +1683,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("totalDeducciones", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("estimulosProductividad", new PropertyType(Double.class, false, false));
-        agent.propertyTypes.put("nominaQuincenalCollection", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idStatus", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("pantMonths", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
+        agent.propertyTypes.put("nomina", new PropertyType(Nomina.class, false, false));
         agent.propertyTypes.put("pantDayEven", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
@@ -1696,10 +1696,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("pantYears", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("movimientos", new PropertyType(List.class, false, true));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("totalPercepciones", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("pantDayOdd", new PropertyType(Integer.class, false, false));
-        agent.propertyTypes.put("empleadoQuincenal", new PropertyType(EmpleadoQuincenal.class, false, false));
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
@@ -1725,31 +1725,31 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         final EmpleadoNomina clone = new EmpleadoNomina();
         clone.setCode(agent.target.getCode());
         clone.setEstimulosProductividad(agent.target.getEstimulosProductividad());
-        if (agent.target.getNominaQuincenalCollection() != null) {
-          final List nominaQuincenalCollectionClone = new ArrayList();
-          for (Object nominaQuincenalCollectionElem : agent.target.getNominaQuincenalCollection()) {
-            if (nominaQuincenalCollectionElem instanceof BindableProxy) {
-              nominaQuincenalCollectionClone.add(((BindableProxy) nominaQuincenalCollectionElem).deepUnwrap());
-            } else {
-              nominaQuincenalCollectionClone.add(nominaQuincenalCollectionElem);
-            }
-          }
-          clone.setNominaQuincenalCollection(nominaQuincenalCollectionClone);
-        }
         clone.setGrupo(agent.target.getGrupo());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
         clone.setIdStatus(agent.target.getIdStatus());
         clone.setPantMonths(agent.target.getPantMonths());
         clone.setIsDirty(agent.target.getIsDirty());
+        clone.setNomina(agent.target.getNomina());
         clone.setPantDayEven(agent.target.getPantDayEven());
         clone.setIdSede(agent.target.getIdSede());
         clone.setId(agent.target.getId());
         clone.setSede(agent.target.getSede());
         clone.setPantYears(agent.target.getPantYears());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
+        if (agent.target.getMovimientos() != null) {
+          final List movimientosClone = new ArrayList();
+          for (Object movimientosElem : agent.target.getMovimientos()) {
+            if (movimientosElem instanceof BindableProxy) {
+              movimientosClone.add(((BindableProxy) movimientosElem).deepUnwrap());
+            } else {
+              movimientosClone.add(movimientosElem);
+            }
+          }
+          clone.setMovimientos(movimientosClone);
+        }
         clone.setConsecutivo(agent.target.getConsecutivo());
         clone.setPantDayOdd(agent.target.getPantDayOdd());
-        clone.setEmpleadoQuincenal(agent.target.getEmpleadoQuincenal());
         clone.setName(agent.target.getName());
         if (agent.target.getDepartamento() instanceof BindableProxy) {
           clone.setDepartamento((Departamento) ((BindableProxy) getDepartamento()).deepUnwrap());
@@ -1806,17 +1806,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("estimulosProductividad", oldValue, estimulosProductividad);
       }
 
-      public List getNominaQuincenalCollection() {
-        return agent.target.getNominaQuincenalCollection();
-      }
-
-      public void setNominaQuincenalCollection(List<NominaQuincenal> nominaQuincenalCollection) {
-        List<NominaQuincenal> oldValue = agent.target.getNominaQuincenalCollection();
-        nominaQuincenalCollection = agent.ensureBoundListIsProxied("nominaQuincenalCollection", nominaQuincenalCollection);
-        agent.target.setNominaQuincenalCollection(nominaQuincenalCollection);
-        agent.updateWidgetsAndFireEvent("nominaQuincenalCollection", oldValue, nominaQuincenalCollection);
-      }
-
       public EGrupo getGrupo() {
         return agent.target.getGrupo();
       }
@@ -1865,6 +1854,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Boolean oldValue = agent.target.getIsDirty();
         agent.target.setIsDirty(isDirty);
         agent.updateWidgetsAndFireEvent("isDirty", oldValue, isDirty);
+      }
+
+      public Nomina getNomina() {
+        return agent.target.getNomina();
+      }
+
+      public void setNomina(Nomina nomina) {
+        Nomina oldValue = agent.target.getNomina();
+        agent.target.setNomina(nomina);
+        agent.updateWidgetsAndFireEvent("nomina", oldValue, nomina);
       }
 
       public Integer getPantDayEven() {
@@ -1931,6 +1930,17 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("cuentaCimav", oldValue, cuentaCimav);
       }
 
+      public List getMovimientos() {
+        return agent.target.getMovimientos();
+      }
+
+      public void setMovimientos(List<Movimiento> movimientos) {
+        List<Movimiento> oldValue = agent.target.getMovimientos();
+        movimientos = agent.ensureBoundListIsProxied("movimientos", movimientos);
+        agent.target.setMovimientos(movimientos);
+        agent.updateWidgetsAndFireEvent("movimientos", oldValue, movimientos);
+      }
+
       public Integer getConsecutivo() {
         return agent.target.getConsecutivo();
       }
@@ -1953,16 +1963,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Integer oldValue = agent.target.getPantDayOdd();
         agent.target.setPantDayOdd(pantDayOdd);
         agent.updateWidgetsAndFireEvent("pantDayOdd", oldValue, pantDayOdd);
-      }
-
-      public EmpleadoQuincenal getEmpleadoQuincenal() {
-        return agent.target.getEmpleadoQuincenal();
-      }
-
-      public void setEmpleadoQuincenal(EmpleadoQuincenal empleadoQuincenal) {
-        EmpleadoQuincenal oldValue = agent.target.getEmpleadoQuincenal();
-        agent.target.setEmpleadoQuincenal(empleadoQuincenal);
-        agent.updateWidgetsAndFireEvent("empleadoQuincenal", oldValue, empleadoQuincenal);
       }
 
       public String getName() {
@@ -2041,9 +2041,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("estimulosProductividad")) {
           return getEstimulosProductividad();
         }
-        if (property.equals("nominaQuincenalCollection")) {
-          return getNominaQuincenalCollection();
-        }
         if (property.equals("grupo")) {
           return getGrupo();
         }
@@ -2058,6 +2055,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("isDirty")) {
           return getIsDirty();
+        }
+        if (property.equals("nomina")) {
+          return getNomina();
         }
         if (property.equals("pantDayEven")) {
           return getPantDayEven();
@@ -2080,6 +2080,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("cuentaCimav")) {
           return getCuentaCimav();
         }
+        if (property.equals("movimientos")) {
+          return getMovimientos();
+        }
         if (property.equals("consecutivo")) {
           return getConsecutivo();
         }
@@ -2088,9 +2091,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("pantDayOdd")) {
           return getPantDayOdd();
-        }
-        if (property.equals("empleadoQuincenal")) {
-          return getEmpleadoQuincenal();
         }
         if (property.equals("name")) {
           return getName();
@@ -2122,10 +2122,6 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setEstimulosProductividad((Double) value);
           return;
         }
-        if (property.equals("nominaQuincenalCollection")) {
-          agent.target.setNominaQuincenalCollection((List<NominaQuincenal>) value);
-          return;
-        }
         if (property.equals("grupo")) {
           agent.target.setGrupo((EGrupo) value);
           return;
@@ -2144,6 +2140,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("isDirty")) {
           agent.target.setIsDirty((Boolean) value);
+          return;
+        }
+        if (property.equals("nomina")) {
+          agent.target.setNomina((Nomina) value);
           return;
         }
         if (property.equals("pantDayEven")) {
@@ -2170,16 +2170,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setCuentaCimav((String) value);
           return;
         }
+        if (property.equals("movimientos")) {
+          agent.target.setMovimientos((List<Movimiento>) value);
+          return;
+        }
         if (property.equals("consecutivo")) {
           agent.target.setConsecutivo((Integer) value);
           return;
         }
         if (property.equals("pantDayOdd")) {
           agent.target.setPantDayOdd((Integer) value);
-          return;
-        }
-        if (property.equals("empleadoQuincenal")) {
-          agent.target.setEmpleadoQuincenal((EmpleadoQuincenal) value);
           return;
         }
         if (property.equals("name")) {
@@ -2209,14 +2209,14 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         throw new NonExistingPropertyException(property);
       }
 
-      public List getNominaQuincenalCollection(ETipoConcepto a0, ETipoMovimiento a1) {
-        final List returnValue = agent.target.getNominaQuincenalCollection(a0, a1);
+      public List getMovimientos(ETipoConcepto a0, ETipoMovimiento a1) {
+        final List returnValue = agent.target.getMovimientos(a0, a1);
         agent.updateWidgetsAndFireEvents();
         return returnValue;
       }
 
-      public List getNominaQuincenalCollection(ETipoConcepto a0) {
-        final List returnValue = agent.target.getNominaQuincenalCollection(a0);
+      public List getMovimientos(ETipoConcepto a0) {
+        final List returnValue = agent.target.getMovimientos(a0);
         agent.updateWidgetsAndFireEvents();
         return returnValue;
       }

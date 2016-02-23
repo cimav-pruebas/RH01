@@ -7,8 +7,8 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.EmpleadoNomina;
-import cimav.client.data.domain.EmpleadoQuincenal;
-import cimav.client.data.domain.NominaQuincenal;
+import cimav.client.data.domain.Nomina;
+import cimav.client.data.domain.Movimiento;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
 import cimav.client.data.rest.NominaQuincenalREST;
@@ -138,16 +138,16 @@ public class NominaUI extends Composite {
                     // re-carga el provider con el empleado reloaded
                     empleadoNominaLoaded = (EmpleadoNomina) methodEvent.getResult();
                     
-                    List<NominaQuincenal> percepciones = new ArrayList<>();
-                    List<NominaQuincenal> deducciones = new ArrayList<>();
-                    List<NominaQuincenal> repercuciones = new ArrayList<>();
-                    List<NominaQuincenal> internos = new ArrayList<>();
+                    List<Movimiento> percepciones = new ArrayList<>();
+                    List<Movimiento> deducciones = new ArrayList<>();
+                    List<Movimiento> repercuciones = new ArrayList<>();
+                    List<Movimiento> internos = new ArrayList<>();
                     
                     if (empleadoNominaLoaded != null) {
-                        percepciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.PERCEPCION));
-                        deducciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.DEDUCCION));
-                        repercuciones.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.REPERCUCION));
-                        internos.addAll(empleadoNominaLoaded.getNominaQuincenalCollection(ETipoConcepto.INTERNO));
+                        percepciones.addAll(empleadoNominaLoaded.getMovimientos(ETipoConcepto.PERCEPCION));
+                        deducciones.addAll(empleadoNominaLoaded.getMovimientos(ETipoConcepto.DEDUCCION));
+                        repercuciones.addAll(empleadoNominaLoaded.getMovimientos(ETipoConcepto.REPERCUCION));
+                        internos.addAll(empleadoNominaLoaded.getMovimientos(ETipoConcepto.INTERNO));
                     }
                     
                     nominaPercepcionesUI.setList(percepciones);
@@ -156,10 +156,10 @@ public class NominaUI extends Composite {
                     nominaDeduccionesUI.setList(deducciones);
                     int deduccSaldos = nominaDeduccionesSaldoUI.setEmpleado(empleadoNominaLoaded);
 
-                    EmpleadoQuincenal empleadoQuincenal = empleadoNominaLoaded != null ? empleadoNominaLoaded.getEmpleadoQuincenal() : null;
+                    Nomina nomina = empleadoNominaLoaded != null ? empleadoNominaLoaded.getNomina() : null;
                     
-                    int deducFaltas = nominaFaltasUI.setEmpleado(empleadoQuincenal);
-                    Double horasExtras = horasExtrasUI.setEmpleado(empleadoQuincenal);
+                    int deducFaltas = nominaFaltasUI.setEmpleado(nomina);
+                    Double horasExtras = horasExtrasUI.setEmpleado(nomina);
                             
                     BigDecimal totPercepciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalPercepciones() : BigDecimal.ZERO;
                     BigDecimal totDeducciones = empleadoNominaLoaded != null ? empleadoNominaLoaded.getTotalDeducciones() : BigDecimal.ZERO;
@@ -191,13 +191,13 @@ public class NominaUI extends Composite {
                 public void onRESTExecuted(MethodEvent restEvent) {
                     if (EMethod.FIND_BY_EMPLEADO_IDS.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-                            List<NominaQuincenal> list = (List<NominaQuincenal>) restEvent.getResult();
-                            List<NominaQuincenal> percepciones = new ArrayList<>();
-                            List<NominaQuincenal> deducciones = new ArrayList<>();
-                            List<NominaQuincenal> repercuciones = new ArrayList<>();
-                            List<NominaQuincenal> internos = new ArrayList<>();
+                            List<Movimiento> list = (List<Movimiento>) restEvent.getResult();
+                            List<Movimiento> percepciones = new ArrayList<>();
+                            List<Movimiento> deducciones = new ArrayList<>();
+                            List<Movimiento> repercuciones = new ArrayList<>();
+                            List<Movimiento> internos = new ArrayList<>();
                             BigDecimal total = BigDecimal.ZERO;
-                            for(NominaQuincenal nq : list) {
+                            for(Movimiento nq : list) {
                                 if (ETipoConcepto.PERCEPCION.equals(nq.getConcepto().getTipoConcepto())) {
                                     percepciones.add(nq);
                                     if (nq.getConcepto().getSuma()) {

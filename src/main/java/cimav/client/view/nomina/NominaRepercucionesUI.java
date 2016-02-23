@@ -6,7 +6,7 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
-import cimav.client.data.domain.NominaQuincenal;
+import cimav.client.data.domain.Movimiento;
 import cimav.client.view.common.ICustomDataGridResource;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -43,9 +43,9 @@ public class NominaRepercucionesUI extends Composite {
     }
     
     @UiField(provided = true)
-    DataGrid<NominaQuincenal> dataGrid;
+    DataGrid<Movimiento> dataGrid;
 
-    private ListDataProvider<NominaQuincenal> provider;
+    private ListDataProvider<Movimiento> provider;
 
     private final ETipoConcepto tipoConcepto;
 
@@ -60,7 +60,7 @@ public class NominaRepercucionesUI extends Composite {
     
     private void buildGrid() {
         
-        List<NominaQuincenal> nominaQuincenalList = new ArrayList<>();
+        List<Movimiento> nominaQuincenalList = new ArrayList<>();
         provider = new ListDataProvider<>(nominaQuincenalList);
 
         ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
@@ -84,9 +84,9 @@ public class NominaRepercucionesUI extends Composite {
     private void initTableColumns() {
 
         // Concepto
-        Column<NominaQuincenal, SafeHtml> conceptoCol = new Column<NominaQuincenal, SafeHtml>(new SafeHtmlCell()) {
+        Column<Movimiento, SafeHtml> conceptoCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public SafeHtml getValue(NominaQuincenal object) {
+            public SafeHtml getValue(Movimiento object) {
                 SafeHtmlBuilder a = new SafeHtmlBuilder();
                 if (object.getConcepto().getSuma()) {
                     a.appendHtmlConstant("<span>" + object.getConcepto().getName() + "</span>");
@@ -100,9 +100,9 @@ public class NominaRepercucionesUI extends Composite {
         dataGrid.setColumnWidth(conceptoCol, 80, Style.Unit.PCT);
 
         // Cantidad
-        Column<NominaQuincenal, SafeHtml> cantidadCol = new Column<NominaQuincenal, SafeHtml>(new SafeHtmlCell()) {
+        Column<Movimiento, SafeHtml> cantidadCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public SafeHtml getValue(NominaQuincenal object) {
+            public SafeHtml getValue(Movimiento object) {
                 String result = Utils.formatCantidad(object.getCantidad());
                 SafeHtmlBuilder a = new SafeHtmlBuilder();
                 if (object.getConcepto().getSuma()) {
@@ -124,9 +124,9 @@ public class NominaRepercucionesUI extends Composite {
         dataGrid.setColumnWidth(cantidadCol, 20, Style.Unit.PCT);
         
         // Cantidad_empresa
-        Column<NominaQuincenal, SafeHtml> cantidadEmpresaCol = new Column<NominaQuincenal, SafeHtml>(new SafeHtmlCell()) {
+        Column<Movimiento, SafeHtml> cantidadEmpresaCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public SafeHtml getValue(NominaQuincenal object) {
+            public SafeHtml getValue(Movimiento object) {
                 String result = Utils.formatCantidad(object.getCantidadEmpresa());
                 SafeHtmlBuilder a = new SafeHtmlBuilder();
                 a.appendHtmlConstant("<span style='padding-right: 5px;'>" + result + "</span>");
@@ -145,11 +145,11 @@ public class NominaRepercucionesUI extends Composite {
         
     }
 
-    public void setList(List<NominaQuincenal> percepciones) {
+    public void setList(List<Movimiento> percepciones) {
 
-        Collections.sort(percepciones, new Comparator<NominaQuincenal>() {
+        Collections.sort(percepciones, new Comparator<Movimiento>() {
             @Override
-            public int compare(NominaQuincenal obj1, NominaQuincenal obj2) {
+            public int compare(Movimiento obj1, Movimiento obj2) {
                 return obj1.getConcepto().getCode().compareTo(obj2.getConcepto().getCode());
             }
         });

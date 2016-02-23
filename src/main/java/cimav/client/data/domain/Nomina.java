@@ -13,7 +13,7 @@ import org.fusesource.restygwt.client.Json;
  *
  * @author juan.calderon
  */
-public class EmpleadoQuincenal implements  Serializable {
+public class Nomina implements  Serializable {
     
     private Integer id;
     @Json(name = "idEmpleado")
@@ -48,7 +48,7 @@ public class EmpleadoQuincenal implements  Serializable {
     
     private List<HoraExtra> horasExtras;
     
-    public EmpleadoQuincenal() {
+    public Nomina() {
     }
 
     public Integer getId() {

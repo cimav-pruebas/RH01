@@ -5,7 +5,6 @@
  */
 package cimav.client.data.domain;
 
-import cimav.client.view.MainUI;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import java.io.Serializable;
@@ -64,8 +63,8 @@ public class Incidencia implements Serializable {
     public void ajustar() {
 
         // Fecha
-        Date fechaInicioQuin = MainUI.getQuincena().getFechaInicio();
-        Date fechaFinQuin = MainUI.getQuincena().getFechaFin();
+        Date fechaInicioQuin = Quincena.get().getFechaInicio();
+        Date fechaFinQuin = Quincena.get().getFechaFin();
         
         if (this.getTipo().isIncapacidad()) {
             // la fecha de inicio para Incapacidades tiene que ser mayor o igual al inicio de la quincena
@@ -80,7 +79,7 @@ public class Incidencia implements Serializable {
                     (this.fechaInicial.equals(fechaFinQuin) || this.fechaInicial.before(fechaFinQuin));
             if (!isBetween) {
                 // Si no esta, ajustarla a la fecha de inicio
-                this.fechaInicial = MainUI.getQuincena().getFechaInicio();
+                this.fechaInicial = Quincena.get().getFechaInicio();
             }
         } else if (this.getTipo().isPermiso()) {
             
@@ -113,9 +112,9 @@ public class Incidencia implements Serializable {
                 // Máximo 5 faltas
                 this.dias = 5;
             }
-            if (this.dias > MainUI.getQuincena().getDiasOrdinarios()) {
+            if (this.dias > Quincena.get().getDiasOrdinarios()) {
                 // Máximo igual a los ordinarios
-                this.dias = MainUI.getQuincena().getDiasOrdinarios();
+                this.dias = Quincena.get().getDiasOrdinarios();
             }
             // todas la faltas capturadas son sobre dias hábiles; no hay faltas en días inhabiles o de asueto
             this.diasHabiles = this.dias;

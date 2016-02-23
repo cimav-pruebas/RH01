@@ -14,7 +14,7 @@ import java.util.Objects;
  *
  * @author juan.calderon
  */
-public class NominaQuincenal implements  Serializable{
+public class Movimiento implements  Serializable{
 
     private Integer id;
     private Integer numQuincenas;
@@ -29,7 +29,9 @@ public class NominaQuincenal implements  Serializable{
     
     private BigDecimal cantidadEmpresa;
     
-    public NominaQuincenal() {
+    private Integer quincena;
+    
+    public Movimiento() {
         this.idEmpleado = 0;
         this.numQuincenas = 1;
         this.cantidad = BigDecimal.ZERO;
@@ -37,6 +39,7 @@ public class NominaQuincenal implements  Serializable{
         this.saldo = BigDecimal.ZERO;
         this.permanente = Boolean.FALSE;
         this.cantidadEmpresa = BigDecimal.ZERO;
+        this.quincena = Quincena.get().getQuincena();
     }
 
     public Integer getId() {
@@ -136,6 +139,14 @@ public class NominaQuincenal implements  Serializable{
         this.setCantidad();
     }
 
+    public Integer getQuincena() {
+        return quincena;
+    }
+
+    public void setQuincena(Integer quincena) {
+        this.quincena = quincena;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -151,7 +162,7 @@ public class NominaQuincenal implements  Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final NominaQuincenal other = (NominaQuincenal) obj;
+        final Movimiento other = (Movimiento) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
