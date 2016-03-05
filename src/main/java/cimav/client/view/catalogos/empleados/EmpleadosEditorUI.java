@@ -21,6 +21,7 @@ import cimav.client.data.rest.EmpleadoREST;
 import cimav.client.view.common.FechaDateBox;
 import cimav.client.view.catalogos.departamentos.DeptoChosen;
 import cimav.client.view.catalogos.empleados.jefe.JefeChosen;
+import cimav.client.view.catalogos.empleados.pension.PensionUI;
 import cimav.client.view.catalogos.empleados.sni.TipoSNIChosen;
 import cimav.client.view.catalogos.empleados.tipoantiguedad.TipoAntiguedadChosen;
 import cimav.client.view.catalogos.empleados.tipocontrato.TipoContratoChosen;
@@ -117,6 +118,15 @@ public class EmpleadosEditorUI extends Composite {
     private final TipoSNIChosen tipoSniChosen;
     private final TextBox numSNITxtBox;
     private final TextBox numEstimulosProductividadTxtBox;
+    private final TextBox porcenSegSepacionIndTxtBox;
+    //private final ValueListBox<ETipoPension> pensionTipo;
+    //private final Button seleccionarConceptos;
+    //private final Div divTipo;
+    private final PensionUI pensionUI;
+    private final TextBox pensionPorcentaje;
+    private final TextBox pensionBeneficiario;
+    private final ValueListBox<EBanco> pensionBanco;
+    private final TextBox pensionCuenta;
     // personal
     private final ValueListBox<ESexo> sexoChose;
     private final ValueListBox<EEdoCivil> edoCivilChose;
@@ -329,6 +339,68 @@ public class EmpleadosEditorUI extends Composite {
         numSNITxtBox.setWidth(width);
         numEstimulosProductividadTxtBox = new TextBox();
         numEstimulosProductividadTxtBox.setWidth("162px");
+        porcenSegSepacionIndTxtBox = new TextBox();
+        porcenSegSepacionIndTxtBox.setWidth("162px");
+        
+        pensionUI = new PensionUI();
+        
+//        pensionTipo = new ValueListBox<>(new Renderer<ETipoPension>() {
+//            @Override
+//            public String render(ETipoPension object) {
+//                if (object == null) {
+//                    return "None";
+//                }
+//                return object.getNombre();
+//            }
+//
+//            @Override
+//            public void render(ETipoPension object, Appendable appendable) throws IOException {
+//                String s = render(object);
+//                appendable.append(s);
+//            }
+//        });
+//        List<ETipoPension> tiposPension = Arrays.asList(ETipoPension.values());
+//        pensionTipo.setValue(ETipoPension.SIN); //default
+//        pensionTipo.setAcceptableValues(tiposPension);
+//        pensionTipo.setWidth(width);
+//        //pensionTipo.getElement().setAttribute("style", "width: inherit;");
+//        seleccionarConceptos = new Button("", IconType.GEAR, new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                Window.alert("Hellowwwwww");
+//            }
+//        });
+//        seleccionarConceptos.setSize(ButtonSize.SMALL);
+//        divTipo = new Div();
+//        divTipo.getElement().setAttribute("style", "display: -webkit-box;");
+//        divTipo.add(pensionTipo);
+//        divTipo.add(seleccionarConceptos);
+        
+        
+        pensionBanco = new ValueListBox<>(new Renderer<EBanco>() {
+            @Override
+            public String render(EBanco object) {
+                if (object == null) {
+                    return "None";
+                }
+                return object.getNombre();
+            }
+
+            @Override
+            public void render(EBanco object, Appendable appendable) throws IOException {
+                String s = render(object);
+                appendable.append(s);
+            }
+        });
+        pensionBanco.setValue(EBanco.BANORTE); //default
+        pensionBanco.setAcceptableValues(bancos);
+        pensionBanco.setWidth(width);
+        pensionPorcentaje = new TextBox();
+        pensionPorcentaje.setWidth("162px");
+        pensionBeneficiario = new TextBox();
+        pensionBeneficiario.setWidth("400px");
+        pensionCuenta = new TextBox();
+        pensionCuenta.setWidth(width);
                 
         int row = 1;
         flexEditorLaboral.setHTML(row, 0, "Sede");
@@ -403,14 +475,38 @@ public class EmpleadosEditorUI extends Composite {
         flexEditorLaboral.setWidget(row, 0, tipoSniChosen);
         flexEditorLaboral.setWidget(row, 2, numSNITxtBox);
         flexEditorLaboral.setWidget(row, 4, fechaSNIDatePicker);
-        row++;
-        cellFormatterLaboral.setColSpan(row, 0, 5);
-        flexEditorLaboral.setWidget(row, 0, new HTML("<span style='padding-bottom: 10px; display: block; border-bottom: 1px solid lightgray;;'></span>"));
+//        row++;
+//        cellFormatterLaboral.setColSpan(row, 0, 5);
+//        flexEditorLaboral.setWidget(row, 0, new HTML("<span style='padding-bottom: 10px; display: block; border-bottom: 1px solid lightgray;;'></span>"));
         row++;
         flexEditorLaboral.setHTML(row, 0, "Número estímulos");
+        flexEditorLaboral.setHTML(row, 2, "% Seg. Sep. Ind.");
         row++;
         flexEditorLaboral.setWidget(row, 0, numEstimulosProductividadTxtBox);
-
+        flexEditorLaboral.setWidget(row, 2, porcenSegSepacionIndTxtBox);
+        
+        row++;
+        cellFormatterLaboral.setColSpan(row, 0, 5);
+        flexEditorLaboral.setWidget(row, 0, new HTML("<span style='overflow: hidden; float:left; padding-right:8px;'>Pensión Alimenticia</span><span style='display:-webkit-box; padding-bottom: 10px; border-bottom: 1px solid lightgray;;'></span>"));
+        row++;
+        row++;
+        flexEditorLaboral.setHTML(row, 0, "Tipo");
+        flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
+        flexEditorLaboral.setHTML(row, 2, "Porcentaje");
+        row++;
+        //flexEditorLaboral.setWidget(row, 0, divTipo);
+        flexEditorLaboral.setWidget(row, 0, pensionUI);
+        flexEditorLaboral.setWidget(row, 2, pensionPorcentaje);
+        row++;
+        flexEditorLaboral.setHTML(row, 0, "Beneficiario");
+        flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
+        flexEditorLaboral.setHTML(row, 2, "Banco");
+        flexEditorLaboral.setWidget(row, 3, new HTML(htmlColSpc));
+        flexEditorLaboral.setHTML(row, 4, "Cuenta");
+        row++;
+        flexEditorLaboral.setWidget(row, 0, pensionBeneficiario);
+        flexEditorLaboral.setWidget(row, 2, pensionBanco);
+        flexEditorLaboral.setWidget(row, 4, pensionCuenta);
         
         FlexTable.FlexCellFormatter cellFormatterPersonal = flexEditorPersonal.getFlexCellFormatter();
 
@@ -542,6 +638,13 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(tipoSniChosen.getChosen(), "tipoSNI")
                     .bind(numSNITxtBox, "numSni")
                     .bind(numEstimulosProductividadTxtBox, "estimulosProductividad")
+                    .bind(porcenSegSepacionIndTxtBox, "porcenSegSeparacionInd")
+                    .bind(pensionBanco, "pensionBanco")
+                    //.bind(pensionTipo, "pensionTipo")
+                    .bind(pensionUI.get(), "pensionTipo")
+                    .bind(pensionPorcentaje, "pensionPorcen")
+                    .bind(pensionBeneficiario, "pensionBeneficiario")
+                    .bind(pensionCuenta, "pensionCuenta")
                     // personal
                     .bind(sexoChose, "sexo")
                     .bind(edoCivilChose, "edoCivil")

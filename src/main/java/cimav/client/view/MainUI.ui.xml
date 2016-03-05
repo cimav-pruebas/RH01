@@ -18,7 +18,6 @@
                         Recursos Humanos
                         <small>Administración</small>
                     </h2>
-
                     <h2 style="position:absolute; right:0; font-size: large;">
                         <b2:NavPills>
                             <b2:Dropdown text="José Juan Calderón Ochoa">

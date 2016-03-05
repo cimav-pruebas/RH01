@@ -35,7 +35,7 @@ public class NominaQuincenalREST extends BaseREST {
 
         BaseREST.setDateFormatPOST();
 
-        String url = BaseREST.URL_REST_BASE + "api/nomina_quincenal/find_by_empleado_ids";
+        String url = BaseREST.URL_REST_BASE + "api/movimientos/find_by_empleado_ids";
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
@@ -78,7 +78,7 @@ public class NominaQuincenalREST extends BaseREST {
         //BaseREST.setDateFormatPOST();
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/nomina_quincenal";
+        String url = BaseREST.URL_REST_BASE + "api/movimientos";
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
@@ -115,7 +115,7 @@ public class NominaQuincenalREST extends BaseREST {
 
         BaseREST.setDateFormatPOST();
 
-        String url = BaseREST.URL_REST_BASE + "api/nomina_quincenal/" + nominaQuincenal.getId();
+        String url = BaseREST.URL_REST_BASE + "api/movimientos/" + nominaQuincenal.getId();
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
@@ -151,7 +151,7 @@ public class NominaQuincenalREST extends BaseREST {
 
         BaseREST.setDateFormatPOST();
 
-        String url = BaseREST.URL_REST_BASE + "api/nomina_quincenal/" + id;
+        String url = BaseREST.URL_REST_BASE + "api/movimientos/" + id;
         
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");

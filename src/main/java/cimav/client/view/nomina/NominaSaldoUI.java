@@ -20,6 +20,7 @@ import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayMixed;
@@ -33,6 +34,8 @@ import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
 import com.google.gwt.query.client.Properties;
 import com.google.gwt.query.client.css.CSS;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
@@ -260,7 +263,8 @@ public class NominaSaldoUI extends Composite {
         Column<Movimiento, Boolean> permanenteCol = new Column<Movimiento, Boolean>(permanenteCell) {
             @Override
             public Boolean getValue(Movimiento object) {
-                return object.getPermanente();
+                Boolean result = object.getPermanente();
+                return result;
             }
         };
         permanenteCol.setFieldUpdater(new FieldUpdater<Movimiento, Boolean>() {
@@ -277,25 +281,32 @@ public class NominaSaldoUI extends Composite {
                 dataGrid.redrawRow(absRowIndex);
             }
         });
-        permanenteCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        permanenteCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         TextHeader permanenteHeader = new TextHeader("");
         permanenteHeader.setHeaderStyleNames("permanenteHeader");
-
         dataGrid.addColumn(permanenteCol, permanenteHeader);
         dataGrid.setColumnWidth(permanenteCol, 20, Style.Unit.PX);
         
-        // Pago
-        Column<Movimiento, String> pagoCol = new Column<Movimiento, String>(new TextCell()) {
+         // Pago
+        Column<Movimiento, SafeHtml> pagoCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public String getValue(Movimiento object) {
-                BigDecimal result = object == null || object.getPago() == null ? BigDecimal.ZERO : object.getPago();
-                return Utils.formatCantidad(result);
+            public SafeHtml getValue(Movimiento object) {
+                BigDecimal pago = object == null || object.getPago() == null ? BigDecimal.ZERO : object.getPago();
+                Utils.formatCantidad(pago);
+                SafeHtmlBuilder a = new SafeHtmlBuilder();
+               if (object.getPermanente()) {
+                   a.appendHtmlConstant("<span style='padding-right:3px; '>" + Utils.formatCantidad(pago) + "</span>");
+                } else {
+                   a.appendHtmlConstant("<span style='padding-right:3px; color: grey; font-style: italic;'>" + Utils.formatCantidad(pago) + "</span>");
+                }
+		return a.toSafeHtml();            
             }
         };
         pagoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(pagoCol, "Pago");
-        dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PX);
-
+        dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PCT);
+        
+        
         // Saldo 
         Column<Movimiento, String> saldoCol = new Column<Movimiento, String>(saldoCell) {
             @Override

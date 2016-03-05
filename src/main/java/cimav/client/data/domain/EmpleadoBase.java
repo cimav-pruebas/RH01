@@ -183,5 +183,4 @@ public class EmpleadoBase extends BaseDomain implements Serializable {
         this.pantYears = pantYears;
     }
 
-    
 }

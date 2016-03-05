@@ -29,6 +29,8 @@ public enum EMethod {
     FIND_EMPLEADO_NOMINA_BY_ID,
     // NominaQuincenal
     FIND_BY_EMPLEADO_IDS,
+    // Pension Alimenticia
+    FIND_PENSION_ALIMENTICA_BY_ID_EMPLEADO,
 
     //Movimientos
     UPDATE_MOVIMIENTO,

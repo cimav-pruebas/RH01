@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.gwtbootstrap3</groupId>
             <artifactId>gwtbootstrap3</artifactId>
-            <version>0.9.2</version>
+            <version>0.9.3</version>
         </dependency>
         <dependency>
             <groupId>org.gwtbootstrap3</groupId>
@@ -53,7 +53,7 @@
             <version>1.4.3</version>
             <scope>provided</scope>
         </dependency>
-<!--    
+        <!--    
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava-gwt</artifactId>
@@ -69,13 +69,13 @@
     
         <!-- dependencias necesairas poara Gwt 2.8
 <dependency>
-	<groupId>com.googlecode.gwtquery</groupId>
-	<artifactId>gwtquery</artifactId>
-	<version>1.5-beta1</version>
+        <groupId>com.googlecode.gwtquery</groupId>
+        <artifactId>gwtquery</artifactId>
+        <version>1.5-beta1</version>
 </dependency>
 <dependency>
-	<groupId>com.google.guava</groupId>
-	<artifactId>guava-gwt</artifactId>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava-gwt</artifactId>
         <version>20.0-SNAPSHOT</version>
 </dependency>
         -->    
@@ -85,43 +85,44 @@
             <artifactId>errai-data-binding</artifactId>
             <version>3.1.2.Final</version>
         </dependency>
-
-    <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>4.1.0.Final</version>
-    </dependency>
-    <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>4.1.0.Final</version>
-        <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.16</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.6.1</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>1.6.1</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.1</version>
-    </dependency>
+  
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.1.0.Final</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+        </dependency>
         <dependency>
             <groupId>com.google.api</groupId>
             <artifactId>gwt-oauth2</artifactId>
             <version>0.2</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -174,8 +175,8 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-            <outputDirectory>${endorsed.dir}</outputDirectory>   
-<!--                                             <outputDirectory>${project.build.dir}/${project.build.finalName}</outputDirectory> -->
+                            <outputDirectory>${endorsed.dir}</outputDirectory>   
+                            <!--                                             <outputDirectory>${project.build.dir}/${project.build.finalName}</outputDirectory> -->
                             <silent>true</silent>
                             <artifactItems>
                                 <artifactItem>
@@ -195,7 +196,7 @@
                 <version>${gwt.version}</version>
                 <executions>
                     <execution>
-                         <configuration>
+                        <configuration>
                             <superDevMode>${sdm.active}</superDevMode>
                         </configuration>
                         <goals>
@@ -207,7 +208,7 @@
                 <configuration>
                     <superDevMode>${sdm.active}</superDevMode>
                     <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
-<!--                    <jsInteropMode>JS</jsInteropMode> -->
+                    <!--                    <jsInteropMode>JS</jsInteropMode> -->
                     <extraJvmArgs>-Xmx2048M -Xss1024M</extraJvmArgs>
                 </configuration>
             </plugin>

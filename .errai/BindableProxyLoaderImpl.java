@@ -14,6 +14,7 @@ import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.ETipoContrato;
 import cimav.client.data.domain.ETipoEmpleado;
 import cimav.client.data.domain.ETipoMovimiento;
+import cimav.client.data.domain.ETipoPension;
 import cimav.client.data.domain.ETipoSNI;
 import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
@@ -488,6 +489,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public cimav_client_data_domain_EmpleadoProxy(Empleado target, InitialState initialState) {
         agent = new BindableProxyAgent<Empleado>(this, target, initialState);
         agent.propertyTypes.put("idBanco", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("pensionTipo", new PropertyType(ETipoPension.class, false, false));
         agent.propertyTypes.put("grupo", new PropertyType(EGrupo.class, false, false));
         agent.propertyTypes.put("jefe", new PropertyType(EmpleadoBase.class, true, false));
         agent.propertyTypes.put("tipoEmpleado", new PropertyType(ETipoEmpleado.class, false, false));
@@ -497,12 +499,14 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("pantDayEven", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("direccionColonia", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("idEdoCivil", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("pensionBeneficiario", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("id", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("telefono", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("curp", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("tipoAntiguedad", new PropertyType(ETipoAntiguedad.class, false, false));
         agent.propertyTypes.put("direccionCalle", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("direccionCP", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("pensionPorcen", new PropertyType(Double.class, false, false));
         agent.propertyTypes.put("pantYears", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("banco", new PropertyType(EBanco.class, false, false));
         agent.propertyTypes.put("cuentaCimav", new PropertyType(String.class, false, false));
@@ -519,6 +523,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("apellidoPaterno", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("fechaBaja", new PropertyType(Date.class, false, false));
+        agent.propertyTypes.put("pensionIdBanco", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("emailPersonal", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("code", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("fechaInicioContrato", new PropertyType(Date.class, false, false));
@@ -535,16 +540,20 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("isDirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("idTipoEmpleado", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("tipoContrato", new PropertyType(ETipoContrato.class, false, false));
+        agent.propertyTypes.put("pensionIdTipo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("idSede", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("idTipoSni", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
+        agent.propertyTypes.put("pensionCuenta", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("pantDayOdd", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("idTipoAntiguedad", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("departamento", new PropertyType(Departamento.class, true, false));
         agent.propertyTypes.put("sexo", new PropertyType(ESexo.class, false, false));
+        agent.propertyTypes.put("porcenSegSeparacionInd", new PropertyType(Double.class, false, false));
         agent.propertyTypes.put("fechaAntiguedad", new PropertyType(Date.class, false, false));
+        agent.propertyTypes.put("pensionBanco", new PropertyType(EBanco.class, false, false));
         agent.copyValues();
       }
 
@@ -563,6 +572,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public Empleado deepUnwrap() {
         final Empleado clone = new Empleado();
         clone.setIdBanco(agent.target.getIdBanco());
+        clone.setPensionTipo(agent.target.getPensionTipo());
         clone.setGrupo(agent.target.getGrupo());
         if (agent.target.getJefe() instanceof BindableProxy) {
           clone.setJefe((EmpleadoBase) ((BindableProxy) getJefe()).deepUnwrap());
@@ -576,12 +586,14 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setPantDayEven(agent.target.getPantDayEven());
         clone.setDireccionColonia(agent.target.getDireccionColonia());
         clone.setIdEdoCivil(agent.target.getIdEdoCivil());
+        clone.setPensionBeneficiario(agent.target.getPensionBeneficiario());
         clone.setId(agent.target.getId());
         clone.setTelefono(agent.target.getTelefono());
         clone.setCurp(agent.target.getCurp());
         clone.setTipoAntiguedad(agent.target.getTipoAntiguedad());
         clone.setDireccionCalle(agent.target.getDireccionCalle());
         clone.setDireccionCP(agent.target.getDireccionCP());
+        clone.setPensionPorcen(agent.target.getPensionPorcen());
         clone.setPantYears(agent.target.getPantYears());
         clone.setBanco(agent.target.getBanco());
         clone.setCuentaCimav(agent.target.getCuentaCimav());
@@ -602,6 +614,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIdGrupo(agent.target.getIdGrupo());
         clone.setApellidoPaterno(agent.target.getApellidoPaterno());
         clone.setFechaBaja(agent.target.getFechaBaja());
+        clone.setPensionIdBanco(agent.target.getPensionIdBanco());
         clone.setEmailPersonal(agent.target.getEmailPersonal());
         clone.setCode(agent.target.getCode());
         clone.setFechaInicioContrato(agent.target.getFechaInicioContrato());
@@ -618,10 +631,12 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIsDirty(agent.target.getIsDirty());
         clone.setIdTipoEmpleado(agent.target.getIdTipoEmpleado());
         clone.setTipoContrato(agent.target.getTipoContrato());
+        clone.setPensionIdTipo(agent.target.getPensionIdTipo());
         clone.setIdSede(agent.target.getIdSede());
         clone.setIdTipoSni(agent.target.getIdTipoSni());
         clone.setSede(agent.target.getSede());
         clone.setConsecutivo(agent.target.getConsecutivo());
+        clone.setPensionCuenta(agent.target.getPensionCuenta());
         clone.setPantDayOdd(agent.target.getPantDayOdd());
         clone.setIdTipoAntiguedad(agent.target.getIdTipoAntiguedad());
         if (agent.target.getDepartamento() instanceof BindableProxy) {
@@ -630,7 +645,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           clone.setDepartamento(agent.target.getDepartamento());
         }
         clone.setSexo(agent.target.getSexo());
+        clone.setPorcenSegSeparacionInd(agent.target.getPorcenSegSeparacionInd());
         clone.setFechaAntiguedad(agent.target.getFechaAntiguedad());
+        clone.setPensionBanco(agent.target.getPensionBanco());
         return clone;
       }
 
@@ -657,6 +674,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Integer oldValue = agent.target.getIdBanco();
         agent.target.setIdBanco(idBanco);
         agent.updateWidgetsAndFireEvent("idBanco", oldValue, idBanco);
+      }
+
+      public ETipoPension getPensionTipo() {
+        return agent.target.getPensionTipo();
+      }
+
+      public void setPensionTipo(ETipoPension pensionTipo) {
+        ETipoPension oldValue = agent.target.getPensionTipo();
+        agent.target.setPensionTipo(pensionTipo);
+        agent.updateWidgetsAndFireEvent("pensionTipo", oldValue, pensionTipo);
       }
 
       public EGrupo getGrupo() {
@@ -752,6 +779,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("idEdoCivil", oldValue, idEdoCivil);
       }
 
+      public String getPensionBeneficiario() {
+        return agent.target.getPensionBeneficiario();
+      }
+
+      public void setPensionBeneficiario(String pensionBeneficiario) {
+        String oldValue = agent.target.getPensionBeneficiario();
+        agent.target.setPensionBeneficiario(pensionBeneficiario);
+        agent.updateWidgetsAndFireEvent("pensionBeneficiario", oldValue, pensionBeneficiario);
+      }
+
       public Integer getId() {
         return agent.target.getId();
       }
@@ -810,6 +847,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         String oldValue = agent.target.getDireccionCP();
         agent.target.setDireccionCP(direccionCP);
         agent.updateWidgetsAndFireEvent("direccionCP", oldValue, direccionCP);
+      }
+
+      public Double getPensionPorcen() {
+        return agent.target.getPensionPorcen();
+      }
+
+      public void setPensionPorcen(Double pensionPorcen) {
+        Double oldValue = agent.target.getPensionPorcen();
+        agent.target.setPensionPorcen(pensionPorcen);
+        agent.updateWidgetsAndFireEvent("pensionPorcen", oldValue, pensionPorcen);
       }
 
       public Integer getPantYears() {
@@ -975,6 +1022,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("fechaBaja", oldValue, fechaBaja);
       }
 
+      public Integer getPensionIdBanco() {
+        return agent.target.getPensionIdBanco();
+      }
+
+      public void setPensionIdBanco(Integer pensionIdBanco) {
+        Integer oldValue = agent.target.getPensionIdBanco();
+        agent.target.setPensionIdBanco(pensionIdBanco);
+        agent.updateWidgetsAndFireEvent("pensionIdBanco", oldValue, pensionIdBanco);
+      }
+
       public String getEmailPersonal() {
         return agent.target.getEmailPersonal();
       }
@@ -1135,6 +1192,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("tipoContrato", oldValue, tipoContrato);
       }
 
+      public Integer getPensionIdTipo() {
+        return agent.target.getPensionIdTipo();
+      }
+
+      public void setPensionIdTipo(Integer pensionIdTipo) {
+        Integer oldValue = agent.target.getPensionIdTipo();
+        agent.target.setPensionIdTipo(pensionIdTipo);
+        agent.updateWidgetsAndFireEvent("pensionIdTipo", oldValue, pensionIdTipo);
+      }
+
       public Integer getIdSede() {
         return agent.target.getIdSede();
       }
@@ -1177,6 +1244,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         Integer oldValue = agent.target.getConsecutivo();
         agent.target.setConsecutivo(consecutivo);
         agent.updateWidgetsAndFireEvent("consecutivo", oldValue, consecutivo);
+      }
+
+      public String getPensionCuenta() {
+        return agent.target.getPensionCuenta();
+      }
+
+      public void setPensionCuenta(String pensionCuenta) {
+        String oldValue = agent.target.getPensionCuenta();
+        agent.target.setPensionCuenta(pensionCuenta);
+        agent.updateWidgetsAndFireEvent("pensionCuenta", oldValue, pensionCuenta);
       }
 
       public Integer getPantDayOdd() {
@@ -1222,6 +1299,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("sexo", oldValue, sexo);
       }
 
+      public Double getPorcenSegSeparacionInd() {
+        return agent.target.getPorcenSegSeparacionInd();
+      }
+
+      public void setPorcenSegSeparacionInd(Double porcenSegSeparacionInd) {
+        Double oldValue = agent.target.getPorcenSegSeparacionInd();
+        agent.target.setPorcenSegSeparacionInd(porcenSegSeparacionInd);
+        agent.updateWidgetsAndFireEvent("porcenSegSeparacionInd", oldValue, porcenSegSeparacionInd);
+      }
+
       public Date getFechaAntiguedad() {
         return agent.target.getFechaAntiguedad();
       }
@@ -1232,9 +1319,22 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent("fechaAntiguedad", oldValue, fechaAntiguedad);
       }
 
+      public EBanco getPensionBanco() {
+        return agent.target.getPensionBanco();
+      }
+
+      public void setPensionBanco(EBanco pensionBanco) {
+        EBanco oldValue = agent.target.getPensionBanco();
+        agent.target.setPensionBanco(pensionBanco);
+        agent.updateWidgetsAndFireEvent("pensionBanco", oldValue, pensionBanco);
+      }
+
       public Object get(String property) {
         if (property.equals("idBanco")) {
           return getIdBanco();
+        }
+        if (property.equals("pensionTipo")) {
+          return getPensionTipo();
         }
         if (property.equals("grupo")) {
           return getGrupo();
@@ -1263,6 +1363,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("idEdoCivil")) {
           return getIdEdoCivil();
         }
+        if (property.equals("pensionBeneficiario")) {
+          return getPensionBeneficiario();
+        }
         if (property.equals("id")) {
           return getId();
         }
@@ -1280,6 +1383,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("direccionCP")) {
           return getDireccionCP();
+        }
+        if (property.equals("pensionPorcen")) {
+          return getPensionPorcen();
         }
         if (property.equals("pantYears")) {
           return getPantYears();
@@ -1329,6 +1435,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("fechaBaja")) {
           return getFechaBaja();
         }
+        if (property.equals("pensionIdBanco")) {
+          return getPensionIdBanco();
+        }
         if (property.equals("emailPersonal")) {
           return getEmailPersonal();
         }
@@ -1377,6 +1486,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("tipoContrato")) {
           return getTipoContrato();
         }
+        if (property.equals("pensionIdTipo")) {
+          return getPensionIdTipo();
+        }
         if (property.equals("idSede")) {
           return getIdSede();
         }
@@ -1392,6 +1504,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("consecutivo")) {
           return getConsecutivo();
         }
+        if (property.equals("pensionCuenta")) {
+          return getPensionCuenta();
+        }
         if (property.equals("pantDayOdd")) {
           return getPantDayOdd();
         }
@@ -1404,8 +1519,14 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("sexo")) {
           return getSexo();
         }
+        if (property.equals("porcenSegSeparacionInd")) {
+          return getPorcenSegSeparacionInd();
+        }
         if (property.equals("fechaAntiguedad")) {
           return getFechaAntiguedad();
+        }
+        if (property.equals("pensionBanco")) {
+          return getPensionBanco();
         }
         throw new NonExistingPropertyException(property);
       }
@@ -1413,6 +1534,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
       public void set(String property, Object value) {
         if (property.equals("idBanco")) {
           agent.target.setIdBanco((Integer) value);
+          return;
+        }
+        if (property.equals("pensionTipo")) {
+          agent.target.setPensionTipo((ETipoPension) value);
           return;
         }
         if (property.equals("grupo")) {
@@ -1451,6 +1576,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setIdEdoCivil((Integer) value);
           return;
         }
+        if (property.equals("pensionBeneficiario")) {
+          agent.target.setPensionBeneficiario((String) value);
+          return;
+        }
         if (property.equals("id")) {
           agent.target.setId((Integer) value);
           return;
@@ -1473,6 +1602,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("direccionCP")) {
           agent.target.setDireccionCP((String) value);
+          return;
+        }
+        if (property.equals("pensionPorcen")) {
+          agent.target.setPensionPorcen((Double) value);
           return;
         }
         if (property.equals("pantYears")) {
@@ -1539,6 +1672,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setFechaBaja((Date) value);
           return;
         }
+        if (property.equals("pensionIdBanco")) {
+          agent.target.setPensionIdBanco((Integer) value);
+          return;
+        }
         if (property.equals("emailPersonal")) {
           agent.target.setEmailPersonal((String) value);
           return;
@@ -1603,6 +1740,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setTipoContrato((ETipoContrato) value);
           return;
         }
+        if (property.equals("pensionIdTipo")) {
+          agent.target.setPensionIdTipo((Integer) value);
+          return;
+        }
         if (property.equals("idSede")) {
           agent.target.setIdSede((Integer) value);
           return;
@@ -1617,6 +1758,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("consecutivo")) {
           agent.target.setConsecutivo((Integer) value);
+          return;
+        }
+        if (property.equals("pensionCuenta")) {
+          agent.target.setPensionCuenta((String) value);
           return;
         }
         if (property.equals("pantDayOdd")) {
@@ -1635,8 +1780,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setSexo((ESexo) value);
           return;
         }
+        if (property.equals("porcenSegSeparacionInd")) {
+          agent.target.setPorcenSegSeparacionInd((Double) value);
+          return;
+        }
         if (property.equals("fechaAntiguedad")) {
           agent.target.setFechaAntiguedad((Date) value);
+          return;
+        }
+        if (property.equals("pensionBanco")) {
+          agent.target.setPensionBanco((EBanco) value);
           return;
         }
         throw new NonExistingPropertyException(property);

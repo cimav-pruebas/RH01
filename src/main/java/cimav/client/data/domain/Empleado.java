@@ -112,6 +112,17 @@ public class Empleado extends BaseDomain implements Serializable {
     private String emailPersonal;
     
     private Double estimulosProductividad;
+    private Double porcenSegSeparacionInd;
+    
+    @JsonIgnore 
+    private ETipoPension pensionTipo;
+    private Integer pensionIdTipo;
+    private Double pensionPorcen;
+    private String pensionBeneficiario;
+    @JsonIgnore 
+    private EBanco pensionBanco;
+    private Integer pensionIdBanco;
+    private String pensionCuenta;
     
     private Integer pantDayEven;
     private Integer pantDayOdd;
@@ -136,6 +147,8 @@ public class Empleado extends BaseDomain implements Serializable {
         this.tipoSNI = ETipoSNI.NO_APLICA;
         
 //        this.sede = ESede.CHIHUAHUA;
+        
+        this.porcenSegSeparacionInd = 0.00;
     }
 
     public EmpleadoBase toBase() {
@@ -151,6 +164,7 @@ public class Empleado extends BaseDomain implements Serializable {
         result.setSede(this.getSede());
         result.setStatus(this.getStatus());
         result.setNivel(this.getNivel());
+        result.setEstimulosProductividad(this.getEstimulosProductividad());
         return result;
     }
     
@@ -676,5 +690,72 @@ public class Empleado extends BaseDomain implements Serializable {
         this.pantYears = pantYears;
     }
 
-    
+    public Double getPorcenSegSeparacionInd() {
+        return porcenSegSeparacionInd;
+    }
+
+    public void setPorcenSegSeparacionInd(Double porcenSegSeparacionInd) {
+        this.porcenSegSeparacionInd = porcenSegSeparacionInd;
+    }
+
+    public ETipoPension getPensionTipo() {
+        return pensionTipo;
+    }
+
+    public void setPensionTipo(ETipoPension pensionTipo) {
+        this.pensionTipo = pensionTipo;
+        this.pensionIdTipo = pensionTipo != null ? pensionTipo.getId() : 0;
+    }
+
+    public Integer getPensionIdTipo() {
+        return pensionIdTipo;
+    }
+
+    public void setPensionIdTipo(Integer pensionIdTipo) {
+        this.pensionTipo = ETipoPension.get(pensionIdTipo);
+        this.pensionIdTipo = pensionIdTipo;
+    }
+
+    public Double getPensionPorcen() {
+        return pensionPorcen;
+    }
+
+    public void setPensionPorcen(Double pensionPorcen) {
+        this.pensionPorcen = pensionPorcen;
+    }
+
+    public String getPensionBeneficiario() {
+        return pensionBeneficiario;
+    }
+
+    public void setPensionBeneficiario(String pensionBeneficiario) {
+        this.pensionBeneficiario = pensionBeneficiario;
+    }
+
+    public EBanco getPensionBanco() {
+        return pensionBanco;
+    }
+
+    public void setPensionBanco(EBanco pensionBanco) {
+        this.pensionBanco = pensionBanco;
+        this.pensionIdBanco = pensionBanco != null ? pensionBanco.getId() : 0;
+    }
+
+    public Integer getPensionIdBanco() {
+        return pensionIdBanco;
+    }
+
+    public void setPensionIdBanco(Integer pensionIdBanco) {
+        this.pensionBanco = EBanco.get(pensionIdBanco);
+        this.pensionIdBanco = pensionIdBanco;
+    }
+
+    public String getPensionCuenta() {
+        return pensionCuenta;
+    }
+
+    public void setPensionCuenta(String pensionCuenta) {
+        this.pensionCuenta = pensionCuenta;
+    }
+
 }

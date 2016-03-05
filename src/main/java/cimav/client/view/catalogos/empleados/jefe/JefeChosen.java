@@ -83,10 +83,9 @@ public class JefeChosen extends Composite {
                     fotoImg.setUrl(emp.getUrlPhoto());
 //                    htmlStr = 
 //                        " <code class='label-cyt-grp-niv'><span >" + emp.getCode() + "</span></code> " + 
-//                        " <code class='label-cyt-grp-niv'><span >" + emp.getGrupo()+ "</span></code> " +
-//                        " <code class='label-cyt-grp-niv'><span >" + emp.getNivel() + "</span></code> " +
-//                        " <code class='label-cyt-grp-niv'><span >" + emp.getDepartamento() + "</span></code> " +
-//                        " <code class='label-cyt-grp-niv'><span >" + emp.getId() + "</span></code> ";
+//                        " <code class='label-cyt-grp-niv'><span >" + emp.getGrupo().getCode()+ "</span></code> " +
+//                        " <code class='label-cyt-grp-niv'><span >" + emp.getNivel().getCode() + "</span></code> " +
+//                        " <code class='label-cyt-grp-niv'><span >" + emp.getDepartamento().getCode() + "</span></code> ";
                 } else {
                     fotoImg.setUrl("http://cimav.edu.mx/foto/default");
                 }

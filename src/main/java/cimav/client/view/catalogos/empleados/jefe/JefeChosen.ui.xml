@@ -29,6 +29,6 @@ Uncomment this for XHTML entities
                 </td>
             </tr>
         </table>
-        
+
     </g:HTMLPanel>
 </ui:UiBinder>

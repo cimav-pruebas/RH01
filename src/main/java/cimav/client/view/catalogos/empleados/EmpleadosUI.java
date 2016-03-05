@@ -140,6 +140,12 @@ public class EmpleadosUI extends Composite {
                     selected.setGrupo(reloaded.getGrupo());
                     selected.setSede(reloaded.getSede());
                     selected.setNivel(reloaded.getNivel());
+                    selected.setEstimulosProductividad(reloaded.getEstimulosProductividad());
+/*                    selected.setFechaAntiguedad(reloaded.getFechaAntiguedad());
+                    selected.setPantDayEven(reloaded.getPantDayEven());
+                    selected.setPantDayOdd(reloaded.getPantDayOdd());
+                    selected.setPantMonths(reloaded.getPantMonths());
+                    selected.setPantYears(reloaded.getPantYears()); */
 
                     // requiere usar la bases de intermediario; de lo contrario no recarga bien la lista
                     List<EmpleadoBase> bases = empleadosBaseProvider.getDataProvider().getList();
