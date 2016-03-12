@@ -8,24 +8,29 @@ Uncomment this for XHTML entities
              xmlns:b.html="urn:import:org.gwtbootstrap3.client.ui.html"
              xmlns:b2="urn:import:com.github.gwtbootstrap.client.ui"
 >
-    <!-- 
-                 xmlns:pi="urn:import:cimav.client.view.catalogos.empleados.pension"
--->
-
     <ui:style>
 
+        .div-panel {
+        display: -webkit-box;
+        }
+        .pro-panel {
+        background-color: yellow;
+        }
+        
     </ui:style>
     <b:Row>
         <b:Column size="XS_12">
         
-            <b.html:Div ui:field= "divPanel" />
+            <b.html:Span ui:field= "divPanel" addStyleNames="{style.div-panel}" />
             
             <b2:Modal ui:field="modal" title="My Modal" backdrop="STATIC" keyboard="true" animation="true">
+                <b:Progress>
+                    <b:ProgressBar ui:field="pb" type="SUCCESS" percent="40" addStyleNames="{style.pro-panel}"/>
+                </b:Progress>
                 <g:Label>Modal Content!</g:Label>
-                <!-- <pi:PickList2 ui:field="pickList2" />  -->
                 <b.html:Div ui:field= "divPickList" />
+                <b:Button ui:field="btnT"></b:Button>
             </b2:Modal>
-            <b:Button ui:field="btnModal" type="DANGER" size="SMALL">Click to show modal</b:Button>
 
         </b:Column>
 

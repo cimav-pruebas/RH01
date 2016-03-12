@@ -26,8 +26,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.ProgressBar;
 import org.gwtbootstrap3.client.ui.ValueListBox;
+import org.gwtbootstrap3.client.ui.constants.ButtonSize;
+import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.html.Div;
+import org.gwtbootstrap3.client.ui.html.Span;
 
 /**
  *
@@ -41,23 +45,35 @@ public class PensionUI extends Composite {
     }
     
     @UiField
-    Div divPanel;
+    Span divPanel;
     @UiField
     Div divPickList;
     @UiField
     Modal modal;
+    
     @UiField
-    Button btnModal;
+    ProgressBar pb;
+    @UiField
+    Button btnT;
+    
+    private final Button btnModal;
     
     private final ValueListBox<ETipoPension> pensionTipo;
-    //private final PickList2 pickList2;
-    
-    private PickListWidget pickListW;
     
     public PensionUI() {
         initWidget(uiBinder.createAndBindUi(this));
 
-        pickListW = new PickListWidget();
+        btnT.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                Double  n = pb.getPercent() + 3.00;
+                if (n > 99.0) {
+                    n = 0.00;
+                }
+                pb.setPercent(n);
+            }
+        });
         
         pensionTipo = new ValueListBox<>(new Renderer<ETipoPension>() {
             @Override
@@ -79,16 +95,20 @@ public class PensionUI extends Composite {
         pensionTipo.setAcceptableValues(tiposPension);
         pensionTipo.getElement().setAttribute("style", "width: inherit;");
         
-        divPanel.add(pensionTipo);
-        
         modal.getElement().setAttribute("style", "width: 800px; margin: auto; height: 400px");
         
+        btnModal = new Button();
+        btnModal.setIcon(IconType.GEAR);
+        btnModal.setSize(ButtonSize.SMALL);
         btnModal.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 modal.show();
             }
         });
+
+        divPanel.add(pensionTipo);
+        divPanel.add(btnModal);
         
         List<Concepto> conceptos = new ArrayList<>();
         Concepto concepto1 = new Concepto();
@@ -98,7 +118,7 @@ public class PensionUI extends Composite {
         concepto1.setIdTipoMovimiento("Y");
         Concepto concepto2 = new Concepto();
         concepto2.setCode("TOMORROW");
-        concepto2.setName("Mñana es finde semana,");
+        concepto2.setName("MÃ±ana es finde semana,");
         concepto2.setIdTipoConcepto("A");
         concepto2.setIdTipoMovimiento("B");
         conceptos.add(concepto2);
@@ -108,9 +128,8 @@ public class PensionUI extends Composite {
         concepto3.setIdTipoConcepto("I");
         concepto3.setIdTipoMovimiento("J");
         conceptos.add(concepto3);
-        //pickList2.setSourceList(conceptos); ; 
         
-        divPickList.add(pickListW);
+        //divPickList.add(pickListW);
         
         EmpleadoREST empleadoREST = new EmpleadoREST();
         empleadoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
@@ -119,9 +138,6 @@ public class PensionUI extends Composite {
                 if (EMethod.FIND_PENSION_ALIMENTICA_BY_ID_EMPLEADO.equals(restEvent.getMethod())) {
                     if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
                         List<Concepto> conceptos = (List<Concepto>) restEvent.getResult();
-                        pickListW.initConceptos(conceptos, conceptos);
-                        
-                     //   pickListW.updateSelectedConceptos(conceptos2);
                     }
                 }
             }
