@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 
 /**
  *
@@ -261,6 +262,10 @@ public class NominaUI extends Composite {
             if (EMethod.CREATE.equals(event.getMethod()) 
              || EMethod.UPDATE.equals(event.getMethod()) 
              || EMethod.DELETE.equals(event.getMethod())) {
+                
+                Growl.growl("Flata borrada Resultado: " + (String) event.getResult());
+                Growl.growl("Flata borrada idEmp: " + empleadoNominaLoaded.getId());
+                
                 // Se creeo/modificó/borro una Falta; reload al empleado
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }

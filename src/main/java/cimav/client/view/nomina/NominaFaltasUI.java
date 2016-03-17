@@ -218,7 +218,7 @@ public class NominaFaltasUI extends Composite {
                             onFalta(restEvent);
 
                         } else {
-                            Growl.growl("Falló creación de la falta. " + restEvent.getReason());
+                            Growl.growl("Falló creación1 de la falta. " + restEvent.getReason());
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
@@ -230,6 +230,8 @@ public class NominaFaltasUI extends Composite {
                     }  else if (EMethod.DELETE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
 
+                            Growl.growl("Flata borrada " + (String) restEvent.getResult());
+                            
                             onFalta(restEvent);
 
                         } else {
@@ -400,11 +402,11 @@ public class NominaFaltasUI extends Composite {
 
     }
 
-    public int setEmpleado(Nomina empleadoQuincenal) {
+    public int setEmpleado(Nomina nomina) {
         List<Incidencia> result = new ArrayList<>();
-        if (empleadoQuincenal != null) {
-            this.idEmpleado = empleadoQuincenal.getIdEmpleado();
-            result = empleadoQuincenal.getIncidencias();
+        if (nomina != null) {
+            this.idEmpleado = nomina.getIdEmpleado();
+            result = nomina.getIncidencias();
             Collections.sort(result, new Comparator<Incidencia>() {
                 @Override
                 public int compare(Incidencia f1, Incidencia f2) {
