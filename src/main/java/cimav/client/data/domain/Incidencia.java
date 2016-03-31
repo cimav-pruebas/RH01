@@ -190,5 +190,11 @@ public class Incidencia implements Serializable {
     public void setClase(String clase) {
         this.clase = clase;
     }
+
+    @Override
+    public String toString() {
+        return "Incidencia{" + "id=" + id + ", code=" + code + ", folio=" + folio + ", clase=" + clase + '}';
+    }
+    
     
 }

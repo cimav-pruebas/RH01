@@ -7,6 +7,7 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.Incidencia;
 import cimav.client.data.domain.Nomina;
 import cimav.client.data.domain.Movimiento;
 import cimav.client.data.rest.BaseREST;
@@ -262,10 +263,6 @@ public class NominaUI extends Composite {
             if (EMethod.CREATE.equals(event.getMethod()) 
              || EMethod.UPDATE.equals(event.getMethod()) 
              || EMethod.DELETE.equals(event.getMethod())) {
-                
-                Growl.growl("Flata borrada Resultado: " + (String) event.getResult());
-                Growl.growl("Flata borrada idEmp: " + empleadoNominaLoaded.getId());
-                
                 // Se creeo/modificó/borro una Falta; reload al empleado
                 NominaUI.this.setSelectedBean(empleadoNominaLoaded.getId());
             }

@@ -216,24 +216,18 @@ public class NominaFaltasUI extends Composite {
                     if (EMethod.CREATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
                             onFalta(restEvent);
-
-                        } else {
-                            Growl.growl("Falló creación1 de la falta. " + restEvent.getReason());
+                      } else {
+                            Growl.growl("Falló creación de la falta. " + restEvent.getReason());
                         }
                     } else if (EMethod.UPDATE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
                             onFalta(restEvent);
-
                         } else {
                             Growl.growl("Falló actualización de la falta. " + restEvent.getReason());
                         }
                     }  else if (EMethod.DELETE.equals(restEvent.getMethod())) {
                         if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-
-                            Growl.growl("Flata borrada " + (String) restEvent.getResult());
-                            
                             onFalta(restEvent);
-
                         } else {
                             Growl.growl("Falló eliminación de la falta. " + restEvent.getReason());
                         }
@@ -435,7 +429,6 @@ public class NominaFaltasUI extends Composite {
     }
 
     public void onFalta(MethodEvent restEvent) {
-        int y = 1;
         for (Iterator it = listeners.iterator(); it.hasNext();) {
             FaltasListener listener = (FaltasListener) it.next();
             listener.onFalta(restEvent);
