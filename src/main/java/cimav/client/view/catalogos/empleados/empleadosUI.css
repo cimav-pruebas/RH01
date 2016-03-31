@@ -19,13 +19,13 @@ html, body {
     margin: 0;   
     padding: 0;
     border: none;
-    // NECESARIO. 
+   /* // NECESARIO. 
     // hace que el height: 100%; de la table funcione
     // margin, padding y border en 0 hacen que NO aparezca el SCROLL INCOMODO
-    // y que los componentes internos no se "COMAN UN PEDACITO" del margen y padding
+    // y que los componentes internos no se "COMAN UN PEDACITO" del margen y padding */
 }
 .work-panel {
-    position: initial !important; // de no ponerlo, no aparece
+    position: initial !important; /* de no ponerlo, no aparece */
 }
 .west-search-panel {
     /* border-right: 1px solid gray; */
@@ -40,8 +40,8 @@ html, body {
 }
 .search-txt {
     width: 100%;
-    //margin-bottom: auto !important;
-    //TODO Pésimo corregirlo
+    /* margin-bottom: auto !important;
+    //TODO Pésimo corregirlo */
 }
 .search-txt-box {
     height: 40px;

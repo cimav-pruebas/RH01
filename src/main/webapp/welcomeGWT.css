@@ -14,11 +14,11 @@ body{
 }
 .gwt-TabLayoutPanelContent {
     border-width: 0px 0px 0px !important;
-    //border-color: blue !important;
+    /* border-color: blue !important; */
 }
 .gwt-TabLayoutPanelContentContainer {
     border-width: 1px 0px 0px !important;
-    //border-color: chartreuse !important;
+    /* border-color: chartreuse !important; */
 }
 
 div.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
