@@ -8,6 +8,7 @@ package cimav.client.data.rest;
 import cimav.client.view.common.MethodEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.fusesource.restygwt.client.Defaults;
 
 /**
  *
@@ -15,11 +16,11 @@ import java.util.Iterator;
  */
 public class BaseREST {
     
-    //private static final String URL_REST = Defaults.getServiceRoot() + "api/empleado"; // Para cuando el server esta embedded
+    public static final String URL_REST_BASE = Defaults.getServiceRoot().replace("/rh", "/rh_rest"); // Para cuando el server esta embedded
     //private static final String URL_REST = "http://201.174.72.60:8080/RestRH01-0.1.50/" + "api/empleado/base";
     //public static final String URL_REST_BASE = "http://calderas.cimav.edu.mx:8080/rest_rh/";
     //public static final String URL_REST_BASE = "http://10.0.4.40:8080/rest_rh/"; 
-    public static final String URL_REST_BASE = "http://localhost:8080/RestRH01/";
+    //public static final String URL_REST_BASE = "http://localhost:8080/RestRH01/";
     
 /*    private static HashMap<String, String> headers;
     

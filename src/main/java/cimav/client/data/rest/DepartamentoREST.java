@@ -36,7 +36,7 @@ public class DepartamentoREST extends BaseREST {
 
         BaseREST.setDateFormatGET();
         String url = BaseREST.URL_REST_BASE + "api/departamento";
-
+        
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
         
