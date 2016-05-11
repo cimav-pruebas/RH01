@@ -30,15 +30,14 @@ public class ConceptoREST extends BaseREST {
     public interface JsonCodec extends JsonEncoderDecoder<Concepto> {}
     public JsonEncoderDecoder jsonCodec = GWT.create(JsonCodec.class);
     
+    //private HashMap<String, String> headers = BaseREST.getHeader();
+    
     public void findAll() {
 
         BaseREST.setDateFormatGET();
         String url = BaseREST.URL_REST_BASE + "api/concepto";
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
-        Resource rb = new Resource(url, headers);
+        Resource rb = new Resource(url, BaseREST.headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
@@ -79,10 +78,6 @@ public class ConceptoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/concepto/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-        headers.put("Username", "mkyong");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 

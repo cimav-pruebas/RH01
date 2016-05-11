@@ -33,9 +33,6 @@ public class HorasExtrasREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/horas_extras";
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue jsonValue = jsonCodec.encode(horaExtra);
         
@@ -71,9 +68,6 @@ public class HorasExtrasREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/horas_extras/" + horaExtra.getId();
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue jsonValue = jsonCodec.encode(horaExtra);
 
@@ -107,9 +101,6 @@ public class HorasExtrasREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/horas_extras/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers); 
         rb.delete().send(Ajax.jsonCall(new JsonCallback() {
             @Override

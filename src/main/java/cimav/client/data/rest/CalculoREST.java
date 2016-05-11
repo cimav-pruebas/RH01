@@ -34,11 +34,8 @@ public class CalculoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/quincena/";
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
-        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+        rb.get().user("ADMIN").password("admin").send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
@@ -70,9 +67,6 @@ public class CalculoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/calculo/" + id;
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -103,9 +97,6 @@ public class CalculoREST extends BaseREST {
         BaseREST.setDateFormatPOST();
 
         String url = BaseREST.URL_REST_BASE + "api/calculo";
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
 
         JSONValue jsonValue =JSONParser.parseStrict(ids);
         

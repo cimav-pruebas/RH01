@@ -42,16 +42,12 @@ public class EmpleadoREST extends BaseREST {
     public interface JsonCodecConcepto extends JsonEncoderDecoder<Concepto> {}
     public JsonCodecConcepto jsonCodecConcepto = GWT.create(JsonCodecConcepto.class);
     
-    
     public void findAllBase() {
 
         BaseREST.setDateFormatGET();
 
         String url = BaseREST.URL_REST_BASE + "api/empleado_base";
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -91,9 +87,6 @@ public class EmpleadoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/empleado/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -127,9 +120,6 @@ public class EmpleadoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/empleado_base/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -163,9 +153,6 @@ public class EmpleadoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/empleado_nomina/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -199,9 +186,6 @@ public class EmpleadoREST extends BaseREST {
         BaseREST.setDateFormatGET();
 
         String url = BaseREST.URL_REST_BASE + "api/empleado";
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
 
         //Create a Jsonizer instance
         JSONValue empleadoJSONValue = empleadoJsonCodec.encode(empleado);
@@ -237,9 +221,6 @@ public class EmpleadoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/empleado";
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue empleadoJSONValue = empleadoJsonCodec.encode(empleado);
 
@@ -273,9 +254,6 @@ public class EmpleadoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/empleado_base/by_depto/" + idDepto;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
@@ -315,9 +293,6 @@ public class EmpleadoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/empleado_nomina/pension_alimenticia/" + idEmpleado;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 

@@ -6,9 +6,15 @@
 package cimav.client.data.rest;
 
 import cimav.client.view.common.MethodEvent;
+import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.fusesource.restygwt.client.Defaults;
+import org.fusesource.restygwt.client.Resource;
 
 /**
  *
@@ -42,6 +48,39 @@ public class BaseREST {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     }
 
+//    private static String encodedCredentials = null;
+//    private static String getEncodedCredentials() {
+//        if (encodedCredentials == null){
+//            String credentials =  "ADMIN:admin";
+//            try {
+//                encodedCredentials = new String(Base64.encode(credentials.getBytes()), "UTF-8");
+//            } catch (UnsupportedEncodingException ex) {
+//                Logger.getLogger(BaseREST.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//        return encodedCredentials;
+//    }
+    
+//    public static HashMap<String, String> headers;     
+//    static {
+//        headers.put("Content-Type", "application/json; charset=utf-8");
+//        String credentials =  "ADMIN:admin";
+//        try {
+//            String encodedCredentials = new String(Base64.encode(credentials.getBytes()), "UTF-8");
+//            headers.put("Authorization", encodedCredentials);
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(BaseREST.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
+    public static final HashMap<String, String> headers = initHeader();     
+    private static HashMap<String, String> initHeader() {
+        HashMap<String, String> h = new HashMap<>();     
+        h.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+        h.put("Authorization", "QURNSU5fUk9MRTphZG1pbg==");
+        return  h;
+    }
+    
 //    private static BaseREST instance;
 //
 //    public static BaseREST get() {

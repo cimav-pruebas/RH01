@@ -37,9 +37,6 @@ public class TabuladorREST extends BaseREST {
         BaseREST.setDateFormatGET();
         String url = BaseREST.URL_REST_BASE + "api/tabulador";
          
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 

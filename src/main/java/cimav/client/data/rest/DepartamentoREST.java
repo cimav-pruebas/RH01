@@ -31,17 +31,14 @@ public class DepartamentoREST extends BaseREST {
     }
     
     public JsonEncoderDecoder jsonCodec = GWT.create(JsonCodec.class);
-    
+
     public void findAll() {
 
         BaseREST.setDateFormatGET();
         String url = BaseREST.URL_REST_BASE + "api/departamento";
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-        
         Resource rb = new Resource(url, headers);
-        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+        rb.get().user("TEST").password("tesinf").send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
@@ -73,18 +70,14 @@ public class DepartamentoREST extends BaseREST {
 
     }
     
-    
     public void findById(int id) {
 
         BaseREST.setDateFormatGET();
 
         String url = BaseREST.URL_REST_BASE + "api/departamento/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-        
         Resource rb = new Resource(url, headers);
-        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+        rb.get().user("ADMIN").password("admin").send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
@@ -120,9 +113,6 @@ public class DepartamentoREST extends BaseREST {
         //Create a Jsonizer instance
         JSONValue departamentoJSONValue = jsonCodec.encode(departamento);
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-        
         Resource rb = new Resource(url, headers);
         rb.post().json(departamentoJSONValue).send(Ajax.jsonCall(new JsonCallback() {
             @Override
@@ -155,9 +145,6 @@ public class DepartamentoREST extends BaseREST {
         int id = departamento != null && departamento.getId() != null ? departamento.getId() : 0;
         String url = BaseREST.URL_REST_BASE + "api/departamento/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue departamentoJSONValue = jsonCodec.encode(departamento);
 

@@ -47,6 +47,8 @@
         <when-type-is class="javax.validation.ValidatorFactory" />
     </replace-with>
               
+    <inherits name="com.googlecode.gwt.crypto.Crypto"/>
+              
     <entry-point class="cimav.client.MainEntryPoint"/>
 
     <!-- Specify the paths for translatable code                    -->

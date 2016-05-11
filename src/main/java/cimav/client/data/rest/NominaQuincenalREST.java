@@ -37,9 +37,6 @@ public class NominaQuincenalREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/movimientos/find_by_empleado_ids";
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         JSONValue jsonValue =JSONParser.parseStrict(empleadoIds);
         
         Resource rb = new Resource(url, headers);
@@ -80,9 +77,6 @@ public class NominaQuincenalREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/movimientos";
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue jsonValue = jsonCodec.encode(nominaQuincenal);
         
@@ -117,9 +111,6 @@ public class NominaQuincenalREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/movimientos/" + nominaQuincenal.getId();
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         //Create a Jsonizer instance
         JSONValue jsonValue = jsonCodec.encode(nominaQuincenal);
 
@@ -153,9 +144,6 @@ public class NominaQuincenalREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/movimientos/" + id;
         
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-
         Resource rb = new Resource(url, headers); 
         rb.delete().send(Ajax.jsonCall(new JsonCallback() {
             @Override
