@@ -14,7 +14,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONValue;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.fusesource.restygwt.client.JsonCallback;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
@@ -38,7 +37,7 @@ public class DepartamentoREST extends BaseREST {
         String url = BaseREST.URL_REST_BASE + "api/departamento";
         
         Resource rb = new Resource(url, headers);
-        rb.get().user("TEST").password("tesinf").send(Ajax.jsonCall(new JsonCallback() {
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
