@@ -55,6 +55,7 @@ public class DepartamentoREST extends BaseREST {
                         JSONValue val = array.get(i);
                         
                         Departamento departamento  = (Departamento) jsonCodec.decode(val);
+                        departamento.cleanDirty();
                         departamentos.add(departamento);
                     }
                     MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.SUCCESS, "");
@@ -89,6 +90,7 @@ public class DepartamentoREST extends BaseREST {
             public void onSuccess(Method method, JSONValue response) {
                 try {
                     Departamento departamento = (Departamento) jsonCodec.decode(response);
+                    departamento.cleanDirty();
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "findById listo");
                     dbEvent.setResult(departamento);
                     onRESTExecuted(dbEvent);
