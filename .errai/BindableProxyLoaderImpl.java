@@ -51,7 +51,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.copyValues();
       }
 
-      public BindableProxyAgent getAgent() {
+      public BindableProxyAgent getBindableProxyAgent() {
         return agent;
       }
 
@@ -319,7 +319,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.copyValues();
       }
 
-      public BindableProxyAgent getAgent() {
+      public BindableProxyAgent getBindableProxyAgent() {
         return agent;
       }
 
@@ -557,7 +557,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.copyValues();
       }
 
-      public BindableProxyAgent getAgent() {
+      public BindableProxyAgent getBindableProxyAgent() {
         return agent;
       }
 
@@ -1862,7 +1862,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.copyValues();
       }
 
-      public BindableProxyAgent getAgent() {
+      public BindableProxyAgent getBindableProxyAgent() {
         return agent;
       }
 
@@ -2415,7 +2415,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.copyValues();
       }
 
-      public BindableProxyAgent getAgent() {
+      public BindableProxyAgent getBindableProxyAgent() {
         return agent;
       }
 
@@ -2609,7 +2609,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.copyValues();
       }
 
-      public BindableProxyAgent getAgent() {
+      public BindableProxyAgent getBindableProxyAgent() {
         return agent;
       }
 

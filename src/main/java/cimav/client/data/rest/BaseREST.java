@@ -6,13 +6,9 @@
 package cimav.client.data.rest;
 
 import cimav.client.view.common.MethodEvent;
-import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.Resource;
 
@@ -73,13 +69,39 @@ public class BaseREST {
 //        }
 //    }
     
-    public static final HashMap<String, String> headers = initHeader();     
+    public static HashMap<String, String> headers;
+    /*
     private static HashMap<String, String> initHeader() {
         HashMap<String, String> h = new HashMap<>();     
         h.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
-        h.put("Authorization", "QURNSU5fUk9MRTphZG1pbg==");
+        
+        String usr = "juan.calderas:admin";
+        int r = (int) (Math.random() * (3));
+        switch (r) {
+            case 1: usr = "aldhor.chihuahua:admin"; break;
+            case 2: usr = "aldhor.sonora:admin"; break;
+        }
+        
+        //byte[] result = btoa(usr).getBytes();
+        String result = btoa(usr);
+        
+        h.put("Authorization", result);// "QURNSU5fUk9MRTphZG1pbg==");
         return  h;
     }
+  */
+    
+    public static void initHeader(String usuario) {
+        /*HashMap<String, String>*/ headers = new HashMap<>();     
+        headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
+        //byte[] result = btoa(usr).getBytes();
+        String result = btoa(usuario + ":admin");
+        headers.put("Authorization", result);// "QURNSU5fUk9MRTphZG1pbg==");
+    }    
+    
+    private native static String btoa(String b64) /*-{
+        return btoa(b64);
+    }-*/;    
+    
     
 //    private static BaseREST instance;
 //

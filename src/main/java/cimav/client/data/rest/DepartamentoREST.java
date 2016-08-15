@@ -14,7 +14,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONValue;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.fusesource.restygwt.client.JsonCallback;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
@@ -55,7 +54,6 @@ public class DepartamentoREST extends BaseREST {
                         JSONValue val = array.get(i);
                         
                         Departamento departamento  = (Departamento) jsonCodec.decode(val);
-                        departamento.cleanDirty();
                         departamentos.add(departamento);
                     }
                     MethodEvent methodEvent = new MethodEvent(EMethod.FIND_ALL, ETypeResult.SUCCESS, "");
@@ -90,7 +88,6 @@ public class DepartamentoREST extends BaseREST {
             public void onSuccess(Method method, JSONValue response) {
                 try {
                     Departamento departamento = (Departamento) jsonCodec.decode(response);
-                    departamento.cleanDirty();
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_BY_ID, ETypeResult.SUCCESS, "findById listo");
                     dbEvent.setResult(departamento);
                     onRESTExecuted(dbEvent);

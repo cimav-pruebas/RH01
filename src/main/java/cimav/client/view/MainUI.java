@@ -91,6 +91,8 @@ public class MainUI extends Composite {
         lSubTitulo.setText(t);
     }
 
+    
+    
     public void loginIn() {
         
         final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID).withScopes(USER_INFO_PROFILE_SCOPE);
@@ -136,7 +138,8 @@ public class MainUI extends Composite {
                             
                             // Muestra toda el Area Central
 //                            centralFlowPanel.setVisible(true);
-                            
+
+                            BaseREST.initHeader(usuario.getCuenta());
                         }
                     }));
                     
@@ -188,6 +191,8 @@ public class MainUI extends Composite {
     @Override
     protected void onLoad() {
         super.onLoad(); 
+
+        BaseREST.initHeader("juan.calderas");
         
         if (Quincena.get() == null) {
             CalculoREST calculoREST = new CalculoREST();

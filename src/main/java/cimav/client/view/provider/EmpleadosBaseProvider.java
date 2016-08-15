@@ -53,6 +53,15 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
             return true;
         }
 
+        boolean hasAya = filter.toLowerCase().contains("a:"); 
+        if (hasAya) {
+            filter = filter.replace("a:", "");
+        }
+        boolean hasHon = filter.toLowerCase().contains("h:"); 
+        if (hasHon) {
+            filter = filter.replace("h:", "");
+        }
+        
         // ^.*\b(one|two|three)\b.*$    one, tow or three
         // ^(?=.*?\bone\b)(?=.*?\btwo\b)(?=.*?\bthree\b).*$ one, two AND three
         // ^(?=.*?one)(?=.*?two)(?=.*?three).*$ las palabras no tiene boundiry
@@ -66,18 +75,27 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
         pattern = pattern + ".+";
 
         String grupoStr = value.getGrupo() != null ? value.getGrupo().getCode() + " " + value.getGrupo().getName() : " ";
+        String codeGrupolStr = value.getGrupo() != null ? value.getGrupo().getCode() : " ";
         String nivelStr = value.getNivel() != null ? value.getNivel().getCode() + " " + value.getNivel().getName() : " ";
         String sedeStr = value.getSede() != null ? value.getSede().getAbrev() + " " + value.getSede().getNombre(): " ";
         String deptoStr = value.getDepartamento() != null ? value.getDepartamento().getCode() + " " + value.getDepartamento().getName() : " ";
 
-        String string
-                = value.getName() /*+ " " + value.getRfc()*/ + " " + value.getCode() + " " + value.getCuentaCimav() + " " + grupoStr + " " + nivelStr + " " + sedeStr + " " + deptoStr;
+        String string = value.getName() /*+ " " + value.getRfc()*/ + " " + value.getCode() + " " + value.getCuentaCimav() + " " + grupoStr + " " + nivelStr + " " + sedeStr + " " + deptoStr;
         string = string.toLowerCase();
 
         RegExp regExp = RegExp.compile(pattern);
         MatchResult matcher = regExp.exec(string);
 
-        return matcher != null;
+        boolean result = matcher != null;
+        
+        if (hasAya) {
+            result = result && (codeGrupolStr.toLowerCase().contains("aya"));
+        }
+        if (hasHon) {
+            result = result && (codeGrupolStr.toLowerCase().contains("hon"));
+        }
+        
+        return result;
     }
 
     public static final int ORDER_BY_NAME = 0;

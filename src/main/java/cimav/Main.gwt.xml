@@ -23,6 +23,8 @@
     <!-- Guava -->
     <inherits name="com.google.common.base.Base"/> 
     
+    <inherits name="com.vaadin.polymer.Elements"/>
+    
     <inherits name="org.fusesource.restygwt.RestyGWT"/>
     <inherits name="com.github.gwtbootstrap.Bootstrap"/>
     <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>    <!-- para estilo Boostrap 3 -->

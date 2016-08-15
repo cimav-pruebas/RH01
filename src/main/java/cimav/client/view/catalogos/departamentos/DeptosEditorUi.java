@@ -41,8 +41,6 @@ import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.jboss.errai.databinding.client.api.DataBinder;
 import org.jboss.errai.databinding.client.api.handler.property.PropertyChangeEvent;
 import org.jboss.errai.databinding.client.api.handler.property.PropertyChangeHandler;
-//import org.jboss.errai.databinding.client.api.PropertyChangeEvent;
-//import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
 
 /**
  *

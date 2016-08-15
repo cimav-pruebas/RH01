@@ -5,6 +5,7 @@
  */
 package cimav.client;
 
+import cimav.client.view.MainPoly;
 import cimav.client.view.MainUI;
 import cimav.client.view.catalogos.departamentos.DeptosUi;
 import cimav.client.view.catalogos.empleados.EmpleadosUI;
@@ -14,6 +15,13 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.vaadin.polymer.Polymer;
+import com.vaadin.polymer.elemental.Function;
+import com.vaadin.polymer.iron.IronIconElement;
+import com.vaadin.polymer.paper.PaperIconItemElement;
+import com.vaadin.polymer.paper.PaperRippleElement;
+import java.util.Arrays;
 import javax.validation.constraints.NotNull;
 import org.fusesource.restygwt.client.Defaults;
 import org.jboss.errai.databinding.client.BindableProxyLoader;
@@ -49,11 +57,13 @@ public class MainEntryPoint implements EntryPoint {
      */
     public MainEntryPoint() {
         
+        
         // Errai Binding
         BindableProxyLoader proxyLoader = GWT.create(BindableProxyLoader.class);
         proxyLoader.loadBindableProxies();        
         
         mainUi = new MainUI();
+
     }
     
     @Override
@@ -82,6 +92,23 @@ public class MainEntryPoint implements EntryPoint {
 ////        myModal.setStyle(sty);
 //        
 //        RootLayoutPanel.get().add(myModal);
+
+        if (false) {
+            // We have to load icon sets before run application
+            Polymer.importHref(Arrays.asList(
+                  "iron-icons/iron-icons.html",
+                   PaperIconItemElement.SRC,
+                   IronIconElement.SRC,
+                   PaperRippleElement.SRC), new Function() {
+                public Object call(Object arg) {
+                    // The app is executed when all imports succeed.
+                    RootPanel.get().add(new MainPoly()); //startApplication();
+                    return null;
+                }
+            });
+            return;
+        }
+
         RootLayoutPanel.get().add(mainUi);
         
         mainUi.addOptionMenuChangeListener(new MainUI.OptionMenuChangeListener() {

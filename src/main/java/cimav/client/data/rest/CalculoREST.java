@@ -13,7 +13,6 @@ import cimav.client.view.common.MethodEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
-import java.util.HashMap;
 import org.fusesource.restygwt.client.JsonCallback;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
@@ -28,14 +27,25 @@ public class CalculoREST extends BaseREST {
     public interface QuincenaJsonCodec extends JsonEncoderDecoder<Quincena> {}
     public QuincenaJsonCodec quincenaJsonCodec = GWT.create(QuincenaJsonCodec.class);
     
+    private native static String btoa(String b64) /*-{
+        return btoa(b64);
+    }-*/;    
+    
     public void findQuincena() {
 
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/quincena/";
+        String url = BaseREST.URL_REST_BASE + "api/quincena";
         
-        Resource rb = new Resource(url, headers);
-        rb.get().user("ADMIN").password("admin").send(Ajax.jsonCall(new JsonCallback() {
+//        HashMap<String, String> hs = headers;
+//        String h = hs.get("Authorization");
+//        System.out.println(">>> " + h);
+        
+//        String result = btoa("juan.camaney:admin");
+//        headers.put("Authorization", result);
+
+        Resource rb = new Resource(url, BaseREST.headers);
+        rb.get().user("user").password("admin").send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {
@@ -67,8 +77,11 @@ public class CalculoREST extends BaseREST {
 
         String url = BaseREST.URL_REST_BASE + "api/calculo/" + id;
 
+//        String h = (String) headers.get("Authorization");
+//        System.out.println(">>> " + h);
+                
         Resource rb = new Resource(url, headers);
-        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+        rb.get().user("usuario").password("admin").send(Ajax.jsonCall(new JsonCallback() {
 
             @Override
             public void onFailure(Method method, Throwable exception) {

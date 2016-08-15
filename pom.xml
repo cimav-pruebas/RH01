@@ -93,6 +93,13 @@
             <version>4.0.0.Beta2</version>
         </dependency>
   
+<dependency>
+ <groupId>com.vaadin.polymer</groupId>
+ <artifactId>vaadin-gwt-polymer-elements</artifactId>
+ <version>1.2.3.0</version>
+ <scope>provided</scope>
+</dependency>
+  
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
