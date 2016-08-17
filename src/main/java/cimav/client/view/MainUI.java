@@ -194,6 +194,8 @@ public class MainUI extends Composite {
 
         BaseREST.initHeader("juan.calderas");
         
+        GWT.log("login -> juan.calderas");
+        
         if (Quincena.get() == null) {
             CalculoREST calculoREST = new CalculoREST();
             calculoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
@@ -219,6 +221,8 @@ public class MainUI extends Composite {
             });
             calculoREST.findQuincena();
         }
+        
+        BaseREST.initHeader("alban.lakata");
         
         //centerPanelHeaderId.getElement().setId("centerPanelHeaderId");
 //        //GQuery.$("#centerPanelHeaderId").css("border","solid 5px red");

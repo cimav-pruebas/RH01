@@ -38,6 +38,8 @@ public class BaseREST {
     
     public static void setDateFormatGET() {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+//        TimeZone timeZone = TimeZone.createTimeZone(0);
+//        org.fusesource.restygwt.client.Defaults.setTimeZone(timeZone);
     }
     
     public static void setDateFormatPOST() {
@@ -90,6 +92,7 @@ public class BaseREST {
     }
   */
     
+    /* se crea una sola vez; no se puede reutilizar */
     public static void initHeader(String usuario) {
         /*HashMap<String, String>*/ headers = new HashMap<>();     
         headers.put(Resource.HEADER_CONTENT_TYPE, "application/json; charset=utf-8");
