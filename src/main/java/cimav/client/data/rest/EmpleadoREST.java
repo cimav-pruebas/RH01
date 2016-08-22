@@ -45,8 +45,8 @@ public class EmpleadoREST extends BaseREST {
 
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/empleado_base";
-        
+        String url = BaseREST.URL_REST_BASE + "api/empleado_base/activos";
+        System.out.println("" + url);
         Resource rb = new Resource(url, headers);
         rb.get().send(Ajax.jsonCall(new JsonCallback() {
 
