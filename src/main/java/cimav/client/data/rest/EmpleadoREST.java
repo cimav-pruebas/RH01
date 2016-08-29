@@ -41,7 +41,7 @@ public class EmpleadoREST extends BaseREST {
     public interface JsonCodecConcepto extends JsonEncoderDecoder<Concepto> {}
     public JsonCodecConcepto jsonCodecConcepto = GWT.create(JsonCodecConcepto.class);
     
-    public void findAllBase() {
+    public void findAllBaseActivos() {
 
         BaseREST.setDateFormatGET();
 

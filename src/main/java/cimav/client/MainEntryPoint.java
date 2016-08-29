@@ -153,6 +153,7 @@ public class MainEntryPoint implements EntryPoint {
     
     private static void ensureNotUmbrellaError(@NotNull Throwable e) {
         for (Throwable th : ((UmbrellaException) e).getCauses()) {
+            System.err.println(th);
             if (th instanceof UmbrellaException) {
                 ensureNotUmbrellaError(th);
             } else {

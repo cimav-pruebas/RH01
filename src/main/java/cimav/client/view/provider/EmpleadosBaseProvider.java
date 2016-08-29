@@ -198,7 +198,7 @@ public class EmpleadosBaseProvider extends BaseProvider<EmpleadoBase> {
     }
 
     public void findAllBase() {
-        this.getREST().findAllBase();
+        this.getREST().findAllBaseActivos();
     }
     
     public void reloadBaseById(int idEmpleado) {

@@ -115,7 +115,7 @@ public class JefeChosen extends Composite {
                 }
             }
         });
-        rest.findAllBase();
+        rest.findAllBaseActivos();
 
     }
 
