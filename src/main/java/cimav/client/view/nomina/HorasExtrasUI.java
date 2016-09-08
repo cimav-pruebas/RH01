@@ -7,6 +7,7 @@ package cimav.client.view.nomina;
 
 import cimav.client.data.domain.Nomina;
 import cimav.client.data.domain.HoraExtra;
+import cimav.client.data.domain.Quincena;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.HorasExtrasREST;
 import cimav.client.view.common.EMethod;
@@ -47,6 +48,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -151,7 +154,7 @@ public class HorasExtrasUI extends Composite {
             
                 HoraExtra nueva = new HoraExtra();
                 nueva.setIdEmpleado(idEmpleado);
-                nueva.setQuincena(21); // TODO referenciar a la Quincena global
+                nueva.setQuincena(Quincena.get().getQuincena());
                 
                 // Crearla en la DB
                 getHorasExtrasREST().create(nueva);
@@ -221,7 +224,7 @@ public class HorasExtrasUI extends Composite {
             }
         };
         dataGrid.addColumn(semanaCol, "Semana");
-        dataGrid.setColumnWidth(semanaCol, 120, Style.Unit.PCT);
+        dataGrid.setColumnWidth(semanaCol, 40, Style.Unit.PCT);
         
         // Fecha
         Column<HoraExtra, Date> diaCol = new Column<HoraExtra, Date>(diaCell) {
@@ -295,13 +298,7 @@ public class HorasExtrasUI extends Composite {
             if (empleadoQuincenal.getHorasExtras() != null) {
                 horas.addAll(empleadoQuincenal.getHorasExtras());
             }
-//            Collections.sort(result, new Comparator<Incidencia>() {
-//                @Override
-//                public int compare(Incidencia f1, Incidencia f2) {
-//                    //return f1.getFechaInicial().compareTo(f2.getFechaInicial());
-//                    return f1.getId().compareTo(f2.getId());
-//                }
-//            });
+            Collections.sort(horas, (HoraExtra f1, HoraExtra f2) -> f1.getId().compareTo(f2.getId()) );
         }
         Double result = 0.00;
         for(HoraExtra he : horas) {

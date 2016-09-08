@@ -40,10 +40,16 @@ public class BaseREST {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 //        TimeZone timeZone = TimeZone.createTimeZone(0);
 //        org.fusesource.restygwt.client.Defaults.setTimeZone(timeZone);
+
+
+        org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd");
     }
     
     public static void setDateFormatPOST() {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+
+        org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd");
     }
 
 //    private static String encodedCredentials = null;

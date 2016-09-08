@@ -12,7 +12,6 @@ import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONValue;
-import java.util.HashMap;
 import org.fusesource.restygwt.client.JsonCallback;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
