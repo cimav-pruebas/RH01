@@ -66,6 +66,7 @@ public class MainUI extends Composite {
     public static final String OPT_DEPARTAMENTOS = "optionDepartamentos";
     public static final String OPT_TABULADOR = "optionTabulador";
     public static final String OPT_NOMINA = "optionNomina";
+    public static final String OPT_NOMINA_HISTO = "optionNominaHisto";
 
     @UiField StackLayoutPanel westPanel;
     @UiField FlowPanel workPanel;
@@ -158,7 +159,7 @@ public class MainUI extends Composite {
         
     }
     
-    @UiHandler({"optionUno", "optionDos", "optionTres", OPT_PERSONAL, OPT_DEPARTAMENTOS, OPT_TABULADOR, OPT_NOMINA})
+    @UiHandler({"optionUno", "optionDos", "optionTres", OPT_PERSONAL, OPT_DEPARTAMENTOS, OPT_TABULADOR, OPT_NOMINA, OPT_NOMINA_HISTO})
     protected void onClick(ClickEvent e) {
 
         // Pone todos los sub-menus en DesActivados

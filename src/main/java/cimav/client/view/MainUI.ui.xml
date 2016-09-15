@@ -46,6 +46,7 @@
                     </g:customHeader>
                     <b2:NavList ui:field="optionMenuNomina">
                         <b2:NavLink name="optionNomina" ui:field="optionNomina" >Movimientos y Cálculo</b2:NavLink> 
+                        <b2:NavLink name="optionNominaHisto" ui:field="optionNominaHisto" >Histórico</b2:NavLink> 
                     </b2:NavList>
                 </g:stack>
                 <g:stack>

@@ -52,6 +52,14 @@ html, body {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+.scroll-panel-histo{
+    border: 1px solid #ccc; 
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin: 10px;
+}
+
 .reload-btn {
     width: 70px;
 }

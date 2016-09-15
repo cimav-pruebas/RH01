@@ -165,7 +165,7 @@ public class EmpleadoListCell extends AbstractCell<EmpleadoBase> {
          * @param len the maximum length to allow before truncating
          * @return the converted text
          */
-        public String ellipse(String value, int len) {
+        public static String ellipse(String value, int len) {
             if (value != null && value.length() > len) {
                 return value.substring(0, len - 3) + "...";
             }

@@ -32,6 +32,9 @@ public enum EMethod {
     // Pension Alimenticia
     FIND_PENSION_ALIMENTICA_BY_ID_EMPLEADO,
 
+    // Empleado
+    FIND_EMPLEADO_HISTO_BY_ID_EMPLEADO,
+    
     //Movimientos
     UPDATE_MOVIMIENTO,
     

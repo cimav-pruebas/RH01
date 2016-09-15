@@ -5,9 +5,6 @@
  */
 package cimav.client.view.catalogos.empleados;
 
-import cimav.client.view.common.EMethod;
-import cimav.client.view.common.ETypeResult;
-import cimav.client.view.common.MethodEvent;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
 import cimav.client.data.domain.EEdoCivil;
@@ -16,9 +13,9 @@ import cimav.client.data.domain.ESede;
 import cimav.client.data.domain.ESexo;
 import cimav.client.data.domain.EStatusEmpleado;
 import cimav.client.data.domain.Empleado;
+import cimav.client.data.domain.EmpleadoHisto;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.EmpleadoREST;
-import cimav.client.view.common.FechaDateBox;
 import cimav.client.view.catalogos.departamentos.DeptoChosen;
 import cimav.client.view.catalogos.empleados.jefe.JefeChosen;
 import cimav.client.view.catalogos.empleados.pension.PensionUI;
@@ -27,18 +24,33 @@ import cimav.client.view.catalogos.empleados.tipoantiguedad.TipoAntiguedadChosen
 import cimav.client.view.catalogos.empleados.tipocontrato.TipoContratoChosen;
 import cimav.client.view.catalogos.empleados.tipoempleado.TipoEmpleadoChosen;
 import cimav.client.view.catalogos.tabulador.TabuladorChosen;
+import cimav.client.view.common.EMethod;
+import cimav.client.view.common.ETypeResult;
+import cimav.client.view.common.EmpleadoListCell;
+import cimav.client.view.common.FechaDateBox;
+import cimav.client.view.common.MethodEvent;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +65,7 @@ import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.ValueListBox;
+import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.jboss.errai.databinding.client.api.DataBinder;
 import org.jboss.errai.databinding.client.api.handler.property.PropertyChangeEvent;
@@ -80,7 +93,11 @@ public class EmpleadosEditorUI extends Composite {
     FlexTable flexEditorLaboral;
     @UiField
     FlexTable flexEditorPersonal;
+    @UiField(provided = true)
+    DataGrid<EmpleadoHisto> dataGridHisto;// = new DataGrid<>(10);
 
+    private ListDataProvider<EmpleadoHisto> dataGridProvider = new ListDataProvider<EmpleadoHisto>();
+    
     @UiField
     Button saveBtn;
     @UiField
@@ -136,7 +153,10 @@ public class EmpleadosEditorUI extends Composite {
     private final TextBox direccionCP;
     private final TextBox telefono;
     private final TextBox emailPersonal;
-    
+    // Histo
+//    private final CellList<EmpleadoHisto> cellListEmpleadoHisto;
+    //private EmpleadosHistoProvider empleadosHistoProvider = new EmpleadosHistoProvider();
+
     // Model & DataBinder
     private Empleado empleadoSelected;
     private DataBinder<Empleado> empleadoBinder;
@@ -145,6 +165,8 @@ public class EmpleadosEditorUI extends Composite {
 
     public EmpleadosEditorUI() {
 
+        initTable();
+        
         initWidget(uiBinder.createAndBindUi(this));
 
         FlexTable.FlexCellFormatter cellFormatterGeneral = flexEditorGeneral.getFlexCellFormatter();
@@ -604,6 +626,23 @@ public class EmpleadosEditorUI extends Composite {
 
 //        EmpleadosProvider.get().addMethodExecutedListener(new ProviderMethodExecutedListener());
 
+        /***** Histórico  *********/
+        //initTable();
+//        empleadosHistoProvider = new EmpleadosHistoProvider();
+//        CellList.Resources cellListResources = GWT.create(ICellListResources.class);
+//        cellListEmpleadoHisto = new CellList<>(new EmpleadoHistoListCell(null), cellListResources, empleadosHistoProvider.getDataProvider());
+//        cellListEmpleadoHisto.setPageSize(60);
+//        scrollPanelHisto.add(cellListEmpleadoHisto);
+//        /* Inyectarle style absolute al Abuelo para que funcione el scroll del cellList */
+//        Element divAbue = cellListEmpleadoHisto.getElement().getParentElement().getParentElement();
+//        divAbue.getStyle().setPosition(Style.Position.ABSOLUTE);
+//        divAbue.getStyle().setTop(0, Style.Unit.PX);
+//        divAbue.getStyle().setLeft(0, Style.Unit.PX);
+//        divAbue.getStyle().setBottom(0, Style.Unit.PX);
+//        divAbue.getStyle().setRight(0, Style.Unit.PX);
+//        // Add the CellList to the adapter in the database.
+//        empleadosHistoProvider.addDataDisplay(cellListEmpleadoHisto);
+
     }
 
     private class BinderPropertyChange implements PropertyChangeHandler<Object> {
@@ -678,6 +717,27 @@ public class EmpleadosEditorUI extends Composite {
                     }
                     
                 }
+            } else if (EMethod.FIND_EMPLEADO_HISTO_BY_ID_EMPLEADO.equals(methodEvent.getMethod())) {
+                
+                // tumbar a todos. 
+                dataGridProvider.getList().clear();
+                
+                if (ETypeResult.SUCCESS.equals(methodEvent.getTypeResult())) {
+                    // si no hubo problema, pasa la lista resultante al Provider
+                    List<EmpleadoHisto> empleados = (List<EmpleadoHisto>) methodEvent.getResult();
+                    dataGridProvider.getList().addAll(empleados);
+                    
+//                    dataGridHisto.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+//                    dataGridHisto.setWidth("100%");
+//                    dataGridHisto.setHeight("100%");
+//                    dataGridHisto.redraw();
+                    
+                } else {
+                    Window.alert("EmpleadosHistoProvider.java Falló cargada de empleados: " + methodEvent.getReason());
+                }
+                
+                // le avisa al EmpleadoHistoUI
+                //onMethodExecuted(methodEvent);
             } 
             
         }
@@ -829,6 +889,7 @@ public class EmpleadosEditorUI extends Composite {
         
         getEmpleadosREST().findEmpleadoById(idEmpleadoBaseSelected);
         
+        getEmpleadosREST().findHistoByIdEmpleado(idEmpleadoBaseSelected);
     }
     
     public void addNewEmpleado() {
@@ -868,6 +929,161 @@ public class EmpleadosEditorUI extends Composite {
         }
 
     }
+
+    private void initTable() {
+
+        dataGridHisto = new DataGrid<>(10);
+        dataGridHisto.setEmptyTableWidget(new Label("Sin historial"));
+        dataGridHisto.setPageSize(10);
+        dataGridHisto.getElement().getStyle().setDisplay(Style.Display.TABLE_ROW);
+
+        // Year | Quincena
+        Column<EmpleadoHisto, SafeHtml> yearQuincenaCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String quin = object.getQuincena().toString();
+                if (object.getQuincena() < 10) {
+                    quin = "0" + object.getQuincena();
+                } 
+                String result = object.getYear() + " | " + quin;
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span class='label label-info' style='font-size:inherit;'>" + result + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        yearQuincenaCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(yearQuincenaCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Quincena")));
+        dataGridHisto.setColumnWidth(yearQuincenaCol, 80, Style.Unit.PX);
+
+        // fecha Ingreso
+        Column<EmpleadoHisto, SafeHtml> fechaIngresoCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                if (object != null && object.getFechaIngreso() != null) {
+                    String dateString = DateTimeFormat.getFormat("dd-MMM-yyyy").format(object.getFechaIngreso());
+                    sb.appendHtmlConstant("<span style='color:gray;'>" + dateString + "</span>");
+            } else {
+                    sb.appendHtmlConstant("<span style='color:ligthgray;'>---</span>");
+                }
+                return sb.toSafeHtml();
+            }
+        };
+        fechaIngresoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(fechaIngresoCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Ingreso")));
+        //dataGridHisto.setColumnWidth(fechaIngresoCol, 120, Style.Unit.PX);
+        
+        // fecha Antiguedad
+        Column<EmpleadoHisto, SafeHtml> fechaAntiguedadCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                if (object != null && object.getFechaAntiguedad()!= null) {
+                    String dateString = DateTimeFormat.getFormat("dd-MMM-yyyy").format(object.getFechaAntiguedad());
+                    sb.appendHtmlConstant("<span style='color:gray;'>" + dateString + "</span>");
+            } else {
+                    sb.appendHtmlConstant("<span style='color:ligthgray;'>---</span>");
+                }
+                return sb.toSafeHtml();
+            }
+        };
+        fechaAntiguedadCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(fechaAntiguedadCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Antigüedad")));
+        //dataGridHisto.setColumnWidth(fechaAntiguedadCol, 120, Style.Unit.PX);
+        
+        // fecha Baja
+        Column<EmpleadoHisto, SafeHtml> fechaBajaCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                if (object != null && object.getFechaBaja() != null) {
+                    String dateString = DateTimeFormat.getFormat("dd-MMM-yyyy").format(object.getFechaBaja());
+                    sb.appendHtmlConstant("<span style='color:gray;'>" + dateString + "</span>");
+            } else {
+                    sb.appendHtmlConstant("<span style='color:ligthgray;'>---</span>");
+                }
+                return sb.toSafeHtml();
+            }
+        };
+        fechaBajaCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(fechaBajaCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Baja")));
+        //dataGridHisto.setColumnWidth(fechaBajaCol, 120, Style.Unit.PX);
+        
+        // Grupo
+        Column<EmpleadoHisto, SafeHtml> grupoCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String result = object == null || object.getGrupo() == null ? "--" : object.getGrupo().getCode();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span style='color:gray;'>" + result + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        grupoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(grupoCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Grupo")));
+        //dataGridHisto.setColumnWidth(grupoCol, 120, Style.Unit.PX);
+        
+        // Nivel
+        Column<EmpleadoHisto, SafeHtml> nivelCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String result = object == null || object.getNivelCode() == null ? "--" : object.getNivelCode();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span style='color:gray;'>" + result + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        nivelCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(nivelCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Nivel")));
+        //dataGridHisto.setColumnWidth(nivelCol, 120, Style.Unit.PX);
+        
+        // Sede
+        Column<EmpleadoHisto, SafeHtml> sedeCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String result = object == null || object.getSede() == null ? "--" : object.getSede().getAbrev();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span style='color:gray;'>" + result + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        sedeCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(sedeCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Sede")));
+        //dataGridHisto.setColumnWidth(sedeCol, 120, Style.Unit.PX);
+
+        // Estimulos
+        Column<EmpleadoHisto, SafeHtml> estimulosCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String result = object == null || object.getEstimulosProductividad() == null ? "--" : object.getEstimulosProductividad().toString();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span style='color:gray;'>" + result + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        estimulosCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dataGridHisto.addColumn(estimulosCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Estímulos")));
+        //dataGridHisto.setColumnWidth(estimulosCol, 120, Style.Unit.PX);
+
+        // Depto
+        Column<EmpleadoHisto, SafeHtml> deptoSede = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String code = object == null || object.getDepartamento() == null ? "--" : object.getDepartamento().getCode() + " ";
+                String name = object == null || object.getDepartamento() == null ? "--" : object.getDepartamento().getName();
+                name = EmpleadoListCell.ellipse(name, 24);
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span style='color:gray;'>" + code + "</span><span style='font-size: smaller;'>" + name + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        deptoSede.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(deptoSede, new SafeHtmlHeader(SafeHtmlUtils.fromString("Departamento")));
+        //dataGridHisto.setColumnWidth(deptoSede, 120, Style.Unit.PX);
+        
+        dataGridProvider.addDataDisplay(dataGridHisto);
+        
+    }    
 
     // <editor-fold defaultstate="collapsed" desc="interface ActionEditorListener"> 
     public interface ActionEditorListener extends java.util.EventListener {
