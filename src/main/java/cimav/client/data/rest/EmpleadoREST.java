@@ -13,10 +13,13 @@ import cimav.client.data.domain.Empleado;
 import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoHisto;
 import cimav.client.data.domain.EmpleadoNomina;
+import cimav.client.data.domain.EmpleadoNominaHisto;
+import cimav.client.data.domain.MovimientoHisto;
 import cimav.client.view.common.Ajax;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
 import java.util.ArrayList;
 import java.util.List;
 import org.fusesource.restygwt.client.JsonCallback;
@@ -45,6 +48,9 @@ public class EmpleadoREST extends BaseREST {
     public interface EmpleadoHistoJsonCodec extends JsonEncoderDecoder<EmpleadoHisto> {}
     public EmpleadoHistoJsonCodec empleadoHistoJsonCodec = GWT.create(EmpleadoHistoJsonCodec.class);
     
+    public interface EmpleadoNominaHistoJsonCodec extends JsonEncoderDecoder<EmpleadoNominaHisto> {}
+    public EmpleadoNominaHistoJsonCodec empleadoNominaHistoJsonCodec = GWT.create(EmpleadoNominaHistoJsonCodec.class);
+
     
     public void findAllBaseActivos() {
 
@@ -362,6 +368,39 @@ public class EmpleadoREST extends BaseREST {
                 } catch (Exception e) {
                     String error = "EmpleadoREST.FIND_EMPLEADO_HISTO_BY_ID_EMPLEADO " + e.getMessage();
                     MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_HISTO_BY_ID_EMPLEADO, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+
+    }
+    
+    public void findEmpleadoNominaHistoById(int id, int quincena) {
+
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/empleado_nomina_histo/" + id + "/2016/" + quincena;
+        
+        Resource rb = new Resource(url, headers);
+        rb.get().send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_NOMINA_HISTO_BY_ID_YEAR_QUINCENA, ETypeResult.FAILURE, "findEmpleadoNominaHistoById " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    EmpleadoNominaHisto empleadoNomina = empleadoNominaHistoJsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_NOMINA_HISTO_BY_ID_YEAR_QUINCENA, ETypeResult.SUCCESS, "findEmpleadoNominaHistoById listo");
+                    dbEvent.setResult(empleadoNomina);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "EmpleadoREST.FIND_EMPLEADO_NOMINA_BY_ID " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.FIND_EMPLEADO_NOMINA_HISTO_BY_ID_YEAR_QUINCENA, ETypeResult.FAILURE, error);
                     onRESTExecuted(dbEvent);
                 }
             }

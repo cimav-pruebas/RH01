@@ -11,7 +11,6 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.EmpleadoListCell;
 import cimav.client.view.common.MethodEvent;
-import cimav.client.view.nomina.NominaListUI;
 import cimav.client.view.provider.EmpleadosBaseProvider;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -58,6 +57,12 @@ public class NominaHistoList extends Composite {
     private static EmpleadosBaseProvider empleadosBaseProvider;
     private final SingleSelectionModel<EmpleadoBase> selectionModel;
     private EmpleadoListCell empleadoListCell;
+    
+    
+    @UiField
+    NominaHistoUI nominaHistoUI;
+
+
     
     public NominaHistoList() {
         initWidget(uiBinder.createAndBindUi(this));
@@ -220,6 +225,15 @@ public class NominaHistoList extends Composite {
                     try {
                         SingleSelectionModel selModel = (SingleSelectionModel) event.getSource();
                         empleadoSelected = (EmpleadoBase) selModel.getSelectedObject();
+                        
+                        Integer id = empleadoSelected == null ? 0 : empleadoSelected.getId();
+                        
+                        
+                        
+                        
+                        nominaHistoUI.setSelectedBean(id);
+
+                        int idx = scrollIntoView(empleadoSelected);
                         
                     } catch (Exception e) {
                         Window.alert("onSelectionChange >> " + empleadoSelected + " >> " + e.getMessage());

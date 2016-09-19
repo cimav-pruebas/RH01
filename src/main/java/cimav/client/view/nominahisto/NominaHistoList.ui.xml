@@ -11,6 +11,7 @@ and open the template in the editor.
     xmlns:c="urn:import:com.google.gwt.user.cellview.client"
     xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
     xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
+    xmlns:nomHisto="urn:import:cimav.client.view.nominahisto"
 >
     
     <ui:style src="nominaUI.css"/>
@@ -75,6 +76,9 @@ and open the template in the editor.
             </g:FlowPanel>
         </g:west>   
 
+        <g:center >
+            <nomHisto:NominaHistoUI ui:field="nominaHistoUI"></nomHisto:NominaHistoUI>
+        </g:center>
         
     </g:DockLayoutPanel>
     

@@ -6,7 +6,7 @@
 package cimav.client.view.nomina;
 
 import cimav.client.data.domain.ETipoConcepto;
-import cimav.client.data.domain.Movimiento;
+import cimav.client.data.domain.MovimientoHisto;
 import cimav.client.view.common.ICustomDataGridResource;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,34 +34,32 @@ import java.util.List;
  *
  * @author juan.calderon
  */
-public class NominaMovimientosUI extends Composite {
-
-    private static NominaMovimientosUIUiBinder uiBinder = GWT.create(NominaMovimientosUIUiBinder.class);
-
-    interface NominaMovimientosUIUiBinder extends UiBinder<Widget, NominaMovimientosUI> {
+public class NominaRepercucionesHistoUI extends Composite {
+    
+    private static NominaRepercucionesHistoUIUiBinder uiBinder = GWT.create(NominaRepercucionesHistoUIUiBinder.class);
+    
+    interface NominaRepercucionesHistoUIUiBinder extends UiBinder<Widget, NominaRepercucionesHistoUI> {
     }
-
+    
     @UiField(provided = true)
-    DataGrid<Movimiento> dataGrid;
+    DataGrid<MovimientoHisto> dataGrid;
 
-    private ListDataProvider<Movimiento> provider;
+    private ListDataProvider<MovimientoHisto> provider;
 
     private final ETipoConcepto tipoConcepto;
 
     @UiConstructor
-    public NominaMovimientosUI(String idTipoConcepto) {
-
+    public NominaRepercucionesHistoUI(String idTipoConcepto) {
         this.tipoConcepto = ETipoConcepto.get(idTipoConcepto);
 
         this.buildGrid(); // antes del initWidget
-
+        
         initWidget(uiBinder.createAndBindUi(this));
-
     }
-
+    
     private void buildGrid() {
         
-        List<Movimiento> nominaQuincenalList = new ArrayList<>();
+        List<MovimientoHisto> nominaQuincenalList = new ArrayList<>();
         provider = new ListDataProvider<>(nominaQuincenalList);
 
         ICustomDataGridResource dataGridResource = GWT.create(ICustomDataGridResource.class);
@@ -72,7 +69,7 @@ public class NominaMovimientosUI extends Composite {
 
         dataGrid.setAutoHeaderRefreshDisabled(true);
 
-        dataGrid.setEmptyTableWidget(new Label("Sin movimientos de momento"));
+        dataGrid.setEmptyTableWidget(new Label("Sin repercuciones de momento"));
 
         dataGrid.setPageSize(20);
         dataGrid.setMinimumTableWidth(400, Style.Unit.PX);
@@ -85,10 +82,10 @@ public class NominaMovimientosUI extends Composite {
 
     private void initTableColumns() {
 
-                // Concepto
-        Column<Movimiento, SafeHtml> conceptoCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
+        // Concepto
+        Column<MovimientoHisto, SafeHtml> conceptoCol = new Column<MovimientoHisto, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public SafeHtml getValue(Movimiento object) {
+            public SafeHtml getValue(MovimientoHisto object) {
                 SafeHtmlBuilder a = new SafeHtmlBuilder();
                 if (object.getConcepto().getSuma()) {
                     a.appendHtmlConstant("<span>" + object.getConcepto().getName() + "</span>");
@@ -102,9 +99,9 @@ public class NominaMovimientosUI extends Composite {
         dataGrid.setColumnWidth(conceptoCol, 80, Style.Unit.PCT);
 
         // Cantidad
-        Column<Movimiento, SafeHtml> cantidadCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
+        Column<MovimientoHisto, SafeHtml> cantidadCol = new Column<MovimientoHisto, SafeHtml>(new SafeHtmlCell()) {
             @Override
-            public SafeHtml getValue(Movimiento object) {
+            public SafeHtml getValue(MovimientoHisto object) {
                 String result = Utils.formatCantidad(object.getCantidad());
                 SafeHtmlBuilder a = new SafeHtmlBuilder();
                 if (object.getConcepto().getSuma()) {
@@ -119,40 +116,39 @@ public class NominaMovimientosUI extends Composite {
         SafeHtmlHeader headerCantidad = new SafeHtmlHeader(new SafeHtml() {
             @Override
             public String asString() {
-                return "<p style='text-align:center; margin-bottom: 0px;'>Cantidad</p>";
+                return "<p style='text-align:center; margin-bottom: 0px;'>Empleado</p>";
             }
         });
-        if (ETipoConcepto.PERCEPCION.equals(this.tipoConcepto) || ETipoConcepto.DEDUCCION.equals(this.tipoConcepto)) {
-            SafeHtmlHeader footerCantidad = new SafeHtmlHeader(new SafeHtml() {
-                @Override
-                public String asString() {
-                    String result = "0.00";
-                    List<Movimiento> items = dataGrid.getVisibleItems();
-                    if (!items.isEmpty()) {
-                        // create MathContext object with 2 precision
-                        BigDecimal totalPercepciones = BigDecimal.ZERO;
-                        for (Movimiento nomQuin : items) {
-                            if (nomQuin.getConcepto().getSuma()) { // si el concepto suma (ej. Despensa no suma)
-                                totalPercepciones = totalPercepciones.add(nomQuin.getCantidad());
-                            }
-                        }
-                        result = Utils.formatCurrency(totalPercepciones);
-                    }
-                    return "<p style=\"text-align:right;\">" + result.trim() + "</p>";
-                }
-            });
-            dataGrid.addColumn(cantidadCol, headerCantidad, footerCantidad);
-        } else {
-            dataGrid.addColumn(cantidadCol, headerCantidad);
-        }
+        dataGrid.addColumn(cantidadCol, headerCantidad);
         dataGrid.setColumnWidth(cantidadCol, 20, Style.Unit.PCT);
+        
+        // Cantidad_empresa
+        Column<MovimientoHisto, SafeHtml> cantidadEmpresaCol = new Column<MovimientoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(MovimientoHisto object) {
+                String result = Utils.formatCantidad(object.getCantidadEmpresa());
+                SafeHtmlBuilder a = new SafeHtmlBuilder();
+                a.appendHtmlConstant("<span style='padding-right: 5px;'>" + result + "</span>");
+		return a.toSafeHtml();            
+            }
+        };
+        cantidadEmpresaCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        SafeHtmlHeader headerCantidadEmpresa = new SafeHtmlHeader(new SafeHtml() {
+            @Override
+            public String asString() {
+                return "<p style='text-align:center; margin-bottom: 0px;'>Empresa</p>";
+            }
+        });
+        dataGrid.addColumn(cantidadEmpresaCol, headerCantidadEmpresa);
+        dataGrid.setColumnWidth(cantidadEmpresaCol, 20, Style.Unit.PCT);
+        
     }
 
-    public void setList(List<Movimiento> percepciones) {
+    public void setList(List<MovimientoHisto> percepciones) {
 
-        Collections.sort(percepciones, new Comparator<Movimiento>() {
+        Collections.sort(percepciones, new Comparator<MovimientoHisto>() {
             @Override
-            public int compare(Movimiento obj1, Movimiento obj2) {
+            public int compare(MovimientoHisto obj1, MovimientoHisto obj2) {
                 return obj1.getConcepto().getCode().compareTo(obj2.getConcepto().getCode());
             }
         });
@@ -160,28 +156,10 @@ public class NominaMovimientosUI extends Composite {
         provider.setList(percepciones);
     }
 
-    
-    
-//    // <editor-fold defaultstate="collapsed" desc="interface ActionListener"> 
-//    public interface ActionListener extends java.util.EventListener {
-//        void onActionEditor(MethodEvent restEvent);
-//    }
-//    private final ArrayList listeners = new ArrayList();
-//    public void addActionListener(ActionListener listener) {
-//        listeners.add(listener);
-//    }
-//    public void removeActionListener(ActionListener listener) {
-//        listeners.remove(listener);
-//    }
-//    public void onAction(MethodEvent restEvent) {
-//        for(Iterator it = listeners.iterator(); it.hasNext();) {
-//            ActionListener listener = (ActionListener) it.next();
-//            listener.onActionEditor(restEvent);
-//        }
-//    }
-//    // </editor-fold>
-
-    public DataGrid<Movimiento> getDataGrid() {
+    public DataGrid<MovimientoHisto> getDataGrid() {
         return dataGrid;
     }
+    
+    
+    
 }

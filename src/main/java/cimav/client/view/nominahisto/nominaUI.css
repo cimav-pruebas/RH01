@@ -340,3 +340,17 @@ code {
 .calcular-toogle{
     
 }
+
+  .nav .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: red;
+    background-color: #428bca;
+    border: 1px solid #357ebd;
+  }
+  .nav .nav-pills .nav-pill-quin {
+      border-radius: 100%;
+  }
+  .nav-quin {
+      padding: 14px;
+      border: 1px solid gray;
+  }
+  

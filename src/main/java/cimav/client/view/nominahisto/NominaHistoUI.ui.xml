@@ -1,0 +1,92 @@
+<!--
+Uncomment this for XHTML entities
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+             xmlns:nom="urn:import:cimav.client.view.nomina"
+             xmlns:b3="urn:import:org.gwtbootstrap3.client.ui"
+>
+    <ui:style src="nominaUI.css"/>
+    <g:ScrollPanel addStyleNames='{style.nomina-contenedor}'>
+        <g:VerticalPanel addStyleNames='{style.nomina-contenedor}'>
+            
+            <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>
+                <b:NavPills ui:field="navQuincenas">
+                </b:NavPills>
+            </g:HorizontalPanel>
+            
+            <!--- **** Percepciones y Deducciones **** -->
+            <g:HorizontalPanel ui:field="movimientosContenedor" addStyleNames='{style.movimientos-contenedor}'> 
+                <!-- ******* Percepciones ******* -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelHeader>
+                        <b3:Heading size="H3" text="Percepciones"/>
+                    </b3:PanelHeader>
+                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                        <nom:NominaMovimientosHistoUI ui:field="nominaPercepcionesUI" idTipoConcepto="P"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+                <!-- ******* Deducciones ******* -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelHeader>
+                        <b3:Heading size="H3" text="Deducciones"/>
+                    </b3:PanelHeader>
+                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                        <nom:NominaMovimientosHistoUI ui:field="nominaDeduccionesUI" idTipoConcepto="D"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+            </g:HorizontalPanel>
+            
+            
+            <!-- ******* Totales ******* -->
+            <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>
+                <!-- Info -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelBody addStyleNames='{style.info-panel-body}'>
+                    </b3:PanelBody>
+                </b3:Panel>
+                <!-- Totales -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelBody addStyleNames='{style.total-panel-body}'>
+                        <g:Label ui:field="totalLabel" text="Totales" addStyleNames="{style.total-label}"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+            </g:HorizontalPanel>
+            <!--- **** Repercucciones e Internos **** -->
+            <g:HorizontalPanel ui:field="repercucionesInternosContenedor" addStyleNames='{style.movimientos-contenedor}'> 
+                
+                
+                <!-- ******* Internos ******* -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelHeader>
+                        <b3:Heading size="H3" text="Internos"/>
+                    </b3:PanelHeader>
+                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                        <nom:NominaMovimientosHistoUI ui:field="nominaInternosUI" idTipoConcepto="I"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+                
+                <!-- ******* Repercuciones ******* -->
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelHeader>
+                        <b3:Heading size="H3" text="Repercuciones"/>
+                    </b3:PanelHeader>
+                    <b3:PanelBody addStyleNames='{style.conceptos-panel-body}'>
+                        <nom:NominaRepercucionesHistoUI ui:field="nominaRepercucionesUI" idTipoConcepto="R"/>
+                    </b3:PanelBody>
+                </b3:Panel>
+            </g:HorizontalPanel>
+            
+            <!-- ******* Espacio al final ******* -->
+            <g:HorizontalPanel addStyleNames='{style.movimientos-totales}'>                
+                <b3:Panel addStyleNames='{style.conceptos-panel}'>
+                    <b3:PanelBody addStyleNames='{style.footer-panel-body}'>
+                    </b3:PanelBody>
+                </b3:Panel>
+            </g:HorizontalPanel>
+            
+        </g:VerticalPanel>
+    </g:ScrollPanel>
+</ui:UiBinder>

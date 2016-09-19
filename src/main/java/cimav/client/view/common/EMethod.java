@@ -34,6 +34,7 @@ public enum EMethod {
 
     // Empleado
     FIND_EMPLEADO_HISTO_BY_ID_EMPLEADO,
+    FIND_EMPLEADO_NOMINA_HISTO_BY_ID_YEAR_QUINCENA,
     
     //Movimientos
     UPDATE_MOVIMIENTO,

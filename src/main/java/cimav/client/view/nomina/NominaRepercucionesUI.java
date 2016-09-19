@@ -156,5 +156,11 @@ public class NominaRepercucionesUI extends Composite {
 
         provider.setList(percepciones);
     }
+
+    public DataGrid<Movimiento> getDataGrid() {
+        return dataGrid;
+    }
+    
+    
     
 }

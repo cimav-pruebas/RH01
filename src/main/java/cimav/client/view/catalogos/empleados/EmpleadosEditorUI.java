@@ -1037,20 +1037,6 @@ public class EmpleadosEditorUI extends Composite {
         dataGridHisto.addColumn(nivelCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Nivel")));
         //dataGridHisto.setColumnWidth(nivelCol, 120, Style.Unit.PX);
         
-        // Sede
-        Column<EmpleadoHisto, SafeHtml> sedeCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
-            @Override
-            public SafeHtml getValue(EmpleadoHisto object) {
-                String result = object == null || object.getSede() == null ? "--" : object.getSede().getAbrev();
-                SafeHtmlBuilder sb = new SafeHtmlBuilder();
-                sb.appendHtmlConstant("<span style='color:gray;'>" + result + "</span>");
-                return sb.toSafeHtml();
-            }
-        };
-        sedeCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-        dataGridHisto.addColumn(sedeCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Sede")));
-        //dataGridHisto.setColumnWidth(sedeCol, 120, Style.Unit.PX);
-
         // Estimulos
         Column<EmpleadoHisto, SafeHtml> estimulosCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
             @Override
@@ -1064,6 +1050,20 @@ public class EmpleadosEditorUI extends Composite {
         estimulosCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
         dataGridHisto.addColumn(estimulosCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Estímulos")));
         //dataGridHisto.setColumnWidth(estimulosCol, 120, Style.Unit.PX);
+
+        // Sede
+        Column<EmpleadoHisto, SafeHtml> sedeCol = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
+            @Override
+            public SafeHtml getValue(EmpleadoHisto object) {
+                String result = object == null || object.getSede() == null ? "--" : object.getSede().getAbrev();
+                SafeHtmlBuilder sb = new SafeHtmlBuilder();
+                sb.appendHtmlConstant("<span style='color:gray;'>" + result + "</span>");
+                return sb.toSafeHtml();
+            }
+        };
+        sedeCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGridHisto.addColumn(sedeCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Sede")));
+        //dataGridHisto.setColumnWidth(sedeCol, 120, Style.Unit.PX);
 
         // Depto
         Column<EmpleadoHisto, SafeHtml> deptoSede = new Column<EmpleadoHisto, SafeHtml>(new SafeHtmlCell()) {
