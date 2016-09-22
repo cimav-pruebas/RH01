@@ -39,10 +39,11 @@ public class MainEntryPoint implements EntryPoint {
         /* Default initialize for RestyGWT */
         Defaults.setServiceRoot(GWT.getHostPageBaseURL());
         Defaults.ignoreJsonNulls();
-        String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-        Defaults.setDateFormat(DATEFORMAT); //2015-01-14T00:00:00-0700
+        String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+        Defaults.setDateFormat(DATEFORMAT); //2015-01-14T00:00:00-0700 Con Z
+        //                                   "2001-09-14T04:10:00-06:00" Con X
         
-        Defaults.setDateFormat("yyyy-MM-dd"); //2015-01-14T00:00:00-0700
+        //Defaults.setDateFormat("yyyy-MM-dd"); //2015-01-14T00:00:00-0700
         
     }
     

@@ -34,6 +34,7 @@ public class CalculoREST extends BaseREST {
     public void findQuincena() {
 
         BaseREST.setDateFormatGET();
+//        BaseREST.setTestSinZone();
 
         String url = BaseREST.URL_REST_BASE + "api/quincena";
         

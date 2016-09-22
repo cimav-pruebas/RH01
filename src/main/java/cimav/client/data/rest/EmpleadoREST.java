@@ -14,12 +14,10 @@ import cimav.client.data.domain.EmpleadoBase;
 import cimav.client.data.domain.EmpleadoHisto;
 import cimav.client.data.domain.EmpleadoNomina;
 import cimav.client.data.domain.EmpleadoNominaHisto;
-import cimav.client.data.domain.MovimientoHisto;
 import cimav.client.view.common.Ajax;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Window;
 import java.util.ArrayList;
 import java.util.List;
 import org.fusesource.restygwt.client.JsonCallback;
@@ -55,6 +53,7 @@ public class EmpleadoREST extends BaseREST {
     public void findAllBaseActivos() {
 
         BaseREST.setDateFormatGET();
+//        BaseREST.setTestConZone();
 
         String url = BaseREST.URL_REST_BASE + "api/empleado_base/activos";
         System.out.println("" + url);

@@ -35,6 +35,13 @@ public class BaseREST {
         return headers;
     }
     */
+
+    public static void setTestConZone() {
+        org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
+    }
+    public static void setTestSinZone() {
+        org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd");
+    }
     
     public static void setDateFormatGET() {
         org.fusesource.restygwt.client.Defaults.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
