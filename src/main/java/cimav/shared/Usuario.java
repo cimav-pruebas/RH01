@@ -26,14 +26,14 @@ import java.util.logging.Logger;
  */
 public class Usuario implements Serializable {
     
-    private boolean loggedIn;
+    private boolean logged;
     private String email;
     private String nombre;
     private String pictureUrl;
 
     public Usuario() {
         // De inicio, no esta logeado
-        this.loggedIn = false;
+        this.logged = false;
         this.email = "";
         this.nombre = "Por favor, fírmese con su cuenta del Cimav";
         this.pictureUrl = "images/user-unlogged-icon.png";
@@ -44,14 +44,15 @@ public class Usuario implements Serializable {
         String cuenta = email.substring(0, idx);
         return cuenta;
     }
-    public boolean isLoggedIn() {
-        return loggedIn;
+
+    public boolean isLogged() {
+        return logged;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
+    public void setLogged(boolean logged) {
+        this.logged = logged;
     }
-
+    
     public String getEmail() {
         return email;
     }

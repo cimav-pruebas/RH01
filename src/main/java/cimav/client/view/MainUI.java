@@ -33,7 +33,6 @@ import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -43,6 +42,7 @@ import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlOptions;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
@@ -107,7 +107,7 @@ public class MainUI extends Composite {
         lnkLoger.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                if (usuario.isLoggedIn()) {
+                if (usuario.isLogged()) {
                     loginOut();
                 } else {
                     loginIn();
@@ -115,15 +115,16 @@ public class MainUI extends Composite {
             }
         });
         
+        // lo 1ewro es salirse
+        loginOut();
+        
     }
     
     public void setTit(String t) {
         lSubTitulo.setText(t);
     }
-
     
-    
-    public void loginIn() {
+    private void loginIn() {
         
         final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID).withScopes(USER_INFO_PROFILE_SCOPE);
         
@@ -155,22 +156,40 @@ public class MainUI extends Composite {
                             
                             // asigna el usuario logeado del lado del servidor al usuario del lado del cliente
                             usuario = usuarioSrv;
-                            
-                            // Si tiene nombre es que se pudo logear.
-                            usuario.setLoggedIn(usuario.getNombre() != null && !usuario.getNombre().trim().isEmpty());
 
+                            boolean tieneNom = usuario.getNombre() != null && !usuario.getNombre().trim().isEmpty();
+                            boolean esDelCimav = usuario.getEmail() != null && usuario.getEmail().endsWith("@cimav.edu.mx"); 
+
+                            // buscar en DB
+                            List<String> permitidos =  new ArrayList<>();
+                            permitidos.add("juan.calderon");
+                            permitidos.add("maria.rangel");
+                            permitidos.add("griselda.tamez");
+                            permitidos.add("mariana.lopez");
+                            permitidos.add("blanca.lopez");
+
+                            boolean esRegistrado = permitidos.contains(usuario.getCuenta());
+
+                            if (!tieneNom || !esDelCimav || !esRegistrado) {
+                                loginOut();
+                            } else {
+                            
+                                usuario.setLogged(true);
+                            
                             // Actulizar componentes de Login
 //                            loginImage.setVisible(true);
 //                            loginImage.setUrl(usuario.getPictureUrl());
 //                            loginLabel.setText(usuario.getNombre());
 //                            loginSignImage.setTitle("Salir");
 //                            loginSignImage.setUrl(Constantes.ICON_SIGN_OUT);                            
-                            dropDownMenuLoggin.setText(usuario.getNombre());
+                                dropDownMenuLoggin.setText(usuario.getNombre());
+                                lnkLoger.setText("Salir");
 
-                            // Muestra toda el Area Central
-                            dockPanelLogged.setVisible(true);
+                                // Muestra toda el Area Central
+                                dockPanelLogged.setVisible(true);
 
-                            BaseREST.initHeader(usuario.getCuenta());
+                                BaseREST.initHeader(usuario.getCuenta());
+                            }
                         }
                     }));
                     
@@ -189,7 +208,7 @@ public class MainUI extends Composite {
         
     }
     
-    public void loginOut() {
+    private void loginOut() {
         // Borra todas las cuentas logeadas de esta clase
         Auth.get().clearAllTokens(); 
         
@@ -197,6 +216,7 @@ public class MainUI extends Composite {
         usuario = new Usuario();
         
         dropDownMenuLoggin.setText("Favor de firmarse");
+        lnkLoger.setText("Entrar");
         
         // Esconde toda el area central 
         dockPanelLogged.setVisible(false);
