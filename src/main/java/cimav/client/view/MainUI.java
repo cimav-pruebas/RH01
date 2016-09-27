@@ -84,6 +84,7 @@ public class MainUI extends Composite {
     @UiField Label lTitulo;
     @UiField Label lSubTitulo;
     @UiField Label lNumQuincena;
+    @UiField Label lStatus;
     @UiField Label lFechasQuincena;
 
     @UiField DockLayoutPanel dockPanelLogged;
@@ -174,7 +175,7 @@ public class MainUI extends Composite {
                                 loginOut();
                             } else {
                             
-                                usuario.setLogged(true);
+                            usuario.setLogged(true);
                             
                             // Actulizar componentes de Login
 //                            loginImage.setVisible(true);
@@ -275,6 +276,8 @@ public class MainUI extends Composite {
                             lNumQuincena.setText(quin);
                             DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
                             lFechasQuincena.setText("" + fmt.format(Quincena.get().getFechaInicio()) + " - " + fmt.format(Quincena.get().getFechaFinCalendario()));
+                            
+                            lStatus.setText(Quincena.get().getStatusStr());
                             
                         } else {
                             GrowlOptions go = new GrowlOptions();

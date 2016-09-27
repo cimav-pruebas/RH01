@@ -75,7 +75,7 @@
                                     </div>
                                     <div id="right" style="float:right;">
                                         <g:Label ui:field="lNumQuincena" text="..." addStyleNames="{style.num-quincena}"/> 
-                                        <g:Label text="Status" addStyleNames="{style.status-quincena}"/> 
+                                        <g:Label ui:field="lStatus" text="Status" addStyleNames="{style.status-quincena}"/> 
                                         <g:Label ui:field="lFechasQuincena" text="..." addStyleNames="{style.fechas-quincena}"/>                                     
                                         <!--
                                         <i class="fa fa-bell-slash"></i>                              

@@ -15,6 +15,11 @@ import java.util.Objects;
  */
 public class Quincena implements Serializable {
     
+    public static final Integer INICIAL     = 0;
+    public static final Integer ABIERTA     = 1;
+    public static final Integer CERRANDOSE  = 2;
+    public static final Integer CERRADA     = 3;
+    
     private static Quincena quincenaStatic;
     
     private Integer year;
@@ -31,6 +36,7 @@ public class Quincena implements Serializable {
     private Integer diasDescanso;
     private Integer diasAsueto;
     private Integer diasImss;
+    private Integer status;
     
     public Quincena() {
     }
@@ -160,6 +166,25 @@ public class Quincena implements Serializable {
 
     public void setDiaFinCalendario(Integer diaFinCalendario) {
         this.diaFinCalendario = diaFinCalendario;
+    }
+
+    public String getStatusStr() {
+        String result = "none";
+        switch (status) {
+            case 0: result = "Inicial"; break;
+            case 1: result = "Abierta"; break;
+            case 2: result = "Cerrandose"; break;
+            case 3: result = "Cerrada"; break;
+        }
+        return result;
+    }
+    
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
     
     @Override
