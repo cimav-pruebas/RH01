@@ -17,18 +17,18 @@ package cimav.server;
 
 import cimav.client.GWTService;
 import cimav.shared.Usuario;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.fusesource.restygwt.client.JsonEncoderDecoder;
-
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
 /**
  *
  * @author juan.calderon
@@ -37,9 +37,6 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
     private static final Logger log = Logger.getLogger(GWTServiceImpl.class.getCanonicalName());
 
-    public interface JsonCodec extends JsonEncoderDecoder<Usuario> {}
-    public JsonEncoderDecoder jsonCodec = GWT.create(JsonCodec.class);
-    
     @Override
     public Usuario loginProfile(String tokenAutorizado) {
 
@@ -78,10 +75,29 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
             log.log(Level.SEVERE, e.getMessage());
         }
 
-        String json = reader.toString();
-        JSONValue val = JSONParser.parseStrict(json);
-        Usuario usuario = (Usuario) jsonCodec.decode(val);
-
+        final Usuario usuario = new Usuario();
+        try {
+            final JsonFactory f = new JsonFactory();
+            JsonParser jp;
+            jp = f.createJsonParser(reader.toString());
+            jp.nextToken();
+            while (jp.nextToken() != JsonToken.END_OBJECT) {
+                final String fieldname = jp.getCurrentName();
+                jp.nextToken();
+                if ("picture".equals(fieldname)) {
+                    usuario.setPictureUrl(jp.getText());
+                } else if ("name".equals(fieldname)) {
+                    usuario.setNombre(jp.getText());
+                } else if ("email".equals(fieldname)) {
+                    usuario.setEmail(jp.getText());
+                }
+            }
+        } catch (final JsonParseException e) {
+            log.log(Level.SEVERE, e.getMessage());
+        } catch (final IOException e) {
+            log.log(Level.SEVERE, e.getMessage());
+        }
+        
         return usuario;
     }
 

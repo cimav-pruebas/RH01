@@ -9,84 +9,89 @@
         
     <g:HTMLPanel styleName="{style.main-html-panel}">
 
-    <g:DockLayoutPanel unit='PX' styleName="{style.main-dock-layout-panel}">
+    <g:DockLayoutPanel unit='PX' ui:field="dockPanelNorth" styleName="{style.main-dock-layout-panel}">
         
-        <g:north size='60'>
+        <g:north  size='61'>
 <!--             <g:AbsolutePanel styleName="{style.north-panel}"> -->
-                <g:HTMLPanel styleName="{style.north-panel}">
+                <g:HTMLPanel  styleName="{style.north-panel}">
                     <h2>
                         Recursos Humanos
                         <small>Administración</small>
                     </h2>
-                    <h2 style="position:absolute; right:0; font-size: large;">
-                        <b2:NavPills>
-                            <b2:Dropdown text="José Juan Calderón Ochoa">
-                                <b2:NavLink>Salir</b2:NavLink>
-                            </b2:Dropdown>
-                        </b2:NavPills>                  
-                    </h2>
-                                                            
+
+                    <b2:SplitDropdownButton ui:field="dropDownMenuLoggin" text="José Juan Calderón Ochoa" addStyleNames="{style.nano}" >
+                        <b2:NavLink >Cerrar quincena</b2:NavLink>
+                        <b2:Divider />
+                        <b2:NavLink ui:field="lnkLoger">Salir</b2:NavLink>
+                    </b2:SplitDropdownButton>
+                                        
                 </g:HTMLPanel>
 <!--            </g:AbsolutePanel> -->
         </g:north>
         
-        <g:west size='180'>
-            <g:StackLayoutPanel unit='PX' ui:field="westPanel" >  <!-- addStyleNames= styleName="{style.west-panel-stack-layout-panel}" -->
-                <g:stack >
-                    <g:header size='30' >Catálogos</g:header>
-                    <b2:NavList ui:field="optionMenu">
-                        <b2:NavLink name="optionPersonal" ui:field="optionPersonal" >Empleados</b2:NavLink> 
-                        <b2:NavLink name="optionDepartamentos" ui:field="optionDepartamentos" >Departamentos</b2:NavLink>
-                        <b2:NavLink name="optionTabulador" ui:field="optionTabulador" >Tabulador</b2:NavLink>
-                    </b2:NavList>
-                </g:stack>
-                <g:stack>
-                    <g:customHeader size='30'>
-                        <g:Label>Nómina</g:Label>
-                    </g:customHeader>
-                    <b2:NavList ui:field="optionMenuNomina">
-                        <b2:NavLink name="optionNomina" ui:field="optionNomina" >Movimientos y Cálculo</b2:NavLink> 
-                        <b2:NavLink name="optionNominaHisto" ui:field="optionNominaHisto" >Histórico</b2:NavLink> 
-                    </b2:NavList>
-                </g:stack>
-                <g:stack>
-                    <g:customHeader size='30'>
-                        <g:Label>Reportes</g:Label>
-                    </g:customHeader>
-                    <b2:NavList >
-                        <b2:NavLink name="optionNone" ui:field="optionUno">Uno</b2:NavLink>
-                        <b2:NavLink name="optionNone" ui:field="optionDos">Dos</b2:NavLink>
-                        <b2:NavLink name="optionNone" ui:field="optionTres">Tres</b2:NavLink>
-                    </b2:NavList>
-                </g:stack>
-            </g:StackLayoutPanel>
-        </g:west>
-        
         <g:center>
-            <g:DockLayoutPanel unit='PX'>
-                <g:north size='64'>
-                    <g:HTMLPanel addStyleNames="{style.center-panel-header}">
-                        <div style="clear:both; width:100%; text-align: -webkit-auto;">
-                            <div id="left" style="float:left;">
-                                <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
-                                <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
-                            </div>
-                            <div id="right" style="float:right;">
-                                <g:Label ui:field="lNumQuincena" text="..." addStyleNames="{style.num-quincena}"/> 
-                                <g:Label text="Status" addStyleNames="{style.status-quincena}"/> 
-                                <g:Label ui:field="lFechasQuincena" text="..." addStyleNames="{style.fechas-quincena}"/>                                     
-                                <!--
-                                <i class="fa fa-bell-slash"></i>                              
-                                -->
-                                
-                            </div>
-                        </div>
-                    </g:HTMLPanel>
-                </g:north>
+            <g:DockLayoutPanel unit='PX' ui:field="dockPanelLogged" width="100%" height="100%">
+                
+                <g:west size='180'>
+                    <g:StackLayoutPanel unit='PX' ui:field="westPanel" >  <!-- addStyleNames= styleName="{style.west-panel-stack-layout-panel}" -->
+                        <g:stack >
+                            <g:header size='30' >Catálogos</g:header>
+                            <b2:NavList ui:field="optionMenu">
+                                <b2:NavLink name="optionPersonal" ui:field="optionPersonal" >Empleados</b2:NavLink> 
+                                <b2:NavLink name="optionDepartamentos" ui:field="optionDepartamentos" >Departamentos</b2:NavLink>
+                                <b2:NavLink name="optionTabulador" ui:field="optionTabulador" >Tabulador</b2:NavLink>
+                            </b2:NavList>
+                        </g:stack>
+                        <g:stack>
+                            <g:customHeader size='30'>
+                                <g:Label>Nómina</g:Label>
+                            </g:customHeader>
+                            <b2:NavList ui:field="optionMenuNomina">
+                                <b2:NavLink name="optionNomina" ui:field="optionNomina" >Movimientos y Cálculo</b2:NavLink> 
+                                <b2:NavLink name="optionNominaHisto" ui:field="optionNominaHisto" >Histórico</b2:NavLink> 
+                            </b2:NavList>
+                        </g:stack>
+                        <g:stack>
+                            <g:customHeader size='30'>
+                                <g:Label>Reportes</g:Label>
+                            </g:customHeader>
+                            <b2:NavList >
+                                <b2:NavLink name="optionNone" ui:field="optionUno">Uno</b2:NavLink>
+                                <b2:NavLink name="optionNone" ui:field="optionDos">Dos</b2:NavLink>
+                                <b2:NavLink name="optionNone" ui:field="optionTres">Tres</b2:NavLink>
+                            </b2:NavList>
+                        </g:stack>
+                    </g:StackLayoutPanel>
+                </g:west>
+
                 <g:center>
-                    <g:FlowPanel ui:field="workPanel" addStyleNames="{style.work-panel}">
-                    </g:FlowPanel>
+                    <g:DockLayoutPanel unit='PX'>
+                        <g:north size='64'>
+                            <g:HTMLPanel addStyleNames="{style.center-panel-header}">
+                                <div style="clear:both; width:100%; text-align: -webkit-auto;">
+                                    <div id="left" style="float:left;">
+                                        <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
+                                        <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
+                                    </div>
+                                    <div id="right" style="float:right;">
+                                        <g:Label ui:field="lNumQuincena" text="..." addStyleNames="{style.num-quincena}"/> 
+                                        <g:Label text="Status" addStyleNames="{style.status-quincena}"/> 
+                                        <g:Label ui:field="lFechasQuincena" text="..." addStyleNames="{style.fechas-quincena}"/>                                     
+                                        <!--
+                                        <i class="fa fa-bell-slash"></i>                              
+                                        -->
+
+                                    </div>
+                                </div>
+                            </g:HTMLPanel>
+                        </g:north>
+                        <g:center>
+                            <g:FlowPanel ui:field="workPanel" addStyleNames="{style.work-panel}">
+                            </g:FlowPanel>
+                        </g:center>
+                    </g:DockLayoutPanel>
                 </g:center>
+            
             </g:DockLayoutPanel>
         </g:center>
         

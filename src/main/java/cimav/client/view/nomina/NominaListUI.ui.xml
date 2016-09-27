@@ -17,7 +17,7 @@ Uncomment this for XHTML entities
         <g:west size='340' >
             <g:FlowPanel styleName="{style.west-search-panel}">
                 <g:DockLayoutPanel unit='PX' addStyleNames="{style.west-search-panel-wrapper}">
-                    <g:north size='60'>
+                    <g:north size='90'>
                     
                         <g:HTMLPanel width="100%">
                             <table cellspacing='0' cellpadding='0'  width="100%">
@@ -31,9 +31,9 @@ Uncomment this for XHTML entities
                                 </tr>
                                 <tr >
                                     <td>
-                                        <table width="100%" style="top: 2px; position: relative;">
+                                        <table id="tablaOrden" width="100%" style="top: 2px; position: relative;">
                                             <tr>
-                                            <td style="text-align: left; width='70%' " width="60%">
+                                            <td style="text-align: left;' " width="70%">
                                                 <b3:ButtonGroup dataToggle="BUTTONS">
                                                     <b3:RadioButton name="groupName" ui:field="btnByName" size="EXTRA_SMALL" type="DEFAULT" active="true">Nombre</b3:RadioButton>
                                                     <b3:RadioButton name="groupName" ui:field="btnByCode" size="EXTRA_SMALL" type="DEFAULT">Num</b3:RadioButton>
@@ -41,19 +41,21 @@ Uncomment this for XHTML entities
                                                     <b3:RadioButton name="groupName" ui:field="btnByNivel" size="EXTRA_SMALL" type="DEFAULT">Niv</b3:RadioButton>
                                                 </b3:ButtonGroup>
                                             </td>
-                                            <td style="text-align: right;">
+                                            <td style="text-align: right;" width="30%">
                                                 <b3:Button ui:field="reloadBtn" size="EXTRA_SMALL" type="DEFAULT" icon="UNDO" text="000/000"  addStyleNames="{style.reload-btn}"/>
                                             </td>
                                             </tr>
-<!--                                            <tr>
-                                                
+                                            <tr>
+                                                <td style="text-align: left; padding-top:3px; " width="100%">
 <b3:ButtonGroup dataToggle="BUTTONS">
-  <b3:CheckBoxButton ui:field="chkAYA" active="true">AYA</b3:CheckBoxButton>
-  <b3:CheckBoxButton ui:field="chkCYT" active="true">CYT</b3:CheckBoxButton>
-  <b3:CheckBoxButton ui:field="chkMMS" active="true">MMS</b3:CheckBoxButton>
-  <b3:CheckBoxButton ui:field="chkHON" active="true">HON</b3:CheckBoxButton>
+  <b3:CheckBoxButton name="ordenName1" ui:field="chkAYA" size="EXTRA_SMALL" type="DEFAULT" active="true">AYA</b3:CheckBoxButton>
+  <b3:CheckBoxButton name="ordenName2" ui:field="chkCYT" size="EXTRA_SMALL" type="DEFAULT" active="true">CYT</b3:CheckBoxButton>
+  <b3:CheckBoxButton name="ordenName3" ui:field="chkMMS" size="EXTRA_SMALL" type="DEFAULT" active="true">MMS</b3:CheckBoxButton>
+  <b3:CheckBoxButton name="ordenName4" ui:field="chkHON" size="EXTRA_SMALL" type="DEFAULT" active="true">HON</b3:CheckBoxButton>
 </b3:ButtonGroup>                                                
-                                            </tr>   -->
+
+</td> 
+                                            </tr>   
                                         </table>
                                     </td>
                                 </tr>

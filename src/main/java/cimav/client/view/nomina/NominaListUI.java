@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.CheckBoxButton;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconFlip;
@@ -69,6 +71,11 @@ public class NominaListUI extends Composite {
     Button btnCalcular;
     @UiField
     ToggleSwitch toggleSwitch;
+    
+    @UiField CheckBoxButton chkAYA;
+    @UiField CheckBoxButton chkCYT;
+    @UiField CheckBoxButton chkMMS;
+    @UiField CheckBoxButton chkHON;
 
     private static EmpleadosBaseProvider empleadosBaseProvider;
 
@@ -125,6 +132,41 @@ public class NominaListUI extends Composite {
         toggleSwitch.addValueChangeHandler(new CalcularToggleSwitch());
     }
 
+    @Override
+    protected void onLoad() {
+        super.onLoad(); //To change body of generated methods, choose Tools | Templates.
+
+        GQuery tablaOrden = GQuery.$("#tablaOrden");
+        tablaOrden.find("tr:first").find("td:first").attr("width","70%");
+        tablaOrden.find("tr:last").find("td:first").attr("width","30%");
+        
+        chkAYA.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                chkAYA.setActive(!chkAYA.isActive());
+            }
+        });
+        chkCYT.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                chkCYT.setActive(!chkCYT.isActive());
+            }
+        });
+        chkMMS.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                chkMMS.setActive(!chkMMS.isActive());
+            }
+        });
+        chkHON.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                chkHON.setActive(!chkHON.isActive());
+            }
+        });
+
+    }
+    
     private class ReloadClickHandler implements ClickHandler {
 
         @Override

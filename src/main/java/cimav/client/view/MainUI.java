@@ -17,18 +17,26 @@ import cimav.client.view.common.MethodEvent;
 import cimav.shared.Usuario;
 import com.github.gwtbootstrap.client.ui.NavLink;
 import com.github.gwtbootstrap.client.ui.NavList;
+import com.github.gwtbootstrap.client.ui.SplitDropdownButton;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
@@ -54,7 +62,8 @@ public class MainUI extends Composite {
     // constants for OAuth2 (don't forget to update GOOGLE_CLIENT_ID  -  http://code.google.com/apis/console)
     private static final Auth AUTH = Auth.get();
     private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
-    private static final String GOOGLE_CLIENT_ID = "411158167495.apps.googleusercontent.com";
+    private static final String GOOGLE_CLIENT_ID = "137884691024-m5vuc37r008v173kkfkaectus2eh3bhe.apps.googleusercontent.com"; //411158167495.apps.googleusercontent.com";
+    // scret 8XDaLF40sc0-XGtxtLThmNLN
     // The auth scope being requested. This scope will allow the application to identify who the authenticated user is.
     private static final String USER_INFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
 
@@ -70,22 +79,42 @@ public class MainUI extends Composite {
 
     @UiField StackLayoutPanel westPanel;
     @UiField FlowPanel workPanel;
+    @UiField SplitDropdownButton dropDownMenuLoggin;
     //@UiField HorizontalPanel centerPanelHeaderId;
     @UiField Label lTitulo;
     @UiField Label lSubTitulo;
     @UiField Label lNumQuincena;
     @UiField Label lFechasQuincena;
 
+    @UiField DockLayoutPanel dockPanelLogged;
+    @UiField NavLink lnkLoger;
+    
     Widget currentWorkWidget;
 
     //private static Quincena quincena;
 
     public MainUI() {
-        gwtServiceAsync = GWT.create(GWTService.class);
+        
+        this.gwtServiceAsync = GWT.create(GWTService.class);
+        
+        // crea al Usuario (vacío y no logeado)
+        this.usuario = new Usuario();
         
         initWidget(uiBinder.createAndBindUi(this));
 
-        westPanel.getElement().setAttribute("id", "west-panel");        
+        westPanel.getElement().setAttribute("id", "west-panel");      
+        
+        lnkLoger.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if (usuario.isLoggedIn()) {
+                    loginOut();
+                } else {
+                    loginIn();
+                }
+            }
+        });
+        
     }
     
     public void setTit(String t) {
@@ -118,7 +147,7 @@ public class MainUI extends Composite {
                             GWT.log("login.autorizacion -> onFailure");
                             
                             // se Deslogea
-                            //loginOut();
+                            loginOut();
                         }
                         @Override
                         public void onSuccess(Usuario usuarioSrv) {
@@ -136,9 +165,10 @@ public class MainUI extends Composite {
 //                            loginLabel.setText(usuario.getNombre());
 //                            loginSignImage.setTitle("Salir");
 //                            loginSignImage.setUrl(Constantes.ICON_SIGN_OUT);                            
-                            
+                            dropDownMenuLoggin.setText(usuario.getNombre());
+
                             // Muestra toda el Area Central
-//                            centralFlowPanel.setVisible(true);
+                            dockPanelLogged.setVisible(true);
 
                             BaseREST.initHeader(usuario.getCuenta());
                         }
@@ -153,10 +183,23 @@ public class MainUI extends Composite {
                 GWT.log("login -> onFailure");
                 
                 // se Deslogea
-//                loginOut();
+                loginOut();
             }
         });
         
+    }
+    
+    public void loginOut() {
+        // Borra todas las cuentas logeadas de esta clase
+        Auth.get().clearAllTokens(); 
+        
+        // Descarga al usuario. Lo vacia y lo pone en No-logeado.
+        usuario = new Usuario();
+        
+        dropDownMenuLoggin.setText("Favor de firmarse");
+        
+        // Esconde toda el area central 
+        dockPanelLogged.setVisible(false);
     }
     
     @UiHandler({"optionUno", "optionDos", "optionTres", OPT_PERSONAL, OPT_DEPARTAMENTOS, OPT_TABULADOR, OPT_NOMINA, OPT_NOMINA_HISTO})
@@ -189,6 +232,8 @@ public class MainUI extends Composite {
         }
     }
 
+    
+    
     @Override
     protected void onLoad() {
         super.onLoad(); 
@@ -225,6 +270,10 @@ public class MainUI extends Composite {
         
         BaseREST.initHeader("alban.lakata");
         
+        NodeList<Element> lst = dropDownMenuLoggin.getParent().getParent().getElement().getElementsByTagName("div");
+        lst.getItem(1).getStyle().setOverflow(Style.Overflow.VISIBLE);
+        GQuery.$(".divider").css("height", "2px");
+        
         //centerPanelHeaderId.getElement().setId("centerPanelHeaderId");
 //        //GQuery.$("#centerPanelHeaderId").css("border","solid 5px red");
 //        List<Widget> tds = GQuery.$("#centerPanelHeaderId").$("table > tr > td").widgets();
@@ -235,7 +284,7 @@ public class MainUI extends Composite {
 //        centerPanelHeaderId.setCellWidth(centerPanelHeaderId.getWidget(0), "600px");
 //        centerPanelHeaderId.setCellWidth(centerPanelHeaderId.getWidget(1), "50%");
 //        centerPanelHeaderId.setCellHorizontalAlignment(centerPanelHeaderId.getWidget(1), HasHorizontalAlignment.HorizontalAlignmentConstant.endOf(HasDirection.Direction.RTL));
-
+        
     }
 
     public void setCenterPanel(String titulo, String subTitulo, Widget widget) {

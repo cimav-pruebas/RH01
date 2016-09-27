@@ -25,6 +25,11 @@ html, body {
 .main-dock-layout-panel {
     position: initial !important;
 }
+.nano {
+    position: absolute;right: 3px;bottom: 3px;
+}
+.icon-nano {
+}
 .my-modal {
     
 }
