@@ -10,6 +10,8 @@ import cimav.client.GWTServiceAsync;
 import cimav.client.data.domain.Quincena;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.CalculoREST;
+import cimav.client.view.cerrar.BtnCerrarUi;
+import cimav.client.view.cerrar.CerrarUI;
 import cimav.client.view.common.Ajax;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
@@ -19,6 +21,7 @@ import com.github.gwtbootstrap.client.ui.NavLink;
 import com.github.gwtbootstrap.client.ui.NavList;
 import com.github.gwtbootstrap.client.ui.SplitDropdownButton;
 import com.github.gwtbootstrap.client.ui.base.IconAnchor;
+import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
@@ -89,6 +92,7 @@ public class MainUI extends Composite {
 
     @UiField DockLayoutPanel dockPanelLogged;
     @UiField NavLink lnkLoger;
+    @UiField NavLink lnkCerrar;
     
     Widget currentWorkWidget;
 
@@ -113,6 +117,40 @@ public class MainUI extends Composite {
                 } else {
                     loginIn();
                 }
+            }
+        });
+        
+        lnkCerrar.add(new BtnCerrarUi());
+        
+        lnkCerrar.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+//                CalculoREST calculoREST = new CalculoREST();
+//                calculoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+//                    @Override
+//                    public void onRESTExecuted(MethodEvent restEvent) {
+//                        if (EMethod.CERRAR_QUINCENA.equals(restEvent.getMethod())) {
+//                            if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+//                                Quincena.set((Quincena) restEvent.getResult());
+//
+//                                String quin = Quincena.get().getQuincena() < 10 ? "0" + Quincena.get().getQuincena() : "" + Quincena.get().getQuincena();
+//                                lNumQuincena.setText(quin);
+//                                DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
+//                                lFechasQuincena.setText("" + fmt.format(Quincena.get().getFechaInicio()) + " - " + fmt.format(Quincena.get().getFechaFinCalendario()));
+//
+//                                lStatus.setText(Quincena.get().getStatusStr());
+//
+//                            } else {
+//                                GrowlOptions go = new GrowlOptions();
+//                                go.setType(GrowlType.DANGER);
+//                                go.setDelay(0);
+//                                Growl.growl("Falló al cargar la Quincena. " + restEvent.getReason(), go);
+//                            }
+//                        }
+//                    }
+//                });
+//                calculoREST.cerrarQuincena();
+
             }
         });
         
@@ -169,7 +207,8 @@ public class MainUI extends Composite {
                             permitidos.add("mariana.lopez");
                             permitidos.add("blanca.lopez");
 
-                            boolean esRegistrado = permitidos.contains(usuario.getCuenta());
+                            String cuenta = usuario.getCuenta();
+                            boolean esRegistrado = permitidos.contains(cuenta);
 
                             if (!tieneNom || !esDelCimav || !esRegistrado) {
                                 loginOut();
@@ -185,6 +224,8 @@ public class MainUI extends Composite {
 //                            loginSignImage.setUrl(Constantes.ICON_SIGN_OUT);                            
                                 dropDownMenuLoggin.setText(usuario.getNombre());
                                 lnkLoger.setText("Salir");
+                                lnkLoger.setIcon(IconType.SIGNOUT);
+                                lnkCerrar.setVisible(true);
 
                                 // Muestra toda el Area Central
                                 dockPanelLogged.setVisible(true);
@@ -215,9 +256,13 @@ public class MainUI extends Composite {
         
         // Descarga al usuario. Lo vacia y lo pone en No-logeado.
         usuario = new Usuario();
+
+        BaseREST.initHeader(usuario.getCuenta());
         
         dropDownMenuLoggin.setText("Favor de firmarse");
         lnkLoger.setText("Entrar");
+        lnkLoger.setIcon(IconType.SIGNIN);
+        lnkCerrar.setVisible(false); 
         
         // Esconde toda el area central 
         dockPanelLogged.setVisible(false);
@@ -259,9 +304,7 @@ public class MainUI extends Composite {
     protected void onLoad() {
         super.onLoad(); 
 
-        BaseREST.initHeader("juan.calderas");
-        
-        GWT.log("login -> juan.calderas");
+        BaseREST.initHeader("no.logged");
         
         if (Quincena.get() == null) {
             CalculoREST calculoREST = new CalculoREST();
@@ -290,8 +333,6 @@ public class MainUI extends Composite {
             });
             calculoREST.findQuincena();
         }
-        
-        BaseREST.initHeader("alban.lakata");
         
         NodeList<Element> lst = dropDownMenuLoggin.getParent().getParent().getElement().getElementsByTagName("div");
         lst.getItem(1).getStyle().setOverflow(Style.Overflow.VISIBLE);

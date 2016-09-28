@@ -20,9 +20,9 @@
                     </h2>
 
                     <b2:SplitDropdownButton ui:field="dropDownMenuLoggin" text="José Juan Calderón Ochoa" addStyleNames="{style.nano}" >
-                        <b2:NavLink >Cerrar quincena</b2:NavLink>
+                        <b2:NavLink ui:field="lnkCerrar" ></b2:NavLink>
                         <b2:Divider />
-                        <b2:NavLink ui:field="lnkLoger">Salir</b2:NavLink>
+                        <b2:NavLink ui:field="lnkLoger">Salir/entrar</b2:NavLink>
                     </b2:SplitDropdownButton>
                                         
                 </g:HTMLPanel>

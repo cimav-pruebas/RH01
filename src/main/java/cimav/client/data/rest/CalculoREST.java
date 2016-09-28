@@ -139,4 +139,34 @@ public class CalculoREST extends BaseREST {
         }));
     }
     
+    public void cerrarQuincena() {
+        BaseREST.setDateFormatGET();
+
+        String url = BaseREST.URL_REST_BASE + "api/quincena/cierre/false";
+        
+        Resource rb = new Resource(url, BaseREST.headers);
+        rb.get().user("user").password("admin").send(Ajax.jsonCall(new JsonCallback() {
+
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                MethodEvent dbEvent = new MethodEvent(EMethod.CERRAR_QUINCENA, ETypeResult.FAILURE, "CERRAR_QUINCENA " + exception.getMessage());
+                onRESTExecuted(dbEvent);
+            }
+
+            @Override
+            public void onSuccess(Method method, JSONValue response) {
+                try {
+                    Quincena quincena = (Quincena) quincenaJsonCodec.decode(response);
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CERRAR_QUINCENA, ETypeResult.SUCCESS, "CERRAR_QUINCENA listo");
+                    dbEvent.setResult(quincena);
+                    onRESTExecuted(dbEvent);
+                } catch (Exception e) {
+                    String error = "CERRAR_QUINCENA >> " + e.getMessage();
+                    MethodEvent dbEvent = new MethodEvent(EMethod.CERRAR_QUINCENA, ETypeResult.FAILURE, error);
+                    onRESTExecuted(dbEvent);
+                }
+            }
+
+        }));
+    }
 }
