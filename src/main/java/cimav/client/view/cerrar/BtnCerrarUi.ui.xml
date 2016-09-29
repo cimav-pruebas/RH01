@@ -22,7 +22,7 @@ Uncomment this for XHTML entities
         <b3.toggle:ToggleSwitch ui:field="toggleSwitch" size="MINI" inverse="true"
                                 onIcon="CHECK" offIcon="TIMES"
                                 onColor="DANGER" offColor="DEFAULT" value="false" />
-        <b3:Button ui:field="btnCerrar" type="DEFAULT" text="Cerrar" enabled="false" size="SMALL" />
+        <b3:Button ui:field="btnCerrar" type="DEFAULT" text="Cerrar" enabled="false" size="EXTRA_SMALL" />
     </g:HTMLPanel>
     
 </ui:UiBinder>

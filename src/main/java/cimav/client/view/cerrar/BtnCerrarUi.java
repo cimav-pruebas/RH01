@@ -5,7 +5,12 @@
  */
 package cimav.client.view.cerrar;
 
+import cimav.client.data.rest.BaseREST;
+import cimav.client.data.rest.CalculoREST;
+import cimav.client.view.common.MethodEvent;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -44,6 +49,10 @@ public class BtnCerrarUi extends Composite {
             }
         });
         
+    }
+    
+    public Button getBtnCerrar() {
+        return btnCerrar;
     }
     
 }

@@ -139,10 +139,10 @@ public class CalculoREST extends BaseREST {
         }));
     }
     
-    public void cerrarQuincena() {
+    public void cerrarQuincena(boolean cerrar) {
         BaseREST.setDateFormatGET();
 
-        String url = BaseREST.URL_REST_BASE + "api/quincena/cierre/false";
+        String url = BaseREST.URL_REST_BASE + "api/quincena/cierre/" + cerrar;
         
         Resource rb = new Resource(url, BaseREST.headers);
         rb.get().user("user").password("admin").send(Ajax.jsonCall(new JsonCallback() {

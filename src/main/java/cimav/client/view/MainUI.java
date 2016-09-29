@@ -120,37 +120,36 @@ public class MainUI extends Composite {
             }
         });
         
-        lnkCerrar.add(new BtnCerrarUi());
-        
-        lnkCerrar.addClickHandler(new ClickHandler() {
+        BtnCerrarUi btnCerrarUi = new BtnCerrarUi();
+        lnkCerrar.add(btnCerrarUi);
+        btnCerrarUi.getBtnCerrar().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-//                CalculoREST calculoREST = new CalculoREST();
-//                calculoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
-//                    @Override
-//                    public void onRESTExecuted(MethodEvent restEvent) {
-//                        if (EMethod.CERRAR_QUINCENA.equals(restEvent.getMethod())) {
-//                            if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
-//                                Quincena.set((Quincena) restEvent.getResult());
-//
-//                                String quin = Quincena.get().getQuincena() < 10 ? "0" + Quincena.get().getQuincena() : "" + Quincena.get().getQuincena();
-//                                lNumQuincena.setText(quin);
-//                                DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
-//                                lFechasQuincena.setText("" + fmt.format(Quincena.get().getFechaInicio()) + " - " + fmt.format(Quincena.get().getFechaFinCalendario()));
-//
-//                                lStatus.setText(Quincena.get().getStatusStr());
-//
-//                            } else {
-//                                GrowlOptions go = new GrowlOptions();
-//                                go.setType(GrowlType.DANGER);
-//                                go.setDelay(0);
-//                                Growl.growl("Falló al cargar la Quincena. " + restEvent.getReason(), go);
-//                            }
-//                        }
-//                    }
-//                });
-//                calculoREST.cerrarQuincena();
+                CalculoREST calculoREST = new CalculoREST();
+                calculoREST.addRESTExecutedListener(new BaseREST.RESTExecutedListener() {
+                    @Override
+                    public void onRESTExecuted(MethodEvent restEvent) {
+                        if (EMethod.CERRAR_QUINCENA.equals(restEvent.getMethod())) {
+                            if (ETypeResult.SUCCESS.equals(restEvent.getTypeResult())) {
+                                Quincena.set((Quincena) restEvent.getResult());
 
+                                String quin = Quincena.get().getQuincena() < 10 ? "0" + Quincena.get().getQuincena() : "" + Quincena.get().getQuincena();
+                                lNumQuincena.setText(quin);
+                                DateTimeFormat fmt = DateTimeFormat.getFormat("EEEE, MMM dd");
+                                lFechasQuincena.setText("" + fmt.format(Quincena.get().getFechaInicio()) + " - " + fmt.format(Quincena.get().getFechaFinCalendario()));
+
+                                lStatus.setText(Quincena.get().getStatusStr());
+
+                            } else {
+                                GrowlOptions go = new GrowlOptions();
+                                go.setType(GrowlType.DANGER);
+                                go.setDelay(0);
+                                Growl.growl("Falló al cerrar la Quincena. " + restEvent.getReason(), go);
+                            }
+                        }
+                    }
+                });
+                calculoREST.cerrarQuincena(true);
             }
         });
         
