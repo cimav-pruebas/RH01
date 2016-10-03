@@ -73,7 +73,7 @@ public class NominaRepercucionesUI extends Composite {
         dataGrid.setEmptyTableWidget(new Label("Sin repercuciones de momento"));
 
         dataGrid.setPageSize(20);
-        dataGrid.setMinimumTableWidth(400, Style.Unit.PX);
+        dataGrid.setMinimumTableWidth(200, Style.Unit.PX);
 
         initTableColumns();
 
@@ -97,7 +97,7 @@ public class NominaRepercucionesUI extends Composite {
             }
         };
         dataGrid.addColumn(conceptoCol, "Concepto");
-        dataGrid.setColumnWidth(conceptoCol, 80, Style.Unit.PCT);
+        dataGrid.setColumnWidth(conceptoCol, 60, Style.Unit.PCT);
 
         // Cantidad
         Column<Movimiento, SafeHtml> cantidadCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
@@ -121,7 +121,7 @@ public class NominaRepercucionesUI extends Composite {
             }
         });
         dataGrid.addColumn(cantidadCol, headerCantidad);
-        dataGrid.setColumnWidth(cantidadCol, 20, Style.Unit.PCT);
+        dataGrid.setColumnWidth(cantidadCol, 30, Style.Unit.PCT);
         
         // Cantidad_empresa
         Column<Movimiento, SafeHtml> cantidadEmpresaCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
@@ -141,7 +141,7 @@ public class NominaRepercucionesUI extends Composite {
             }
         });
         dataGrid.addColumn(cantidadEmpresaCol, headerCantidadEmpresa);
-        dataGrid.setColumnWidth(cantidadEmpresaCol, 20, Style.Unit.PCT);
+        dataGrid.setColumnWidth(cantidadEmpresaCol, 30, Style.Unit.PCT);
         
     }
 

@@ -75,7 +75,7 @@ public class NominaMovimientosHistoUI extends Composite {
         dataGrid.setEmptyTableWidget(new Label("Sin movimientos de momento"));
 
         dataGrid.setPageSize(20);
-        dataGrid.setMinimumTableWidth(400, Style.Unit.PX);
+        dataGrid.setMinimumTableWidth(100, Style.Unit.PX);
 
         initTableColumns();
 
@@ -99,7 +99,7 @@ public class NominaMovimientosHistoUI extends Composite {
             }
         };
         dataGrid.addColumn(conceptoCol, "Concepto");
-        dataGrid.setColumnWidth(conceptoCol, 80, Style.Unit.PCT);
+        dataGrid.setColumnWidth(conceptoCol, 40, Style.Unit.PCT);
 
         // Cantidad
         Column<MovimientoHisto, SafeHtml> cantidadCol = new Column<MovimientoHisto, SafeHtml>(new SafeHtmlCell()) {

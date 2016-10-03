@@ -11,7 +11,6 @@ import cimav.client.data.domain.Quincena;
 import cimav.client.data.rest.BaseREST;
 import cimav.client.data.rest.CalculoREST;
 import cimav.client.view.cerrar.BtnCerrarUi;
-import cimav.client.view.cerrar.CerrarUI;
 import cimav.client.view.common.Ajax;
 import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
@@ -173,6 +172,11 @@ public class MainUI extends Composite {
         
         /* Esta es la llamada al Login */
 
+        // http://www.sw-engineering-candies.com/blog-1/howtogetuserinformationwithoauth2inagwtandgoogleappenginejavaapplication
+        
+        //https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=ya29.CjBxA9sjWcFMGa1gZyNEBsVyw7IBfh8ISz8kI27D3qW3_aQmgoYOtMDfJC7uCfoamwA
+        
+        
         AUTH.login(req, new Callback<String, Throwable>() {
             @Override
             public void onSuccess(final String tokenAutorizacion) {

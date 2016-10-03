@@ -75,7 +75,7 @@ public class NominaMovimientosUI extends Composite {
         dataGrid.setEmptyTableWidget(new Label("Sin movimientos de momento"));
 
         dataGrid.setPageSize(20);
-        dataGrid.setMinimumTableWidth(400, Style.Unit.PX);
+        dataGrid.setMinimumTableWidth(200, Style.Unit.PX);
 
         initTableColumns();
 
@@ -145,7 +145,7 @@ public class NominaMovimientosUI extends Composite {
         } else {
             dataGrid.addColumn(cantidadCol, headerCantidad);
         }
-        dataGrid.setColumnWidth(cantidadCol, 20, Style.Unit.PCT);
+        dataGrid.setColumnWidth(cantidadCol, 30, Style.Unit.PCT);
     }
 
     public void setList(List<Movimiento> percepciones) {

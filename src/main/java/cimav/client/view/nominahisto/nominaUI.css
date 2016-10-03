@@ -220,7 +220,7 @@ code {
 .data-grid-conceptos{
     position: absolute !important;
     /* overflow: visible; */
-    /* border: 1px solid blueviolet !important; */
+    border: 1px solid blueviolet !important;
     bottom: 0;
     top: 0; 
     right: 0;
@@ -228,7 +228,7 @@ code {
     text-align: -webkit-auto;
 }
 .nomina-card {
-/*    border: yellow 2px solid; */
+    border: yellow 2px solid; 
     padding: 0;
     position: absolute;
     min-height: 300px;

@@ -152,7 +152,7 @@ public class NominaFaltasUI extends Composite {
         dataGrid.setPageSize(20);
 
         fechaInicioCell = new DatePickerCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM));
-        diasCell = new NomIntegerInputCell("80");
+        diasCell = new NomIntegerInputCell("40");
         folioCell = new NomTextInputCell();
         
         initTableColumns();
@@ -255,13 +255,17 @@ public class NominaFaltasUI extends Composite {
             @Override
             public SafeHtml getValue(Incidencia object) {
                 SafeHtmlBuilder sb = new SafeHtmlBuilder();
+//                sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 3px;'>" 
+//                        + object.getCode()+ "</strong> " + "<span>"+object.getTipo().getDescripcion()+"</span></div>");
                 sb.appendHtmlConstant("<div style='outline-style:none; white-space: nowrap;'><strong style='font-size: 12px; padding-right: 3px;'>" 
-                        + object.getCode()+ "</strong> " + "<span>"+object.getTipo().getDescripcion()+"</span></div>");
+                        + object.getCode()+ "</strong></span></div>");
                 return sb.toSafeHtml();
             }
         };
-        dataGrid.addColumn(tipoCol, "Tipo");
-        dataGrid.setColumnWidth(tipoCol, 60, Style.Unit.PCT);
+        SafeHtmlBuilder sb4 = new SafeHtmlBuilder();
+        sb4.appendHtmlConstant("<span style='font-size:small; '>Tipo</span>");
+        dataGrid.addColumn(tipoCol, sb4.toSafeHtml());
+        dataGrid.setColumnWidth(tipoCol, 24, Style.Unit.PCT);
         
         // Fecha
         Column<Incidencia, Date> fechaCol = new Column<Incidencia, Date>(fechaInicioCell) {
@@ -287,8 +291,10 @@ public class NominaFaltasUI extends Composite {
                 dataGrid.redrawRow(absRowIndex);
             }
         });
-        dataGrid.addColumn(fechaCol, "Fecha");
-        dataGrid.setColumnWidth(fechaCol, 120, Style.Unit.PX);
+        SafeHtmlBuilder sb5 = new SafeHtmlBuilder();
+        sb5.appendHtmlConstant("<span style='font-size:small; '>Fecha</span>");
+        dataGrid.addColumn(fechaCol, sb5.toSafeHtml());
+        dataGrid.setColumnWidth(fechaCol, 80, Style.Unit.PX);
 
         // Dias
         Column<Incidencia, String> diasCol = new Column<Incidencia, String>(diasCell) {
@@ -316,8 +322,10 @@ public class NominaFaltasUI extends Composite {
             }
         });
         diasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(diasCol, "Días");
-        dataGrid.setColumnWidth(diasCol, 88, Style.Unit.PX);
+        SafeHtmlBuilder sb6 = new SafeHtmlBuilder();
+        sb6.appendHtmlConstant("<span style='font-size:small; '>Días</span>");
+        dataGrid.addColumn(diasCol,sb6.toSafeHtml());
+        dataGrid.setColumnWidth(diasCol, 50, Style.Unit.PX);
 
         // Dias Habiles
         Column<Incidencia, SafeHtml> diasHabilesCols = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
@@ -331,8 +339,10 @@ public class NominaFaltasUI extends Composite {
             }
         };
         diasHabilesCols.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(diasHabilesCols, new SafeHtmlHeader(SafeHtmlUtils.fromString("Hábiles")));
-        dataGrid.setColumnWidth(diasHabilesCols, 68, Style.Unit.PX);
+        SafeHtmlBuilder sb1 = new SafeHtmlBuilder();
+        sb1.appendHtmlConstant("<span style='font-size:small; '>Hábiles</span>");
+        dataGrid.addColumn(diasHabilesCols, sb1.toSafeHtml());
+        dataGrid.setColumnWidth(diasHabilesCols, 48, Style.Unit.PX);
 
         // Dias Inhabiles
         Column<Incidencia, SafeHtml> diasInhabiles = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
@@ -346,8 +356,10 @@ public class NominaFaltasUI extends Composite {
             }
         };
         diasInhabiles.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(diasInhabiles, new SafeHtmlHeader(SafeHtmlUtils.fromString("Inhábiles")));
-        dataGrid.setColumnWidth(diasInhabiles, 68, Style.Unit.PX);
+        SafeHtmlBuilder sb2 = new SafeHtmlBuilder();
+        sb2.appendHtmlConstant("<span style='font-size:small; '>Inhábiles</span>");
+        dataGrid.addColumn(diasInhabiles, sb2.toSafeHtml());
+        dataGrid.setColumnWidth(diasInhabiles, 48, Style.Unit.PX);
 
         // Dias Restantes
         Column<Incidencia, SafeHtml> diasRestantesCol = new Column<Incidencia, SafeHtml>(new SafeHtmlCell()) {
@@ -361,8 +373,10 @@ public class NominaFaltasUI extends Composite {
             }
         };
         diasRestantesCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(diasRestantesCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Restantes")));
-        dataGrid.setColumnWidth(diasRestantesCol, 68, Style.Unit.PX);
+        SafeHtmlBuilder sb3 = new SafeHtmlBuilder();
+        sb3.appendHtmlConstant("<span style='font-size:small; '>Restantes</span>");
+        dataGrid.addColumn(diasRestantesCol, sb3.toSafeHtml());
+        dataGrid.setColumnWidth(diasRestantesCol, 48, Style.Unit.PX);
         
         // Folio
         Column<Incidencia, String> folioCol = new Column<Incidencia, String>(folioCell) {
@@ -391,7 +405,9 @@ public class NominaFaltasUI extends Composite {
                 return "  ";
             }
         };
-        dataGrid.addColumn(folioCol, new SafeHtmlHeader(SafeHtmlUtils.fromString("Folio")), forzarFooter);
+        SafeHtmlBuilder sb7 = new SafeHtmlBuilder();
+        sb7.appendHtmlConstant("<span style='font-size:small; '>Folio</span>");
+        dataGrid.addColumn(folioCol, new SafeHtmlHeader(sb7.toSafeHtml()), forzarFooter);
         dataGrid.setColumnWidth(folioCol, 40, Style.Unit.PCT);
 
     }

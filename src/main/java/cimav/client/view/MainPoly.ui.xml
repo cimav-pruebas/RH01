@@ -34,7 +34,7 @@
         </style>
         <div class="layout wrap inline center-center">
             <p:PaperHeaderPanel addStyleNames="{style.blue}">
-                <div class="paper-header"><span addStyleNames="{style.header}">Estandarte</span></div>
+                <div class="paper-header"><span addStyleNames="{style.header}">EstandarteII</span></div>
                     
             <p:PaperDrawerPanel ui:field="drawerPanel">
                 <div drawer="">
