@@ -16,6 +16,7 @@ import cimav.client.view.common.EMethod;
 import cimav.client.view.common.ETypeResult;
 import cimav.client.view.common.MethodEvent;
 import cimav.shared.Usuario;
+import com.github.gwtbootstrap.client.ui.Icon;
 import com.github.gwtbootstrap.client.ui.NavLink;
 import com.github.gwtbootstrap.client.ui.NavList;
 import com.github.gwtbootstrap.client.ui.SplitDropdownButton;
@@ -25,6 +26,7 @@ import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
@@ -45,6 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlOptions;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
@@ -92,6 +95,9 @@ public class MainUI extends Composite {
     @UiField DockLayoutPanel dockPanelLogged;
     @UiField NavLink lnkLoger;
     @UiField NavLink lnkCerrar;
+    
+    @UiField Button bars;
+    @UiField DockLayoutPanel dockLayoutCenterPanel;
     
     Widget currentWorkWidget;
 
@@ -154,6 +160,22 @@ public class MainUI extends Composite {
         
         // lo 1ewro es salirse
         loginOut();
+        
+        dockLayoutCenterPanel.getElement().getParentElement().setAttribute("id", "contenedor-west-id");
+        bars.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Element ele = Document.get().getElementById("contenedor-west-id");
+                String position = ele.getStyle().getPosition();
+                if (position.contains("absolute")) {
+                    ele.getStyle().setPosition(Style.Position.STATIC);
+                    westPanel.setVisible(false);
+                } else {
+                    ele.getStyle().setPosition(Style.Position.ABSOLUTE);
+                    westPanel.setVisible(true);
+                }
+            }
+        });
         
     }
     

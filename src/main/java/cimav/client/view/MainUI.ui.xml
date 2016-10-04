@@ -65,13 +65,18 @@
                 </g:west>
 
                 <g:center>
-                    <g:DockLayoutPanel unit='PX'>
+                    <g:DockLayoutPanel unit='PX' ui:field="dockLayoutCenterPanel">
                         <g:north size='64'>
                             <g:HTMLPanel addStyleNames="{style.center-panel-header}">
                                 <div style="clear:both; width:100%; text-align: -webkit-auto;">
-                                    <div id="left" style="float:left;">
-                                        <g:Label ui:field="lTitulo" text="TITULO" addStyleNames="{style.center-panel-header-titulo}"/> 
-                                        <g:Label ui:field="lSubTitulo" text="Sub-Titulo un tanto más largo" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
+                                    <div id="left" style="float: left; display:flex;">
+                                        <span style="padding-right: 10px;">
+                                            <b3:Button ui:field="bars" type="PRIMARY" icon="BARS" size="SMALL"/>
+                                        </span>
+                                        <span>
+                                            <g:Label ui:field="lTitulo" text="" addStyleNames="{style.center-panel-header-titulo}"/> 
+                                            <g:Label ui:field="lSubTitulo" text="" addStyleNames="{style.center-panel-header-sub-titulo}"/> 
+                                        </span>
                                     </div>
                                     <div id="right" style="float:right;">
                                         <g:Label ui:field="lNumQuincena" text="..." addStyleNames="{style.num-quincena}"/> 
