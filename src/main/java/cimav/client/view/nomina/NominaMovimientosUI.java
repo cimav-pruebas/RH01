@@ -20,6 +20,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -119,7 +120,7 @@ public class NominaMovimientosUI extends Composite {
         SafeHtmlHeader headerCantidad = new SafeHtmlHeader(new SafeHtml() {
             @Override
             public String asString() {
-                return "<p style='text-align:center; margin-bottom: 0px;'>Cantidad</p>";
+                return "<p style='text-align:center; margin-bottom: 0px;'>Cantidadex</p>";
             }
         });
         if (ETipoConcepto.PERCEPCION.equals(this.tipoConcepto) || ETipoConcepto.DEDUCCION.equals(this.tipoConcepto)) {

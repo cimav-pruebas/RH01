@@ -43,6 +43,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -328,6 +329,9 @@ public class NominaSaldoUI extends Composite {
                 try {
                     nuevoPago = new BigDecimal(value.trim());
                     object.setPago(nuevoPago);
+                    
+                    object.setCantidad(nuevoPago);
+                    
                     getNominaQuincenalsREST().update(object);
                 } catch (Exception e) {
 
@@ -338,7 +342,7 @@ public class NominaSaldoUI extends Composite {
             }
         });
         pagoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(pagoCol, "Pago");
+        dataGrid.addColumn(pagoCol, "Pagox");
         dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PX);
         
         // Saldo 
@@ -352,7 +356,7 @@ public class NominaSaldoUI extends Composite {
         saldoCol.setFieldUpdater(new FieldUpdater<Movimiento, String>() {
             @Override
             public void update(int index, Movimiento object, String value) {
-                BigDecimal nuevoSaldo;
+                BigDecimal nuevoSaldo;  
                 try {
                     nuevoSaldo = new BigDecimal(value.trim());
                     object.setSaldo(nuevoSaldo);

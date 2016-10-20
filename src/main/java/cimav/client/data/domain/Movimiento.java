@@ -7,7 +7,6 @@ package cimav.client.data.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -69,7 +68,7 @@ public class Movimiento implements  Serializable{
     }
 
     public BigDecimal getCantidad() {
-        return cantidad;
+        return this.cantidad;
     }
 
     public void setCantidad(BigDecimal cantidad) {
