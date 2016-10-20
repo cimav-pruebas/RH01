@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.constants.IconFlip;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlOptions;
 import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
@@ -170,9 +171,11 @@ public class MainUI extends Composite {
                 if (position.contains("absolute")) {
                     ele.getStyle().setPosition(Style.Position.STATIC);
                     westPanel.setVisible(false);
+                    bars.setIconFlip(IconFlip.VERTICAL);
                 } else {
                     ele.getStyle().setPosition(Style.Position.ABSOLUTE);
                     westPanel.setVisible(true);
+                    bars.setIconFlip(IconFlip.HORIZONTAL);
                 }
             }
         });

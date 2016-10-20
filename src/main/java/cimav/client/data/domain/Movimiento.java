@@ -17,13 +17,13 @@ import java.util.Objects;
 public class Movimiento implements  Serializable{
 
     private Integer id;
-    private Integer numQuincenas;
+    //private Integer numQuincenas;
     private Concepto concepto;
     private BigDecimal cantidad;
 
     private BigDecimal pago;
     private BigDecimal saldo;
-    private Boolean permanente;
+    //private Boolean permanente;
     
     private Integer idEmpleado;
     
@@ -33,11 +33,11 @@ public class Movimiento implements  Serializable{
     
     public Movimiento() {
         this.idEmpleado = 0;
-        this.numQuincenas = 1;
+        //this.numQuincenas = 1;
         this.cantidad = BigDecimal.ZERO;
         this.pago = BigDecimal.ZERO;
         this.saldo = BigDecimal.ZERO;
-        this.permanente = Boolean.FALSE;
+        //this.permanente = Boolean.FALSE;
         this.cantidadEmpresa = BigDecimal.ZERO;
         this.quincena = Quincena.get().getQuincena();
     }
@@ -50,15 +50,15 @@ public class Movimiento implements  Serializable{
         this.id = id;
     }
 
-    public Integer getNumQuincenas() {
-        return numQuincenas;
-    }
-
-    public void setNumQuincenas(Integer numQuincenas) {
-        this.numQuincenas = numQuincenas;
-        
-        this.setCantidad();
-    }
+//    public Integer getNumQuincenas() {
+//        return numQuincenas;
+//    }
+//
+//    public void setNumQuincenas(Integer numQuincenas) {
+//        this.numQuincenas = numQuincenas;
+//        
+//        this.setCantidad();
+//    }
 
     public Concepto getConcepto() {
         return concepto;
@@ -88,14 +88,26 @@ public class Movimiento implements  Serializable{
         return pago;
     }
 
+    public void setPago(BigDecimal pago) {
+        if (pago == null /*|| pago.signum() <= 0*/) {
+            pago = BigDecimal.ZERO;
+        }
+        this.pago = pago;
+    }
+    
     public BigDecimal getSaldo() {
         return saldo;
     }
 
     public void setSaldo(BigDecimal saldo) {
+        if (saldo == null /*|| saldo.signum() <= 0*/) {
+            saldo = BigDecimal.ZERO;
+        }
+//        if (saldo.subtract(this.pago).signum() < 0) {
+//            // saldo no puede ser menor al Pago
+//            saldo = BigDecimal.ZERO;
+//        }
         this.saldo = saldo;
-
-        this.setCantidad();
     }
 
     public BigDecimal getCantidadEmpresa() {
@@ -106,38 +118,48 @@ public class Movimiento implements  Serializable{
         this.cantidadEmpresa = cantidadEmpresa;
     }
     
-    private void setCantidad() {
-        if (this.numQuincenas == null || this.numQuincenas <= 0) {
-            // no pueden ser menos de 1 quincena
-            this.numQuincenas = 1;
-        }
-        
-        if (this.saldo == null || this.saldo.signum() == 0) {
-            // los saldos negativos si pasan
-            this.saldo = BigDecimal.ZERO;
-            this.pago = BigDecimal.ZERO;
-            return;
-        }
-        
-        if (this.permanente) {
-            // si es Permanente, NO prorratea el saldo entre las quincenas
-            this.pago = this.saldo;
-        } else {
-            // si NO es Permanente, SI prorratea el saldo entre las quincenas
-            this.pago = this.saldo.divide(new BigDecimal(this.numQuincenas), RoundingMode.HALF_UP);
-        }
-        
-        this.cantidad = this.pago;
-    }
+//    private void setCantidad() {
+////        if (this.numQuincenas == null || this.numQuincenas <= 0) {
+////            // no pueden ser menos de 1 quincena
+////            this.numQuincenas = 1;
+////        }
+//        
+//        if (this.saldo == null || this.saldo.signum() <= 0) {
+//            this.saldo = BigDecimal.ZERO;
+//        }
+//        if (this.pago == null || this.pago.signum() <= 0) {
+//            this.pago = BigDecimal.ZERO;
+//        }
+//        
+//        if (this.saldo.subtract(this.pago).signum() < 0) {
+//            // saldo no puede ser menor al Pago
+//            
+//        }
+//        
+//        
+//        BigDecimal newSaldo = this.saldo.subtract(this.pago);
+//        if (newSaldo)
+//        
+//        
+////        if (this.permanente) {
+////            // si es Permanente, NO prorratea el saldo entre las quincenas
+////            this.pago = this.saldo;
+////        } else {
+////            // si NO es Permanente, SI prorratea el saldo entre las quincenas
+////            this.pago = this.saldo.divide(new BigDecimal(this.numQuincenas), RoundingMode.HALF_UP);
+////        }
+//
+//        this.cantidad = this.pago;
+//    }
 
-    public Boolean getPermanente() {
-        return permanente;
-    }
-
-    public void setPermanente(Boolean permanente) {
-        this.permanente = permanente;
-        this.setCantidad();
-    }
+//    public Boolean getPermanente() {
+//        return permanente;
+//    }
+//
+//    public void setPermanente(Boolean permanente) {
+//        this.permanente = permanente;
+//        this.setCantidad();
+//    }
 
     public Integer getQuincena() {
         return quincena;
@@ -172,7 +194,7 @@ public class Movimiento implements  Serializable{
     
     @Override
     public String toString() {
-        return "NominaQuincenal{" + "id=" + id + ", numQuincenas=" + numQuincenas + ", concepto=" + concepto + '}';
+        return "NominaQuincenal{" + "id=" + id + ", concepto=" + concepto + '}';
     }
 
     

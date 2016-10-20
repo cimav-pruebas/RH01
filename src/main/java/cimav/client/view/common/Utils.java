@@ -32,8 +32,10 @@ public class Utils {
         if (bigDecimal == null) {
             bigDecimal = BigDecimal.ZERO;
         }
-        NumberFormat fmt = NumberFormat.getFormat("###,###,###.00");
+        //NumberFormat fmt = NumberFormat.getFormat("###,###,###.00");
+        NumberFormat fmt = NumberFormat.getCurrencyFormat(); //currencyCode) getCurrencyInstance(Locale.US);
         String formatted = fmt.format(bigDecimal);
+        formatted = formatted.replaceFirst("$", "");        
         return formatted;
     }
 }

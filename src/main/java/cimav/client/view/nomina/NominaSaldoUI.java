@@ -20,7 +20,6 @@ import cimav.client.view.common.MethodEvent;
 import cimav.client.view.common.Utils;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayMixed;
@@ -34,7 +33,6 @@ import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
 import com.google.gwt.query.client.Properties;
 import com.google.gwt.query.client.css.CSS;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -45,7 +43,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
-import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -78,6 +75,7 @@ public class NominaSaldoUI extends Composite {
     private NominaQuincenalREST nominaQuincenalREST;
 
     private NomIntegerInputCell quincenasCell;
+    private NomCantidadInputCell pagoCell;
     private NomCantidadInputCell saldoCell;
     private CheckboxCell permanenteCell;
 
@@ -139,6 +137,7 @@ public class NominaSaldoUI extends Composite {
 
         quincenasCell = new NomIntegerInputCell("24");
         saldoCell = new NomCantidadInputCell();
+        pagoCell = new NomCantidadInputCell();
         permanenteCell = new CheckboxCell();
 
         initTableColumns();
@@ -259,35 +258,38 @@ public class NominaSaldoUI extends Composite {
         dataGrid.addColumn(conceptoCol, "Concepto");
         dataGrid.setColumnWidth(conceptoCol, 100, Style.Unit.PCT);
 
-        // Permanente
-        Column<Movimiento, Boolean> permanenteCol = new Column<Movimiento, Boolean>(permanenteCell) {
-            @Override
-            public Boolean getValue(Movimiento object) {
-                Boolean result = object.getPermanente();
-                return result;
-            }
-        };
-        permanenteCol.setFieldUpdater(new FieldUpdater<Movimiento, Boolean>() {
-            @Override
-            public void update(int index, Movimiento object, Boolean value) {
-                try {
-                    object.setPermanente(value);
-                    getNominaQuincenalsREST().update(object);
-                } catch (Exception e) {
-
-                }
-                saldoCell.clearViewData(object);
-                int absRowIndex = index;
-                dataGrid.redrawRow(absRowIndex);
-            }
-        });
-        permanenteCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-        TextHeader permanenteHeader = new TextHeader("");
-        permanenteHeader.setHeaderStyleNames("permanenteHeader");
-        dataGrid.addColumn(permanenteCol, permanenteHeader);
-        dataGrid.setColumnWidth(permanenteCol, 20, Style.Unit.PX);
+//        // Permanente
+//        Column<Movimiento, Boolean> permanenteCol = new Column<Movimiento, Boolean>(permanenteCell) {
+//            @Override
+//            public Boolean getValue(Movimiento object) {
+//                Boolean result = object.getPermanente();
+//                return result;
+//            }
+//        };
+//        permanenteCol.setFieldUpdater(new FieldUpdater<Movimiento, Boolean>() {
+//            @Override
+//            public void update(int index, Movimiento object, Boolean value) {
+//                try {
+//                    object.setPermanente(value);
+//                    getNominaQuincenalsREST().update(object);
+//                } catch (Exception e) {
+//
+//                }
+//                saldoCell.clearViewData(object);
+//                int absRowIndex = index;
+//                dataGrid.redrawRow(absRowIndex);
+//            }
+//        });
+//        permanenteCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+////        TextHeader permanenteHeader = new TextHeader("");
+////        permanenteHeader.setHeaderStyleNames("permanenteHeader");
+//        SafeHtmlBuilder permanenteHeader = new SafeHtmlBuilder();
+//        permanenteHeader.appendHtmlConstant("<span clas='permanenteHeader fa fa-anchor' style=''><i class='icon-anchor'></i></span>");
+//        dataGrid.addColumn(permanenteCol, permanenteHeader.toSafeHtml());
+//        dataGrid.setColumnWidth(permanenteCol, 20, Style.Unit.PX);
         
          // Pago
+         /*
         Column<Movimiento, SafeHtml> pagoCol = new Column<Movimiento, SafeHtml>(new SafeHtmlCell()) {
             @Override
             public SafeHtml getValue(Movimiento object) {
@@ -305,7 +307,39 @@ public class NominaSaldoUI extends Composite {
         pagoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
         dataGrid.addColumn(pagoCol, "Pago");
         dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PCT);
-        
+        */
+         
+        // Pago 
+        Column<Movimiento, String> pagoCol = new Column<Movimiento, String>(pagoCell) {
+            @Override
+            public String getValue(Movimiento object) {
+                BigDecimal nuevoPago = object == null || object.getPago()== null ? BigDecimal.ZERO : object.getPago();
+
+                boolean pagoEsMayorASaldo = object.getSaldo().signum() > 0 &&  object.getSaldo().subtract(nuevoPago).signum() < 0;
+                pagoCell.setAsNegative(pagoEsMayorASaldo);
+
+                return Utils.formatCantidad(nuevoPago);
+            }
+        };
+        pagoCol.setFieldUpdater(new FieldUpdater<Movimiento, String>() {
+            @Override
+            public void update(int index, Movimiento object, String value) {
+                BigDecimal nuevoPago;
+                try {
+                    nuevoPago = new BigDecimal(value.trim());
+                    object.setPago(nuevoPago);
+                    getNominaQuincenalsREST().update(object);
+                } catch (Exception e) {
+
+                }
+                saldoCell.clearViewData(object);
+                int absRowIndex = index;
+                dataGrid.redrawRow(absRowIndex);
+            }
+        });
+        pagoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dataGrid.addColumn(pagoCol, "Pago");
+        dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PX);
         
         // Saldo 
         Column<Movimiento, String> saldoCol = new Column<Movimiento, String>(saldoCell) {
@@ -335,44 +369,44 @@ public class NominaSaldoUI extends Composite {
         dataGrid.addColumn(saldoCol, "Saldo");
         dataGrid.setColumnWidth(saldoCol, 110, Style.Unit.PX);
 
-        // Quincenas
-        Column<Movimiento, String> quincenasCol = new Column<Movimiento, String>(quincenasCell) {
-            @Override
-            public String getValue(Movimiento object) {
-                Integer result = object == null || object.getNumQuincenas() == null ? 0 : object.getNumQuincenas();
-                return Integer.toString(result);
-            }
-        };
-        quincenasCol.setFieldUpdater(new FieldUpdater<Movimiento, String>() {
-            @Override
-            public void update(int index, Movimiento object, String value) {
-                    // Push the changes into the MyDTO. At this point, you could send an
-                // asynchronous request to the server to update the database.
-                // value es el valor capturado
-                // si es valido, pasar al object y a la DB
-                // NOTA requiere de un Ajax con icono chiquito
-                // Tiene su propio loading el DataGrid
-
-            // Intenta convertir el value a Integer
-                // si falla lo deja como estaba
-                // si no falla lo actualiza
-                Integer numQuin = 0;
-                try {
-                    numQuin = Integer.parseInt(value.trim());
-                    object.setNumQuincenas(numQuin);
-
-                    getNominaQuincenalsREST().update(object);
-
-                } catch (NumberFormatException | NullPointerException e) {
-                }
-                quincenasCell.clearViewData(object);
-                int absRowIndex = index;
-                dataGrid.redrawRow(absRowIndex);
-            }
-        });
-        quincenasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(quincenasCol,  "Veces");
-        dataGrid.setColumnWidth(quincenasCol, 68, Style.Unit.PX);
+//        // Quincenas/Veces
+//        Column<Movimiento, String> quincenasCol = new Column<Movimiento, String>(quincenasCell) {
+//            @Override
+//            public String getValue(Movimiento object) {
+//                Integer result = object == null || object.getNumQuincenas() == null ? 0 : object.getNumQuincenas();
+//                return Integer.toString(result);
+//            }
+//        };
+//        quincenasCol.setFieldUpdater(new FieldUpdater<Movimiento, String>() {
+//            @Override
+//            public void update(int index, Movimiento object, String value) {
+//                    // Push the changes into the MyDTO. At this point, you could send an
+//                // asynchronous request to the server to update the database.
+//                // value es el valor capturado
+//                // si es valido, pasar al object y a la DB
+//                // NOTA requiere de un Ajax con icono chiquito
+//                // Tiene su propio loading el DataGrid
+//
+//            // Intenta convertir el value a Integer
+//                // si falla lo deja como estaba
+//                // si no falla lo actualiza
+//                Integer numQuin = 0;
+//                try {
+//                    numQuin = Integer.parseInt(value.trim());
+//                    object.setNumQuincenas(numQuin);
+//
+//                    getNominaQuincenalsREST().update(object);
+//
+//                } catch (NumberFormatException | NullPointerException e) {
+//                }
+//                quincenasCell.clearViewData(object);
+//                int absRowIndex = index;
+//                dataGrid.redrawRow(absRowIndex);
+//            }
+//        });
+//        quincenasCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+//        dataGrid.addColumn(quincenasCol,  "Veces");
+//        dataGrid.setColumnWidth(quincenasCol, 68, Style.Unit.PX);
 
     }
 
