@@ -4,6 +4,7 @@ import cimav.client.data.domain.BaseDomain;
 import cimav.client.data.domain.Departamento;
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
+import cimav.client.data.domain.ECreditoInfoTipo;
 import cimav.client.data.domain.EEdoCivil;
 import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.ESede;
@@ -549,6 +550,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("clinica", new PropertyType(EClinica.class, false, false));
         agent.propertyTypes.put("cuentaBanco", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("name", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("retCreditoInfonavitValor", new PropertyType(BigDecimal.class, false, false));
         agent.propertyTypes.put("nivel", new PropertyType(Tabulador.class, true, false));
         agent.propertyTypes.put("status", new PropertyType(EStatusEmpleado.class, false, false));
         agent.propertyTypes.put("idGrupo", new PropertyType(Integer.class, false, false));
@@ -565,6 +567,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("apellidoMaterno", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("numSni", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("urlPhoto", new PropertyType(String.class, false, false));
+        agent.propertyTypes.put("retCreditoInfonavitTipo", new PropertyType(ECreditoInfoTipo.class, false, false));
         agent.propertyTypes.put("idClinica", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("idSexo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("fechaSni", new PropertyType(Date.class, false, false));
@@ -576,6 +579,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.propertyTypes.put("dirty", new PropertyType(Boolean.class, false, false));
         agent.propertyTypes.put("idTipoSni", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("sede", new PropertyType(ESede.class, false, false));
+        agent.propertyTypes.put("retCreditoInfonavitIdTipo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("consecutivo", new PropertyType(Integer.class, false, false));
         agent.propertyTypes.put("pensionCuenta", new PropertyType(String.class, false, false));
         agent.propertyTypes.put("pantDayOdd", new PropertyType(Integer.class, false, false));
@@ -637,6 +641,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setClinica(agent.target.getClinica());
         clone.setCuentaBanco(agent.target.getCuentaBanco());
         clone.setName(agent.target.getName());
+        clone.setRetCreditoInfonavitValor(agent.target.getRetCreditoInfonavitValor());
         if (agent.target.getNivel() instanceof BindableProxy) {
           clone.setNivel((Tabulador) ((BindableProxy) getNivel()).deepUnwrap());
         } else {
@@ -657,6 +662,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setApellidoMaterno(agent.target.getApellidoMaterno());
         clone.setNumSni(agent.target.getNumSni());
         clone.setUrlPhoto(agent.target.getUrlPhoto());
+        clone.setRetCreditoInfonavitTipo(agent.target.getRetCreditoInfonavitTipo());
         clone.setIdClinica(agent.target.getIdClinica());
         clone.setIdSexo(agent.target.getIdSexo());
         clone.setFechaSni(agent.target.getFechaSni());
@@ -667,6 +673,7 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         clone.setIdSede(agent.target.getIdSede());
         clone.setIdTipoSni(agent.target.getIdTipoSni());
         clone.setSede(agent.target.getSede());
+        clone.setRetCreditoInfonavitIdTipo(agent.target.getRetCreditoInfonavitIdTipo());
         clone.setConsecutivo(agent.target.getConsecutivo());
         clone.setPensionCuenta(agent.target.getPensionCuenta());
         clone.setPantDayOdd(agent.target.getPantDayOdd());
@@ -1001,6 +1008,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent(false, "name", oldValue, name);
       }
 
+      public BigDecimal getRetCreditoInfonavitValor() {
+        return agent.target.getRetCreditoInfonavitValor();
+      }
+
+      public void setRetCreditoInfonavitValor(BigDecimal retCreditoInfonavitValor) {
+        BigDecimal oldValue = agent.target.getRetCreditoInfonavitValor();
+        agent.target.setRetCreditoInfonavitValor(retCreditoInfonavitValor);
+        agent.updateWidgetsAndFireEvent(false, "retCreditoInfonavitValor", oldValue, retCreditoInfonavitValor);
+      }
+
       public Tabulador getNivel() {
         return agent.target.getNivel();
       }
@@ -1164,6 +1181,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         agent.updateWidgetsAndFireEvent(false, "urlPhoto", oldValue, urlPhoto);
       }
 
+      public ECreditoInfoTipo getRetCreditoInfonavitTipo() {
+        return agent.target.getRetCreditoInfonavitTipo();
+      }
+
+      public void setRetCreditoInfonavitTipo(ECreditoInfoTipo retCreditoInfonavitTipo) {
+        ECreditoInfoTipo oldValue = agent.target.getRetCreditoInfonavitTipo();
+        agent.target.setRetCreditoInfonavitTipo(retCreditoInfonavitTipo);
+        agent.updateWidgetsAndFireEvent(false, "retCreditoInfonavitTipo", oldValue, retCreditoInfonavitTipo);
+      }
+
       public Integer getIdClinica() {
         return agent.target.getIdClinica();
       }
@@ -1266,6 +1293,16 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         ESede oldValue = agent.target.getSede();
         agent.target.setSede(sede);
         agent.updateWidgetsAndFireEvent(false, "sede", oldValue, sede);
+      }
+
+      public Integer getRetCreditoInfonavitIdTipo() {
+        return agent.target.getRetCreditoInfonavitIdTipo();
+      }
+
+      public void setRetCreditoInfonavitIdTipo(Integer retCreditoInfonavitIdTipo) {
+        Integer oldValue = agent.target.getRetCreditoInfonavitIdTipo();
+        agent.target.setRetCreditoInfonavitIdTipo(retCreditoInfonavitIdTipo);
+        agent.updateWidgetsAndFireEvent(false, "retCreditoInfonavitIdTipo", oldValue, retCreditoInfonavitIdTipo);
       }
 
       public Integer getConsecutivo() {
@@ -1452,6 +1489,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("name")) {
           return getName();
         }
+        if (property.equals("retCreditoInfonavitValor")) {
+          return getRetCreditoInfonavitValor();
+        }
         if (property.equals("nivel")) {
           return getNivel();
         }
@@ -1500,6 +1540,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         if (property.equals("urlPhoto")) {
           return getUrlPhoto();
         }
+        if (property.equals("retCreditoInfonavitTipo")) {
+          return getRetCreditoInfonavitTipo();
+        }
         if (property.equals("idClinica")) {
           return getIdClinica();
         }
@@ -1532,6 +1575,9 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("sede")) {
           return getSede();
+        }
+        if (property.equals("retCreditoInfonavitIdTipo")) {
+          return getRetCreditoInfonavitIdTipo();
         }
         if (property.equals("consecutivo")) {
           return getConsecutivo();
@@ -1687,6 +1733,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setName((String) value);
           return;
         }
+        if (property.equals("retCreditoInfonavitValor")) {
+          agent.target.setRetCreditoInfonavitValor((BigDecimal) value);
+          return;
+        }
         if (property.equals("nivel")) {
           agent.target.setNivel((Tabulador) value);
           return;
@@ -1751,6 +1801,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
           agent.target.setUrlPhoto((String) value);
           return;
         }
+        if (property.equals("retCreditoInfonavitTipo")) {
+          agent.target.setRetCreditoInfonavitTipo((ECreditoInfoTipo) value);
+          return;
+        }
         if (property.equals("idClinica")) {
           agent.target.setIdClinica((Integer) value);
           return;
@@ -1789,6 +1843,10 @@ public class BindableProxyLoaderImpl implements BindableProxyLoader { public voi
         }
         if (property.equals("sede")) {
           agent.target.setSede((ESede) value);
+          return;
+        }
+        if (property.equals("retCreditoInfonavitIdTipo")) {
+          agent.target.setRetCreditoInfonavitIdTipo((Integer) value);
           return;
         }
         if (property.equals("consecutivo")) {

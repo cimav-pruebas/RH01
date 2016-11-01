@@ -33,7 +33,6 @@ import com.google.gwt.query.client.GQuery;
 import static com.google.gwt.query.client.GQuery.window;
 import com.google.gwt.query.client.Properties;
 import com.google.gwt.query.client.css.CSS;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
@@ -43,7 +42,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -342,7 +340,7 @@ public class NominaSaldoUI extends Composite {
             }
         });
         pagoCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        dataGrid.addColumn(pagoCol, "Pagox");
+        dataGrid.addColumn(pagoCol, "Pago");
         dataGrid.setColumnWidth(pagoCol, 90, Style.Unit.PX);
         
         // Saldo 

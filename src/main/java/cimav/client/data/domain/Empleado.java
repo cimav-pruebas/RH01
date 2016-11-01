@@ -8,6 +8,7 @@ package cimav.client.data.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
@@ -129,6 +130,11 @@ public class Empleado extends BaseDomain implements Serializable {
     private Integer pantMonths;
     private Integer pantYears;
     
+    @JsonIgnore 
+    private ECreditoInfoTipo retCreditoInfonavitTipo;
+    private Integer retCreditoInfonavitIdTipo;
+    private BigDecimal retCreditoInfonavitValor;
+    
     public Empleado() {
         super();
         
@@ -149,6 +155,9 @@ public class Empleado extends BaseDomain implements Serializable {
 //        this.sede = ESede.CHIHUAHUA;
         
         this.porcenSegSeparacionInd = 0.00;
+        
+        retCreditoInfonavitValor = BigDecimal.ZERO;
+        retCreditoInfonavitTipo = ECreditoInfoTipo.NONE;
     }
 
     public EmpleadoBase toBase() {
@@ -758,4 +767,31 @@ public class Empleado extends BaseDomain implements Serializable {
         this.pensionCuenta = pensionCuenta;
     }
 
+    public ECreditoInfoTipo getRetCreditoInfonavitTipo() {
+        return retCreditoInfonavitTipo;
+    }
+
+    public void setRetCreditoInfonavitTipo(ECreditoInfoTipo retCreditoInfonavitTipo) {
+        this.retCreditoInfonavitTipo = retCreditoInfonavitTipo;
+        this.retCreditoInfonavitIdTipo = retCreditoInfonavitTipo != null ? retCreditoInfonavitTipo.getId() : 0;
+    }
+
+    public Integer getRetCreditoInfonavitIdTipo() {
+        return retCreditoInfonavitIdTipo;
+    }
+
+    public void setRetCreditoInfonavitIdTipo(Integer retCreditoInfonavitIdTipo) {
+        this.retCreditoInfonavitTipo = ECreditoInfoTipo.get(retCreditoInfonavitIdTipo);
+        this.retCreditoInfonavitIdTipo = retCreditoInfonavitIdTipo;
+    }
+
+    public BigDecimal getRetCreditoInfonavitValor() {
+        return retCreditoInfonavitValor;
+    }
+
+    public void setRetCreditoInfonavitValor(BigDecimal retCreditoInfonavitValor) {
+        this.retCreditoInfonavitValor = retCreditoInfonavitValor;
+    }
+    
+    
 }

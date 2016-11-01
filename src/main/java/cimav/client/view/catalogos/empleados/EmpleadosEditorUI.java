@@ -7,6 +7,7 @@ package cimav.client.view.catalogos.empleados;
 
 import cimav.client.data.domain.EBanco;
 import cimav.client.data.domain.EClinica;
+import cimav.client.data.domain.ECreditoInfoTipo;
 import cimav.client.data.domain.EEdoCivil;
 import cimav.client.data.domain.EGrupo;
 import cimav.client.data.domain.ESede;
@@ -144,6 +145,8 @@ public class EmpleadosEditorUI extends Composite {
     private final TextBox pensionBeneficiario;
     private final ValueListBox<EBanco> pensionBanco;
     private final TextBox pensionCuenta;
+    private final ValueListBox<ECreditoInfoTipo> retCreditoInfonavitTipoChosen;
+    private final TextBox retCreditoInfonavitValorTextBox;
     // personal
     private final ValueListBox<ESexo> sexoChose;
     private final ValueListBox<EEdoCivil> edoCivilChose;
@@ -364,6 +367,32 @@ public class EmpleadosEditorUI extends Composite {
         porcenSegSepacionIndTxtBox = new TextBox();
         porcenSegSepacionIndTxtBox.setWidth("162px");
         
+        retCreditoInfonavitTipoChosen = new ValueListBox<>(new Renderer<ECreditoInfoTipo>() {
+            
+            @Override
+            public String render(ECreditoInfoTipo object) {
+                if (object == null) {
+                    return "------------"; //ECreditoInfoTipo.NONE.getName();
+                } else {
+                    return object.getName();
+                }
+            }
+
+            @Override
+            public void render(ECreditoInfoTipo object, Appendable appendable) throws IOException {
+                if (object != null) {
+                    String s = render(object);
+                    appendable.append(s);
+                }
+            }
+        });
+        List<ECreditoInfoTipo> credInfoTipos = Arrays.asList(ECreditoInfoTipo.values());
+        retCreditoInfonavitTipoChosen.setAcceptableValues(credInfoTipos);
+        retCreditoInfonavitTipoChosen.setValue(ECreditoInfoTipo.NONE); //default
+        retCreditoInfonavitTipoChosen.setWidth(width);
+        retCreditoInfonavitValorTextBox = new TextBox();
+        retCreditoInfonavitValorTextBox.setWidth("162px");
+        
         pensionUI = new PensionUI();
         
 //        pensionTipo = new ValueListBox<>(new Renderer<ETipoPension>() {
@@ -397,7 +426,6 @@ public class EmpleadosEditorUI extends Composite {
 //        divTipo.getElement().setAttribute("style", "display: -webkit-box;");
 //        divTipo.add(pensionTipo);
 //        divTipo.add(seleccionarConceptos);
-        
         
         pensionBanco = new ValueListBox<>(new Renderer<EBanco>() {
             @Override
@@ -506,6 +534,18 @@ public class EmpleadosEditorUI extends Composite {
         row++;
         flexEditorLaboral.setWidget(row, 0, numEstimulosProductividadTxtBox);
         flexEditorLaboral.setWidget(row, 2, porcenSegSepacionIndTxtBox);
+
+        row++;
+        cellFormatterLaboral.setColSpan(row, 0, 5);
+        flexEditorLaboral.setWidget(row, 0, new HTML("<span style='overflow: hidden; float:left; padding-right:8px;'>Retención por crédito de Infonavit</span><span style='display:-webkit-box; padding-bottom: 10px; border-bottom: 1px solid lightgray;;'></span>"));
+        row++;
+        row++;
+        flexEditorLaboral.setHTML(row, 0, "Tipo");
+        flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
+        flexEditorLaboral.setHTML(row, 2, "Veces/Cantidad");
+        row++;
+        flexEditorLaboral.setWidget(row, 0, retCreditoInfonavitTipoChosen);
+        flexEditorLaboral.setWidget(row, 2, retCreditoInfonavitValorTextBox);
         
         row++;
         cellFormatterLaboral.setColSpan(row, 0, 5);
@@ -780,6 +820,8 @@ public class EmpleadosEditorUI extends Composite {
                     .bind(numEstimulosProductividadTxtBox, "estimulosProductividad")
                     .bind(porcenSegSepacionIndTxtBox, "porcenSegSeparacionInd")
                     .bind(pensionBanco, "pensionBanco")
+                    .bind(retCreditoInfonavitTipoChosen, "retCreditoInfonavitTipo")
+                    .bind(retCreditoInfonavitValorTextBox, "retCreditoInfonavitValor")
                     //.bind(pensionTipo, "pensionTipo")
                     .bind(pensionUI.get(), "pensionTipo")
                     .bind(pensionPorcentaje, "pensionPorcen")
