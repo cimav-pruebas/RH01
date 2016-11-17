@@ -542,7 +542,7 @@ public class EmpleadosEditorUI extends Composite {
         row++;
         flexEditorLaboral.setHTML(row, 0, "Tipo");
         flexEditorLaboral.setWidget(row, 1, new HTML(htmlColSpc));
-        flexEditorLaboral.setHTML(row, 2, "Veces/Cantidad");
+        flexEditorLaboral.setHTML(row, 2, "Veces/Cantidad mensual");
         row++;
         flexEditorLaboral.setWidget(row, 0, retCreditoInfonavitTipoChosen);
         flexEditorLaboral.setWidget(row, 2, retCreditoInfonavitValorTextBox);
